@@ -1,0 +1,19 @@
+Package: TutorialTest
+Type: Package
+Title: Tutorials for Political Science
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: ShareAlike 4.0 International
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    learnr (>= 0.9.2.1),
+    testwhat,
+    knitr
+Remotes:
+    rstudio-education/gradethis,
+    datacamp/testwhat
+RoxygenNote: 7.1.1
