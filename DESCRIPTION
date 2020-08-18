@@ -1,11 +1,10 @@
-Package: PLSC309
+Package: qpaTutorials
 Type: Package
-Title: Tutorials for Political Science
+Title: Tutorials for Quantitative Political Analysis at Penn State
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Created by Dr. Suzanna Linn, with publishing assistance from Dave Sandor and Nick Mclean 
+Maintainer: Maintained by sld8@psu.edu 
+Description: Includes tutorials on R functions for quantitative analysis. 
 License: ShareAlike 4.0 International
 Encoding: UTF-8
 LazyData: true
