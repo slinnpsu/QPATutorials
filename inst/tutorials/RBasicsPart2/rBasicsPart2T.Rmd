@@ -29,14 +29,12 @@ library(knitr)
 library(rio)
 library(RCurl)
 library(datasets)
-Counties <- QMA::counties2016
+counties <- qpaTutorials::counties
 library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-unFBposts<-QMA::unFBPosts
-turnout <- QMA::turnout2
-oil <- QMA::oilwomen.dta
+unFBposts<-qpaTutorials::unFBPosts
 ```
 
 
@@ -61,7 +59,7 @@ When naming the file containing the data you will need to tell the function wher
 
 
 ```{r loadr-setup}
-save(Counties, file="counties2016.RData")
+save(counties, file="counties2016.RData")
 rm(list=ls())
 ```
 
@@ -69,10 +67,10 @@ rm(list=ls())
 load("counties2016.RData", verbose=TRUE)
 ```
 
-Now that we know the name of the object the file contains, we can examine **Counties**
+Now that we know the name of the object the file contains, we can examine **counties**
 
 ```{r viewr, exercise=TRUE}
-Counties
+counties
 ```
 
 ## Importing other file types
