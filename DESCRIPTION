@@ -2,8 +2,8 @@ Package: qpaTutorials
 Type: Package
 Title: Tutorials for Quantitative Political Analysis at Penn State
 Version: 0.1.0
-Author: Created by Dr. Suzanna Linn, with publishing assistance from Dave Sandor and Nick Mclean 
-Maintainer: Maintained by sld8@psu.edu 
+Author: Suzanna Linn [aut]
+Maintainer: Suzanna Linn <sld8@psu.edu> 
 Description: Includes tutorials on R functions for quantitative analysis. 
 License: ShareAlike 4.0 International
 Encoding: UTF-8
