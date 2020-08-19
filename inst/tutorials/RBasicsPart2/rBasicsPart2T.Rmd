@@ -29,14 +29,14 @@ library(knitr)
 library(rio)
 library(RCurl)
 library(datasets)
-load("counties2016.RData")
+Counties <- QMA::counties2016
 library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-UN.FB.posts<-read.csv("unitednations.csv")
-turnout <- import("turnout2.txt")
-oil <- import("oilwomen.dta")
+unFBposts<-QMA::unFBPosts
+turnout <- QMA::turnout2
+oil <- QMA::oilwomen.dta
 ```
 
 
@@ -88,7 +88,7 @@ Because the functions in the package <span style="color:DarkGreen">rio</span> ar
 
 ### Comma separated files
 
-Let's import the comma separated (.csv) file, unitednations.csv and examine its contents. Here, I've assigned the file to the ojbect **UN.FB.posts**. But you could name it anything you like, as long as it does not start with a number of use reserved characters like $ and #.
+Let's import the comma separated (.csv) file, unitednations.csv and examine its contents. Here, I've assigned the file to the object **unFBposts**. But you could name it anything you like, as long as it does not start with a number of use reserved characters like $ and #.
 
 ```{r df-setup}
 tmp.df <- read.csv("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/unitednations.csv")
@@ -99,8 +99,8 @@ rm(list=ls())
 
 ```{r df, exercise=TRUE, exercise.setup="df-setup"}
 library(rio)
-UN.FB.posts <- import("unitednations.csv")
-UN.FB.posts
+unFBposts <- import("unitednations.csv")
+unFBposts
 ```
 
 ### Excel files
@@ -174,7 +174,7 @@ grade_code()
 
 ## Learning about the data
 
-The first step after loading a data set is to learn something about its contents. We will use the data set unitednations.csv, which we loaded as the object **UN.FB.posts**. The data contains information related to the social media posts published on the United Nations Facebook page during 2015. Write code below to determine the class of this object. 
+The first step after loading a data set is to learn something about its contents. We will use the data set unitednations.csv, which we loaded as the object **unFBposts**. The data contains information related to the social media posts published on the United Nations Facebook page during 2015. Write code below to determine the class of this object. 
 
 ```{r classname, exercise=TRUE}
 
@@ -190,7 +190,7 @@ grade_code("That's easy, right?")
 ```
 
 ```{r classname-solution}
-class(UN.FB.posts)
+class(unFBposts)
 ```
 
 ### Viewing the contents of a data frame
@@ -199,7 +199,7 @@ As we saw above, you can view the data by simply typing its name. But youou can 
 
 
 ```{r view, exercise=TRUE}
-View(UN.FB.posts)
+View(unFBposts)
 ```
 
 
@@ -208,7 +208,7 @@ View(UN.FB.posts)
 Each row of a data frame contains a single observation, here a unique Facebook post. The `nrow()` function returns the number of rows in the data frame.  Simply pass the `nrow()` function the name of the data frame object. How many posts are in the data frame? 
 
 ```{r nrow, exercise=TRUE}
-nrow(UN.FB.posts)
+nrow(unFBposts)
 ```
 
 Can you determine how many posts were published, on average, per day in 2015?
@@ -220,7 +220,7 @@ Can you determine how many posts were published, on average, per day in 2015?
 
 ```{r howmanyposts-hint}
 There are 365 days in this year and the number of
-rows in the data is given by nrows(UN.FB.posts),
+rows in the data is given by nrows(unFBposts),
 so divide the latter by the former.
 ```
 
@@ -230,11 +230,11 @@ grade_code("So simple.")
 ```
 
 ```{r howmanyposts-solution}
-nrow(UN.FB.posts)/365
+nrow(unFBposts)/365
 ```
 
 
-Each column of a data frame contains a single variable. We use the `ncol()` function to learn the number of columns in the same manner as we used the `nrow()` function to learn the number of rows. How many variables are in **UN.FB.posts**?
+Each column of a data frame contains a single variable. We use the `ncol()` function to learn the number of columns in the same manner as we used the `nrow()` function to learn the number of rows. How many variables are in **unFBposts**?
 
 ```{r ncolquest, exercise=TRUE}
 
@@ -245,7 +245,7 @@ Place the data object inside the ncol function
 ```
 
 ```{r ncolquest-solution}
-ncol(UN.FB.posts)
+ncol(unFBposts)
 ```
 
 ```{r ncolquest-check}
@@ -254,7 +254,7 @@ grade_code("")
 
 ### Determining variable names 
 
-We've learned **UN.FB.posts**  contains 1643 Facebook posts (rows) and 8 variables (columns). 
+We've learned **unFBposts**  contains 1643 Facebook posts (rows) and 8 variables (columns). 
 
 We can see the names of the variables in our data.frame using the `names()` function we introduced in the R Basics tutorial Part 1.
 
@@ -268,7 +268,7 @@ Place the name of the data object inside the names function.
 ```
 
 ```{r names-solution}
-names(UN.FB.posts)
+names(unFBposts)
 ```
 
 ```{r names-check}
@@ -293,12 +293,12 @@ message | Text of post, NA if no text
 We can examine the first few rows of the data frame using the `head()` function. By default it prints the first 6 rows. To look at more or less, specify the `n` argument.
 
 ```{r str, exercise=TRUE}
-head(UN.FB.posts, n=5)
+head(unFBposts, n=5)
 ```
 The `str()` function displays the structure of the data frame. Specifically it provides the number of observations and variables and then lists each variable along with its type and the values of first few observations. 
 
 ```{r head, exercise=TRUE}
-str(UN.FB.posts)
+str(unFBposts)
 ```
 
 Look carefully at the output to see what you can learn about the data before continuing.
@@ -308,18 +308,18 @@ Look carefully at the output to see what you can learn about the data before con
 The `summary()` function can be used to obtain some basic descriptive information about the contents of a data frame object. What information is displayed will depend on the class of the variable. For numeric variables it will report the minimum value, the value at the 1st quartile, the median, the value at the third quartile, and the maximum value.
 
 ```{r summar, exercise=TRUE}
-summary(UN.FB.posts)
+summary(unFBposts)
 ```
 
 See if you can see the differences in the information provided for character and numeric variables.
 
 ## Working with variables in a data.frame
 
-Often we will want to access a specific variable in a data frame. To do so  we use the `$` operator. Specifically, we type DATA_FRAME_NAME\$COLUMN_NAME. So, if we wanted to print the contents of the variable **type** in the data frame **UN.FB.posts**, we would refer to it using **UN.FB.posts$type**. I've wrapped the variable inside the `head()` function to avoid printing all 1743 values.
+Often we will want to access a specific variable in a data frame. To do so  we use the `$` operator. Specifically, we type DATA_FRAME_NAME\$COLUMN_NAME. So, if we wanted to print the contents of the variable **type** in the data frame **unFBposts**, we would refer to it using **unFBposts$type**. I've wrapped the variable inside the `head()` function to avoid printing all 1743 values.
 
 
 ```{r type, exercise=TRUE}
-head(UN.FB.posts$type)
+head(unFBposts$type)
 ```
 
 These are the first 6 values (first 6 rows) of the variable **type**.
@@ -330,7 +330,7 @@ These are the first 6 values (first 6 rows) of the variable **type**.
 When working with data frames often some observations will not have data on one or more variables. A missing value code is assigned to these observations. We can use the `is.na()` function to learn about missing values. This function takes one argument, the name of the vector whose values we wish to evaluate.  The function returns a TRUE if a value of the vector is missing and FALSE if a value is not missing. I've wrapped the call to `is.na()` inside `head()` to limit the output here as well.
 
 ```{r isna, exercise=TRUE}
-head(is.na(UN.FB.posts$message))
+head(is.na(unFBposts$message))
 ```
 
 
@@ -345,13 +345,13 @@ See if you can write the code without looking at the hints.
 
 
 ```{r sumna-hint}
-Did you specify is.na(UN.FB.posts$message) inside the sum()
+Did you specify is.na(unFBposts$message) inside the sum()
 function?  Make sure your parentheses match! 
 ```
 
 
 ```{r sumna-solution}
-sum(is.na(UN.FB.posts$message))
+sum(is.na(unFBposts$message))
 ```
 
 
@@ -372,7 +372,7 @@ data object$ before listing the variable name.
 ```
 
 ```{r sumna2-solution}
-sum(is.na(UN.FB.posts$likes_count))
+sum(is.na(unFBposts$likes_count))
 ```
 
 ```{r sumna2-check}
@@ -388,28 +388,28 @@ If there are missing values in a vector, we include `na.rm=TRUE` (must be all ca
 Let's calculate the mean number of shares for UN Facebook posts, allowing for missing values (there are not any so we would get the same value if we did not use this option but we would get an error if we omit the option when there are missing values).
 
 ```{r naex, exercise=TRUE}
-mean(UN.FB.posts$shares,na.rm=TRUE)
+mean(unFBposts$shares,na.rm=TRUE)
 ```
 
 ### Indexing in a data frame
 
 We can use indexing to select rows and columns in a data frame, but unlike with a vector, we have two dimensions so we specify the row and column index of interest.
 
-For example, to see the 3rd row in the 2nd colum of **UN.FB.posts** we use square brackes and list the row, followed by a comma, and the column:
+For example, to see the 3rd row in the 2nd colum of **unFBposts** we use square brackes and list the row, followed by a comma, and the column:
 
 ```{r index1, exercise=TRUE}
-UN.FB.posts[3,2]
+unFBposts[3,2]
 ```
 If we want to list all values of a particular variable, say **type**, we leave the row number blank. If we want a sequence of row (or column numbers) we use the smallest value followed by a colon and the largest value (no spaces). We can also give the variable name in quotes rather than the column number. The code below prints rows 10-15 of the variable **type**.
 
 ```{r index2, exercise=TRUE}
-UN.FB.posts[10:15,"type"]
+unFBposts[10:15,"type"]
 ```
 
 We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it.  Here there is only one message with the maximum number of likes so it returns just one message.
 
 ```{r index3, exercise=TRUE}
-UN.FB.posts$message[which(UN.FB.posts$likes_count==max(UN.FB.posts$likes_count, na.rm=TRUE))]
+unFBposts$message[which(unFBposts$likes_count==max(unFBposts$likes_count, na.rm=TRUE))]
 ```
 
 You may want to find the message with the minimum value. It turns out in this data set there are many message with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **share_count**.
@@ -419,13 +419,13 @@ You may want to find the message with the minimum value. It turns out in this da
 ```
 
 ```{r index4-solution}
-UN.FB.posts$message[which(UN.FB.posts$shares_count==max(UN.FB.posts$shares_count, na.rm=TRUE))]
+unFBposts$message[which(unFBposts$shares_count==max(unFBposts$shares_count, na.rm=TRUE))]
 ```
 
 ```{r index4-hint}
-Specify UN.FB.posts$message[] and inside the [] use the which()
-function and inside it set UN.FB.posts$shares_count == to
-max(UN.FB.posts$shares_count). Set the na.rm argument to TRUE
+Specify unFBposts$message[] and inside the [] use the which()
+function and inside it set unFBposts$shares_count == to
+max(unFBposts$shares_count). Set the na.rm argument to TRUE
 ```
 
 ```{r index4-check}
@@ -439,14 +439,14 @@ We will show later in the course how to use indexing to recode variables.
 
 Objects we create in an R session will be temporarily saved in the *workspace*, which is just the current working environment. If we want to save them permanently we *could*  save the workspace. R will ask us if we want to save the workspace every time we exit. **say no**! Instead, if you want to save the objects (or some subset of the objects) you've created in your R session, use the `save()` function, which takes as arguments the names of the objects you wish to save and the name of the file to give your new data file.
 
-The following code saves **UN.FB.posts** as an R data set, but it cannot be run from the tutorial.
+The following code saves **unFBposts** as an R data set, but it cannot be run from the tutorial.
 
 
 ```{r save, exercise=FALSE, eval=FALSE}
-save(UN.FB.posts, file="/Users/sld8/Dropbox/PLSC309/MyDataFile.Rdata")
+save(unFBposts, file="/Users/sld8/Dropbox/PLSC309/MyDataFile.Rdata")
 ```
 
-If we had created new objects separate from those in **UN.FB.posts**, saving **UN.FB.posts** will not save them. 
+If we had created new objects separate from those in **unFBposts**, saving **unFBposts** will not save them. 
 
 
 
@@ -467,7 +467,7 @@ function to get the answer.
 ```
 
 ```{r howmany2-solution}
-nrow(UN.FB.posts)
+nrow(unFBposts)
 ```
 
 ```{r howmany2-check}
@@ -487,7 +487,7 @@ row.
 ```
 
 ```{r text-solution}
-UN.FB.posts$message[1]
+unFBposts$message[1]
 ```
 
 ```{r text-check}
@@ -506,7 +506,7 @@ Include the na.rm argument. It's always good practice.
 ```
 
 ```{r likes-solution}
-mean(UN.FB.posts$likes_count, na.rm=TRUE)
+mean(unFBposts$likes_count, na.rm=TRUE)
 ```
 
 
@@ -526,7 +526,7 @@ Include the na.rm argument. It's always good practice.
 ```
 
 ```{r mean-solution}
-mean(UN.FB.posts$comments_count, na.rm=TRUE)
+mean(unFBposts$comments_count, na.rm=TRUE)
 ```
 
 
@@ -546,7 +546,7 @@ Use the mean function with the na.rm argument sent to TRUE.
 
 
 ```{r shares-solution}
-mean(UN.FB.posts$shares_count, na.rm=TRUE)
+mean(unFBposts$shares_count, na.rm=TRUE)
 ```
 
 ```{r shares-check}
@@ -564,7 +564,7 @@ The max function will provide this information.
 ```
 
 ```{r max-solution}
-max(UN.FB.posts$shares_count)
+max(unFBposts$shares_count)
 ```
 
 ```{r max-check}
@@ -583,7 +583,7 @@ associated with a post.
 ```
 
 ```{r min-solution}
-min(UN.FB.posts$likes_count)
+min(unFBposts$likes_count)
 ```
 
 ```{r min-check}
@@ -601,7 +601,7 @@ The range function will provide this information.
 ```
 
 ```{r range-solution}
-range(UN.FB.posts$shares_count)
+range(unFBposts$shares_count)
 ```
 
 ```{r range-check}
