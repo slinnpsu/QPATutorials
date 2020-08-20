@@ -29,21 +29,21 @@ knitr::opts_chunk$set(error = TRUE)
 
 ## Variables
 
-The purpose of data analysis is to find meaning in data and use it to solve problems. In this class we take data as given. Although there is an unbelievable amount of data at our disposal, how we make use of data depends on how well it measures the concepts we care about. Much effort in the research enterprise is devoted creating measures of concepts and to gathering data to operationalize those measures. The results of those efforts are the data sets we will analyze in class.  The variables in these and other data sets are the building blocks for all analysis.
+The purpose of data analysis is to find meaning in data and use it to solve problems. In this class, we take data as given. Although there is an unbelievable amount of data at our disposal, how we make use of data depends on how well it measures the concepts we care about. Much effort in the research enterprise is devoted to creating measures of concepts and to gathering data to operationalize those measures. The results of those efforts are the data sets we will analyze in class.  The variables in these and other data sets are the building blocks for all analyses.
 
-What is a variable? A variable is an empirical measure of  the characteristics central to our concepts. A variable has a name and must take multiple values (otherwise it is a constant!). The values are typically numeric, even if those numbers stand in for a label. Variables may be classified by their level of measurement.
+What is a variable? A variable is an empirical measure of  the characteristics central to our concepts. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
 
 
 ## Levels of Measurement
 
-Over the course of this semester we will be describing individual variables and analyzing (describing and testing hypotheses about) the relationship between variables. How we do so will depend on the level of measurement each variable takes. Every method we use, every hypothesis test we conduct, will be determined by the level of measurement. So what do we mean by level of measurement? <span style="color:blue">**Level of measurement refers to how and how precisely a variable is measured.**</span> Generally, we distinguish between four different levels.
+Over the course of this semester, we will be describing individual variables and analyzing (describing and testing hypotheses about) the relationship between variables. How we do so will depend on the level of measurement each variable takes. Every method we use and every hypothesis test we conduct will be determined by the level of measurement that characterizes the data. So, what do we mean by level of measurement? <span style="color:blue">**The level of measurement refers to how and how precisely a variable is measured.**</span> Generally, we distinguish between four different levels.
 
 
 ## Nominal Variables
 
 <span style="color:blue">**Nominal variables** take qualitative values that denote categories.</span> A nominal variable's values are **labels** or **names** that categorize observations with respect to the attribute being measured. *There is no intrinsic order to the categories.*
 
-A variable that measures individual partisan status as "Democrat", "Independent","Republican", or "Other/None" is an example of a nominal variable.  Note that you can code nominal variables with numbers, but the numbers themselves are meaningless and the order they are assigned is arbitrary: If we labeled the values of partisan status 1, 2, 3, and 4, respectively, it would not imply "Democrat" is less than "Independent" or "Republican" is less than "other/none." 
+A variable that measures individual partisan status as "Democrat," "Independent," "Republican," or "Other/None" is an example of a nominal variable.  Note that you can code nominal variables with numbers, but the numbers themselves are meaningless, and the order they are assigned is arbitrary: If we labeled the values of partisan status 1, 2, 3, and 4, respectively, it would not imply "Democrat" is less than "Independent" or "Republican" is less than "other/none." 
 
 
 Two-category nominal variables, such as whether a respondent in a survey voted for president in the most recent election (coded "yes" or "no"), are often referred to as binary or dichotomous variables.
@@ -52,30 +52,30 @@ Two-category nominal variables, such as whether a respondent in a survey voted f
 question("Which of the following variables are nominal level measures?",
   answer("Whether a state's electoral votes were assigned to Donald Trump or Hillary Clinton", correct = TRUE),
   answer("Whether a country has a parliamentary, presidential, or mixed democratic system or is not democratic", correct = TRUE, message = "Whether a state's electoral votes were assigned to Trump or Clinton is nominal, each value corresponds to a label and there is no rank order to the values. The same is true for the type of democratic government variable."),
-  answer("Whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post secondary education or beyond", message = "Level of education is not a nominal variable because the categories are rank-ordered. "),
+  answer("Whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond", message = "Level of education is not a nominal variable because the categories are rank-ordered. "),
   answer("The number of protest events in the week following George Floyd's death", message = "The number of protest events is not a nominal variable because the values of the variable are not categories but counts. "),
   allow_retry = TRUE,
   try_again = "Hint: There are two nominal variables in this list."
 )
 ```
 
-R has a special class of variable called a factor that may be used for nominal variables but not all nominal variables will automatically be assigned this class.  When a nominal variable is a factor variable, R will know that the variable is nominal. This can come in handy when analyzing the data. 
+R has a special class of variable called a factor that may be used for nominal variables, but not all nominal variables will automatically be assigned this class.  When a nominal variable is a factor variable, R will know that the variable is nominal. This can come in handy when analyzing the data. 
 
 ## Ordinal Variables
 
-<span style="color:blue">**Ordinal variables** takes values with a natural order or rank, but the differences between those ranks are not equal.</span>
+<span style="color:blue">**Ordinal variables** take values with a natural order or rank, but the differences between those ranks are not equal.</span>
 
-An example of an ordinal variable is a variable that measures whether someone views the national economy today compared to a year ago as "better," "about the same," or "worse." We can be confident that "worse" is not as good as "about the same," which is not as good as "better" but we don't know that "better" is twice as good as "same" and three times better than "worse." 
+An example of an ordinal variable is a variable that measures whether someone views the national economy today compared to a year ago as "better," "about the same," or "worse." We can be confident that "worse" is not as good as "about the same," which is not as good as "better," but we don't know that "better" is twice as good as "same" and three times better than "worse." 
 
 As another example, consider income categories on a survey where the variable takes a value of 1 for incomes less than \$20,000, 2 for incomes \$20,000 to \$49,999, 3 for incomes \$50,000 to \$99,999, 4 for incomes \$100,000 to \$199,999, 5 for incomes \$200,000-\$499,999, and 6 for incomes \$500,000 or more. Higher numbers mean more income, but the interval between a respondent in category 1 and 2 is not the same as between category 4 and 5. This is the key feature of ordinal measures: the interval between values is not meaningful. Put differently, there is not an equal distance between values.
 
-Most of the time an ordinal variable will be coded with numeric rather than character values. R does has an ordered factor class, but we will not use it in this class.
+Most of the time, an ordinal variable will be coded with numeric rather than character values. R does have an ordered factor class, but we will not use it in this class.
 
 
 ```{r letter-b, echo=FALSE}
 question("Which of the following variables are ordinal level measures?",
   answer("Whether Freedom House labels a country as free, partly free, or not free", correct = TRUE),
-  answer("Whether a county's population is majority of white, black, hispanic or some other race", message = "Racial majority is a nominal variable, the categories cannot be rank-ordered."),
+  answer("Whether a county's population is majority of white, Black, Hispanic or some other race", message = "Racial majority is a nominal variable, the categories cannot be rank-ordered."),
   answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with Donald Trump's response to the COVID-19 pandemic", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categories and is therefore ordinal-level. The Likert scale assessing satisfaction with the COVID-19 pandemic similarly denotes responses that can be ranked in order and is therefore measured at the ordinal level."),
   answer("A nation's level of inflation", message = "Inflation is not an ordinal variable because difference between the values of the variable are meaningful."),
   allow_retry = TRUE,
@@ -89,9 +89,9 @@ Note that both nominal and ordinal level variables are considered <span style="c
 
 ## Interval Variables
 
-An <span style="color:blue">**interval variable** takes values that have a natural order **and** the differences between values are equal.</span> Examples include anything measured in dollars, like GDP; percentages, like unemployment; or anything that you can count, like number of terrorist acts.  
+<span style="color:blue">**An interval variable** takes values that have a natural order **and** the differences between values are equal.</span> Examples include anything measured in dollars, like GDP; percentages, like unemployment; or anything that you can count, like the number of terrorist acts.  
 
-A special type of interval variable, often given its own level of measurement, is a <span style="color:blue">**ratio variable**</span>. A ratio variable is a type of interval variable that has a natural zero point. Almost all the interval variables we work with in the social sciences are also ratio. For simplicity, we will simply refer to these variables as interval-level.
+A special type of interval variable, often given its own level of measurement, is a <span style="color:blue">**ratio variable**</span>. A ratio variable is a type of interval variable that has a natural zero point. Almost all the interval variables we work with in the social sciences are also ratio variables. For simplicity, we will simply refer to these variables as interval-level.
 
 Interval variables may be <span style="color:blue">**discrete**</span> or <span style="color:blue">**continuous**</span>. A variable measure in whole numbers is discrete. One measured in decimals is continuous. R refers to the variable type as int (for integer) if a variable is discrete and num (for numeric) if it is continuous.
 
@@ -99,7 +99,7 @@ Interval variables may be <span style="color:blue">**discrete**</span> or <span 
 question("Which of the following variables are interval (or ratio) level measures?",
   answer("Whether a state's governor is a Republican or Democrat or something else", message = "Gubernatorial partisanship is a nominal variable with values denoting categories that cannot be rank-ordered"),
   answer("The level of foreign direct investment in a country measured in dollars", correct=TRUE),
-  answer("Homocide rate in a country is a year", correct = TRUE, message="The level of foreign direct investment and homocide rate take values that are both rank-ordered and the differences between values are equivalent. Therefore both variables are measured at the interval level. "),
+  answer("The homocide rate in a country is a year", correct = TRUE, message="The level of foreign direct investment and homocide rate take values that are both rank-ordered and the differences between values are equivalent. Therefore both variables are measured at the interval level. "),
   answer("Whether an individual approves, neither approves nor disapproves, or disapproves of the president's handling on the economy", message = "Presidential approval is an ordinal variable because the differences between categories are rank-ordered but the differences between them are not equal"),
   allow_retry = TRUE,
   try_again = "Hint: There are two interval variables in this list."
@@ -139,7 +139,7 @@ question("What level of measurement would a variable be that was coded as percen
 )
 ```
 
-Consider political ideology of members of Congress:
+Consider the political ideology of members of Congress:
 
 
 ```{r letter-f, echo=FALSE}
@@ -163,7 +163,7 @@ question("What level of measurement would ideology be if the variable was coded 
 
 ### Ordinal variables are sometimes treated as interval variables
 
-To make matters confusing, analysts may treat an ordinal variable as if it was measured at the interval level.  Consider level of education coded as whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post secondary education or beyond. Often analysts "pretend" or "assume" that the differences between categories can be treated *as if* they are the same. This is particularly common when the number of ranked values a variable takes is large. In some cases, such treatment may be justified, but it is important to recognize that in treating an ordinal variable as an interval-level variable, an analyst is assuming that the differences between values are equal.
+To make matters confusing, analysts may treat an ordinal variable as if it was measured at the interval level.  Consider the level of education coded as to whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond. Often analysts "pretend" or "assume" that the differences between categories can be treated *as if* they are the same. This is particularly common when the number of ranked values a variable takes is large. In some cases, such treatment may be justified, but it is important to recognize that in treating an ordinal variable as an interval-level variable, an analyst is assuming that the differences between values are equal.
 
 
 ## The Takeaway
