@@ -13,14 +13,14 @@ description: >
 
 ## Learning Objectives
 
-This tutorial is designed to familiarize you with some of the basics of using R. Specifically you will learn:
+This tutorial is designed to familiarize you with some of the basics of using R. Specifically, you will learn:
 
 * How to read in R data or .RData files with the `load()` function
 * How to read in comma separated or .csv files, tab delimited or .txt files, and Stata data or .dta files using the `import()` function from the <span style="color:DarkGreen">rio</span> package
 * How to get to know the structure of your data with the `class()`, `View()`, `nrow()`, `ncol()`, `names()`, `head()`, `str()`, `is.na()`, `sum()` functions
 * How to access variables in a data frame using $
 * How to execute simple functions on variables: `mean()`, `min()`, `max()`, and `range()`
-* How to use the `save()` function to save objects as an .RData file
+* How to use the `save()` function to save objects as a .RData file
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -40,22 +40,22 @@ unFBposts<-qpaTutorials::unFBposts
 
 ## Data Files
 
-The data we looked at in Part 1 was manually entered. More likely we will work with a data set created somewhere else or by someone else that has been saved as one of several types of files. Regardless of the type of data file, data sets share a common structure. You can think of a spread sheet. Each row of the data set contains data for one observation: values of all variables for a single case. Each column of the data set contains values of a single variable for all observations.
+The data we looked at in Part 1 was manually entered. More likely, we will work with a data set created somewhere else or by someone else that has been saved as one of several types of files. Regardless of the type of data file, data sets share a common structure. You can think of a spreadsheet. Each row of the data set contains data for one observation: values of all variables for a single case. Each column of the data set contains values of a single variable for all observations.
 
 Each row of the data set below contains an observation for a single county in the US. Each column records values of variables measured for each county in the 2016 presidential election.
 
 
 ![](images/DataEx.png){width=70%}
 
-R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester.
+R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester.
 
 ## Loading R data files (extension .RData)
 
 R has its own file format, denoted with .RData, .rdata, or .rda. We use the `load()` function to read in these files. Note that we do not need to specify any arguments other than the file name.  
 
-Also note that when the file is loaded the objects it contains will already exist. This means you do not assign the result of `load()` to a new object. If you do so, it will have no effect. To learn the name of any objects in the .RData file, use the `verbose` argument inside `load()` and set it equal to TRUE.
+Also, note that when the file has loaded, the objects it contains will already exist. This means you do not assign the result of `load()` to a new object. If you do so, it will have no effect. To learn the name of any objects in the .RData file, use the `verbose` argument inside `load()`, and set it equal to TRUE.
 
-When naming the file containing the data you will need to tell the function where the file is located. If you are working in R Studio Cloud, the file will typically be in the same directory as the file as your code so that no path is required. But if you are working on a local machine or if the data is not in your working directory, you will need to specify a full path.  
+When naming the file containing the data, you will need to tell the function where the file is located. If you are working in R Studio Cloud, the file will typically be in the same directory as the file as your code so that no path is required. But if you are working on a local machine or if the data is not in your working directory, you will need to specify a full path.  
 
 
 ```{r loadr-setup}
@@ -76,17 +76,17 @@ counties
 ## Importing other file types
 
 
-You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package <span style="color:DarkGreen">rio</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so you don't have to learn the functions for each file type. 
+You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package <span style="color:DarkGreen">rio</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so that you don't have to learn the functions for each file type. 
 
 Unlike .RData files, you need to assign the file to an object.
 
-Here again, if the file is not in the same directory as your code file you will need to specify the path to tell `import()` where to find the data file.
+Here again, if the file is not in the same directory as your code file, you will need to specify the path to tell `import()` where to find the data file.
 
 Because the functions in the package <span style="color:DarkGreen">rio</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function.
 
-### Comma separated files
+### Comma-separated files
 
-Let's import the comma separated (.csv) file, unitednations.csv and examine its contents. Here, I've assigned the file to the object **unFBposts**. But you could name it anything you like, as long as it does not start with a number of use reserved characters like $ and #.
+Let's import the comma-separated (.csv) file, unitednations.csv, and examine its contents. Here, I've assigned the file to the object **unFBposts**. But you could name it anything you like, as long as it does not start with a number of use reserved characters like $ and #.
 
 ```{r df-setup}
 tmp.df <- read.csv("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/unitednations.csv")
@@ -121,7 +121,7 @@ df
 
 ### Stata data files
 
-A Stata data file can be read in in the same manner. Stata data files will have a .dta extention. See if you can write the code to import "oilwomen.dta" without looking. Name your new object **oil** and then print it.
+A Stata data file can be imported in the same manner. Stata data files will have a .dta extension. See if you can write the code to import "oilwomen.dta" without looking. Name your new object **oil** and then print it.
 
 
 ```{r df3-setup}
@@ -146,9 +146,9 @@ grade_code()
 ```
 
 
-### Tab delimited files
+### Tab-delimited files
 
-Surprise, if we have a tab delimited data file, we do the same thing! Read in "turnout2.txt," assign it to the object **TO** and print it.
+Surprise, if we have a tab-delimited data file, we do the same thing! Read in "turnout2.txt," assign it to the object **TO** and print it.
 
 ```{r df4-setup}
 tmp.df4 <- import("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/turnout2.txt")
@@ -172,7 +172,7 @@ grade_code()
 
 ## Learning about the data
 
-The first step after loading a data set is to learn something about its contents. We will use the data set unitednations.csv, which we loaded as the object **unFBposts**. The data contains information related to the social media posts published on the United Nations Facebook page during 2015. Write code below to determine the class of this object. 
+The first step after loading a data set is to learn something about its contents. We will use the data set unitednations.csv, which we loaded as the object **unFBposts**. The data contains information related to the social media posts published on the United Nations Facebook page during 2015. Write the code below to determine the class of this object. 
 
 ```{r classname, exercise=TRUE}
 
@@ -193,7 +193,7 @@ class(unFBposts)
 
 ### Viewing the contents of a data frame
 
-As we saw above, you can view the data by simply typing its name. But youou can view the contents of a data frame using the `View()` function or by double-clicking on the object name in the Global Environment tab in R Studio as well. (Note that this function begins with a capital letter.) This will open the data in a new window, which can make it easier to examine in full. No matter how you do so, it's a good idea to view your data frame to make sure you have loaded the data you intended.
+As we saw above, you can view the data by simply typing its name. But you can view the contents of a data frame using the `View()` function or by double-clicking on the object name in the Global Environment tab in R Studio as well. (Note that this function begins with a capital letter.) This will open the data in a new window, which can make it easier to examine in full. No matter how you do so, it's a good idea to view your data frame to make sure you have loaded the data you intended.
 
 
 ```{r view, exercise=TRUE}
@@ -201,7 +201,7 @@ View(unFBposts)
 ```
 
 
-### Determining number of rows and columns
+### Determining the number of rows and columns
 
 Each row of a data frame contains a single observation, here a unique Facebook post. The `nrow()` function returns the number of rows in the data frame.  Simply pass the `nrow()` function the name of the data frame object. How many posts are in the data frame? 
 
@@ -278,22 +278,22 @@ Here is a short description of each variable in the data set.
 Name | Description
 ---------------- | --------------------------
 type | Type of post (link, photo, video, ...)
-date | Date when post was published
+date | Date when the post was published
 likes_count | Total likes on post
 comments_count | Total comments on the post
 shares_count | Total shares of the post
-month | Month when post was published (numeric)
+month | Month when the post was published (numeric)
 url | Direct URL of post
 message | Text of post, NA if no text
 
 ### The `head()` and `str()` functions
 
-We can examine the first few rows of the data frame using the `head()` function. By default it prints the first 6 rows. To look at more or less, specify the `n` argument.
+We can examine the first few rows of the data frame using the `head()` function. By default, it prints the first 6 rows. To look at more or less, specify the `n` argument.
 
 ```{r str, exercise=TRUE}
 head(unFBposts, n=5)
 ```
-The `str()` function displays the structure of the data frame. Specifically it provides the number of observations and variables and then lists each variable along with its type and the values of first few observations. 
+The `str()` function displays the structure of the data frame. Specifically, it provides the number of observations and variables and then lists each variable along with its type and the values of first few observations. 
 
 ```{r head, exercise=TRUE}
 str(unFBposts)
@@ -303,7 +303,7 @@ Look carefully at the output to see what you can learn about the data before con
  
 ### The `summary()` function
 
-The `summary()` function can be used to obtain some basic descriptive information about the contents of a data frame object. What information is displayed will depend on the class of the variable. For numeric variables it will report the minimum value, the value at the 1st quartile, the median, the value at the third quartile, and the maximum value.
+The `summary()` function can be used to obtain some basic descriptive information about the contents of a data frame object. What information is displayed will depend on the class of the variable. For numeric variables, it will report the minimum value, the value at the 1st quartile, the median, the value at the third quartile, and the maximum value.
 
 ```{r summar, exercise=TRUE}
 summary(unFBposts)
@@ -325,7 +325,7 @@ These are the first 6 values (first 6 rows) of the variable **type**.
 ## Missing values
 
 
-When working with data frames often some observations will not have data on one or more variables. A missing value code is assigned to these observations. We can use the `is.na()` function to learn about missing values. This function takes one argument, the name of the vector whose values we wish to evaluate.  The function returns a TRUE if a value of the vector is missing and FALSE if a value is not missing. I've wrapped the call to `is.na()` inside `head()` to limit the output here as well.
+When working with data frames, often some observations will not have data on one or more variables. A missing value code is assigned to these observations. We can use the `is.na()` function to learn about missing values. This function takes one argument, the name of the vector whose values we wish to evaluate.  The function returns a TRUE if a value of the vector is missing and FALSE if a value is not missing. I've wrapped the call to `is.na()` inside `head()` to limit the output here as well.
 
 ```{r isna, exercise=TRUE}
 head(is.na(unFBposts$message))
@@ -379,7 +379,7 @@ grade_code()
 
 ### Handling missing values
 
-Some functions will not work if there are missing values present. Above we learned that there are 173 messages with no content. These are missing a message. None of the other variables have missing values. But often we will encounter variables that are missing a value for at least one entry. 
+Some functions will not work if there are missing values present. Above, we learned that there are 173 messages with no content. These are missing a message. None of the other variables have missing values. But often, we will encounter variables that are missing a value for at least one entry. 
 
 If there are missing values in a vector, we include `na.rm=TRUE` (must be all caps) as an argument to many functions to tell R to drop the cases with missing values before executing the function.
 
@@ -391,14 +391,14 @@ mean(unFBposts$shares,na.rm=TRUE)
 
 ### Indexing in a data frame
 
-We can use indexing to select rows and columns in a data frame, but unlike with a vector, we have two dimensions so we specify the row and column index of interest.
+We can use indexing to select rows and columns in a data frame, but unlike with a vector, we have two dimensions, so we specify the row and column index of interest.
 
-For example, to see the 3rd row in the 2nd colum of **unFBposts** we use square brackes and list the row, followed by a comma, and the column:
+For example, to see the 3rd row in the 2nd colum of **unFBposts** we use square brackets and list the row, followed by a comma, and the column:
 
 ```{r index1, exercise=TRUE}
 unFBposts[3,2]
 ```
-If we want to list all values of a particular variable, say **type**, we leave the row number blank. If we want a sequence of row (or column numbers) we use the smallest value followed by a colon and the largest value (no spaces). We can also give the variable name in quotes rather than the column number. The code below prints rows 10-15 of the variable **type**.
+If we want to list all values of a particular variable, say **type**, we leave the row number blank. If we want a sequence of row (or column numbers), we use the smallest value followed by a colon and the largest value (no spaces). We can also give the variable name in quotes rather than the column number. The code below prints rows 10-15 of the variable **type**.
 
 ```{r index2, exercise=TRUE}
 unFBposts[10:15,"type"]
@@ -410,7 +410,7 @@ We are likely to use indexing with a single variable in a data frame object. For
 unFBposts$message[which(unFBposts$likes_count==max(unFBposts$likes_count, na.rm=TRUE))]
 ```
 
-You may want to find the message with the minimum value. It turns out in this data set there are many message with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **share_count**.
+You may want to find the message with the minimum value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **share_count**.
 
 ```{r index4, exercise=TRUE}
 
@@ -435,7 +435,7 @@ We will show later in the course how to use indexing to recode variables.
 
 ## Saving the data
 
-Objects we create in an R session will be temporarily saved in the *workspace*, which is just the current working environment. If we want to save them permanently we *could*  save the workspace. R will ask us if we want to save the workspace every time we exit. **say no**! Instead, if you want to save the objects (or some subset of the objects) you've created in your R session, use the `save()` function, which takes as arguments the names of the objects you wish to save and the name of the file to give your new data file.
+Objects we create in an R session will be temporarily saved in the *workspace*, which is just the current working environment. If we want to save them permanently, we *could*  save the workspace. R will ask us if we want to save the workspace every time we exit. **say no**! Instead, if you want to save the objects (or some subset of the objects) you've created in your R session, use the `save()` function, which takes as arguments the names of the objects you wish to save and the name of the file to give your new data file.
 
 The following code saves **unFBposts** as an R data set, but it cannot be run from the tutorial.
 
@@ -453,7 +453,7 @@ If we had created new objects separate from those in **unFBposts**, saving **unF
 Using the functions we've covered so far, do your best to answer the following questions. 
 
 
-1. How how many posts were published in 2015?
+1. How many posts were published in 2015?
 
 ```{r howmany2, exercise=TRUE}
 
