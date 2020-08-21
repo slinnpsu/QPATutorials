@@ -11,10 +11,10 @@ description: >
 
 ## Learning Objectives
 
-In this tutorial, you will continue learning how to describe the relationship between two variables. This time we will focus on how to do so when both variables are measured at the interval level. Specifically we will cover:
+In this tutorial, you will continue learning how to describe the relationship between two variables. This time we will focus on how to do so when both variables are measured at the interval level. Specifically, we will cover:
 
-* How to conduct descriptive analysis of the relationship between interval variables with scatter plots using the `ggplot()` function in the R package <span style="color:DarkGreen">ggplot2</span>.
-* How to conduct descriptive analysis of the relationship between two interval variable using Pearson's correlation coefficient and plots.
+* How to conduct a descriptive analysis of the relationship between interval variables with scatter plots using the `ggplot()` function in the R package <span style="color:DarkGreen">ggplot2</span>.
+* How to conduct a descriptive analysis of the relationship between two interval variables using Pearson's correlation coefficient and plots.
 
 
 
@@ -53,20 +53,20 @@ world <- world
 
 ## Bivariate Description
 
-In the previous tutorials on bivariate description we considered how to describe the relationships between variables measured at the nominal and/or ordinal data. We presented two tools available to summarize these types of relationships. We produced and interpreted the information in a cross-tab, which is a table that shows the distribution of cases (counts or proportions) across values of the dependent variable for cases that have different values on the independent variable. We then showed how to visualize the information in the cross-tab using a grouped bar plot. 
+In the previous tutorials on bivariate description, we considered how to describe the relationships between variables measured at the nominal and/or ordinal data. We presented two tools available to summarize these types of relationships. We produced and interpreted the information in a cross-tab, which is a table that shows the distribution of cases (counts or proportions) across values of the dependent variable for cases that have different values on the independent variable. We then showed how to visualize the information in the cross-tab using a grouped bar plot. 
 
-In the last tutorial we considered how to conduct descriptive analysis of the relationship between an interval variable and a nominal/categorical (or ordinal) variable. Typically we either compare a single summary statistic, the mean, or we compare distribution of the interval variable for each of the values of the nominal or ordinal variable. 
+In the last tutorial, we considered how to conduct a descriptive analysis of the relationship between an interval variable and a nominal/categorical (or ordinal) variable. Typically we either compare a single summary statistic, the mean, or we compare the distribution of the interval variable for each of the values of the nominal or ordinal variable. 
 
-If our interest lies in the relationship between two interval level variables, we can summarize the relationship between them using Pearson's correlation coefficient. The  <span style="color:blue">**correlation coefficient quantifies the strength and direction of the linear association between two interval level variables**</span>.  The logic of correlation is most easily understood in the context of a scatter plot. So we will introduce them first. A scatter plot provides a visual display of the nature, degree, and strength of the relationship between two interval level variables. It presents pairs of values for each unit of analysis on two variables measured at the interval level   The position of each dot on the horizontal and vertical axis indicates values for an individual data point.
+If our interest lies in the relationship between two interval level variables, we can summarize the relationship between them using Pearson's correlation coefficient. The  <span style="color:blue">**correlation coefficient quantifies the strength and direction of the linear association between two interval level variables**</span>.  The logic of correlation is most easily understood in the context of a scatter plot. So we will introduce them first. A scatter plot provides a visual display of the nature, degree, and strength of the relationship between two interval level variables. It presents pairs of values for each unit of analysis on two variables measured at the interval level. The position of each dot on the horizontal and vertical axis indicates values for an individual data point.
 
 
 Let's start with a picture of a scatter plot:
 
 ![](images/samplescattervoteed.png){ width=70% }
 
-This scatter plot shows the relationship between the two interval level measures **dem2p_vote_share**, the share of the presidential vote cast for Hillary Clinton in 2016, and **prop_college_grad**, the proportion of college graduates in US counties. Each dot represents one unit of analysis, i.e., one county. It's placement on the x-axis represents its value on the variable plotted on the x-axis, i.e., proportion college graduates. It's placement on the y-axis represents its value on the variable plotted on the y-axis, i.e., proportion voting for Clinton. The horizontal (vertical) line is located at the mean value of proportion voting for Clinton (proportion college graduates).
+This scatter plot shows the relationship between the two interval level measures **dem2p_vote_share**, the share of the presidential vote cast for Hillary Clinton in 2016, and **prop_college_grad**, the proportion of college graduates in US counties. Each dot represents one unit of analysis, i.e., one county. Its placement on the x-axis represents its value on the variable plotted on the x-axis, i.e., proportion college graduates. It's placement on the y-axis represents its value on the variable plotted on the y-axis, i.e., proportion voting for Clinton. The horizontal (vertical) line is located at the mean value of the proportion voting for Clinton (proportion college graduates).
 
-Consider the point in the upper right and labeled Arlington VA. This point corresponds to 0.74 of adults graduated college (plotted on the x-axis) and a 0.82 share of the votes cast for Clinton (plotted on the y-axis).
+Consider the point in the upper right and labeled Arlington, VA. This point corresponds to 0.74 of adults who graduated college (plotted on the x-axis) and a 0.82 share of the votes cast for Clinton (plotted on the y-axis).
 
 ![](images/samplescattervoteedArlington.png){ width=70% }
 
@@ -86,7 +86,7 @@ Think through what this formula tells us.  When unit $i$'s value of both $x$ and
 
 The value of $r$ ranges between -1 and +1. 
 
-+  $r>0$ indicates a positive relationship between $x$ and $y$: as one gets larger the other gets larger.
++  $r>0$ indicates a positive relationship between $x$ and $y$: as one gets larger, the other gets larger.
 + $<0$ indicates a negative relationship: as one gets larger, the other gets smaller.
 + $r=0$ indicates no linear relationship.
 
@@ -106,11 +106,11 @@ We follow the same basic steps to produce a scatter plot using `ggplot()` in the
 
 To illustrate how to make a scatter plot we will ask the question how solid is support for democracy around the world? The data set **fHouse** contains the variables **Pro.Dem** and **FHTotalAggr**. **ProDem** is coded as the percent of respondents in a country that said "very good" or "fairly good" in response to the following question asked in the World Values Survey (Wave 5, 2005-2008) and the European Values Survey (2008):
 
->“I’m going to describe various types of political systems and ask what you think about each as a way of governing this country. For each one, would you say it is a very good, fairly good, fairly bad or very bad way of governing this country? ...Having a democratic System?
+>“I’m going to describe various types of political systems and ask what you think about each as a way of governing this country. For each one, would you say it is a very good, fairly good, fairly bad or very bad way of governing this country? ...Having a democratic system?
 
 **FHTotalAggr** is the Freedom House (2017) measure of a country's composite level of democracy based on civil liberties and political rights as, Freedom House, 2017. Higher scores are more democratic. 
 
-You should be able to create the basic scatter plot illustrating this relationship given your growing familiarity with the structure of a ggplot. You need to identify the data, provide a mapping, and identify the geom to use to plot the data. One question you might have is which variable to put on the x-axis and which to put on the y-axis. In cases where one variable is the outcome of interest, by custom it is placed on the  y-axis. The explanatory or independent variable is assigned to the x-axis. In this example, we might expect both that support for democracy leads to democratic governments *and* that democratic governments engender support for democracy, so it is not clear which variable is the outcome and thus it is not clear which variable belongs on which axis. Happily this decision will not affect our interpretation the scatter plot is symmetric. We will place **Pro.Dem** on the x-axis.
+You should be able to create the basic scatter plot illustrating this relationship given your growing familiarity with the structure of a ggplot. You need to identify the data, provide a mapping, and identify the geom to use to plot the data. One question you might have is which variable to put on the x-axis and which to put on the y-axis. In cases where one variable is the outcome of interest, by custom, it is placed on the  y-axis. The explanatory or independent variable is assigned to the x-axis. In this example, we might expect both that support for democracy leads to democratic governments *and* that democratic governments engender support for democracy, so it is not clear which variable is the outcome, and thus, it is not clear which variable belongs on which axis. Happily, this decision will not affect our interpretation the scatter plot is symmetric. We will place **Pro.Dem** on the x-axis.
 
 I've loaded the <span style="color:DarkGreen">ggplot2</span> package for you.
 
@@ -150,7 +150,7 @@ Before we interpret our plot, let's clean it up!  The output above provides a wa
 
 I'm going to make the points purple by specifying `color="purple"` inside the `geom_point()` function. Try editing the plot to pick a new color (For a list of the color names available see http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
 
-I'm also going to add a `geom_smooth()` layer to the plot (remember the plus sign). This adds a line through the points and aids in our interpretation. I'm making the line orange using the `color` argument inside `geom_smooth()`, telling ggplot not to add standard errors around the line (`se=FALSE`) and to use the method of least squares to draw the line (`method="lm"`). We will talk more about least squares lines in the coming classes.
+I'm also going to add a `geom_smooth()` layer to the plot (remember the plus sign). This adds a line through the points and aids in our interpretation. I'm making the line orange using the `color` argument inside `geom_smooth()`, telling ggplot not to add standard errors around the line (`se=FALSE`), and to use the method of least squares to draw the line (`method="lm"`). We will talk more about least squares lines in the coming classes.
 
 We need to load the <span style="color:DarkGreen">dplyr</span> package with the `library()` function.
 
@@ -188,7 +188,7 @@ The `cor()` function in base R will accomplish this task. We will pass the funct
 cor(x=fHouse$Pro.Dem, y=fHouse$FHTotalAggr, use = "pairwise.complete.obs",method = "pearson")
 ```
 
-The result $r=-0.04$  is negative and close to zero. Thus we conclude that the relationship between these two variables is negative and weak. Perhaps surprisingly there appears to be be next to no relationship between support for democracy and level of democracy.
+The result, $r=-0.04$, is negative and close to zero. Thus we conclude that the relationship between these two variables is negative and weak. Perhaps surprisingly, there appears to be next to no relationship between support for democracy and level of democracy.
 
 The data frame **fHouse** also contains the variable **Pro.Strong.Leader**. This is an interval variable that records the percent of respondents in a country that said "very good" or "fairly good" in response to the following question asked in the World Values Survey (Wave 5, 2005-2008) and the European Values Survey (2008):
 
@@ -252,7 +252,7 @@ grade_code()
 
 What can we conclude? There is a small magnitude negative correlation, approximately -0.283. Higher levels of support for a strong leader are  associated with lower levels of institutional democracy (and vice versa).
 
-As a last example, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the x-axis. Before creating the scatter plot, filter out any missing values.  In the code below I've add the labels for you.
+Finally, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the x-axis. Before creating the scatter plot, filter out any missing values.  In the code below I've added the labels for you.
 
 ```{r scatter3, exercise=TRUE}
 counties %>%
@@ -319,7 +319,7 @@ grade_code()
 
 ## The Takeaways
 
-The key things to remember about examining the relationship between a variables measured at the interval level are:
+The key things to remember about examining the relationship between variables measured at the interval level are:
 
 1. We  can summarize the relationship between two interval variables using <span style="color:blue">Pearson's correlation coefficient</span>. The correlation coefficient ranges between -1 and +1. Negative values indicate an inverse relationship between two variables: higher values of one variable are associated with lower variables of another. Positive values indicate a direct relationship: higher values of one variable are associated with higher variables of the other variable (and lower values with lower values.  The closer the correlation coefficient is to zero, the weaker the relationship. It is important to remember that the correlation coefficient assesses the strength and direction of a linear relationship. Not all relationships are linear. If a scatter plot reveals a relationship that is not linear, the correlation coefficient is meaningless.
 2. We can visualize the relationship between two interval variables with a scatter plot using `ggplot()` in the <span style="color:DarkGreen">ggplot2</span> package using  `geom_point()`. We can add a line to the plot that goes through the points such that it is as close to all the points as possible using the `geom_smooth()` function.  If the line is downward sloping (goes from upper left to lower right), the correlation will be negative: higher values of one variable are associated with lower values of the other variable. If the line is upward sloping (goes from lower left to upper right),  the correlation will be positive: higher values of one variable are associated with higher values of the other variable. Finally, when the line is flat, there is no correlation between the two variables.  The steepness of the line is positively related to the strength of the correlation.
