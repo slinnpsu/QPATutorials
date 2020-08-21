@@ -11,9 +11,9 @@ description: >
 
 ## Learning Objectives
 
-In this tutorial, you will learn how to describe the relationship between two variables measured at the nominal and/or ordinal level. Specifically we will cover:
+In this tutorial, you will learn how to describe the relationship between two variables measured at the nominal and/or ordinal level. Specifically, we will cover:
 
-* How to conduct descriptive analysis of the relationship between two nominal or ordinal variables (or one of each) using cross-tabs.
+* How to conduct a descriptive analysis of the relationship between two nominal or ordinal variables (or one of each) using cross-tabs.
 * How to use the `CrossTable()` function in the R package <span style="color:DarkGreen">descr</span> to produce cross-tabs.
 * How to plot the information in cross-tabs using grouped bar plots using the `ggplot()` function in the R package <span style="color:DarkGreen">ggplot2</span>.
 
@@ -59,15 +59,15 @@ How we describe bivariate relationships, relationships between two variables, de
 1. If the relationship we wish to describe involves categorical variables -- some combination of nominal and ordinal variables -- we describe the relationship using a cross-tabulation, which we may choose to represent as a plot. 
 
 2. If the relationship involves one nominal or ordinal variable and an interval level variable, we can compare the mean of the interval variable across categories of the nominal or ordinal variable. Plots may be used to illustrate the differences (or similarities) in the means. 
-3. If both variables are measured at the interval level we can illustrate the relationship with a scatter plot and describe its strength and direction with the correlation coefficient.
+3. If both variables are measured at the interval level, we can illustrate the relationship with a scatter plot and describe its strength and direction with the correlation coefficient.
 
-In this tutorial, we will consider the first of these types of description: how to describe relationships between categorical variables measured at the nominal and ordinal level. The next two tutorials will cover the last two types of relationships.
+In this tutorial, we will consider the first of these types of description: how to describe relationships between categorical variables measured at the nominal and ordinal levels. The next two tutorials will cover the last two types of relationships.
 
 ## Describing the Relationship Between Two Nominal or Ordinal Variables
 
 We use a cross-tab to describe the relationship between nominal and ordinal variables. <span style="color:blue">A cross-tabulation (or cross-tab) is a table that shows the distribution of cases (counts or proportions) across values of the dependent variable for cases that have different values on the independent variable.</span>
 
-You've seen these tables in textbooks and other places many times. Each row of the table presents the different values one variable can take and each column represents the values another variable takes. Each cell gives the number of cases in the data for a particular row variable value and column variable value. Below the table are the total number of cases in a column and to the right of the table are the total number of cases in a row of the data. The bottom right corner gives the total number of cases in the table. The cross-tab may also report proportions or the percent of cases in each cell of the table out of all cases in a column, a row, or in the table overall. Which of these representations is most useful will depend on our purpose. 
+You've seen these tables in textbooks and other places many times. Each row of the table presents the different values one variable can take, and each column represents the values another variable takes. Each cell gives the number of cases in the data for a particular row variable value and column variable value. Below the table are the total number of cases in a column, and to the right of the table are the total number of cases in a row of the data. The bottom right corner gives the total number of cases in the table. The cross-tab may also report proportions or the percentage of cases in each cell of the table out of all cases in a column, a row, or in the table overall. Which of these representations is most useful will depend on our purpose. 
 
 The image below illustrates the contents of a cross-tab that illustrates the relationship between the party identification of a survey respondent and their attitudes toward gay and lesbian relationships. The percentages given are calculated out of all cases in a column.
 
@@ -78,9 +78,9 @@ We can see that 1196 or 51.8% *of Democratic respondents* were supportive of leg
 
 ### Generating Cross-tabs
 
-We will follow two rules for the design of the cross-tab that allow us to illustrate the relationship between some explanatory variable and some outcome variable.
+We will follow two rules for the design of the cross-tab that allow us to illustrate the relationship between an explanatory variable and an outcome variable.
 
-Rule 1: the explanatory variable will be placed in the columns and the outcome variable in the rows of the table.
+Rule 1: the explanatory variable will be placed in the columns, and the outcome variable in the rows of the table.
 
 Rule 2: proportions will be calculated out of column totals.
 
@@ -116,7 +116,7 @@ question("How many counties in the sample are rural?",
 ```
 
 ```{r letter-b, echo=FALSE}
-question("What does the value 0.261 in the top left cell of the table tell us?",
+question("What does the value 0.261 in the top-left cell of the table tell us?",
   answer("The proportion of all counties that cast votes for Hillary Clinton", message="Proportions are calculated out of all voters in a column, not out of all counties."),
   answer("The proportion of urban counties that cast a majority of the vote for Donald Trump", message="The proportion is for urban counties, but 0 is the value for Clinton Majority. "),
   answer("The proportion of urban counties that cast a majority of the vote for Hillary Clinton", correct = TRUE),
@@ -136,7 +136,7 @@ Does the evidence support this hypothesis? If more rural counties are more likel
 
 By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column percentages, we **interpret a cross-tab by comparing percentages across columns at the same value of the dependent variable (in the same row)**. How does the proportion (or, if we multiple them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
 
-We know that the value 0 for **rural** denotes that a county is urban, 1, that it is neither urban nor rural, and 2 that it is rural. Thus, we expect the proportion of counties among those casting a majority of votes for Trump (**MajorityTrump**=1) in row 2 to increase as we move across the columns from left to right. We would also expect the reverse to be true for counties that cast a majority of votes for Clinton (**MajorityTrump**=0) in row 1.
+We know that the value 0 for **rural** denotes that a county is urban, 1, that it is neither urban nor rural, and 2 that it is rural. Thus, we expect the proportion of counties among those casting a majority of votes for Trump (**MajorityTrump**=1) in row 2 to increase as we move across the columns from the left to the right. We would also expect the reverse to be true for counties that cast a majority of votes for Clinton (**MajorityTrump**=0) in row 1.
 
 I've reproduced the cross-tab here so that you don't have to look back.
 
@@ -156,9 +156,9 @@ Similarly, if we consider the proportion of counties that cast a majority of vot
 
 ### Racial Majority and Support for Donald Trump in US Counties
 
-We might hypothesize that <span style="color:chocolate"> In a comparison of [counties] those that are [majority white] will be more likely to [give a majority of their support to Trump] than will those that are [not majority white].</span>
+We might hypothesize that: <span style="color:chocolate">In a comparison of [counties], those that are [majority-white] will be more likely to [give a majority of their support to Trump] than will those that are [not majority-white].</span>
 
-The data frame **counties** contains a nominal variable called **racial_majority** that takes the character values "Black Majority", "Hispanic Majority", "Other/No Majority", and "White Majority". Thus, our hypothesis suggests that when we compare the proportion of counties **within each racial majority category**, the highest proportion of counties casting a majority of votes for Donald Trump will be "White Majority". 
+The data frame **counties** contains a nominal variable called **racial_majority** that takes the character values "Black Majority," "Hispanic Majority," "Other/No Majority," and "White Majority." Thus, our hypothesis suggests that when we compare the proportion of counties **within each racial majority category**, the highest proportion of counties casting a majority of votes for Donald Trump will be "White Majority." 
 
 Edit the code below to produce a cross-tab to assess this hypothesis.
 
@@ -188,7 +188,7 @@ question("Which of the following statements about the cross-tab are true",
   answer("Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", message = "The proportion 0.111 is the proportion of counties in the White Majority column (2866 counties) that cast a majority of their votes for Hillary Clinton"),
   answer("Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", correct = TRUE),
   answer("Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", message = "While there are 3112 counties in the data, 0.039 is a column proportion signifying that this proportion of black majority counties cast a majority of their votes for Donald Trump"),
-    answer("Of the 102 majority black counties 0.039 or 3.9% case a majority of their vote for Donald Trump", correct = TRUE),
+    answer("Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", correct = TRUE),
   allow_retry = TRUE,
   try_again = "Hint: More than one statement is true."
 )
@@ -200,7 +200,7 @@ Does this table support the hypothesis? Yes, because a much larger proportion of
 
 For a final illustration, we will examine the relationship between the nominal variable **regime_type3**, which takes the values "Dictatorship," "Parliamentary democ," or "Presidential democ" and the ordinal variable **gender_equal13**, which may be "Low," "Medium," or "High." The variables are in the data frame **world**.
 
-Write the code to generate the cross-tab and run it. Assume we hypothesize that <span style="color:chocolate"> In a comparison of [countries] those that are [dictatorships] will be less likely to [have a high degree of gender equality] than will those that are [not dictatorships].</span>
+Write the code to generate the cross-tab and run it. Assume we hypothesize that: <span style="color:chocolate"> In a comparison of [countries], those that are [dictatorships] will be less likely to [have a high degree of gender equality] than will those that are [not dictatorships].</span>
 
 ```{r samplecrosstb3, exercise=TRUE}
 
@@ -237,7 +237,7 @@ Is there support for our hypothesis? Yes, of countries that are dictatorships, m
 
 ## Visualizing the Information in Cross-tabs using `ggplot()`
 
-We can plot the information in a cross-tab using a bar plot. We created bar plots  with `ggplot()` in the  R package <span style="color:DarkGreen">ggplot2</span> in the tutorial UnivariateDescription-NominalVariables to visualize a single nominal variable and in the tutorial UnivariateDescription-OrdinalVariables to visualize a single ordinal variable. When presenting the information in a cross-tab in a bar plot, the data is grouped  such that the bars represent the frequency or proportion of cases for each value of one variable broken down by values of another variable. Thus we can plot the number or proportion of counties in each category of the variable **TrumpMajority** for each category of the variable **rural**.
+We can plot the information in a cross-tab using a bar plot. We created bar plots  with `ggplot()` in the  R package <span style="color:DarkGreen">ggplot2</span> in the tutorial "Univariate Description: Nominal Variables" to visualize a single nominal variable and in the tutorial "Univariate Description: Ordinal Variables" to visualize a single ordinal variable. When presenting the information in a cross-tab in a bar plot, the data are grouped  such that the bars represent the frequency or proportion of cases for each value of one variable broken down by values of another variable. Thus we can plot the number or proportion of counties in each category of the variable **TrumpMajority** for each category of the variable **rural**.
 
 ### The fill aesthetic
 
@@ -285,11 +285,11 @@ To plot proportions, we set an aesthetic inside the `geom_bar()` layer. Specific
 ggplot(data=counties, mapping=aes(x=factor(TrumpMajority), fill=factor(rural))) +
   geom_bar(position="dodge",mapping=aes(y=..prop.., group=factor(rural))) 
 ```
-As we can see the red bars sum to one, the green bars sum to one, and the blue bars sum to one. This makes it easy to compare the relative proportions within a category of the fill variable across the categories of the x-axis variable. Thus we see here that Trump won more counties regardless how urban or rural a county and that he won relatively more "rural" counties than either "neither urban nor rural" or "urban" counties.
+As we can see, the sum of the red bars is equal to one, the sum of the green bars is equal to one, and the sum of the blue bars is equal to one. This makes it easy to compare the relative proportions within a category of the fill variable across the categories of the x-axis variable. Thus we see here that Trump won more counties, regardless how urban or rural a county, and that he won relatively more "rural" counties than either "neither urban nor rural" or "urban" counties.
 
 ### Making the plot more informative
 
-We can make each of these plots more informative by adding a `labs` layer to provide a `title`, `subtitle`, `x` and `y` axis labels, and a caption as well as an `scale_x_discrete` layer to change the labels for the tick marks on the x-axis, as we have before. But we also want to add a new layer to make the legend informative. To do so we add a `scale_fill_discrete()` layer. We use this function to edit the legend associated with a discrete variable (one that can take only integer values) that is identified by `fill` inside the `aes()` function. We use the `name` argument to provide the name for the legend and the `labels` argument to provide names for the variables values.  Be sure to use the `c()` function, place each label in quotations, and and separate each with a comma.
+We can make each of these plots more informative by adding a `labs` layer to provide a `title`, `subtitle`, `x` and `y` axis labels, and a caption as well as an `scale_x_discrete` layer to change the labels for the tick marks on the x-axis, as we have before. But we also want to add a new layer to make the legend informative. To do so we add a `scale_fill_discrete()` layer. We use this function to edit the legend associated with a discrete variable (one that can take only integer values) that is identified by `fill` inside the `aes()` function. We use the `name` argument to provide the name for the legend and the `labels` argument to provide names for the values of variables.  Be sure to use the `c()` function, place each label in quotations, and and separate each with a comma.
 
 Before you execute the code below, read through it carefully. You will have to edit code below to produce similar plots.
 
@@ -307,7 +307,7 @@ ggplot(data=counties, mapping=aes(x=factor(TrumpMajority), fill=factor(rural))) 
 
 ### Race and Support for Donald Trump
 
-Let's create a bar plot to represent the cross-tab examining the relationship between **TrumpMajority** and **racial_majority**. We want to present the proportion of counties casting  majority of votes for Hillary Clinton and Donald Trump grouped by the categories of **racial_majority**. Note that because **racial_majority** is a character variable, we don't need to specify the `factor()` function when naming this variable. Note, too, that the plot will display the bars in alphabetical order and that we could omit the `labels` argument in `scale_fill_discrete()` because the grouping variable is a character variable. I've included it here, shortening the labels, for practice.
+Let's create a bar plot to represent the cross-tab examining the relationship between **TrumpMajority** and **racial_majority**. We want to present the proportion of counties casting a majority of votes for Hillary Clinton and Donald Trump grouped by the categories of **racial_majority**. Note that because **racial_majority** is a character variable, we don't need to specify the `factor()` function when naming this variable. Note, too, that the plot will display the bars in alphabetical order and that we could omit the `labels` argument in `scale_fill_discrete()` because the grouping variable is a character variable. I've included it here, shortening the labels, for practice.
 
 Replace the XXX in the following code to produce the desired plot. Place the bars side-by-side.
 
@@ -404,14 +404,11 @@ ggplot(data=world, mapping=aes(x=gender_equal3, fill=regime_type3)) +
   geom_bar(position="dodge", aes(y=..prop.., group=regime_type3)) 
 ```
 
-```{r genderplot-check}
-grade_code()
-```
 
 
 The first thing we see is that there is a lot of missing data. You may want to eliminate this information from the plot. The easiest way to omit the NAs from the plot is to use the `filter()` function in the <span style="color:DarkGreen">dplyr</span> package. The `filter()` function keeps rows of the data frame that meet some condition. Here we want to keep those rows where **gender_equal3** is not missing  and **regime_type3** is not missing. To do so, inside the `filter()` function we specify `!is.na(gender_equal3), !is.na(regime_type3)`. 
 
-Remember the pipe operator? Here we start with the data frame **world** "and then" (%>%) we `filter()` so that we keep only non missing data "and then" we pipe that result to `ggplot()`, which means we don't need to specify the `data` argument inside `ggplot()`.  Otherwise, nothing has changed.
+Remember the pipe operator? Here we start with the data frame **world** "and then" (%>%) we `filter()` so that we keep only non-missing data "and then" we pipe that result to `ggplot()`, which means we don't need to specify the `data` argument inside `ggplot()`.  Otherwise, nothing has changed.
 
 Don't forget to load the <span style="color:DarkGreen">dplyr</span> package with the `library()` function!
  
@@ -446,9 +443,9 @@ The key things to remember about examining the relationship between two categori
 
     + Rule 1: the explanatory variable will be placed in the columns and the outcome variable in the rows of the table.
     + Rule 2: proportions will be calculated out of column totals.
-    + Rule 3: interpret the results by comparing proportions in each column categrogy **within** rows of the table.
+    + Rule 3: interpret the results by comparing proportions in each column category **within** rows of the table.
   
-2. Grouped bar plots present the information in a cross-tab in visual form. This makes it easy to see patterns, but does not provide the exact counts or proportions in any give cell of the table.
+2. Grouped bar plots present the information in a cross-tab in visual form. This makes it easy to see patterns, but does not provide the exact counts or proportions in any given cell of the table.
 
 3. It can be difficult to remember all the lines of code to produce exactly the plot you want. I encourage you to keep notes on where you can look -- in which tutorials -- to find code to produce different types of plots. But the basic elements of all grouped bar plots to remember are:
 
