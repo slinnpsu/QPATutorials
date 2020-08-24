@@ -60,7 +60,7 @@ If our hypothesis involves the relationship between an interval variable and a n
 
 ## Comparing Means
 
-To motivate our analysis, consider the following hypothesis: <span style="color:chocolate"> In a comparison of [counties] those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].</span> The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
+To motivate our analysis, consider the following hypothesis: <span style="color:chocolate"> In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].</span> The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
 
 The data frame **counties** contains the interval level variable **wage_growth**, which gives the rate at which wages ina county have grown over the last four years (as a percent) and the nominal variable **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the county's votes and 1 if Donald Trump won a majority. Our hypothesis leads us to expect that the mean rate of wage growth should be lower in counties Trump won.
 
@@ -73,7 +73,7 @@ We return to the functions in the  <span style="color:DarkGreen">dplyr package</
 
 ### Mean Wage Growth by Victor
 
-To calculate the mean of **wage_growth** for counties won by Clinton and Trump, we take the data frame **counties** and pipe it to the `group_by()` function where the grouping variable is **TrumpMajority** and then pipe the result to  the `summarize()` function to calculate the means of **wage_growth** for counties casting a majority of votes for Clinton and for Trump. We will call our new variable **mean** and set it equal to `mean(wage_growth, na.rm=TRUE)`, removing any missing values by setting the `na.rm` argument to `TRUE` to avoid getting NA for the means if any counties have missing values. I've also summarized the frequencies in each category using the `n()` function inside `summarise()`
+To calculate the mean of **wage_growth** for counties won by Clinton and Trump, we take the data frame **counties** and pipe it to the `group_by()` function where the grouping variable is **TrumpMajority** and then pipe the result to  the `summarize()` function to calculate the means of **wage_growth** for counties casting a majority of votes for Clinton and for Trump. We will call our new variable **mean** and set it equal to `mean(wage_growth, na.rm=TRUE)`, removing any missing values by setting the `na.rm` argument to `TRUE` to avoid getting NA for the means if any counties have missing values. I've also summarized the frequencies in each category using the `n()` function inside `summarise()`. A warning message will be produced but can be ignored.
 
 ```{r meanwage, exercise=TRUE}
 library(dplyr)
@@ -160,16 +160,14 @@ The table of means tell us that the mean is highest, 1394.33, among full democra
 We can plot the means as well. To do so, we will pipe the results from our tables above to `ggplot()` so that it becomes the data for the plot. We can then use the variables in our table in our plot. The basic steps of plotting remain the same:
 
 1.  Tell `ggplot()` the data that contains the variable(s) to plot. (Here simply include `ggplot()` in the sequence of pipes after generating the means.)
-2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the *mapping* argument and the *aes* function.
+2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function.
 3.  Tell `ggplot()` how to plot the data by adding a **geom** layer. To plot the means we need a new geom layer. We want a simple point for each mean. Thus we use `geom_point()`.
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
 
 Let's start with a basic plot of the means of **wage_growth** by **TrumpMajority** in the data frame **counties** without using informative labels or other visual attributes that make it easier to interpret. The first lines of code are identical to those used above to produce the table of means. See if you can edit them without looking above or at the solution.
 
-Notice that I've loaded the<span style="color:DarkGreen">ggplot2</span> package with the `library()` function.
-
-Remember, you cannot copy and paste from the clipboard for exercises that use `ggplot()`! You must edit or type your own code directly.
+Notice that I've loaded the <span style="color:DarkGreen">ggplot2</span> package with the `library()` function.
 
 
 ```{r meanwageplot, exercise=TRUE}
@@ -229,7 +227,7 @@ ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
   scale_y_continuous(limits=c(-10,10)) 
 ```
 
-Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code.
+Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. Use "Mean Change in Mortality Risk Among Counties \nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title.
 
 ```{r meanrisk2, exercise=TRUE}
 counties %>%
@@ -292,7 +290,7 @@ ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
 grade_code()
 ```
 
-Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Add titles to your plot. You do not need to adjust the y-axis limits.
+Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Set the title for the plot to "Mean GDP by Level of Democracy" and label the y-axis "Mean GDP". You do not need to adjust the y-axis limits. Label the x-axis tick marks (in order) "Full Democracy", "Partial Democracy", "Hybrid", and "Authoritarian". Omit the x-axis title.
 
 ```{r meangdp2, exercise=TRUE}
 
