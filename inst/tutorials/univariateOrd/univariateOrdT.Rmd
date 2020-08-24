@@ -155,7 +155,6 @@ Like nominal level variables, we use the frequency distribution or the distribut
 
 Let's plot the frequency distribution and examine the dispersion from a bar plot.  Replace the XXXX in the following code to generate a bar plot with `ggplot()`.  Specify the title as "Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates". Remember that the \\n tells `ggplot()` to add a line break to split the title into two lines. You will need to include it in the code below. Set the title for the x-axis label to `NuLL`. This will omit the x-axis title. It's not needed here as having a title is redundant for this axis.
 
-You cannot copy and paste from the clipboard for exercises that use `ggplot()`! You must edit or type your own code directly.
 
 ```{r ruralplot, exercise=TRUE}
 ggplot(data=counties, XXXX=XXXX(x=factor(rural_urban))) +
@@ -305,7 +304,7 @@ grade_code()
 Most nations are "Free" (coded 2) according to Freedom House, and a half or less are "Partly Free" (coded 1) and another half or more are "Partly Free".  Note that if the variable had been recoded so that "Free" was coded 0 and "Not Free" was coded 2, the median category would have been "Free." The moral of the story is that you need to be careful about interpreting the median value.
 
 
-Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate=FALSE` inside the `scale_x_discrete()` function. Do not include the `caption` label. Since there is no default value, this will simply omit the subtitle and caption from the plot.
+Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate=FALSE` inside the `scale_x_discrete()` function. Do not include the `subtitle` or `caption` label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.
 
 
 ```{r FHplot, exercise=TRUE}
