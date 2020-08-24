@@ -263,7 +263,7 @@ We will use the `ggplot()` function in the <span style="color:DarkGreen">ggplot2
 
 The first step in plotting the data is to tell `ggplot()` the name of the data set that contains the variable(s) to plot. We will plot **TrumpMajority**, which is in the **counties** data set.
 
-Note that we need to load <span style="color:DarkGreen">ggplot2</span>  with the `library()` function before we can use the `ggplot()` function.
+Note that we need to load <span style="color:DarkGreen">ggplot2</span>  with the `library()` function before we can use the `ggplot()` function. Run the code below.
 
 ```{r stepone, exercise=TRUE}
 library(ggplot2)
@@ -273,16 +273,18 @@ We have an empty plot! At this stage, ggplot knows the data to use but not what 
 
 ### ggplot step two
 
-Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the values of **TrumpMajority** on the x-axis. Since the variable is coded as a numeric variable, we need to tell R that it is categorical (that it cannot take values other than 0 and 1). We will do this by passing the variable name to the `factor()` function before assigning it to `x`:
+Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the values of **TrumpMajority** on the x-axis. Since the variable is coded as a numeric variable, we need to tell R that it is categorical (that it cannot take values other than 0 and 1). We will do this by passing the variable name to the `factor()` function before assigning it to `x`.
+
+Run the code below.
 
 ```{r steptwo, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority)))
 ```
-Now we have an x-axis, but still no data because we haven't yet told `ggplot()` *how* to plot the data.  To build our plot, we add additional layers with the plus sign.
+Now we have an x-axis, but still no data because we haven't yet told `ggplot()` *how* to plot the data.  
 
 ### ggplot step three
 
-We tell `ggplot()` how to plot the data by adding a *geom* layer. There are many geometric representations that can be plotted. What is appropriate  will depend on the level of measurement and our goals for the visualization.  We want to generate a bar plot, so we will specify `geom_bar()` as the geometric representation. We do this by adding a plus sign at the end of the previous line of code. Then on the next line we write `geom_bar()`. We don't need to put anything inside the parentheses:
+We tell `ggplot()` how to plot the data by adding a *geom* layer. There are many geometric representations that can be plotted. What is appropriate  will depend on the level of measurement and our goals for the visualization.  We want to generate a bar plot, so we will specify `geom_bar()` as the geometric representation. We do this by adding a plus sign at the end of the previous line of code. Then on the next line we write `geom_bar()`. We don't need to put anything inside the parentheses. See what happens now when you run the code.
 
 
 
@@ -293,6 +295,8 @@ ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
 ### ggplot step four
 
 At this point, we have an ugly plot that is not very informative. We can change the default labels of the plot by adding another layer to our plot using the `labs()` function. We can pass the function a `title`, `subtitle`, `x` axis title, `y` axis title, and a `caption` argument. To add this information, we need to add a plus sign to the end of the previous code as follows. I've added \\n in the middle of the main title. This tells ggplot to insert a line break in the title and thus to spread it over two lines.
+
+Look carefully at the code before you run it and make sure you understand what each line is doing.
 
 ```{r stepfour, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
