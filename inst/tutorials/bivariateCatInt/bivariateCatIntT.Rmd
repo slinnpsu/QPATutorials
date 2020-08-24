@@ -125,7 +125,7 @@ As a final example, consider the hypothesis: <span style="color:chocolate"> In a
 
 Calculate the means of the variable **gdp08**,
 GDP in billions in 2008 (World Bank) by **dem_level4**,
-Regime type (Economist 2014), in the data frame **world**. Try not to look at the hints!
+Regime type (Economist 2014), in the data frame **world**. Try not to look at the hints! Name the counts `freq` and the means `mean`.
 
 
 ```{r meangdp, exercise=TRUE}
@@ -165,7 +165,7 @@ We can plot the means as well. To do so, we will pipe the results from our table
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
 
-Let's start with a basic plot of the means of **wage_growth** by **TrumpMajority** in the data frame **counties** without using informative labels or other visual attributes that make it easier to interpret. The first lines of code are identical to those used above to produce the table of means. See if you can edit them without looking above or at the solution.
+Let's start with a basic plot of the means of **wage_growth** by **TrumpMajority** in the data frame **counties** without using informative labels or other visual attributes that make it easier to interpret. The first lines of code are identical to those used above to produce the table of means. (Name the counts `freq` and the means `mean`.) See if you can edit them without looking above or at the solution.
 
 Notice that I've loaded the <span style="color:DarkGreen">ggplot2</span> package with the `library()` function.
 
@@ -227,7 +227,7 @@ ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
   scale_y_continuous(limits=c(-10,10)) 
 ```
 
-Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. Use "Mean Change in Mortality Risk Among Counties \nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title.
+Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title.
 
 ```{r meanrisk2, exercise=TRUE}
 counties %>%
