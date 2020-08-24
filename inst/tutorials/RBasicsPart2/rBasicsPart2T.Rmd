@@ -60,7 +60,7 @@ When naming the file containing the data, you will need to tell the function whe
 
 ```{r loadr-setup}
 save(counties, file="counties2016.RData")
-rm(list=ls())
+#rm(list=ls())
 ```
 
 ```{r loadr, exercise=TRUE, exercise.setup="loadr-setup"}
@@ -193,10 +193,10 @@ class(unFBposts)
 
 ### Viewing the contents of a data frame
 
-As we saw above, you can view the data by simply typing its name. But you can view the contents of a data frame using the `View()` function or by double-clicking on the object name in the Global Environment tab in R Studio as well. (Note that this function begins with a capital letter.) This will open the data in a new window, which can make it easier to examine in full. No matter how you do so, it's a good idea to view your data frame to make sure you have loaded the data you intended.
+As we saw above, you can view the data by simply typing its name. But you can view the contents of a data frame using the `View()` function or by double-clicking on the object name in the Global Environment tab in R Studio as well. (Note that this function begins with a capital letter.) This will open the data in a new window, which can make it easier to examine in full. No matter how you do so, it's a good idea to view your data frame to make sure you have loaded the data you intended. Note, however, that you cannot execute this function from within the tutorial. We will not run this function.
 
 
-```{r view, exercise=TRUE}
+```{r view, exercise=FALSE}
 View(unFBposts)
 ```
 
