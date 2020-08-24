@@ -390,6 +390,7 @@ See if you can create a new vector called **dem.pres.vote.percent** that convert
 ```{r percent-hint}
 Multiply dem.pres.vote.share by 100 and assign the
 result to dem.pres.vote.percent
+
 ```
 
 ```{r percent-solution}
@@ -433,12 +434,21 @@ Can you figure out how to do that without looking at the hints? Try it! (Remembe
 ```
 
 ```{r rename-hint}
-1. First, you need to figure out which elements (which index values) of your vector of candidate names (**dem.candidates**) are associated with elections in which one of the Clintons ran for president. 
-2. Then you will need to use square brackets to surround the index values you just identified. 
-3. Inside those square brackets, you will need to use the concatenate function. This specifies the index values you wish to replace.
-4. Then assign the replacement candidate. Be sure to use the `c()` function, place the names in quotes, and separate the names with commas.
+1. First, you need to figure out which elements (which
+index values) of your vector of candidate names
+(**dem.candidates**) are associated with elections in
+which one of the Clintons ran for president. 
+2. Then you will need to use square brackets to
+surround the index values you just identified. 
+3. Inside those square brackets, you will need to use
+the concatenate function. This specifies the index
+values you wish to replace.
+4. Then assign the replacement candidate. Be sure to
+use the `c()` function, place the names in quotes, and
+separate the names with commas.
 
-That's a lot to remember, but you will get the hang of it, I promise!
+That's a lot to remember, but you will get the hang of
+it, I promise!
 ```
 
 ```{r rename-solution}
