@@ -88,7 +88,7 @@ We'll see below how this facilitates comparison.
 
 ### The `CrossTable()` Function
 
-To produce a cross-tab, we will use the `CrossTable()` function from the R package <span style="color:DarkGreen">descr</span>. The function requires two arguments, `x` and `y`. `x` defines the variable to appear in the rows of the table and should be the outcome or dependent variable. `y` defines the variable to appear in the columns and should be the explanatory or independent variable. By default, `CrossTable()` produces a cross-tab with proportions calculated for each row, each column, and the full table. Typically, however, we are interested in just column percentages, so we will set the `prop.r` (which stands for row proportions) and the `prop.t` (which stands for total proportions) arguments to `FALSE`. Finally, we will set the `prop.chisq` (which stands for chi square contribution) argument to `FALSE`. Doing so will  eliminate clutter and make the table easier to read.
+To produce a cross-tab, we will use the `CrossTable()` function from the R package <span style="color:DarkGreen">descr</span>. The function requires two arguments, `x` and `y`. `x` defines the variable to appear in the rows of the table and should be the outcome or dependent variable. `y` defines the variable to appear in the columns and should be the explanatory or independent variable. By default, `CrossTable()` produces a cross-tab with proportions calculated for each row, each column, and the full table. Typically, however, we are interested in just column proportions, so we will set the `prop.r` (which stands for row proportions) and the `prop.t` (which stands for total proportions) arguments to `FALSE`. Finally, we will set the `prop.chisq` (which stands for chi square contribution) argument to `FALSE`. Doing so will  eliminate clutter and make the table easier to read.
 
 
 The data set **counties** contains a variable called **rural**, a 3-category ordinal variable where the 0 represents more urban counties, 1 represents counties that are neither urban nor rural, and 2 represents counties that are more rural. It also contains a nominal variable called **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the vote and 1 if Donald Trump won a majority of the vote. We'll use this data to create our first cross-tab and to see how we use it to assess the hypothesis that Trump did better in more rural counties.
@@ -129,12 +129,12 @@ question("What does the value 0.261 in the top-left cell of the table tell us?",
 
 ## Assessing our hypothesis
 
-Now that we've interpreted individual cell entries, let's see what we can learn about our hypothesis: <span style="color:chocolate"> In a comparison of [counties] those that are [more rural] will be more likely to [give a majority of their support to Trump] than will those that are [less rural (more urban)].</span>
+Now that we've interpreted individual cell entries, let's see what we can learn about our hypothesis: <span style="color:chocolate"> In a comparison of [counties], those that are [more rural] will be more likely to [give a majority of their support to Trump] than will those that are [less rural (more urban)].</span>
 
 
 Does the evidence support this hypothesis? If more rural counties are more likely to have cast a majority of their votes for Trump, what should we see? 
 
-By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column percentages, we **interpret a cross-tab by comparing percentages across columns at the same value of the dependent variable (in the same row)**. How does the proportion (or, if we multiple them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
+By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column prportion, we **interpret a cross-tab by comparing proportions across columns at the same value of the dependent variable (in the same row)**. How does the proportion (or, if we multiple them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
 
 We know that the value 0 for **rural** denotes that a county is urban, 1, that it is neither urban nor rural, and 2 that it is rural. Thus, we expect the proportion of counties among those casting a majority of votes for Trump (**MajorityTrump**=1) in row 2 to increase as we move across the columns from the left to the right. We would also expect the reverse to be true for counties that cast a majority of votes for Clinton (**MajorityTrump**=0) in row 1.
 
@@ -285,11 +285,11 @@ To plot proportions, we set an aesthetic inside the `geom_bar()` layer. Specific
 ggplot(data=counties, mapping=aes(x=factor(TrumpMajority), fill=factor(rural))) +
   geom_bar(position="dodge",mapping=aes(y=..prop.., group=factor(rural))) 
 ```
-As we can see, the sum of the red bars is equal to one, the sum of the green bars is equal to one, and the sum of the blue bars is equal to one. This makes it easy to compare the relative proportions within a category of the fill variable across the categories of the x-axis variable. Thus we see here that Trump won more counties, regardless how urban or rural a county, and that he won relatively more "rural" counties than either "neither urban nor rural" or "urban" counties.
+As we can see, the sum of the height of the red bars is equal to one, the sum of the height of the green bars is equal to one, and the sum of height of the blue bars is equal to one. This makes it easy to compare the relative proportions within a category of the fill variable across the categories of the x-axis variable. Thus we see here that Trump won more counties, regardless how urban or rural a county, and that he won relatively more "rural" counties than either "neither urban nor rural" or "urban" counties.
 
 ### Making the plot more informative
 
-We can make each of these plots more informative by adding a `labs` layer to provide a `title`, `subtitle`, `x` and `y` axis labels, and a caption as well as an `scale_x_discrete` layer to change the labels for the tick marks on the x-axis, as we have before. But we also want to add a new layer to make the legend informative. To do so we add a `scale_fill_discrete()` layer. We use this function to edit the legend associated with a discrete variable (one that can take only integer values) that is identified by `fill` inside the `aes()` function. We use the `name` argument to provide the name for the legend and the `labels` argument to provide names for the values of variables.  Be sure to use the `c()` function, place each label in quotations, and and separate each with a comma.
+We can make each of these plots more informative by adding a `labs` layer to provide a `title`, `subtitle`, `x` and `y` axis labels, and a `caption` as well as an `scale_x_discrete` layer to change the labels for the tick marks on the x-axis, as we have before. But we also want to add a new layer to make the legend informative. To do so we add a `scale_fill_discrete()` layer. We use this function to edit the legend associated with a discrete variable (one that can take only integer values) that is identified by `fill` inside the `aes()` function. We use the `name` argument to provide the name for the legend and the `labels` argument to provide names for the values of variables.  Be sure to use the `c()` function, place each label in quotations, and and separate each with a comma.
 
 Before you execute the code below, read through it carefully. You will have to edit code below to produce similar plots.
 
@@ -439,13 +439,13 @@ ggplot(mapping=aes(x=gender_equal3, fill=regime_type3)) +
 
 The key things to remember about examining the relationship between two categorical variables, whether nominal and/or ordinal level variables are:
 
-1. We use cross-tabs to present the relationship in tabular form. This has the advantage of providing precise frequencies and proportions.  Three rules guide the presentation and interpretation of cross-tabs:
+1. We use <span style="color:blue">cross-tabs</span> to present the relationship in tabular form. This has the advantage of providing precise frequencies and proportions.  Three rules guide the presentation and interpretation of cross-tabs:
 
     + Rule 1: the explanatory variable will be placed in the columns and the outcome variable in the rows of the table.
     + Rule 2: proportions will be calculated out of column totals.
     + Rule 3: interpret the results by comparing proportions in each column category **within** rows of the table.
   
-2. Grouped bar plots present the information in a cross-tab in visual form. This makes it easy to see patterns, but does not provide the exact counts or proportions in any given cell of the table.
+2. <span style="color:blue">Grouped bar plots</span> present the information in a cross-tab in visual form. This makes it easy to see patterns, but does not provide the exact counts or proportions in any given cell of the table.
 
 3. It can be difficult to remember all the lines of code to produce exactly the plot you want. I encourage you to keep notes on where you can look -- in which tutorials -- to find code to produce different types of plots. But the basic elements of all grouped bar plots to remember are:
 
