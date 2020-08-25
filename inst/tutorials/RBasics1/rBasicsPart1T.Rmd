@@ -17,7 +17,7 @@ The tutorials will typically introduce code with examples that you will run -- u
 
 <span style="color:blue">You will make mistakes. R, like any coding language, requires meticulous attention to things like matching parentheses, including commas in the right places, and spelling functions, arguments, and object names correctly. When you encounter errors -- and you will do so often -- always look for these types of mistakes first!>/span>
 
-You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later. When you do so, the tutorial will open where you left off.
+You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later but unless you are running the tutorials on a local installation of R Studio, your progress will not be saved. 
 
 I encourage you to take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for labs, or for your final project.
 
