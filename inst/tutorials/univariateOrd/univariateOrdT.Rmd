@@ -208,7 +208,7 @@ ggplot(data=counties, mapping=aes(x=factor(rural_urban))) +
   labs(title="USDA Urban/Rural Status", 
        subtitle = "US Counties in 2016",
        x=NULL, 
-       y="Proportion",
+       y="Frequency",
        caption="Source: Linn, Nagler, Zilinsky") +
   scale_x_discrete(labels = c("1 Million","250,000 to 1 million","< 250,000", "20k+ near metro area", "20k+ not near  metro area", "2,500-19,999 near metro area", "2,500-19,999 not near metro area", "< 2,500 near metro area", "< 2,500 not near metro area", "NA")) +
   coord_flip()
@@ -218,7 +218,7 @@ The frequency distribution and bar plot illustrate the central tendency, dispers
 
 1. The modal category is "Urban population of 2,500 to 19,999, adjacent to a metro area".
 2. The number of counties in many categories is somewhat similar. The data is highly dispersed.
-3. The distribution is somewhat uniform. This makes the mode less informative about the typical county’s rural-ness than if one category dominated the data, in which case the data would be unimodal. If half the counties were in very urban and half very rural, the distribution would be bimodal. These distinctions are somewhat subjective, so we usually report the frequency (proportion) distribution or the bar plot and let the reader judge.
+3. The distribution is somewhat uniform. This makes the mode less informative about the typical county’s rural-ness than if one category dominated the data, in which case the data would be unimodal. If half the counties were very urban and half very rural, the distribution would be bimodal. These distinctions are somewhat subjective, so we usually report the frequency (proportion) distribution or the bar plot and let the reader judge.
 
 Note that we cannot easily determine the median from the plot.
 
@@ -226,7 +226,7 @@ Note that we cannot easily determine the median from the plot.
 
 Let’s look at another ordinal variable. We will examine the variable **FHStatus**, Freedom House's measure of whether a country is "Not Free" (coded 0), "Partly Free" (coded 1), or "Free" (coded 2). The variable is in the data set **fHouse**.  The variable is ordinal rather than categorical because as you go from "Not Free" to "Free," the country becomes *freer*. The variable constitutes a ranking of countries on this dimension.
 
-First, we will generate a frequency and proportion table using the <span style="color:DarkGreen">dplyr</span> functions.  You do not need to load the package again because we've done so in an earlier exercise.  See if you can produce the table without looking at the hints. 
+First, we will generate a frequency and proportion table using the <span style="color:DarkGreen">dplyr</span> functions.  You do not need to load the package again because we've done so in an earlier exercise.  See if you can produce the table without looking at the hints. Name the counts variable **freq** and the proportion variable **prop**.
 
 
 ```{r FHtable, exercise = TRUE, exercise.lines=4}
@@ -301,7 +301,7 @@ grade_code()
 
 
 
-Most nations are "Free" (coded 2) according to Freedom House, and a half or less are "Partly Free" (coded 1) and another half or more are "Partly Free".  Note that if the variable had been recoded so that "Free" was coded 0 and "Not Free" was coded 2, the median category would have been "Free." The moral of the story is that you need to be careful about interpreting the median value.
+Most nations are "Free" (coded 2) according to Freedom House, and a half or less are "Partly Free" (coded 1) and another half or more are "Partly Free".  Note that if the variable had been recoded so that "Free" was coded 0 and "Not Free" was coded 2, the median category would have been "Free." The moral of the story is that you need to clearly state the order of the ranking (from more to less free or from less free to more free) when you provide a median.
 
 
 Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate=FALSE` inside the `scale_x_discrete()` function. Do not include the `subtitle` or `caption` label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.
