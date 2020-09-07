@@ -244,7 +244,7 @@ We can plot the information in a cross-tab using a bar plot. We created bar plot
 We follow the same basic steps to build a grouped bar plot as we did for a bar plot representing a single nominal or ordinal variable.
 
 1.  Tell `ggplot()` the name of the data set that contains the variable(s) to plot.
-2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the *mapping* argument and the *aes* function.
+2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function.
 3.  Tell `ggplot()` how to plot the data by adding a **geom** layer. 
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
