@@ -98,8 +98,8 @@ Below is a picture illustrating the relationship between the pattern in a scatte
 
 We follow the same basic steps to produce a scatter plot using `ggplot()` in the R package <span style="color:DarkGreen">ggplot2</span> as we have previous plots.
 
-1.  Tell `ggplot()` the data that contains the variable(s) to plot. This time we need to specify a variable for each the x and y axis. By convention, the outcome variable is on the y-axis. 
-2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function.
+1.  Tell `ggplot()` the data that contains the variable(s) to plot.  
+2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. This time we need to specify a variable for each the x and y axis. By convention, the outcome variable is on the y-axis.
 3.  Tell `ggplot()` how to plot the data by adding a **geom** layer. To create a scatter plot we use `geom_point()`.
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
@@ -170,7 +170,7 @@ fHouse %>%
 ```
 
 
-We can see that the points are quite widely scattered. In other words, there does not appear to be a strong relationship between the two variables. The line through the points is downward sloping but fairly flat, which also points to a weak (negative) relationship.
+We can see that the points are quite widely scattered. In other words, there does not appear to be a strong relationship between the two variables. The line through the points is downward sloping but fairly flat, which also points to a weak (negative) relationship. There is no support for our hypothesis.
 
 For more on scatter plots with `ggplot()` see: http://t-redactyl.io/blog/2016/02/creating-plots-in-r-using-ggplot2-part-5-scatterplots.html.
 
@@ -193,6 +193,9 @@ The result, $r=-0.04$, is negative and close to zero. Thus we conclude that the 
 The data frame **fHouse** also contains the variable **Pro.Strong.Leader**. This is an interval variable that records the percent of respondents in a country that said "very good" or "fairly good" in response to the following question asked in the World Values Survey (Wave 5, 2005-2008) and the European Values Survey (2008):
 
 > “I’m going to describe various types of political systems and ask you about each one as a way of governing the country. For each one, would you say it is a very good, fairly good, fairly bad or very bad way of governing this country?” ... “Having a strong leader who does not have to bother with parliament and elections?”
+
+
+We might hypothesize the following: <span style="color:chocolate"> In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have lower support for a strong leader] than will those having [a lower level of democracy].</span>
 
 Edit the code below to produce a scatter plot illustrating the relationship between this variable and level of democracy (**FHTotalAggr**) from our previous example. We will begin by filtering out the missing values.  Try making the points blue and adding a red line.
 
@@ -250,7 +253,7 @@ cor(x=fHouse$Pro.Strong.Leader,y=fHouse$FHTotalAggr, use = "pairwise.complete.ob
 grade_code()
 ```
 
-What can we conclude? There is a small magnitude negative correlation, approximately -0.283. Higher levels of support for a strong leader are  associated with lower levels of institutional democracy (and vice versa).
+What can we conclude? There is support for our hypothesies: There is a small magnitude negative correlation, approximately -0.283. Higher levels of support for a strong leader are  associated with lower levels of institutional democracy (and vice versa).
 
 Finally, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the x-axis. Before creating the scatter plot, filter out any missing values. Make the points "blue" and add an "lm" line to the plot without standard errors (ser `se=FALSE`). Make the line "red". In the code below I've added the labels for you.
 
@@ -333,3 +336,74 @@ The key things to remember about examining the relationship between variables me
 
 1. We  can summarize the relationship between two interval variables using <span style="color:blue">Pearson's correlation coefficient</span>. The correlation coefficient ranges between -1 and +1. Negative values indicate an inverse relationship between two variables: higher values of one variable are associated with lower variables of another. Positive values indicate a direct relationship: higher values of one variable are associated with higher variables of the other variable (and lower values with lower values).  The closer the correlation coefficient is to zero, the weaker the relationship. It is important to remember that the correlation coefficient assesses the strength and direction of a linear relationship. Not all relationships are linear. If a scatter plot reveals a relationship that is not linear, the correlation coefficient is meaningless.
 2. We can visualize the relationship between two interval variables with a scatter plot using `ggplot()` in the <span style="color:DarkGreen">ggplot2</span> package using  `geom_point()`. We can add a line to the plot that goes through the points such that it is as close to all the points as possible using the `geom_smooth()` function.  If the line is downward sloping (goes from upper left to lower right), the correlation will be negative: higher values of one variable are associated with lower values of the other variable. If the line is upward sloping (goes from lower left to upper right),  the correlation will be positive: higher values of one variable are associated with higher values of the other variable. Finally, when the line is flat, there is no correlation between the two variables.  The steepness of the line is positively related to the strength of the correlation.
+
+
+
+## Test your Knowledge
+
+We've now completed three tutorials on describing relationships between two variables. Test your knowledge by answering the following questions.
+
+
+```{r letter-z, echo=FALSE}
+question("Which of the following statements is true",
+  answer("We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", correct=FALSE, message = "We do not summarize a caetgorical variable with a mean, so this is inapproprite. "),
+  answer("A cross-tab illustrates the relationship between two categorical variables", correct=TRUE, message="Cross-tabs show the distribution of one categorical variable given values of another categorical variable. "),
+  answer("The relationship between two interval variables is illustrated by comparing their distributions across categories. ", correct=FALSE, message = "We illustrate the relationship between interval variables using scatter plots. "),
+  allow_retry = TRUE,
+  try_again = " "
+)
+```
+
+
+
+```{r letter-y, echo=FALSE}
+question("Which of the following statements are true",
+  answer("If Pearson's correlation coefficient, $r$, is near zero, there is evidence that the variables are not related to each other. ", correct=TRUE, message="The closer a correlation is to zero, the less strongly the two variables are related. "),
+  answer("If Pearson's correlation coefficient, $r$, =0.6, there is a fairly strong tendency for values of x above the mean to occur with values of y above the mean and values of x below the mean to occur with values of y above the mean. ", correct = FALSE, message="A positive correlation occurs when values of x & y above the mean tend to toccur together AND values of x & y below the mean tend to occur together . "),
+  answer("If x is hours spent studying and y is correct answers to homework, we expect a negative correlation", correct = FALSE, message="Since studying should improve performance higher x should be systematically related to higher y and thus we expect a positive correlation. "),
+  answer("If x is your skill at golf and y is your golf score, we expect a negative correlation", correct=TRUE, message = "The more skilled at golf, the lower your score and thus we expect a negative correlation."),
+  allow_retry = TRUE,
+  try_again = "Hint: Select all true statementss."
+)
+```
+
+Consider the following cross-tab between the effective number of parliamentary parties in a country, **enpp3_democ**, and whether or not the country is a member of the European Union, **eu**, and answer the question:
+
+```{r, echo=FALSE}
+library(descr)
+CrossTable(x=world$eu, y=world$enpp3_democ, prop.r=FALSE, prop.c=TRUE, prop.t=FALSE, prop.chisq = FALSE)
+```
+
+```{r letter-x, echo=FALSE}
+question("Which of the following statements are true",
+  answer("Of countries with 1-3 political parties, almost 81% are not members of the European Union", correct = TRUE, message="There are 31 countries with 1-3 parties and 25 or 81% are not members of the EU. "),
+  answer("Of EU member states, about 30% have 4-5 parties", correct=FALSE, message = "30.4 is the percent of countries with 4-5 parties who are members of the EU (69.6% are not). "),
+  answer("The more parties a country has, the more likely they are to be members of the EU", correct = TRUE, message="As we move from fewer to more parties, the proportion of EU member states increases. "),
+  allow_retry = TRUE,
+  try_again = "Hint: More than one statement is true."
+)
+```
+
+Consider the following scatter plot between government effectiveness (0 to 100 where 100 is more effective), **effectiveness**, and fertility rate (the number of children born per woman), **fertility**.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(data=world, mapping=aes(x=effectiveness, y=fertility)) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE, linetype="dashed") +
+  labs(title="Government Effectiveness and Fertility Around the World",
+       x="Government Effectiveness Score",
+       y="Number of Children")
+```
+
+
+
+```{r letter-yyy, echo=FALSE}
+question("Which of the following statements are true",
+  answer("Each point represents a country's effectiveness on the x-axis and fertility on the y axis. ", correct=TRUE),
+  answer("There is a positive correlation between effectiveness and fertility ", correct = FALSE, message="Because higher values of government effectiveness are associated with lower values of fertility, the correlation is negative. "),
+  answer("The plot suggests a Pearson correlation close to zero", correct = FALSE, message="Randomly scattered points would suggest a correlation close to zero, but these are not randomly distributed. "),
+  answer("There is a negative correlation between effectiveness and fertility. ", correct=TRUE, message = "Because higher values of government effectiveness are associated with lower values of fertility, the correlation is negative. "),
+  allow_retry = TRUE,
+  try_again = "Hint: More than one statement is true."
+)
+```
