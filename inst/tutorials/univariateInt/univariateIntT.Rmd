@@ -54,7 +54,7 @@ question("Which of the following variables are interval level measures?",
 
 ## Central Tendency
 
-We can calculate the central tendency of an interval variable using the mode, median, *and* mean.  As we will see, the mode is typically not very informative, and the mean is highly sensitive to outliers, but all three measures are appropriate for this level of measurement.  
+We can calculate the central tendency of an interval variable using the mode, median, *and* mean.  As we will see, the mode is typically not very informative, and the mean is highly sensitive to outliers (extreme values), but all three measures are appropriate for this level of measurement.  
 
 We've already discussed the median. The median is the value in the middle when we list all values in rank order for all cases. Thus it is the value at the 50th percentile: half the cases have values at or below the median, and half have values at or above the median. 
 
@@ -137,8 +137,6 @@ grade_code()
 
 The median value of wage growth is 0.047, implying that after ranking all counties' wage growth rates, the value at the 50th percentile was 0.047, or just under 5% wage growth.  Thus half the counties experienced wage growth at or less than 0.047 or 4.7%.
 
-One attraction of the median as a measure of central tendency is that it is not sensitive to outliers.
-
 ### The mean
 
 We can calculate the mean using the `mean()` function. We pass the variable name for which we wish to calculate the statistic.  If there are any missing values in the data, we need to remember to use `na.rm=TRUE` so that these are omitted from the calculation. In fact, it is good practice to always include the `na.rm` argument when calling the `mean()` function.
@@ -190,19 +188,19 @@ There are many statistics available to describe the dispersion of an interval le
 
 1. <span style="color:blue">**Range**</span>
 2. <span style="color:blue">**Percentiles**</span>, especially the <span style="color:blue">**interquartile range**</span>
-3. <span style="color:blue">**Variance**<span> and style="color:blue">**standard deviation**</span>
+3. <span style="color:blue">**Variance**<span> and <span style="color:blue">**standard deviation**</span>
 
 
 ## Range 
 
-The <span style="color:blue">**range**</span> of values a variable takes is given by the smallest (minimum) value and the largest (maximum)  value. As such, it provides book ends on the spread of the values of the variable across cases. It is useful to report the range  of the data in the sample because the sample range may be different from the theoretical range of the data. It can also help us to identify the presence of outliers, which are extreme values.
+The <span style="color:blue">**range**</span> of values a variable takes is given by the smallest (minimum) value and the largest (maximum)  value. As such, it provides book ends on the spread of the values of the variable across cases. It is useful to report the range  of the data in the sample because the sample range may be different from the theoretical range of the data. It can also help us to identify the presence of outliers.
 
 
 
 
 ### The range(), min(), and max() functions
 
-The R function `range()` directly calculates both the minimum and maximum values in the data. The function `min()`  calculates the minimum value of a variable, and the `max()` function calculates the maximum value. Each function is passed the name of the variable we are analyzing. If there are missing values, we need to include the `na.rm` argument and set it equal to `FALSE` so that R drops the values before computing the statistic.
+The R function `range()` directly calculates both the minimum and maximum values in the data. The function `min()`  calculates the minimum value of a variable, and the `max()` function calculates the maximum value. Each function is passed the name of the variable we are analyzing. If there are missing values, we need to include the `na.rm` argument and set it equal to `TRUE` so that R drops the values before computing the statistic.
 
 Let's calculate the range of the values of **wage_growth** to determine just how poor wage growth was in the least prosperous county and how strong wage growth was in the most prosperous county.  (Since wages can fall, wage growth need not be *growth* at all.) Enter code to calculate the range using the `range()` function and the `min()` and `max()` functions.
 
@@ -239,12 +237,12 @@ To answer this question, we'd find the 25th percentile of life expectancy across
 To answer this question, we would find the 75th percentile of the proportion of working-age adults who are employed and the 25th percentile. These are the two values that determine the upper and lower bounds for the middle $50\%$ of the data.
 
 
-The 25th and 75th percentiles comprise what is known as the <span style="color:blue"> range</span> or <span style="color:blue">IQR</span>. The IQR, splits the variable's values into four equal segments, or quartiles.  The advantage of the IQR as a measure of spread over the range is that any extreme values do not effect the IQR.
+The 25th and 75th percentiles comprise what is known as the <span style="color:blue"> inter-quartile range</span> or <span style="color:blue">IQR</span>. The IQR, splits the variable's values into four equal segments, or quartiles.  The advantage of the IQR as a measure of spread over the range is that any extreme values do not effect the IQR.
 
 
 ### The quantile() function
 
-We can calculate percentiles with the `quantile()` function. By default passing the variable name to the function will return the 0th, 25th, 50th,  75th, and 100th percentiles. (Be sure to include `na.rm=TRUE` if there are missing values for any case.) 
+We can calculate percentiles with the `quantile()` function. By default, passing the variable name to the function will return the 0th, 25th, 50th,  75th, and 100th percentiles. (Be sure to include `na.rm=TRUE` if there are missing values for any case.) 
 
 ```{r percent, exercise=TRUE}
 quantile(counties$wage_growth, na.rm=TRUE)
@@ -252,7 +250,7 @@ quantile(counties$wage_growth, na.rm=TRUE)
 
 Note that the $0\%$ is the minimum and the $100\%$ is the maximum value, giving the range of the variable's values.
 
-Let's focus on the interquartile range, the values at the 25th and 75th percentile, which demarcate the middle half of the data. The IQR tells us that the growth rate of wages for half the counties was between $0.025$ (or $2.5\%$) and $0.065$ (or $6.5\%$).  Notice how far removed from the middle the minimum and maximum values are. This suggests that there may be outliers in the data, i.e., extreme values distinct from the rest of the data.
+Let's focus on the interquartile range, the values at the 25th and 75th percentile, which demarcate the middle half of the data. The IQR tells us that the growth rate of wages for half the counties was between $0.025$ (or $2.5\%$) and $0.065$ (or $6.5\%$).  Notice how far removed from the middle the minimum and maximum values are. This suggests that there may be outliers in the data.
 
 We can use the `quantile()` function to list additional percentiles by adding the `probs` argument inside the function. To list a specific set of percentiles set `probs=c(0.05, .1, .25, .5, .75, .9, .95)`.
 
@@ -330,7 +328,7 @@ Given the standard deviation of a variable, it may be hard to tell whether it is
 
 
 
-### The Empirical Rule
+## The Empirical Rule
 
 
 The <span style="color:blue">**Empirical Rule**</span> tells us that if the distribution of observations is approximately bell-shaped (it is normal and symmetric, more later) then:
@@ -419,11 +417,11 @@ Not all variables will have symmetric distributions. Instead, they may be <span 
 
 ### Adding the median and mean to a histogram
 
-Often it is useful to add a vertical line to a histogram to represent the median and/or the mean value. To do so, we add another layer to our plot.  We want to add a vertical line, so we will use the `geom_vline()` function. We need to tell R where to place the line and specifically where it crosses the x-axis. We do so by specifying an aesthetic inside `geom_vline()` and setting the `xintercept` argument equal to the value we wish. Let's add the median to our plot. We'll make the `linetype` `"dashed"` and `color` it `"red"` to make it stand out.
+Often it is useful to add a vertical line to a histogram to represent the median and/or the mean value. To do so, we add another layer to our plot.  We want to add a vertical line, so we will use the `geom_vline()` function. We need to tell R where to place the line and specifically where it crosses the x-axis. We do so by specifying an aesthetic inside `geom_vline()` and setting the `xintercept` argument equal to the value we wish. Let's add the median to our plot. We'll make the `linetype` `"dashed"` and `color` it `"red"` to make it stand out. I've also set `bins=60` in `geom_histogram()`.
 
 ```{r vline, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram() +
+         geom_histogram(bins=60) +
          geom_vline(aes(xintercept=median(wage_growth, na.rm=TRUE)), color="red", linetype="dashed") +
          labs(title = "Wage Growth in US Counties in 2016", 
               x=NULL, 
@@ -442,7 +440,6 @@ It's easy to have mismatched parentheses, so be careful when coding.
 
 Try playing plotting the mean rather than the median and playing around with the x and y locations in the code below until you find coordinates that look good by replacing XXXX. Notice that I've changed the `linetype` to `"dotted"`.
 
-You cannot copy and paste from the clipboard for exercises that use `ggplot()`! You must edit or type your own code directly.
 
 
 ```{r vlinelabel, exercise=TRUE}
@@ -471,9 +468,7 @@ ggplot(data=counties,  mapping=aes(x=wage_growth)) +
               caption="Linn, Nagler, and Zilinsky")
 ```
 
-```{r vlinelabel-check}
-grade_code()
-```
+
 
 
 ### The box plot
@@ -526,6 +521,23 @@ Add a geom layer using the plus sign
 
 ```{r dem2phist-hint-3}
 Did you add labels?
+```
+
+```{r dem2phist-hint-4}
+Add geom_vline and use the aes() function to specify xintercept.
+Specify the mean and don't forget na.rm=TRUE. If you want to make
+the line red, set color="red" outside the aes() function. If you want
+to make the line dashed, set linetype="dashed".
+```
+
+```{r dem2phist-hint-5}
+To annote the line, add the annotate() function, specify "text", x=some x-axis value
+and y= some y-axis value. End with label=paste0("Mean=" the mean function.)
+I've rounded in the solution using the round() function.
+```
+
+```{r dem2phist-hint-6}
+Repeat for the median.
 ```
 
 
