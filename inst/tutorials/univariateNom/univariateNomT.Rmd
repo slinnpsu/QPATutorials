@@ -78,8 +78,8 @@ Before we get started, see if you can pick out the nominal level measures below.
 question("Which of the following variables are nominal level measures?",
   answer("The race of a respondent in a survey", correct = TRUE, message="Race is nominal because the possible values of the variable are unranked categories. "),
   answer("The status of the death penalty (permitted or not) in a state", correct = TRUE, message="The status of the death penalty is nominal because permitted or not permitted are categories of responses. "),
-  answer("The restrictiveness of a state's gun laws measured with a letter grade", message = "Restrictiveness of gun laws is an ordinal variable. The categories are ordered but the distances between them are not meaningul."),
-  answer("The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", message = "Polity democracy score is an ordinal variable. The categories are ordered but the distances between them are not meaningul. "),
+  answer("The restrictiveness of a state's gun laws measured with a letter grade", message = "Restrictiveness of gun laws is an ordinal variable. The categories are ordered but the distances between them are not equal"),
+  answer("The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", message = "Polity democracy score is an ordinal variable. The categories are ordered but the distances between them are not equal "),
   allow_retry = TRUE,
   try_again = "Hint: There are two nominal variables in this list."
 )
@@ -122,7 +122,7 @@ The `summarise()` function collapses a data frame into a single row (if we do no
 
 We wish to calculate a single summary statistic: the frequency or count. The function `n()` (with no arguments) will count the number of cases for each category of the variable we have grouped by.  We want to assign the value of this function to a new variable we will call **freq**, but you can assign any name to the new variable that is permissible in R.
 
-Run the code.
+Run the code. (Note: A warning message may appear.)
 
 ```{r summarise, exercise=TRUE, warning=FALSE}
 counties %>%
@@ -195,7 +195,7 @@ Unsurprisingly, most counties are majority white. "Majority white" is the modal 
 
 As a final example, consider the variable **region** in the data frame **df**. The variable assigns each US state to a region of the country as defined by the US Census Bureau. The variable takes the character values "South", "Northeast", "Midwest", and "West".
 
-Complete the code below to generate the frequency and proportion distribution of this variable.
+Complete the code below to generate the frequency and proportion distribution of this variable. Name you count variable **freq** and your proportion variable **prop**.
 
 
 
@@ -296,7 +296,7 @@ ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
 
 At this point, we have an ugly plot that is not very informative. We can change the default labels of the plot by adding another layer to our plot using the `labs()` function. We can pass the function a `title`, `subtitle`, `x` axis title, `y` axis title, and a `caption` argument. To add this information, we need to add a plus sign to the end of the previous code as follows. I've added \\n in the middle of the main title. This tells ggplot to insert a line break in the title and thus to spread it over two lines.
 
-Look carefully at the code before you run it and make sure you understand what each line is doing.
+Look carefully at the code before you run it and make sure you understand what each line is doing. Notice that I specified NULL for the `x` axis title. This omits the x-axis label.
 
 ```{r stepfour, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
