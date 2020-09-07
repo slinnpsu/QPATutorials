@@ -62,7 +62,7 @@ If our hypothesis involves the relationship between an interval variable and a n
 
 To motivate our analysis, consider the following hypothesis: <span style="color:chocolate"> In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].</span> The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
 
-The data frame **counties** contains the interval level variable **wage_growth**, which gives the rate at which wages ina county have grown over the last four years (as a percent) and the nominal variable **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the county's votes and 1 if Donald Trump won a majority. Our hypothesis leads us to expect that the mean rate of wage growth should be lower in counties Trump won.
+The data frame **counties** contains the interval level variable **wage_growth**, which gives the rate at which wages in a county have grown over the last four years (as a percent) and the nominal variable **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the county's votes and 1 if Donald Trump won a majority. Our hypothesis leads us to expect that the mean rate of wage growth should be lower in counties Trump won.
 
 
 We return to the functions in the  <span style="color:DarkGreen">dplyr package</span> for this analysis. Recall:
@@ -211,7 +211,7 @@ counties %>%
   scale_x_discrete(labels = c("0"="Clinton", "1"="Trump"))
 ```
 
-Finally, let's change the `size` and `shape` of the points inside `geom_point()` and change the limits of the y axis by adding another layer to the plot with `scale_y_continuous()`. This function tells `ggplot()` to rescale a continuous y axis. Inside we can use the `limits` argument to set the lower and upper limits. We list the lower limit followed by a comma and the upper limit inside the `c()` function: -10 to 10 seems a good choice.
+Finally, let's change the `size` and `shape` of the points inside `geom_point()` and change the limits of the y axis by adding another layer to the plot with `scale_y_continuous()`. This function tells `ggplot()` to rescale a continuous y axis. Inside we can use the `limits` argument to set the lower and upper limits. We list the lower limit followed by a comma and the upper limit inside the `c()` function: 0 to 10 seems a good choice.
 
 
 Look carefully at the code to make sure you understand what each argument is doing!
@@ -224,10 +224,10 @@ ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
     geom_point(size=3,shape=19) +
   labs(title="Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",y="Change in Mortality Risk", x=NULL, caption="Source: Linn, Nagler, and Zilinsky") +
   scale_x_discrete(labels = c("0"="Clinton", "1"="Trump")) +
-  scale_y_continuous(limits=c(-10,10)) 
+  scale_y_continuous(limits=c(0,10)) 
 ```
 
-Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title.
+Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title. Set the y-axis limits to -10 to 10.
 
 ```{r meanrisk2, exercise=TRUE}
 counties %>%
@@ -290,7 +290,7 @@ ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
 grade_code()
 ```
 
-Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Set the title for the plot to "Mean GDP by Level of Democracy" and label the y-axis "Mean GDP". You do not need to adjust the y-axis limits. Label the x-axis tick marks (in order) "Full Democracy", "Partial Democracy", "Hybrid", and "Authoritarian". Omit the x-axis title.
+Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Set the title for the plot to "Mean GDP by Level of Democracy" and label the y-axis "Mean GDP".  When generating means name the counts `freq` and the means `mean`. You do not need to adjust the y-axis limits. Label the x-axis tick marks (in order) "Full Democracy", "Partial Democracy", "Hybrid", and "Authoritarian". Omit the x-axis title.
 
 ```{r meangdp2, exercise=TRUE}
 
