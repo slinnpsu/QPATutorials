@@ -35,7 +35,7 @@ counties$wage_growth <- counties$wage_growth*100
 counties$black_percent <- counties$prop_black*100
 counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
-df <- qpaTutorials::exampledata
+df <- qpaTutorials::df
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(poliscidata)
 library(stargazer)
