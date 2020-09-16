@@ -1,0 +1,491 @@
+---
+title: "Hypothesis Tests Involving Means"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to apply hypothesis tests involving means
+---
+
+## Learning Objectives
+
+In this tutorial, you will learn how conduct hypothesis tests about means. Specifically, we will cover:
+
+* How to use the `t.test()` function to conduct (1) one-sample means tests, (2) difference of means tests involving two independent samples and one variable, and (3) paired t-tests involving a single sample and two variables. 
+* Practice walking through the steps for hypothesis testing.
+* Plot means with confidence intervals using `ggplot()`.
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(knitr)
+library(poliscidata)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+#tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+load("counties.RData")
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+df <- read.csv("example.data.csv")
+df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
+library(poliscidata)
+```
+
+
+
+## Hypothesis Tests Involving Means
+
+There are a variety of hypothesis tests related to the means of interval level variables. All tests involving means can be conducted with the `t.test()` function.
+
+The `t.test()` function performs one and two sample t-tests on a vector of data (a variable). The `t.test()` function takes a number of arguments depending on the type of hypothesis test about means you require. (See ?t.test for the different options.) 
+
+We will illustrate how to use the `t.test()` function to conduct (1) <span style="color:blue">one-sample means tests</span>, (2) <span style="color:blue">difference of means tests</span> involving two independent samples and one variable, and (3) <span style="color:blue">paired t-tests</span> involving a single sample and two variables. In each case, we will present examples that pose a research question and walk through the five steps of hypothesis testing to draw a conclusion about our question.
+
+
+## One-sample means tests 
+
+A <span style="color:blue">one sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. 
+ 
+### Example 1: Vote for Hillary Clinton in US Counties
+ 
+To illustrate this test, consider the variable **dem2p_percent**, the percent of the vote for Hillary Clinton in US counties. The variable is in the data frame **counties**.  Hillary Clinton won 48.2\% of the popular vote overall.  We will investigate whether the average percent of the vote she won in US counties is equal to this percentage or not equal to it.
+
+**Step 1. Formulate a null hypothesis**.
+
+
+```{r letter-a, echo=FALSE}
+question("Which of the following is the appropriate null hypothesis?",
+  answer("$H_0: \\bar{Y}=48.2$", message="The null hypothesis refers to the population parameter, not the sample statistic"),
+  answer("$H_0: \\mu_{Y}=48.2$", correct=TRUE, message="The null hypothesis refers to the population statistic and is set equal to the hypothesized value. "),
+  allow_retry = TRUE
+  )
+```
+
+**Step 2. Formulate an alternative hypothesis**.
+
+```{r letter-b, echo=FALSE}
+question("Which of the following statements about the alternative hypothesis are true?",
+  answer("$H_A: \\mu_Y=48.2$", message="$H_A: \\mu_Y=48.2$ is the null hypothesis"),
+  answer("The alternative hypothesis is two-tailed", correct=TRUE),
+  answer("$H_A: \\mu_Y\\ne48.2$", correct=TRUE, message="Because we want to test whether the mean percent of the vote is different from that in the population, the alternative hypothesis is two-tailed and thus $\\ne$ to 48.2."),
+  answer("The alternative hypothesis is one-tailed", message="A one-tailed alternative hypothesis would specify that the true population mean is either > or < 48.2, rathan $\\ne$ as we specified above"),
+  allow_retry = TRUE,
+  try_again = "Hint: There are two correct statements."
+  )
+```
+
+**Step 3. Compute the appropriate test statistic.** 
+
+To compute a one-sample $t$ test, we use the `t.test()` function. The function requires we pass it the name of the variable for which to calculate the sample mean and the argument `mu`, which gives the value under the null hypothesis. Running the following code will produce the value of the t-test, the corresponding p-value, a confidence interval for the mean, and the sample mean.
+
+By default, R computes the test statistic assuming the alternative hypothesis is two-tailed (the null is $\ne$ to the hypothesized value). This means you do not have to specify the test is two-tailed. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower than the hypothesized value under the null -- we add the `alternative` argument, setting it to `"greater"` if the mean is hypothesized to be greater than under the null and `"less"` if the mean in is hypothesized to be smaller than the null.
+
+```{r onesample1, exercise = TRUE}
+t.test(counties$dem2p_percent, mu=48.2)
+```
+A lot of information is included in the output for the test. The output begins by telling us that the test conducted is a one-sample t-test and that the data used for the test is **counties$dem2p_percent**. This confirms we computed the test we desired. The t-statistic is reported to be -51.294. This is the information of central interest to us in step 3. The output also reports the degrees of freedom for the test, or "df." This tells us how many observations were used to calculate the test minus the number of parameters estimated by the test (one, the mean of **dem2p_percent**). The next piece of information is the p-value. We'll skip that for now.  We can see that the alternative hypothesis is two-sided because the output reports the mean is "not equal" to 48.2. The output reports the 95% confidence interval. Recall that the confidence interval gives the lower and upper limit on the range of values around our sample statistic that mark the interval that is likely to contain the unknown population parameter with 95% confidence. Finally, we see the sample "mean of x," the sample statistic, or mean value of **dem2p_percent**, in the sample: about 33.34%. 
+
+**Step 4. Translate the test statistic into a p-value.**
+
+R reports the two-tailed p-value associated with the t-statistic in scientific notation as "p-value < 2.23-16."  This is 2.23 to the negative 16th or 0.000000000000000223. When the p-value is this small, we report p<0.001.
+
+**Step 5. Draw a conclusion.**
+
+```{r letter-c, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence",  message="Remember if p is low the null must go!"),
+  answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("Because the confidence interval does not include the null value, we can reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("There is less than a one percent probability the null hypothesis is true", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (here 48.2). Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true."),
+  allow_retry = TRUE,
+  try_again = "Hint: Make sure to select all true statements."
+  )
+```
+
+### Example 2: Proportion of white residents in US counties
+
+We might also be interested to know whether, in the average county in the US in 2016, the proportion of whites was the same as the country as a whole, 0.763. The variable **prop_white** in the data frame **counties** contains the proportion of blacks in a given county. 
+
+**Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
+
+
+```{r letter-c2, echo=FALSE}
+question("Which of the following is the appropriate null and alternative hypothesis?",
+  answer("$H_0: \\bar{Y}=0.763, H_A: \\bar{Y}\\ne0.763$", message="The null and alternative hypothesis refer to the population parameter, not the sample statistic"),
+  answer("$H_0: \\mu_{Y}\\ne0.763, H_A: \\mu_{Y}=0.763$", message="The null hypothesis is set equal to the value under the hypothesis to be tested and the alternative is not equal"),
+  answer("$H_0: \\mu_{Y}=0.763, H_A: \\mu_{Y}\\ne0.763$", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = "Try again."
+  )
+```
+
+**Step 3. Compute the appropriate test statistic.** 
+
+Write the code to test this hypothesis.
+
+```{r onesample2, exercise = TRUE}
+
+```
+
+```{r onesample2-hint}
+Did you specify the t.test function and pass it counties$prop_white?
+Make sure to set mu=0.763.
+```
+     
+```{r onesample2-solution}
+t.test(counties$prop_white, mu=0.763)
+```
+
+
+```{r onesample2-check}
+grade_code("You got it!")
+```
+
+**Step 4. Translate the test statistic into a p-value.** 
+
+We see that the p-value is "< 2.2e-16."
+
+**Step 5. Draw a conclusion.**
+
+
+
+```{r letter-d, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("Because the confidence interval does not include the null value, we can reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("There is less than a one percent probability the null hypothesis is true", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (here 0.763). Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true. "),
+  answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis",  message="Remember if p is low the null must go!"),
+  allow_retry = TRUE,
+  try_again = "Hint: Make sure to select all true statements."
+  )
+```
+
+
+
+## Difference of means test: Two independent samples, one variable
+
+A <span style="color:blue">difference of means test</span> involves a comparison of the means in two groups. We focus here on the difference of means in two independent samples. This means that there is no overlap in the membership of cases in each sample.
+
+### Example 1: Proportion of black residents in US counties won by Hillary Clinton and Donald Trump
+
+We might wish to test whether the proportion of blacks in a county was higher in counties that Hillary Clinton won than in those counties Donald Trump won.
+
+**Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
+
+```{r letter-e, echo=FALSE}
+question("Which of the following correctly states the null and alternative hypothesis?",
+  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C\\ne\\mu_T$", message="The alternative hypothesis specified above is a one-tailed test"),
+  answer("$H_0: \\bar{Y}_C=\\bar{Y}_T$ and $H_A: \\bar{Y}_C>\\bar{Y}_T$", message="The null and alternative hypothesis do not apply to the sample statistic but to the population parameter."),
+  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C>\\mu_T$", correct=TRUE, message="Our alternative hypothesis is that counties Clinton won were **more** likely to have a higher proportion of blacks than those Trump won so the alternative hypothesis is one-tailed with  $\\mu_C>\\mu_T$."),
+  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C<\\mu_T$",  message="The hypothesis stated above is one-tailed, but we expect the proportion of blacks to be larger in counties Hillary Clinton won"),
+  allow_retry = TRUE
+)
+```
+
+
+
+**Step 3. Compute the appropriate test statistic.** 
+
+To test whether the mean value of a single variable, $Y$, is the same in two different populations (in two groups) against the alternative that it is different, we need to use what R calls a formula. We list the name of the (interval level) variable for which we want to calculate the mean, then we type a tilde (~) and then the name of the variable that defines the two groups: `t.test(X ~ GroupVariable)`. If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`.
+
+If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower in one of the two groups -- we add the `alternative` argument, setting it to `"greater"` if the mean in group one is hypothesized to be greater  than in group two and `"less"` if the mean in group one is hypothesized to be smaller than in group two. The default is a two-tailed alternative hypothesis, so you don't need to specify this argument if the alternative hypothesis is two-tailed.
+
+The variables **TrumpMajority** (coded 0 if Hillary Clinton won a majority of the county's vote and 1 if Donald Trump won a majority) and **prop_black** (the proportion of the county residents who are Black) in the **counties** data frame contain the information needed to test this hypothesis.
+
+Note that we specify `alternative="greater"` because the first group mean computed is for the smallest value of **TrumpMajority**, 0, which denotes counties Clinton won. Anytime you use a one-tailed test, take care to ensure you choose the appropriate alternative given the coding of the variables!
+
+```{r twosample1, exercise = TRUE}
+t.test(counties$prop_black ~ counties$TrumpMajority, alternative="greater")
+```
+**Step 4. Translate the test statistic into a p-value.** 
+
+We see that the p-value is "< 2.2e-16."
+
+**Step 5. Draw a conclusion.**
+
+```{r letter-f, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence", message="Remember p is low the null must go"),
+  answer("Because the confidence interval does not include the null value, we cannot reject the null hypothesis", message="If a confidence interval does not include the value under the null hypothesis, we can reject the null hypothesis. "),
+  answer("The mean proportion of the vote won by counties that were majority black was 0.23", message="0.23 is the proportion black in counties won by Hillary Clinton. "),
+  answer("There is less than a 1% chance that we would observe a difference in the group means this large (and positive) if, in fact, the  means were equal or the proportion black was higher in counties Trump won. ", correct=TRUE, message="If the p-value is less than 0.05, the 95% confidence interval will not include the value under the null. Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if, in fact, the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true. "),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
+### Example 2: GDP and democracy around the world 
+
+In the data frame **world**, the variable **democ_regime** takes the value "No" if a country is not a democracy and "Yes" if it is. How do we test the null hypothesis that the GDP (**gdp08**) is different among countries with democratic and non-democratic regimes?
+
+**Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
+
+
+```{r letter-g, echo=FALSE}
+question("Which of the following correctly states the null and alternative hypothesis?",
+  answer("$H_0: \\mu_D=\\mu_{ND}$ and $H_A: \\mu_{D}>\\mu_{ND}$", message = "This is a one-tailed alternative hypothesis. The alternative hypothesis stated above is two-tailed, "),
+  answer("$H_0: \\mu_D=\\mu_{ND}$ and $H_A: \\mu_{D}\\ne\\mu_{ND}$", correct=TRUE, message="The alternative hypothesis is that the means are different and thus is two-tailed such that we specify $H_A: \\mu_{D}\\ne\\mu_{ND}$"),
+  allow_retry = TRUE
+)
+```
+
+**Step 3. Compute the appropriate test statistic.** 
+
+Try to produce the t-test without looking at the hint.
+
+```{r twosample2, exercise = TRUE}
+
+```
+
+```{r twosample2-hint-1}
+You will need to use the tilde in a formula inside 
+the t.test() function.
+
+List the variable for which you want to calculate the 
+mean first in the formula.
+
+Inside the t.test function, you should specify 
+world$gdp08 ~ world$democ_regime.
+```
+
+
+```{r twosample2-solution}
+t.test(world$gdp08 ~ world$democ_regime)
+```
+
+
+```{r twosample2-check}
+grade_code("You got this!")
+```
+
+
+**Step 4. Translate the test statistic into a p-value** and **Step 5. Draw a conclusion.**
+
+```{r letter-h, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("Because the p-value is greater than 0.05, we cannot reject the null hypothesis with 95% confidence", correct=TRUE),
+  answer("Because the confidence interval includes zero, we can reject the null hypothesis", message = "If the confidence interval includes the null hypothesis value, we cannot reject the null"),
+  answer("The difference in the mean GDP in democratic and non-democratic regimes is about 360", correct=TRUE),
+  answer("There is a 9.579 percent chance we'd observe a mean difference between democratic and non-democratic regimes as great as we observe if the null hypothesis is true", correct=TRUE, message="The p-value is greater than 0.05, and the 95% confidence interval includes zero, both of which indicate we cannot reject the null hypothesis with 95% confidence. The p-value of 0.09579 indicates the probability we observe a mean difference this large if the null is true is 9.579."),
+  allow_retry = TRUE,
+  try_again = "Hint: Make sure to select all true statements."
+  )
+```
+
+
+## Paired t-test: one-sample means test, two variables 
+ 
+A <span style="color:blue">paired t-test</span> matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero. 
+
+To illustrate this test, we will consider whether the Gini coefficient of countries around the world changed from 2008 to 2010. The Gini coefficient is a measure of income equality. It ranges from 0, indicating perfect equality (where everyone receives an equal share of income), to 1, perfect inequality (where only one recipient or group of recipients receives all the income).  Thus this test allows us to determine whether, on average, income inequality around the world increased, decreased, or stayed the same. The data frame **world** contains the variables **gini08** and **gini10**. 
+
+Let's test whether the GINI coefficients increased, on average, from 2008 to 2010.
+
+
+**Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
+
+
+```{r letter-gg, echo=FALSE}
+question("Which of the following correctly states the null and alternative hypothesis?",
+  answer("$H_0: \\mu_{gini10}=\\mu_{gini08}$ and $H_A: \\mu_{gini10}>\\mu_{gini08}$", message = "This null and alternative hypothesis specifies a difference of means hypothesis not a mean difference hypothesis but we want to test whether, on average, the mean difference, the mean of (**gini10**-**gini08**), is zero or greater than zero."),
+  answer("$H_0: \\mu_{gini10-gini08}=0$ and $H_A: \\mu_{gini10-gini08}>0$", correct=TRUE, message="We want to test whether, on average, **gini10**-**gini08** is equal to zero or greater than zero."),
+  allow_retry = TRUE
+)
+```
+
+**Step 3. Compute the appropriate test statistic.** 
+
+To conduct a paired t-test in R, use t.test(X1, X2, paired=TRUE)`. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean difference is higher or lower than the value under the null hypothesis (0), we add the `alternative` argument, setting it to `"greater"` if the mean difference is hypothesized to be greater  than the hypothesized value and `"less"` if the mean difference is hypothesized to be smaller than the hypothesized value.
+
+Write the code to compute the test statistic. Be sure to list **gini10** first if you specify `"greater"` for the `alternative` argument, as the first value (**gini10**) is then greater than the second (**gini08**) under the alternative hypothesis. If you list **gini08** first, then you need to specify `"less"` for the `alternative` argument. Both specifications will produce the same result. For the exercise below, list **gini10** first.
+
+```{r paired2, exercise = TRUE}
+
+```
+
+```{r paired2-hint}
+Specify world$gini10 and world$gini08 and
+alternative="greater" inside the t.test function. 
+
+Don't forget to separate the arguments with a comma.
+```
+
+```{r paired2-solution}
+t.test(world$gini10, world$gini08, alternative="greater")
+```
+
+```{r paired2-check}
+grade_code("You are getting the hang of this")
+```
+
+```{r letter-i, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("Because the p-value is greater than 0.05, we can reject the null hypothesis with 95% confidence", message="The p-value is not greater than 0.05"),
+  answer("Because the confidence interval includes zero, we cannot reject the null hypothesis with 95% confidence", correct=TRUE, message="When the 95% confidence interval includes the value under the null (here 0), we cannot reject the null hypothesis at the 0.05 level."),
+  answer("There is a 66.97 percent chance the mean of the difference  between the two Gini coefficients is 40.64754-40.12941=0.51813", message="It is not true that the p-value tells us the probability that the estimated mean difference is true. Instead, it tells us that there is a 66.97 percent chance we'd observe the mean of the difference between the two Gini coefficients as great as we observe if the null hypothesis is true."),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
+
+## Plotting means
+
+It can be useful to plot the means to visualize the differences in the means across groups. If we include confidence intervals, we can visualize the difference in means test results. **If the confidence intervals for the means overlap, the means are not significantly different from each other.**  This visualization is particularly useful when comparing means across multiple groups as the t-test only compares two means at once.  To plot the means with confidence intervals we use the functions in the  <span style="color:DarkGreen">dplyr</span> package to generate the means and their confidence intervals and then we use the `ggplot()` function in the <span style="color:DarkGreen">ggplot2</span> package to plot them.
+
+### Create a data frame containing the information to be plotted
+
+We first produce a new data frame that contains the information to plot.
+
++ Use the `filter()` function to drop any missing values for each of our two variables.
++ Use the `group_by()` function to group the variables by the variable that denotes our categories.
++ Use the `summarise()` function to calculate the mean in each group using `mean=mean()`. This is the numerator in the formula for the t-statistic. We also need to calculate the number of cases in each group using `n=n()`; and the standard deviation for each group using `sd=sd()`. This information is needed to calculate the denominator in the formula for the t-statistic.
++ Use the `mutate()` function to calculate the standard error using  `se=2*(sd/sqrt(n))`. This is the denominator in the formula for the t-test.
+
+    
+Let's create the new data frame we need to plot the means and confidence intervals for **gdp08** in democratic and non-democratic regimes. Look carefully at each line of code to ensure you understand what it is doing.
+
+    
+```{r newdf, exercise = TRUE}
+library(dplyr)
+world%>%
+  filter(!is.na(democ_regime) & !is.na(gdp08))%>%
+  group_by(democ_regime)%>% 
+  summarize(mean=mean(gdp08), n=n(), sd=sd(gdp08))%>%
+  mutate(se=sd/sqrt(n))
+```
+
+The first column contains the values of **democ_regime** that form the groups for which we wish to calculate means. The data frame containing two rows, one for non-democratic regimes ("No") and one for democratic regimes ("Yes").  Columns 2-4 contain the values of the other variables we created, calculated for each value of the grouping variable.
+
+### Plot the means
+
+We specify the same steps for plotting as before:
+
+1.  Tell `ggplot()` the name of the data set that contains the variable(s) to plot. This time we will pass our new data frame to the `data` argument in `ggplot()` by piping the result above to `ggplot()`.
+2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the means (**mean**) to the y-axis, and we want the x-axis values to denote the grouping variable (here **democ_regime**).
+3.  Tell `ggplot()` how to plot the data by adding a **geom** layer.  We will plot two **geom** layers. First, we will add `geom_point()` to plot a point for each mean. This function needs no arguments, although we could add color, and we could change the size and shape of the points that represent the means. Second, we will add a `geom_errorbar()` layer to plot the confidence intervals We need to pass `geom_errorbar()` its own aesthetic and set the lower and upper limits of the confidence interval. We do this by specifying `ymin=mean-1.96*se` and `ymax=mean+1.96*se`. This will add 1.96 times the standard errors around the mean value, creating the confidence interval.  I've also added the `width` argument to `geom_errorbar()` to control the width of the bars marking the confidence limit. This is optional.
+4.  Add layers that make the plot more informative by adding labels and formatting scales.
+
+Let's create a basic plot and make the plot more informative in a second step.
+
+
+```{r baseplot, exercise=TRUE, message=FALSE}
+library(ggplot2)
+world%>%
+  filter(!is.na(democ_regime) & !is.na(gdp08))%>%
+  group_by(democ_regime)%>% 
+  summarize(mean=mean(gdp08), n=n(), sd=sd(gdp08))%>%
+  mutate(se=sd/sqrt(n)) %>%
+ggplot(mapping=aes(y=mean, x=democ_regime)) +
+  geom_point() +
+  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) 
+```
+
+We can easily see the means and that the confidence intervals overlap. Thus we can conclude, as with the results of the difference of means test above, that the means are not significantly different from each other.
+
+Let's add labels and clean up our plot. Below I've added the `title`, `y`, and `x` labels using the `labs()`function. I've also removed the (duplicative) legend with `theme(legend.position="none")` and changed the labels for the x-axis tick marks using `scale_x_discrete(labels=c("Non Democracies","Democracies"))
+
+```{r prettyplot, exercise=TRUE, message=FALSE}
+library(ggplot2)
+world%>%
+  filter(!is.na(democ_regime) & !is.na(gdp08))%>%
+  group_by(democ_regime)%>% 
+  summarize(mean=mean(gdp08), n=n(), sd=sd(gdp08))%>%
+  mutate(se=sd/sqrt(n)) %>%
+ggplot(mapping=aes(y=mean, x=democ_regime)) +
+  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) +
+    geom_point() +
+    labs(title="GDP by Regime Type",
+         y="GDP", 
+         x=NULL) +
+  theme(legend.position = "none") +
+    scale_x_discrete(labels = c("Non Democracies","Democracies")) 
+```
+
+Let's plot the mean percent of the vote Hillary Clinton won (**dem2p_percent**) in each of the nine categories of the variable **rural_urban**.  The variables are located in the **counties** data frame. 
+
+Replace the XXX in the following code to produce the plot. Note that because **rural_urban** is a nominal variable coded with numeric values, we need to use the `factor()` function when using `group_by()`. In addition, I'm naming the grouping variable `rural` so that we can refer to this variable in `ggplot()` without using `factor()`.  (Remember, you cannot copy and paste code to produce a ggplot from the clipboard in these tutorials.)
+
+```{r plotrural, exercise=TRUE, message=FALSE}
+library(ggplot2)
+XXX%>%
+  filter(!is.na(XXX) & XXX(XXX))%>%
+  group_by(rural=factor(rural_urban))%>% 
+  summarize(mean=mean(XXX), n=n(), sd=XXX(dem2p_percent))%>%
+  XXX(se=XXX) %>%
+ggplot(mapping=aes(y=XXX, x=XXX)) +
+  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) +
+    geom_point() +
+    labs(title="Percent of the Vote Won by Hillary Clinton",
+         subtitle = "US Counties 2016",
+         y="Percent of the Two-Pary Vote", 
+         x="Least to Most Rural") +
+  theme(legend.position = "none") 
+```
+
+```{r plotrural-hint}
+Begin with the counties data object.
+
+Filter so that we have only non-missing values of 
+rural_urban and dem2p_percent.
+
+In the summarize function, take the mean of dem2p_percent.
+
+Don't forget to remove any missing values with the 
+na.rm argument.
+
+Set sd=sd(demp2p_percent).
+
+Then use the mutate function to generate the standard error by setting 
+se=sd/sqrt(n)).
+```
+
+
+```{r plotrural-solution}
+library(ggplot2)
+counties%>%
+  filter(!is.na(rural_urban) & !is.na(dem2p_percent))%>%
+  group_by(rural=factor(rural_urban))%>% 
+  summarize(mean=mean(dem2p_percent), n=n(), sd=sd(dem2p_percent))%>%
+  mutate(se=sd/sqrt(n)) %>%
+ggplot(mapping=aes(y=mean, x=rural)) +
+  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) +
+    geom_point() +
+    labs(title="Percent of the Vote Won by Hillary Clinton",
+         subtitle = "US Counties 2016",
+         y="Percent of the Two-Pary Vote", 
+         x="Least to Most Rural") +
+  theme(legend.position = "none") 
+  
+```
+
+```{r plotrural-check}
+grade_code("There's a lot going on here.")
+```
+Notice that we can easily tell both that the mean  percent of the vote won by Hillary Clinton tends to decrease as a county gets more rural **and** which means are significantly different from each other.
+
+## The Takeaways
+
+Often we will be interest in comparing means to a given population value, or comparing means in two groups of cases, or comparing means of a single population on some measure at multiple time points. We do so with means hypothesis tests. We use the R function `t.test()` to conduct hypothesis tests regarding means. 
+
++ A <span style="color:blue">one sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. If we are comparing a sample mean to a specific population value we specify the name of the variable and the argument `mu`, where `mu` is set equal to the population value: `t.test(counties$dem2p_percent, mu=48.2)`.
++ If we want to test whether the mean in two groups is the same we conduct a <span style="color:blue">difference of means test</span>:
+    + If the groups are identified by another variable, the first argument is the variable for which we wish to calculate the means and we specify the tilde followed by the name of the variable that denotes the categories: `t.test(counties$prop_black ~ counties$TrumpMajority)`. This only works if the second variable is binary. If it has more than two categories, you may need to create a new variable to use in the test.
+    + If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`.
++ If we want to compare the means of two variables in a single sample, we conduct a <span style="color:blue">paired t-test</span>, which matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero: `t.test(world$gini10, world$gini08)`. But note that we cannot compare the means of just any two variables, the comparison must be logical. We cannot, for example, compare the mean of the difference between the age of a survey respondent and their level of education. That makes no sense! Typically, a paired t-test will involve the comparison of two variables that measure the same concept, measured identically, at two points in time.
+
+By default, all tests are two-tailed, but we can specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
+
+The steps involved in hypothesis testing are always the same:
+
+1. Formulate a null hypothesis. 
+2. Formulate an alternative hypothesis.  
+3. Compute the appropriate test statistic.
+4. Translate the test statistic into a p-value.
+5. Draw a conclusion.
+
+Remember that the null and alternative hypotheses are about the population parameter(s). In the case of means tests, the appropriate test statistic is the t-test, but the formula used to calculate the test statistic varies depending on which of the types of means test we use.
