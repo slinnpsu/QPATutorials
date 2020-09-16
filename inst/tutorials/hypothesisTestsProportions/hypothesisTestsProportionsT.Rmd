@@ -29,7 +29,7 @@ tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
 load("counties.RData")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
-df <- read.csv("example.data.csv")
+df <- read.csv("exampledata.csv")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(dplyr)
 aNES <- read.csv("cleaned_ANES.csv")
