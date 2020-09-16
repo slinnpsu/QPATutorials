@@ -1,0 +1,512 @@
+---
+title: "Hypothesis Tests Involving Proportions"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to apply hypothesis tests involving proportions
+---
+
+## Learning Objectives
+
+In this tutorial, you will learn how conduct hypothesis tests about proportions. Specifically, we will cover:
+
+* How to use the `prop.test()` function to conduct (1) <span style="color:blue">one-sample proportions tests</span>, and (2) <span style="color:blue">difference of proportions tests involving two independent samples</span>. 
+* How to use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package to test whether two nominal and/or ordinal variables are independent.
+* Practice walking through the steps for hypothesis testing.
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(knitr)
+library(poliscidata)
+library(descr)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+load("counties.RData")
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+df <- read.csv("example.data.csv")
+df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
+library(dplyr)
+aNES <- read.csv("cleaned_ANES.csv")
+aNES <- aNES %>% 
+  mutate(TrumpClintonVote = ifelse(Trump2016 ==1 & (Trump2016 ==1 | Clinton2016==1), "Trump", ifelse(Clinton2016 ==1 & (Trump2016 ==1 | Clinton2016==1), "Clinton", NA )))
+aNES$male[aNES$female==0]<-"Male"
+aNES$male[aNES$female==1]<-"Female"
+counties$White[counties$prop_white>0.5] <- "Majority White"
+counties$White[counties$prop_white<=0.5] <- "Non-Majority White"
+#options(digits = 3)
+aNES$pid_strength[aNES$pid_strength ==-9] <-NA
+aNES$educ[aNES$educ ==9] <-NA
+```
+
+
+## Tests Involving Proportions 
+
+
+Hypothesis tests involving categorical (nominal or ordinal) data involve proportions. For example, we might ask whether the proportion of men in a sample is equal to some population proportion value or whether the proportion of men in the two samples is the same. We might also be interested in knowing whether two categorical variables are independent of one another or whether there is some relationship between them. For example, we might want to know if responses to a survey question in which respondents rate the economy as "better", "the same", or "worse" than a year ago predict whether they "strongly approve", "approve", "disapprove", or "strongly disapprove" of the president. 
+
+Each of these tests can be conducted using a $\chi^2$ test. How we formulate the test will depend on which of these types of questions we wish to answer. 
+
+In this tutorial we will cover methods for conducting <span style="color:blue">one-sample proportion tests</span>, <span style="color:blue">two-sample (difference of) proportions tests</span>, and the <span style="color:blue">$\chi^2$ test for independence</span>.
+
+
+
+## One-sample proportion tests 
+
+The simplest form of hypothesis test involving proportions is a one-sample proportion test. A <span style="color:blue">**one-sample proportion test** tests whether the proportion of cases taking some value in a sample is equal to a specific value against the alternative that it is not equal to that value.</span> We use the `prop.test()` function in R to test this hypothesis.
+
+
+### Example 1: Vote for Donald Trump
+
+To illustrate the one-sample proportion test, consider that we might wish to know whether the proportion of people voting for Donald Trump in the 2016 presidential election (as opposed to voting for Clinton) in a sample of survey respondents is the same as in the population, 0.489. 
+
+
+Let's walk through the five steps of hypothesis testing and answer this question.
+
+**1. Formulate the null hypothesis**. $$H_0: \pi=0.489$$ The proportion of voters who voted for Trump in the ANES sample ($p$) is consistent with the population value of 0.489.
+
+**2. State the alternative hypothesis**. $$H_A: \pi \ne 0.489$$ The proportion of people in the ANES sample that voted for Trump ($p$) is not equal to that in the population (0.489).
+
+**3. Compute the appropriate test statistic**.
+
+
+To test whether the proportion of cases taking some value associated with the variable $X$ in a sample is equal to some value in the population against the alternative that it is not that value, we use the `prop.test()` function. The function takes three arguments and returns the $\chi^2$ test statistic.
+
+1. `x` is the number of cases that we wish to be in the numerator of the proportion of interest. It is often referred to as the number of ``successes.''
+2. `n` is the the sample size for that variable, or the denominator in the proportion of interest. This is often referred to as the number of ``trials.''
+3. `p` is the hypothesized population proportion. The default value for the one-sample proportion test is 0.50 if this argument is omitted.
+
+
+The data we will use for this test are from the 2016 American National Election Study, which surveyed a random sample of Americans both before and after the election. The name of the data frame is **aNES**. The variable **TrumpClintonVote** takes the value "Clinton" if the respondent voted for Hillary Clinton and the value "Trump" if the respondent voted for Donald Trump (non-voters and those who voted for a third-party candidate are assigned a missing value). 
+
+The first step is to identify the numerator (number of votes for Donald Trump in the sample) and denominator (number of votes for Donald Trump + Hillary Clinton) counts for the proportion of interest so that we can specify the `x` and `n` arguments in the `prop.test()` function. We need to create a table of Vote for Trump (versus Clinton) using our  variable **TrumpClintonVote**. The table will tell us the number of voters who voted for Trump  and the sample size to use in the `prop.test()` function. 
+
+We will use the functions in the <span style="color:DarkGreen">dplyr</span> package to generate the table. Recall that to use the <span style="color:DarkGreen">dplyr</span> functions we must load the package with the `library()` function first. Complete the code below to produce the table.  Name you new variable **counts**.
+
+```{r onesample, exercise = TRUE}
+library(dplyr)
+aNES %>%
+
+    
+```
+
+```{r onesample-hint}
+You need to pass TrumpClintonVote to the group_by function
+and then use the summarize function to generate the
+counts we need by setting counts=n().
+
+```
+
+```{r onesample-check}
+grade_code()
+```
+
+```{r onesample-solution}
+library(dplyr)
+aNES %>%
+  group_by(TrumpClintonVote)%>%
+  summarize(counts=n())   
+```
+
+We see that 1178 voters voted for Trump. This is the numerator for the proportion we wish to evaluate, and therefore the value of the `x` argument in the `prop.test()` function.  There are 1803 missing values (non-voters and third-party voters), which we can ignore. The sample size for the test is 1290+1178 voters. This is the denominator in the proportion and therefore the value of the `n` argument in the `prop.test()` function. We can now apply the `prop.test()` function, specifying `x` and `n` and setting the `p` argument to our hypothesized population proportion, 0.489. Our alternative hypothesis specifies a 2-sided test, which is the default.
+
+```{r onesample2, exercise = TRUE}
+prop.test(x=1178, n=1178+1290, p = 0.489)
+```
+
+Notice that the function calculates the proportion for us. It is good practice to make sure the proportion estimated is the one you intended.  The output also reports the value of the $\chi^2$ statistic (X-squared), the p-value for the test statistic, the alternative hypothesis, and the 95% confidence interval for the sample proportion.
+
+**4. Determine the p-value**. 
+
+The p-value is 0.2536.
+
+**5. Draw a conclusion**. 
+
+The probability that we observed a proportion of 0.477 if the true proportion is 0.489 is greater than 0.05. We thus FAIL to reject the null hypothesis in favor of the alternative. Our sample proportion is not significantly different from the population proportion.  Note that the confidence interval includes the hypothesized value.
+
+### Example 2: Proportion of women in the sample
+
+Let's practice the one-sample proportion test by comparing the proportion of females in our ANES sample to that in the population, which is 0.5052. If the sample proportion is consistent with the population value, then the sample is representative of the population in terms of the proportion of females.
+
+**Step 1. Formulate the null hypothesis**  
+
+$$H_0: \pi=0.5052$$ 
+The proportion of females in the ANES sample ($p$) is consistent with the population value of 0.5052. 
+
+**Step 2. State the alternative hypothesis**.
+
+$$H_A: \pi \ne 0.5052$$ 
+The proportion of females in the ANES sample is not equal to that in the population (0.5052).
+
+
+ 
+**Step 3. Compute the appropriate test statistic**.
+
+We begin by generating a table of counts for the variable **Male** in **aNES** to obtain the information for the `prop.test()` function arguments. Name the variable you create to generate counts, **counts**. Try to produce the table without looking at the hints!
+
+```{r onesample3, exercise = TRUE}
+  
+```
+
+```{r onesample3-hint}
+Did you pipe the aNES to the group_by function?
+Did you group_by male?
+Did you pipe the result to the summary function?
+Did you create a new variable and set it equal to n()?
+```
+
+```{r onesample3-solution}
+aNES %>%
+  group_by(male)%>%
+  summarize(counts=n())   
+```
+
+```{r onesample3-check}
+grade_code()
+```
+
+There are 2232 females in the sample and 2232+1987 respondents who said they were female or male. We don't know if the missing 52 did not answer the question on principle or because they do not identify as male or female, so we will ignore them for this test.
+
+Replace the XXX in the code below to conduct a one-sample proportion test. Allow R to add 2232+1987 for you!
+
+
+```{r onesample4, exercise = TRUE}
+prop.test(x=XXX, n=XXX, p = XXX)
+```
+
+```{r onesample4-hint}
+The x argument is the numerator, the number of females. 
+The n argument is the denominator, the number of females plus males.
+The p argument is the population proportion.
+```
+
+
+```{r onesample4-solution}
+prop.test(x=2232, n=2232+1987, p = 0.5052)
+```
+
+```{r onesample4-check}
+grade_code()
+```
+
+
+**Step 4. Determine the p-value** and **Step 5. Draw a conclusion**. 
+
+
+
+```{r letter-a, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("The sample proportion of females is 0.529", correct=TRUE),
+  answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis",  message="Remember if p is low the null must go!"),
+  answer("There is less than a five percent probability the null hypothesis is true", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = "Hint: Make sure to select all true statements."
+  )
+```
+
+
+## Difference of Two Proportions Test
+
+A <span style="color:blue">**difference of proportions test** tests whether a proportion is the same in the two (independent) groups (or samples).</span> Like the one-sample proportion test, we can use the `prop.test()` function to conduct this test.
+
+
+### Example 1: Proportion of men and women voting for Donald Trump
+
+We might wish to test whether the proportions of men and women who voted for Donald Trump are the same.  We will use the same data as for the previous test but now we also need to know the proportions of men and women voting for Donald Trump. The variable **male** is coded "Male" if the respondent is a male and "Female" if the respondent is a female.
+
+
+**Step 1. Formulate the null hypothesis**. $$H_0: \pi_M=p_F$$ 
+
+The proportion of men who voted for Trump ($p_M$) is equal to the proportion of women who did so ($\pi_F$).
+
+**Step 2. Formulate the alternative hypothesis**. $$H_A: \pi_M \ne \pi_F$$.
+
+The proportion of men who voted for Trump ($\pi_M$) is NOT equal to the proportion of women who did so ($\pi_F$).
+
+**Step 3. Compute the test statistic**.
+
+To test whether the proportions in two groups in the population is the same, we again use the $\chi^2$ test statistic. We have to specify a vector of counts for the `x` argument to list the number of Donald Trump voters in each group (the numerators in the two proportions) and a vector of counts for the `n` argument to list the sample size for each group (the denominator in the two proportions). We omit the `p` argument.  The `prop.test()` function in the difference of proportions test assumes we are testing that the proportions are equal.
+    
+To get this information, we will use the functions in the <span style="color:DarkGreen">dplyr</span> package to generate counts of the number of male and female voters who voted for Trump and the total number of males and females who voted. We will use the `filter()` function to keep only the cases for which both variables are not missing. Then we `group_by()` both **TrumpClintonVote** and **male**. When we `summarize()` to create **counts**, the functions will produce separate counts for each combination of values of **TrumpClintonVote** and **male**.
+
+```{r onesampletest, exercise = TRUE}
+aNES %>%
+  filter(!is.na(TrumpClintonVote) & !is.na(male))%>%
+  group_by(TrumpClintonVote, male)%>%
+  summarize(counts=n())   
+```
+
+
+This table tells us that 737 females voted for Clinton and 575 females voted for Trump. Among males, 532 voted for Clinton and 596 for Trump. There were a total of 532+596=1128 male and 737+575=1312 female voters in the sample.
+
+Since we want to compare the proportions of male and female Trump voters, the numerator in our desired proportions is the numbers of Donald Trump voters in each sex. Thus, we assign `c(596, 575)` to the `x` argument. The denominators are given by the number of male and female voters, respectively. Thus we assign c(1128, 1312) to the `n` argument of the `prop.test()` function. (We could also have the function do the addition by setting `n=c(532+596,737+575)`)
+
+```{r twosample2, exercise = TRUE}
+prop.test(x=c(596,575),n=c(1128,1312))
+```
+
+**Step 4. Determine the p-value**. 
+
+The p-value is 1.076e-05.
+
+**Step 5. Draw a conclusion**. 
+
+Because the p-value is less than .05, we reject the null hypothesis and conclude that the proportion of men and women who voted for Trump is not likely to be equal in the population. We can also tell that the proportion of men who voted for Trump (0.528) is greater than the proportion of women (0.438), and the confidence interval for the difference in these proportions does not include zero.
+
+### Example 2: Proportion of men and women who are very liberal
+
+Let's use the **aNES** data frame to compare the proportion of males and females who said they are very liberal. The variable **ideology** is a 7-category variable where 1 is extremely liberal, 2 is liberal, 3 is somewhat liberal, 4 is moderate or middle of the road, 5 is somewhat conservative, 6 is conservative, and 7 is very conservative.
+
+
+**Step 1. Formulate the null hypothesis**. $$H_0: \pi_M=p_F$$ 
+
+The proportion of men who say they are very liberal is equal to the proportion of women who did so ($\pi_F$).
+
+**Step 2. Formulate the alternative hypothesis**. $$H_A: \pi_M \ne \pi_F$$.
+
+The proportion of men who say they are very liberal ($\pi_M$) is NOT equal to the proportion of women who did so ($\pi_F$).
+
+**Step 3. Compute the test statistic**.
+
+Write the code to generate the counts needed to calculate proportions. Eliminate missing values so that the results are easier to read.  Call your new variable **counts**.
+
+```{r twosamplectab, exercise = TRUE}
+
+```
+
+```{r twosamplectab-hint}
+Did you pipe aNES to the filter function?
+Did you specify !is.na(male) & !is.na(ideology) in the filter 
+function?
+Did you pipe the result to the group_by function?
+Did you group_by (male, ideology) (or vice versa)?
+Did you pipe the result to the summarize function and 
+generate a new variable equal to n()?
+```
+
+```{r twosamplectab-solution}
+aNES %>%
+  filter(!is.na(male) & !is.na(ideology)) %>%
+  group_by(male, ideology) %>%
+  summarize(counts=n())
+```
+
+```{r twosamplectab-check}
+grade_code()
+```
+
+Think carefully about the proportions you want to compare and complete the code to conduct the test. When specifying the `n` argument, let R do the necessary addition for you.
+
+```{r ideology, exercise = TRUE}
+prop.test(x=XXX, n=XXX)
+```
+
+```{r ideology-hint-1}
+Set the x argument equal to the count of very liberal 
+females (85) followed by a comma and the number of males (58)
+wrapped inside the c() function.
+```
+
+```{r ideology-hint-2}
+The denominator for the first proportion is the number of
+females who answered the ideology question (gave all 7 responses) and for the second is the number of males who answered the ideology question. Assign this to the n argument
+wrapping it inside the c() function.
+```
+
+
+```{r ideology-solution}
+prop.test(x=c(85,58), n=c(85+2882+202+469+221+320+76, 58+211+173+415+282+374+90))
+```
+
+```{r ideology-check}
+grade_code()
+```
+
+**Step 4. Determine the p-value** and **Step 5. Draw a conclusion**. 
+
+
+```{r letter-b, echo=FALSE}
+question("Look at the prop.test output. Which of the following is true?",
+  answer("0.036 is the proportion of females who were very liberal",  message="Because **male** takes character values, the prop 1 in the output refers to the first value alphabetically, female. Thus prop 2 is the proportion for males. "),
+  answer("We can reject the null hypothesis that the proportion of males and females who say they are very liberal is the same with 95% confidence", correct=TRUE),
+  answer("We can be 95% confident the true difference in proportions in the population is between about -0.027 and -0.006", correct=TRUE),
+  answer("Males are more likely to say they are very liberal than females", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = "Hint: Make sure to select all true statements."
+  )
+```
+
+### Example 3: The proportion of majority and not majority white counties voting for Donald Trump
+
+We will use the **counties** data frame, which contains data on counties in the United States in 2016, to test whether the proportion of majority white counties Donald Trump won was different from the proportion of non-majority white counties he won. The two variables of interest are **White**, which takes the values "Majority White" and "Non-Majority White", and **TrumpMajority**, which takes the value 1 if Donald Trump won the county and 0 if Hillary Clinton won the county.
+
+
+**Step 1. Formulate the null hypothesis**. $$H_0: \pi_w=\pi_{NW}$$ 
+
+
+**Step 2. Formulate the alternative hypothesis**. $$H_A:\pi_w \ne \pi_{NW}$$.
+
+
+
+**Step 3. Compute the test statistic**.
+
+Write the code to generate the counts needed to calculate proportions. You do not need to eliminate missing values since there are few categories. Make sure to name your count variable **counts**.
+
+```{r votecross, exercise = TRUE}
+
+```
+
+```{r votecross-hint}
+Did you pipe counties to the group_by function?
+Did you group_by (Majority_White, TrumpMajority) (or vice versa)?
+Did you pipe the result to the summarize function and 
+generate a new variable equal to n()?
+```
+
+```{r votecross-solution}
+counties %>%
+  group_by(White, TrumpMajority) %>%
+  summarize(counts=n())
+```
+
+```{r votecross-check}
+grade_code()
+```
+
+Think carefully about the proportions you want to compare and write the code to conduct the test. Let R do the necessary addition for you.
+
+```{r countyprop, exercise = TRUE}
+
+```
+
+```{r countyprop-hint-1}
+Set the x argument equal to the count of majority white counties Trump won (2604) followed by a comma and the number of non-majority white counties Trump won (17)
+wrapped inside the c() function.
+```
+
+```{r countyprop-hint-2}
+The denominator for the first proportion is the number of white majority counties (2604+357) and for the second is the number of non-majority white counties (17+133). Assign this to the n argument
+wrapping it inside the c() function.
+```
+
+
+```{r countyprop-solution}
+prop.test(x=c(2604,17), n=c(2604+357, 17+133))
+```
+
+```{r countyprop-check}
+grade_code()
+```
+
+
+**Step 4. Determine the p-value** and **Step 5. Draw a conclusion**. 
+
+```{r letter-heffalump, echo=FALSE}
+question("Look at the prop.test output. Which of the following is true?",
+  answer("Clinton won 11.33 percent of the majority white counties",  message="Both proportions give the share of counties Trump won"),
+  answer("We cannot reject the null hypothesis that the proportion of counties Trump won among majority and non-majority white counties was the same with 95% confidence", message="We can reject the null hypothesis that the proportion of counties Trump won among majority and non-majority white counties was the same with 95% confidence because the p-value is less than 0.05. "),
+  answer("The proportion of majority white counties Trump won was about 0.88", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
+## The $\chi^2$ Test for Independence
+
+The final hypothesis test we will cover involving proportions is the <span style="color:blue">**$\chi^2$ test for independence**, which tests whether two categorical variables are independent (unrelated) or whether there is some relationship between them.</span>
+
+The logic of the test is based on whether the number of observed counts in the cells of a cross tab is different than what would be expected if there was not a relationship between the two variables. This test is available as an argument to the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package.  Remember to load this package with the `library()` function and to list the dependent variable first when specifying the `CrossTable()` function. 
+
+
+### Example 1: Sex and the strength of party identification
+
+To illustrate this test we use the **aNES** data frame to consider whether a respondent's sex (male or female) is related to the strength of their party identification.
+
+**Step 1. Formulate the null hypothesis**. There is no shorthand way to write out the null and alternative hypotheses. We simply state that under the null hypothesis the two variables are independent. In other words, there is no relationship between them in the population. This implies that knowing the value of one of the variables does not help us to predict the value taken by the other.
+
+**Step 2. Formulate the alternative hypothesis**. The alternative hypothesis for this test is that the variables are not independent, Instead, there is some relationship between them. Note that the alternative hypothesis does not say anything about how the two variables are related, just that they are.
+
+**Step 3. Calculate the appropriate test statistic**.
+
+The **aNES** data frame contains the variable **pid_strength**, a 7-point scale in which higher variables indicate a stronger partisan attachment (whether or not one is Republican or Democrat, 7 means they consider themselves strong partisans). We generate the cross-tab and conduct the test using the `CrossTable()` function. We specify the outcome variable first (here **pid_strength**), followed by the predictor variable (here **male**). To simplify interpretation of the cross-tab, we set `prop.r`, `prop.t`, `prop.chisq` to `FALSE` and `prop.t` to `TRUE`. To conduct the test we supple the `chisq` argument and set it to `TRUE`.
+
+```{r cross, exercise = TRUE}
+library(descr)
+CrossTable(aNES$pid_strength,aNES$male,  prop.r=FALSE, prop.c=TRUE, prop.t=FALSE, prop.chisq = FALSE, chisq = TRUE)
+```
+
+**Step 4. Determine the p-value** and **Step 5. Draw a conclusion.**
+
+We can interpret the cross-tab as usual. Our interest here is in the p-value reported for Pearson's Chi-squared ($\chi^2$) test.
+The p-value is very small, 2.06e-11, much smaller than .05, so we reject the null hypothesis and conclude that sex is related to (or predictive of) the strength of someone's party identification.
+
+### Example 2: Is watching Modern Family related to vote choice?
+
+For our final exercise, we will investigate whether there is a relationship between a person's decision to watching Modern Family and their vote choice in the sample of respondents in the American National Election Study.  
+
+**Step 1. Formulate the null hypothesis**. Under the null hypothesis there is no relationship between whether a person watches Modern Family and from whom they voted for president in the population. This implies that knowing whether or not someone watched Modern Family will not help us predict their vote choice.
+
+**Step 2. Formulate the alternative hypothesis**. Under the alternative hypothesis knowing whether someone chooses to watch Modern Family helps us to predict their vote choice. Remember that the alternative hypothesis does not say anything about how the two variables are related, just that they are.
+
+**Step 3. Calculate the appropriate test statistic**.
+
+We will use **aNES** data frame and the variables **TrumpClintonVote** and **modern.family** to test this hypothesis. Recall **TrumpClintonVote** is 1 if a respondent voted for Donald Trump and 0 if they voted for Hillary Clinton. **modern.family** takes a value of 1 if the respondent says they watch Modern Family and 0 if they say they do not.
+
+Generate a cross tab, setting the `chisq` argument to `TRUE` to conduct the hypothesis test. Be sure to list the outcome variable first.
+
+```{r family, exercise = TRUE}
+
+```
+
+
+```{r family-hint}
+Use the CrossTable function. The first argument is the name
+of the outcome variable, TrumpClintonVote. The second argument 
+is the name of the explanatory variable, modern.family.
+Set prop.r, prop.t, prop.chisq arguments to FALSE and
+prop.c and chisq arguments to TRUE
+```
+
+```{r family-solution}
+CrossTable(aNES$TrumpClintonVote ,aNES$modern.family,  prop.r=FALSE, prop.c=TRUE, prop.t=FALSE, prop.chisq = FALSE, chisq = TRUE)
+```
+
+```{r family-check}
+grade_code()
+```
+
+**Step 5. Draw a conclusion.**
+
+
+```{r letter-d, echo=FALSE}
+question("Look at the output above. Which of the following statements are true?",
+  answer("We can reject the null hypothesis that the two variables are independent with 95% confidence", correct=TRUE),
+  answer("62.8% of those who watched Modern Family said they voted for Hillary Clinton",  correct=TRUE),
+  answer("37.2% of Trump voters watched Modern Family", message="37.2 is the percent *of those watching Modern Family* who say they voted for Donald Trump"),
+  allow_retry = TRUE,
+  try_again = "Hint: Make sure to select all true statements."
+  )
+```
+
+
+## The Takeaways
+
+Hypothesis tests involving categorical variables, whether nominal or ordinal, involve proportions. <span style="color:blue">**One-sample proportion tests**</span> allow us to compare a sample proportion to some value. <span style="color:blue">**Two-sample or difference of proportion tests**</span> allow us to compare the same proportion but in two independent groups to determine whether they differ.  Finally, the <span style="color:blue">**$\chi^2$ test of independence**</span> allows us to test whether two categorical variables are independent of one another or whether the values taken by one variable predict those taken by another.
+
+All three types of hypothesis tests are conducted following the same five-step procedure for testing hypotheses. 
+
+1. Formulate a null hypothesis. 
+2. Formulate an alternative hypothesis.  
+3. Compute the appropriate test statistic.
+4. Translate the test statistic into a p-value.
+5. Draw a conclusion.
+
+For one-sample and two-sample proportion tests, we use the `prop.test()` function, which estimates a $\chi^2$ test statistic. This function requires some additional legwork, as we must provide the function the counts that form the numerator(s) and denominator(s) of the proportion(s) involved in the test.
+
+To implement the $\chi^2$ test for independence in R we use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package. We simply set the argument `chisq=TRUE`.
+
