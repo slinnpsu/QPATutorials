@@ -28,7 +28,7 @@ tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(error = TRUE)
 load("counties.RData")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
-df <- read.csv("example.data.csv")
+df <- read.csv("exampledata.csv")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 load("QOG.RData")
 ```
