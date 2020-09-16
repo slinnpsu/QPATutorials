@@ -30,7 +30,7 @@ counties <- qpaTutorials::counties
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 df <- qpaTutorials::df
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog<- qpaTutorials::load("QOG.RData")
+qog<- qpaTutorials::coq
 ```
 
 
