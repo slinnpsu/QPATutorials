@@ -1,0 +1,189 @@
+---
+title: "Hypothesis Tests for Correlation"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to conduct hypothesis tests on a correlation
+---
+
+## Learning Objectives
+
+In this tutorial, you will learn how to conduct a hypothesis test to determine whether a correlation is different from zero. Specifically we will cover:
+
+* How to use the `corr.test()` function to estimate and test the significance of Pearson's correlation coefficient.
+* Practice walking through the steps for hypothesis testing.
+
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(knitr)
+library(poliscidata)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+#tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+load("counties.RData")
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+df <- read.csv("example.data.csv")
+df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
+load("QOG.RData")
+```
+
+
+## Overview
+
+We use  <span style="color:blue">Pearson's correlation coefficient, $\rho$</span>, to estimate the strength and direction of the linear relationship between two interval-level variables. When we estimate $\rho$ in a sample, we want to know whether the correlation coefficient we estimated indicates a relationship in the population. After all, we know that if we obtained a different sample of data, we would produce different estimates of the correlation.  To determine whether there is a relationship between two interval-level variables in the population, we either have to conduct a hypothesis test, or we can compute a confidence interval and examine whether it includes zero. 
+
+In this tutorial, we explain how to do both.
+
+## The `cor.test()` Function
+
+We use the `cor.test()` function in base R to conduct a test of the null hypothesis that $\rho=0$. To illustrate the test, we will walk through several examples, practicing the five steps of hypothesis testing as we do so.
+
+### Example 1:  The correlation between mortality risk and vote for Hillary Clinton
+
+Researchers have hypothesized that counties where mortality risk is higher are likely to punish the incumbent party's candidate for president because they are less well off and may blame the incumbent. Here we estimate the correlation between mortality risk for adults age 25-45 (**mortality_risk_25_45**) and the percent of the vote won by Hillary Clinton (**dem2p_percent**) in the 2016 presidential election in US counties and test whether the estimate is significantly different from zero. These variables can be found in the data frame **counties**.
+
+**Step 1. Formulate a null hypothesis**.
+
+$$H_0: \rho=0$$ 
+
+The null hypothesis is that the population correlation is zero; there is no (linear) relationship between the two variables.
+
+
+**Step 2. Formulate an alternative hypothesis**.
+
+$$H_A: \rho\ne0$$
+The alternative hypothesis is that there is a (linear) relationship between the two variables in the population, such that the correlation is not zero.
+
+**Step 3. Compute the appropriate test statistic**. 
+
+The test statistic for this hypothesis is given by:
+
+$$t=\frac{r\sqrt{n-2}}{\sqrt{1-r^2}}$$
+where $r$ is the estimated correlation coefficient in the sample and $n$ is the sample size.
+
+We can estimate the correlation and the test statistic using the `cor.test()` function. The first two arguments name the two variables for which we estimate the correlation. If there are any missing values, we need to also set the `use` argument to `"pairwise.complete.obs"`. It's good practice to always use that option, just in case.
+
+By default, the test is two-tailed, but we can specify a one-tailed test using the `alternative` argument. We specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
+
+```{r votemortality, exercise = TRUE}
+cor.test(counties$dem2p_vote_share,counties$mortality_risk_25_45,use="pairwise.complete.obs")
+```
+
+**Step 4. Determine the p-value** and  **Step 5. Draw a conclusion**.
+
+Look at the results and find the t-statistic (-3.6626), p-value (0,0002538), the 95% confidence interval (-0.10045627, -0.03047349) and the estimated correlation (denoted cor, -0.06554548).
+
+We can see that the bivariate relationship is negative (about -0.07) and significantly different from zero (p<0.05). The confidence interval does not include zero. We can, therefore, reject the null hypothesis that the correlation is zero with 95% confidence.
+
+
+### Example 2:  The correlation between governance score and freedom of the press around the world
+
+
+As a second example, we will work with data from the Quality of Government basic data set from The Quality of Government Institute, (http://www.qog.pol.gu.s). The data frame is call **qog** and contains data from the year 2016 for a number of countries around the world. We will test whether a country's overall governance score, **iiag_gov**, and  Freedom House's measure of freedom of the press, **fh_score5**, are significantly (linearly) related. **iiag_gov** aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development to produce an interval level variable that ranges between 11 and 80.1 with a standard deviation of 13.8. **fh_score5** ranges from 0 to 100 where higher numbers signify **less** press freedom. 
+
+**Step 1. Formulate a null hypothesis**. $H_0: \rho=0$.
+
+**Step 2. Formulate an alternative hypothesis**. $H_A: \rho\ne0$.
+
+**Step 3. Compute the appropriate test statistic**. 
+
+Replace the XXX in the code below to estimate the test statistic and run the code.
+
+```{r fop, exercise = TRUE}
+XXX(XXX,XXX,XXX="pairwise.complete.obs")
+```
+
+```{r fop-hint}
+Specify the cor.test function and pass it the names of the
+two variables (in either order).
+Replace the final set of XXX with the use argument.
+```
+
+```{r fop-solution}
+cor.test(qog$iiag_gov, qog$fhp_score5, use="pairwise.complete.obs")
+```
+
+```{r fop-check}
+grade_code()
+```
+
+**Step 4. Determine the p-value** and  **Step 5. Draw a conclusion**.
+
+```{r letter-b, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("The correlation coefficient indicates that as government effectiveness increases freedom of the press increases", correct=TRUE, message="Because higher values of **fh_score5** signify less press freedom, a negative correlation indicates greater press freedom is associated with greater government effectiveness. "),
+  answer("We can reject the null hypothesis that the correlation is zero", correct=TRUE),
+  answer("There is less than a 1% probability that the null hypothesis is true", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct statement."
+  )
+```
+
+
+
+
+### Example 3:  The correlation between human development and GDP
+
+
+As a final example, we will test whether the correlation between the United Nation's Human Development Index (**hdi**) and GDP per capita  (**gdppcap08**) from the World Bank is significantly different from zero. Both variables are located in the data frame **world**.
+
+**Step 1. Formulate a null hypothesis** and  **Step 2. Formulate an alternative hypothesis**. $H_0: \rho=0$;  $H_A: \rho\ne0$.
+
+**Step 3. Compute the appropriate test statistic**. 
+
+Estimate the test statistic. Try not to look at the hints!
+
+```{r hdigdp, exercise = TRUE}
+
+```
+
+```{r hdigdp-hint}
+Specify the cor.test function and pass it the names of the
+two variables (in either order).
+Add the use argument, setting it to "pairwise.complete.obs".
+Make sure to separate the arguments with a comma.
+```
+
+```{r hdigdp-solution}
+cor.test(world$hdi,world$gdppcap08,use="pairwise.complete.obs")
+```
+
+```{r hdigdp-check}
+grade_code()
+```
+
+**Step 4. Determine the p-value** and  **Step 5. Draw a conclusion**.
+
+```{r letter-c, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("The correlation coefficient indicates that as GDP per capita increases, a country's score on the human development index increases", correct=TRUE),
+  answer("We can reject the null hypothesis that the correlation is zero", correct=TRUE),
+  answer("There is less than a 1% probability that the null hypothesis is true", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = "Hint: There are multiple correct statements."
+  )
+```
+
+
+
+## The Takeaways
+
+We use  <span style="color:blue">**Pearson's correlation coefficient, $\rho$**</span>, to estimate the strength and direction of any linear relationship between two interval-level variables. We may wish to test whether this correlation is significantly different from zero. We do so with a correlation test. We use the R function `corr.test()` to conduct this hypothesis test. The function also reports $\rho$.
+
+
+
+By default, the test is two-tailed, but we can specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
+
+Remember that the steps involved in hypothesis testing are always the same:
+
+1. Formulate a null hypothesis. 
+2. Formulate an alternative hypothesis.  
+3. Compute the appropriate test statistic.
+4. Translate the test statistic into a p-value.
+5. Draw a conclusion.
