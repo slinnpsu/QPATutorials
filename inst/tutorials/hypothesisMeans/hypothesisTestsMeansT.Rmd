@@ -28,7 +28,7 @@ tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(error = TRUE)
 counties <- qpaTutorials::counties
 counties$dem2p_percent <- counties$dem2p_vote_share*100
-df <- qpaTutorials::exampledata
+df <- qpaTutorials::df
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(poliscidata)
 ```
