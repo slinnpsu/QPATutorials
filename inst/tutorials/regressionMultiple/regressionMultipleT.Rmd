@@ -38,7 +38,7 @@ counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- qpaTutorials::exampledata
+df <- qpaTutorials::df
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 qog <- qpaTutorials::qog
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban
