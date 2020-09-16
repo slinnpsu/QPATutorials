@@ -27,7 +27,7 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-load("counties.RData")
+counties <- qpaTutorials::counties
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
 counties$black_percent <- counties$prop_black*100
@@ -38,9 +38,9 @@ counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- read.csv("example.data.csv")
+df <- qpaTutorials::exampledata
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-load("qog.RData")
+qog <- qpaTutorials::qog
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban
 counties$UrbanCat[counties$rural_urban>=7] <- 0
 #Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
