@@ -79,7 +79,7 @@ cor.test(counties$dem2p_vote_share,counties$mortality_risk_25_45,use="pairwise.c
 
 Look at the results and find the t-statistic (-3.6626), p-value (0,0002538), the 95% confidence interval (-0.10045627, -0.03047349) and the estimated correlation (denoted cor, -0.06554548).
 
-We can see that the bivariate relationship is negative (about -0.07) and significantly different from zero (p<0.05). The confidence interval does not include zero. We can, therefore, reject the null hypothesis that the correlation is zero with 95% confidence.
+We can see that the bivariate relationship is negative (about -0.07) -- as mortality risk goes up, so too does the percent of the vote Hillary Clinton won. This correlation is significantly different from zero (p<0.05) and the 95% confidence interval does not include zero. We can, therefore, reject the null hypothesis that the correlation is zero with 95% confidence. Even though the correlation is small, we can be quite confident it is different from zero.
 
 
 ### Example 2:  The correlation between governance score and freedom of the press around the world
@@ -118,8 +118,8 @@ grade_code()
 ```{r letter-b, echo=FALSE}
 question("Which of the following statements are true?",
   answer("The correlation coefficient indicates that as government effectiveness increases freedom of the press increases", correct=TRUE, message="Because higher values of **fh_score5** signify less press freedom, a negative correlation indicates greater press freedom is associated with greater government effectiveness. "),
-  answer("We can reject the null hypothesis that the correlation is zero", correct=TRUE),
-  answer("There is less than a 1% probability that the null hypothesis is true", correct=TRUE),
+  answer("We can reject the null hypothesis that the correlation is zero", correct=TRUE, message="Because the p-value is less than 0.05, we can reject the null hypothesis the correlation is zero with 95% confidence. "),
+  answer("There is less than a 1% probability that the null hypothesis is true", correct=TRUE, message="The p-value tells us the probability the null hypothesis is true. Because it is less than 0.01, where is less than a 1% probability that the null hypothesis is true. "),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct statement."
   )
