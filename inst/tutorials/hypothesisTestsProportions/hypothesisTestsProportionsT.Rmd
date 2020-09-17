@@ -32,7 +32,7 @@ counties$dem2p_percent <- counties$dem2p_vote_share*100
 df <- qpaTutorials::df
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(dplyr)
-aNES <- counties <- qpaTutorials::cleaned_ANES
+aNES <- counties <- qpaTutorials::aNES
 aNES <- aNES %>% 
   mutate(TrumpClintonVote = ifelse(Trump2016 ==1 & (Trump2016 ==1 | Clinton2016==1), "Trump", ifelse(Clinton2016 ==1 & (Trump2016 ==1 | Clinton2016==1), "Clinton", NA )))
 aNES$male[aNES$female==0]<-"Male"
