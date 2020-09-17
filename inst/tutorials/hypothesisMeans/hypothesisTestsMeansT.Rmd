@@ -46,8 +46,8 @@ We will illustrate how to use the `t.test()` function to conduct (1) <span style
 
 ## One-sample means tests 
 
-A <span style="color:blue">one sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. 
- 
+A <span style="color:blue">one-sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. We use a one-sample means test to answer questions like "Is the mean value of presidential approval in our sample equal to a particular value, say 42%?"
+
 ### Example 1: Vote for Hillary Clinton in US Counties
  
 To illustrate this test, consider the variable **dem2p_percent**, the percent of the vote for Hillary Clinton in US counties. The variable is in the data frame **counties**.  Hillary Clinton won 48.2\% of the popular vote overall.  We will investigate whether the average percent of the vote she won in US counties is equal to this percentage or not equal to it.
@@ -78,9 +78,11 @@ question("Which of the following statements about the alternative hypothesis are
 
 **Step 3. Compute the appropriate test statistic.** 
 
-To compute a one-sample $t$ test, we use the `t.test()` function. The function requires we pass it the name of the variable for which to calculate the sample mean and the argument `mu`, which gives the value under the null hypothesis. Running the following code will produce the value of the t-test, the corresponding p-value, a confidence interval for the mean, and the sample mean.
+To compute a one-sample $t$-test, we use the `t.test()` function. The function requires we pass it the name of the variable for which to calculate the sample mean and the argument `mu`, which gives the value under the null hypothesis. Running the following code will produce the value of the t-test, the corresponding p-value, a confidence interval for the mean, and the sample mean.
 
 By default, R computes the test statistic assuming the alternative hypothesis is two-tailed (the null is $\ne$ to the hypothesized value). This means you do not have to specify the test is two-tailed. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower than the hypothesized value under the null -- we add the `alternative` argument, setting it to `"greater"` if the mean is hypothesized to be greater than under the null and `"less"` if the mean in is hypothesized to be smaller than the null.
+
+The code below conducts the two-tailed one-sample means test to test our hypothesis.
 
 ```{r onesample1, exercise = TRUE}
 t.test(counties$dem2p_percent, mu=48.2)
@@ -168,7 +170,7 @@ question("Which of the following statements are true?",
 
 ## Difference of means test: Two independent samples, one variable
 
-A <span style="color:blue">difference of means test</span> involves a comparison of the means in two groups. We focus here on the difference of means in two independent samples. This means that there is no overlap in the membership of cases in each sample.
+A <span style="color:blue">difference of means test</span> involves a comparison of the means in two groups. We focus here on the difference of means in two independent samples. This means that there is no overlap in the membership of cases in each sample. We use the difference of means test to test whether the means in two groups are the same in the population based on the sample data.
 
 ### Example 1: Proportion of black residents in US counties won by Hillary Clinton and Donald Trump
 
@@ -299,7 +301,7 @@ question("Which of the following correctly states the null and alternative hypot
 
 **Step 3. Compute the appropriate test statistic.** 
 
-To conduct a paired t-test in R, use t.test(X1, X2, paired=TRUE)`. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean difference is higher or lower than the value under the null hypothesis (0), we add the `alternative` argument, setting it to `"greater"` if the mean difference is hypothesized to be greater  than the hypothesized value and `"less"` if the mean difference is hypothesized to be smaller than the hypothesized value.
+To conduct a paired t-test in R, use `t.test(X1, X2, paired=TRUE)`. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean difference is higher or lower than the value under the null hypothesis (0), we add the `alternative` argument, setting it to `"greater"` if the mean difference is hypothesized to be greater  than the hypothesized value and `"less"` if the mean difference is hypothesized to be smaller than the hypothesized value.
 
 Write the code to compute the test statistic. Be sure to list **gini10** first if you specify `"greater"` for the `alternative` argument, as the first value (**gini10**) is then greater than the second (**gini08**) under the alternative hypothesis. If you list **gini08** first, then you need to specify `"less"` for the `alternative` argument. Both specifications will produce the same result. For the exercise below, list **gini10** first.
 
@@ -474,8 +476,9 @@ Often we will be interest in comparing means to a given population value, or com
 
 + A <span style="color:blue">one sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. If we are comparing a sample mean to a specific population value we specify the name of the variable and the argument `mu`, where `mu` is set equal to the population value: `t.test(counties$dem2p_percent, mu=48.2)`.
 + If we want to test whether the mean in two groups is the same we conduct a <span style="color:blue">difference of means test</span>:
-    + If the groups are identified by another variable, the first argument is the variable for which we wish to calculate the means and we specify the tilde followed by the name of the variable that denotes the categories: `t.test(counties$prop_black ~ counties$TrumpMajority)`. This only works if the second variable is binary. If it has more than two categories, you may need to create a new variable to use in the test.
-    + If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`.
+    + If the groups are identified by another variable, the first argument is the variable for which we wish to calculate the means and we specify the tilde followed by the name of the variable that denotes the categories: `t.test(counties$prop_black ~ counties$TrumpMajority)`. 
+    + If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`. 
+    + We can only use the difference of means test to compare means in two groups. If the nominal variable has more than two categories, you may need to create a new, two-caetgory variable to use in the test.
 + If we want to compare the means of two variables in a single sample, we conduct a <span style="color:blue">paired t-test</span>, which matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero: `t.test(world$gini10, world$gini08)`. But note that we cannot compare the means of just any two variables, the comparison must be logical. We cannot, for example, compare the mean of the difference between the age of a survey respondent and their level of education. That makes no sense! Typically, a paired t-test will involve the comparison of two variables that measure the same concept, measured identically, at two points in time.
 
 By default, all tests are two-tailed, but we can specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
