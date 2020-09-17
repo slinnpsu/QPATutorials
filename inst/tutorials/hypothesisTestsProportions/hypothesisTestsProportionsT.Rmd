@@ -84,9 +84,9 @@ To test whether the proportion of cases taking some value associated with the va
 
 The data we will use for this test are from the 2016 American National Election Study, which surveyed a random sample of Americans both before and after the election. The name of the data frame is **aNES**. The variable **TrumpClintonVote** takes the value "Clinton" if the respondent voted for Hillary Clinton and the value "Trump" if the respondent voted for Donald Trump (non-voters and those who voted for a third-party candidate are assigned a missing value). 
 
-The first step is to identify the numerator (number of votes for Donald Trump in the sample) and denominator (number of votes for Donald Trump + Hillary Clinton) counts for the proportion of interest so that we can specify the `x` and `n` arguments in the `prop.test()` function. We need to create a table of Vote for Trump (versus Clinton) using our  variable **TrumpClintonVote**. The table will tell us the number of voters who voted for Trump  and the sample size to use in the `prop.test()` function. 
+The first step is to identify the numerator (number of votes for Donald Trump in the sample) and denominator (number of votes for Donald Trump + Hillary Clinton) counts for the proportion of interest so that we can specify the `x` and `n` arguments in the `prop.test()` function. We need to create a frequency table of Vote for Trump (versus Clinton) using our variable **TrumpClintonVote**. The table will tell us the number of voters who voted for Trump  and the sample size to use in the `prop.test()` function. 
 
-We will use the functions in the <span style="color:DarkGreen">dplyr</span> package to generate the table. Recall that to use the <span style="color:DarkGreen">dplyr</span> functions we must load the package with the `library()` function first. Complete the code below to produce the table.  Name you new variable **counts**.
+We will use the `group_by()` and `summarise()` functions in the <span style="color:DarkGreen">dplyr</span> package to generate the frequency table. Recall that to use these <span style="color:DarkGreen">dplyr</span> functions we must load the package with the `library()` function first. Complete the code below to produce the frequency table.  Name your new variable **counts**.
 
 ```{r onesample, exercise = TRUE}
 library(dplyr)
@@ -433,7 +433,7 @@ To illustrate this test we use the **aNES** data frame to consider whether a res
 
 **Step 3. Calculate the appropriate test statistic**.
 
-The **aNES** data frame contains the variable **pid_strength**, a 7-point scale in which higher variables indicate a stronger partisan attachment (whether or not one is Republican or Democrat, 7 means they consider themselves strong partisans). We generate the cross-tab and conduct the test using the `CrossTable()` function. We specify the outcome variable first (here **pid_strength**), followed by the predictor variable (here **male**). To simplify interpretation of the cross-tab, we set `prop.r`, `prop.t`, `prop.chisq` to `FALSE` and `prop.t` to `TRUE`. To conduct the test we supple the `chisq` argument and set it to `TRUE`.
+The **aNES** data frame contains the variable **pid_strength**, a 7-point scale in which higher variables indicate a stronger partisan attachment (whether or not one is Republican or Democrat, 7 means they consider themselves strong partisans). We generate the cross-tab and conduct the test using the `CrossTable()` function. We specify the outcome variable first (here **pid_strength**), followed by the predictor variable (here **male**). To simplify interpretation of the cross-tab, we set `prop.r`, `prop.t`, `prop.chisq` to `FALSE` and `prop.c` to `TRUE`. To conduct the test we supple the `chisq` argument and set it to `TRUE`.
 
 ```{r cross, exercise = TRUE}
 library(descr)
