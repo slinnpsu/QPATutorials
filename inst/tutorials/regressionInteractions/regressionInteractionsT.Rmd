@@ -67,14 +67,15 @@ states$schoolchoif <- factor(states$schoolchoi,
                                      labels =  c("No School Choice","School Choice"))
 states$liberalf[states$p.liberal<.5] <-0
 states$liberalf[states$p.liberal>=.5] <-1
-
+countiesX <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth + mortality_risk_25_45*wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+countiesX2 <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth +mortality_risk_25_45*white_percent + college_grad_percent + hispanic_percent +  black_percent, data=counties)
 ```
 
 
 
 ## Overview
 
-Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial we explain how to estimate and interpret interaction models involving two interval-level variables using R and how to visualize their effects.
+Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables using R and how to visualize their effects.
 
 
 ## Conditional Relationships in Multiple Regression
@@ -257,12 +258,9 @@ The remaining arguments are not required but make the plot more informative. Her
 
 
 
-```{r lmcountiesX-setup, include = FALSE}
-countiesX <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth + mortality_risk_25_45*wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
-```
 
 
-```{r plotcountiesX1, exercise = TRUE, exercise.setup="lmcountiesX-setup"}
+```{r plotcountiesX1, exercise = TRUE}
 library(sjPlot)
 plot_model(countiesX, 
            type="pred", 
@@ -275,17 +273,17 @@ plot_model(countiesX,
 
 The `plot_model()` function places the first `term` on the x-axis. Three values are selected for the second `term`(here **mortality_risk_25_45**), corresponding to the mean (3.08) in blue and one standard deviation above (4) and below (2.17) the mean, in green and red, respectively. Predicted values are presented on the y-axis for all values of **wage_growth**.  All other interval level variables are held at their mean when generating the predictions. (If there were nominal variables, they would be held at their base level.)
 
-The shaded areas in the plot present confidence intervals around the predictions. Where these overlap, there is no discernible difference in the predicted values. Thus we can see that for wage growth between about -15 and -35,  mortality risk does not differ significantly in its effect on vote for Hillary Clinton. The effect of mortality differs significantly, however, as wage growth increases in a county.
+The shaded areas in the plot present confidence intervals around the predictions. Where these overlap, there is no discernible difference in the predicted values. Thus, we can see that the effect of wage growth on the predicted vote for Hillary Clinton is not significantly different for the three values of mortality risk plotted here for wage growth between about -15 and -35. The effect of mortality differs significantly, however, as wage growth increases in a county.
 
 Look carefully at the plot. We can see that as wages go up, vote for Hillary Clinton increases regardless of the value of mortality risk.  But the effect of each one percentage point increases in wages is bigger when mortality risk is low (because the red line is steeper). This is consistent with our expectations.
 
-What is the predicted percent of the vote for Hillary Clinton when wages are flat (for **wage_growth** equal to zero) when the mortality rate is at its means value? To answer this question, imagine a horizontal line from the blue line when the x-axis value is zero to the y-axis. This is the predicted value, about 32 percent. 
+What is the predicted percentage of the vote for Hillary Clinton when wages are flat (for **wage_growth** equal to zero) when the mortality rate is at its means value? To answer this question, imagine a horizontal line from the blue line when the x-axis value is zero to the y-axis. This is the predicted value, about 32 percent. 
 
 ### Plotting the conditional effect of mortality risk
 
 What can we say about the effect of mortality risk? To plot the effect of **mortality_risk_25_45**, we create another plot, identical to the last but flipping the order of the `terms` and correcting the labels. Replace the XXX in the code and generate the plot.
 
-```{r plotcountiesX1b, exercise = TRUE, exercise.setup="lmcountiesX-setup"}
+```{r plotcountiesX1b, exercise = TRUE}
 plot_model(countiesX, type="pred", 
            XXX=XXX,
            title = XXX, 
@@ -342,11 +340,8 @@ Let's practice producing predicted value plots for conditional relationships by 
 Replace the XXX in the code and produce the plot.  Notice that I've added `[50, 86, 100]` after **white_percent** in the code below. We can pick the values of the second variable for which we wish to generate the plot. I've selected 50 and 100 as interesting values and 86 is the mean. You can pick whatever you want, however, for your own work (or use the function default).
 
 
-```{r lmcountiesX2-setup, include=FALSE}
-countiesX2 <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth +mortality_risk_25_45*white_percent + college_grad_percent + hispanic_percent +  black_percent, data=counties)
-```
 
-```{r plotcountiesX2a, exercise = TRUE, exercise.setup="lmcountiesX2-setup"}
+```{r plotcountiesX2a, exercise = TRUE}
 plot_model(XXX, XXX=XXX, 
            XXX="mortality_risk_25_45","white_percent[50, 86, 100]",
            title = "Predicted Effect of Mortality Risk by Majority White", 
@@ -394,7 +389,7 @@ question("Examine the plot above and select the statements that are true",
 Write code to produce a plot illustrating the effect of the percent white conditioned on the value of mortality risk in a county and run the code.  Use values of **mortality_risk_25_45** of 1 (low risk), 3 (approximately mean risk), and 5 (high risk) to generate the plot.
 
 
-```{r plotcountiesX2b, exercise = TRUE, exercise.setup="lmcountiesX2-setup"}
+```{r plotcountiesX2b, exercise = TRUE}
 
 ```
 
@@ -443,4 +438,6 @@ We may not have clear expectations for both variables and/or for either one of t
 
 Interpreting the effects of interactions is best accomplished by using predicted values. The `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package. The function will calculate the predicted values of the outcome variable (by setting the type argument to "pred") as a function of one variable (the first in the terms argument) conditional on the second variable (the second in the terms argument) in the interaction.  **Remember:** *Predictions are calculating after setting the values of all other variables at their mean values if interval (or ordinal treated as interval) and at their base value if they are categorical (nominal or ordinal).*  Ninety-five percent confidence intervals are included around the predictions, allowing you to see when predictions are significantly different from each other.
 
-The results from these plots can be used to assess theoretical expectations about the nature of the conditional relationship. There are additional arguments that can be passed to the `plot_model()` function to generate predictions holding other variables are specific values. We'll cover these arguments in the context of logistic regression models. If your research question requires you to estimate conditional relationships you should check out http://www.strengejacke.de/sjPlot/articles/plot_interactions.html for additional examples and options for plotting predicted values with `plot_model()`.
+The results from these plots can be used to assess theoretical expectations about the nature of the conditional relationship. There are additional arguments that can be passed to the `plot_model()` function to generate predictions holding other variables are specific values. We'll cover these arguments in the context of logistic regression models. 
+
+If your research question requires you to estimate conditional relationships you should check out http://www.strengejacke.de/sjPlot/articles/plot_interactions.html for additional examples and options for plotting predicted values with `plot_model()`.
