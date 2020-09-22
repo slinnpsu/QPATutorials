@@ -56,6 +56,9 @@ states <- qpaTutorials::states
 states$p.liberal <- states$liberal/100
 states$region_censusf <- factor(states$region_census, 
                             labels =  c("South", "Northeast", "Midwest", "West"))
+model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data=counties)
+fit1 <- lm(hs_dem_prop_all ~ nonwhite + p.liberal + povrate + region_censusf, data = states)
 ```
 
 
@@ -81,17 +84,14 @@ model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_p
 summary(model1)
 ```
 
-```{r model1-setup, include=FALSE}
-model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
-summary(model1)
-```
+
 ### A basic table
 
 Now that we have a model object, **model1**, which contains the regression results from the `lm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type=text` so that the output is readable. That's all we need to do to create a basic table.
 
 Note that we need to load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
 
-```{r star, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+```{r star, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
 stargazer(model1,
           type = "text")
@@ -105,7 +105,7 @@ This looks pretty good, but we can make it better. Let's make this more informat
 
 <span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
 
-```{r star2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+```{r star2, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
 stargazer(model1,
           type = "text",
@@ -130,13 +130,9 @@ summary(model2)
 
 Try creating a basic table without labels for **model2** by editing the code below. *You can ignore the warning message: Last value being used to check answer is invisible. See `?invisible` for more information.*
 
-```{r model2-setup, include=FALSE}
-model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data=counties)
-summary(model2)
-```
 
 
-```{r star3, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+```{r star3, warning=FALSE, message=FALSE, exercise=TRUE}
 stargazer(XXX,
           XXX = "XXX")
 ```
@@ -152,7 +148,7 @@ grade_code()
 
 Now add a title and the dependent and covariate labels.
 
-```{r star4, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+```{r star4, warning=FALSE, message=FALSE, exercise=TRUE}
 stargazer(My.second.model,
           type = "text",
           XXX = "Linear Regression Model of the Vote for Hillary Clinton",
@@ -200,7 +196,7 @@ The `plot_model()` function plots each coefficient estimate and the confidence i
 Let's check it out by plotting the results from **model1** above
 
 
-```{r coeffplot1, warning=FALSE, message=FALSE,exercise=TRUE, exercise.setup="model1-setup"}
+```{r coeffplot1, warning=FALSE, message=FALSE,exercise=TRUE}
 library(sjPlot)
 plot_model(model1, 
            type = "est")
@@ -227,8 +223,7 @@ We can make this plot more informative and visually pleasing. There are several 
     
 Let's clean up our first coefficient plot.
     
-```{r coeffplot2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
-library(sjPlot)
+```{r coeffplot2, warning=FALSE, message=FALSE, exercise=TRUE}
 plot_model(model1, 
            type = "est",
            show.values = TRUE, 
@@ -246,7 +241,7 @@ This looks much better!
 Edit the code below to produce a basic coefficient plot for **model2**.
 
 
-```{r coeffplot2a, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+```{r coeffplot2a, warning=FALSE, message=FALSE, exercise=TRUE}
 XXX(XXX, 
       XXX = XXX)
 ```
@@ -267,7 +262,7 @@ grade_code()
 
 Look carefully at the output, noting the order of the variables in the plot. Then edit the code below to create an informative plot that includes the values of the estimated coefficients but does not include the intercept.
 
-```{r coeffplot2b, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+```{r coeffplot2b, warning=FALSE, message=FALSE, exercise=TRUE}
 plot_model(XXX, 
            type = XXX,
            XXX = TRUE, 
@@ -337,7 +332,7 @@ For additional arguments see ?plot_model or for examples see the vignette here: 
 
 Here we will look at the effect of **white_percent**. Note that all other variables are set at their means.  Run the code and then change `show.data` to equal TRUE and run the code again to see what you learn.
 
-```{r pred1, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+```{r pred1, warning=FALSE, message=FALSE, exercise=TRUE}
 plot_model(model1, 
            type = "pred", 
            terms = "white_percent",
@@ -354,7 +349,7 @@ For nominal variables (or ordinal variables treated as nominal variables), the p
 
 Let's plot the predicted percent of the vote for Hillary Clinton for our three category nominal variable **UrbanCat** included in **model2** 
  
-```{r pred2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+```{r pred2, warning=FALSE, message=FALSE, exercise=TRUE}
 plot_model(model2, 
            type = "pred", 
            terms = "UrbanCat",
@@ -413,14 +408,11 @@ grade_code()
 
 ### Create a Table
 
-```{r fit1-setup, include=FALSE}
-fit1 <- lm(hs_dem_prop_all ~ nonwhite + p.liberal + povrate + region_censusf, data = states)
-summary(fit1)
-```
+
 
 Create a basic table first.
 
-```{r statetable, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+```{r statetable, warning=FALSE, message=FALSE, exercise=TRUE}
 
 ```
 
@@ -443,7 +435,7 @@ grade_code()
 
 Look at the coefficient order in the plot and make this table more informative by adding a title, dependent variable label, and covariate labels.
 
-```{r statetable2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+```{r statetable2, warning=FALSE, message=FALSE, exercise=TRUE}
 
 ```
 
@@ -487,7 +479,7 @@ grade_code()
 
 Create a basic coefficient plot with the `plot_model()` function. We'll add labels next.
 
-```{r stateplot, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+```{r stateplot, warning=FALSE, message=FALSE, exercise=TRUE}
 
 ```
 
@@ -511,7 +503,7 @@ grade_code()
 
 Now add a title, show the values of the estimates, offset them so that they are above the point/line, label the covariates (bottom to top). Do not present the intercept.
 
-```{r stateplot2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+```{r stateplot2, warning=FALSE, message=FALSE, exercise=TRUE}
 
 ```
 
@@ -555,7 +547,7 @@ grade_code()
 Next, plot the predicted proportion of House seats held by the Democrats as a function of the proportion of the state's residents that are liberal.  Remember that all other variables are set at their means with the exception of **region_censusf**, which is set to south, the baseline category.
 
 
-```{r statepred1, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+```{r statepred1, warning=FALSE, message=FALSE, exercise=TRUE}
 
 ```
 
@@ -598,7 +590,7 @@ This plot helps us to see that as the proportion of people calling themselves li
 Now plot the predicted effects of census region from the regression given in **fit1**, holding all other variables at their means. Specify the title, axis.title arguments and show the data.
 
 
-```{r statepred2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+```{r statepred2, warning=FALSE, message=FALSE, exercise=TRUE}
 
 ```
 
