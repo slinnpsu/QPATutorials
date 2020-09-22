@@ -54,31 +54,31 @@ qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
 
 ## Multiple Regression
 
-When we conduct regression analysis it is seldom appropriate to estimate a simple regression model with one independent variable. This is because we need to control for other variables that may influence the outcome or we risk drawing the wrong conclusions from our analysis.
+When we conduct a regression analysis, it is seldom appropriate to estimate a simple regression model with one independent variable. This is because we need to control for other variables that may influence the outcome, or we risk drawing the wrong conclusions from our analysis.
 
 While we are often interested in the effects of a single explanatory variable on some outcome, we considered three cases in which it is important to control for other factors by including additional variables in our model.
 
- <span style="color:blue">Spurious Relationships</span>. A spurious relationship is one that appears to be true but is not, in fact, true. This occurs when an explanatory variable in our model has no effect on our outcome variable. Instead  some other variable causes both our explanatory variable and the outcome.  If this is the true state of the world, a simple regression  will indicate a relationship between our explanatory variable and the outcome when it doesn't exist. To ensure we don't find spurious relationships in our analyses, we need to think carefully about whether some additional variable might explain both our independent and dependent variable. If so, our remedy is to control for that variable by adding it to the model. When we do, the effect of our explanatory variable will disappear if it is spuriously related to the outcome. 
+ <span style="color:blue">Spurious Relationships</span>. A spurious relationship is one that appears to be true but is not, in fact, true. This occurs when an explanatory variable in our model has no effect on our outcome variable. Instead, some other variable causes both our explanatory variable and the outcome.  If this is the true state of the world, a simple regression will indicate a relationship between our explanatory variable and the outcome when it doesn't exist. To ensure we don't find spurious relationships in our analyses, we need to think carefully about whether some additional variables might explain both our independent and dependent variables. If so, our remedy is to control for those variables by adding them to the model. When we do, the effect of our explanatory variable will disappear if it is spuriously related to the outcome. 
 
-<span style="color:blue">Multiple, correlated independent variables.</span>  The second case represents the most common situation you will encounter in your analysis, when we have omitted variables that are correlated with the variables in our model and that also cause the outcome. In this situation if we omit any of these explanatory variables from our regression model, the estimated effects of the included variables will be biased because they capture some of the effect of the omitted variables. Thus we need to think carefully about the multitude of factors that might influence the outcome and include any in our model that are correlated with our independent variables. 
+<span style="color:blue">Multiple, correlated independent variables.</span>  The second case represents the most common situation you will encounter in your analysis: when we have omitted variables that are correlated with the variables in our model and that also cause the outcome. In this situation, if we omit any of these explanatory variables from our regression model, the estimated effects of the included variables will be biased because they capture some of the effects of the omitted variables. Thus, we need to think carefully about the multitude of factors that might influence the outcome and include any in our model that are correlated with our independent variables. 
 
-<span style="color:blue">Conditional or interactive relationships</span>. If the effect of some variable depends on the level of another variable, the relationship is said to be conditional or interactive. In this case we need to interact the two variables. We'll talk more about this in another tutorial.
+<span style="color:blue">Conditional or interactive relationships</span>. If the effect of some variable depends on the level of another variable, the relationship is said to be conditional or interactive. In this case, we need to interact the two variables. We'll talk more about this in another tutorial.
 
-We will first consider multiple regressions models involving interval level variables and then consider nominal variables with multiple categories.
+We will first consider multiple regression models involving interval level variables and then consider nominal variables with multiple categories.
 
 ## Regression with Multiple Interval Level Independent Variables
 
-As an illustration of multiple regression we will consider county level election outcomes in the 2016 presidential election. Previously we've estimated simple regression models that looked at the effect of wage growth and percent of blacks in the county population as potential explanations for the percent of the two-party vote cast for Hillary Clinton.
+As an illustration of multiple regression, we will consider county-level election outcomes in the 2016 presidential election. Previously we've estimated simple regression models that looked at the effect of wage growth and percent of blacks in the county population as potential explanations for the percent of the two-party vote cast for Hillary Clinton.
 
-We know many factors influence how counties cast their votes and many of these are likely to be correlated with wage growth and with the percentage of blacks in the county. We will consider the health of the residents of the county, which may be poorer in counties where wages are lower; the percent of a county's residents with a college degree, which is likely to be positively correlated with wage growth; the percent of a county's residents that are white, black, and hispanic, which are also likely to be correlated with wage growth.
+We know many factors influence how counties cast their votes, and many of these are likely to be correlated with wage growth and with the percentage of blacks in the county. We will consider the health of the residents of the county, which may be poorer in counties where wages are lower; the percent of a county's residents with a college degree, which is likely to be positively correlated with wage growth; the percent of a county's residents that are white, black, and Hispanic, which are also likely to be correlated with wage growth.
 
-We will use the data frame **counties** and our dependent variable will be **dem2p_percent**, the percent of the two-party vote for Hillary Clinton.  Our explanatory variables are: **wage_growth**, the percent by which wages grew or fell over the last four years; **mortality_risk_25_45**, which gives the probabability of dying between the ages of 25 and 45 given that someone was in this age range (as a percent); **black_percent**, **white_percent**,  **hispanic_percent**, and **percent_college_grad**, which are each the percent of the county's residents in that demographic.
+We will use the data frame **counties** and our dependent variable will be **dem2p_percent**, the percent of the two-party vote for Hillary Clinton.  Our explanatory variables are: **wage_growth**, the percent by which wages grew or fell over the last four years; **mortality_risk_25_45**, which gives the probability of dying between the ages of 25 and 45 given that someone was in this age range (as a percent); **black_percent**, **white_percent**,  **hispanic_percent**, and **percent_college_grad**, which are each the percent of the county's residents in that demographic.
 
 
 
 ### Estimating a Regression with Multiple Independent Variables
 
-Running a regression in R with multiple independent variables is a straightforward extension of the simple regression case. We use the `lm()` function and specify the dependent variable followed by the tilde and then we list each independent variable separating each with a plus sign. As with simple regression, we need to provide the `data` argument.
+Running a regression in R with multiple independent variables is a straightforward extension of the simple regression case. We use the `lm()` function and specify the dependent variable followed by the tilde, and then we list each independent variable separating each with a plus sign. As with simple regression, we need to provide the `data` argument.
 
 The code below illustrates the code to estimate our model and saves the result to the object **model1**, which we then pass to the `summary()` function to produce the results. Look carefully at the code. You will need to generate similar code below.
 
@@ -93,25 +93,25 @@ Look carefully at the output. Find the estimated coefficients, the $t$-statistic
 
 ### Interpret the Estimated Coefficients 
 
-<span style="color:blue">The intercept</span>. We begin our interpretation with the intercept, which is 73.42484. *This tells us that if a county had a mortality risk of zero, flat wages, and no college graduates, Hispanics, Whites, or Blacks lived in the county, we expect them to cast 73% of their votes for Hillary Clinton.* Clearly there are no counties that fit this criteria, so we will not say any more about the intercept.
+<span style="color:blue">The intercept</span>. We begin our interpretation with the intercept, which is 73.42484. *This tells us that if a county had a mortality risk of zero, flat wages, and no college graduates, Hispanics, Whites, or Blacks lived in the county, we expect them to cast 73% of their votes for Hillary Clinton.* Clearly there are no counties that fit these criteria, so we will not say any more about the intercept.
 
 <span style="color:blue">The slope</span>. Before going into the interpretation of specific slope coefficients, it is often good to start interpretation by looking at the signs of the variables in the model. Coefficient signs that are not consistent with our expectations can suggest that we've not controlled for another variable that is correlated with the included variables.
 
-Look carefully at the output. Mortality risk and the percent of white residents are negatively signed. This suggests that as the risk of dying goes up in the county, vote for Hillary Clinton fell. This makes sense if those in counties where more younger adults are dying were dissatisfied with current Democratic president, Barack Obama, and wanted a change in the party in the White House as a result.  The negative sign on **percent_white** is consistent with the expectation that white voters were less likely to vote Democratic and more likely to vote Republican.
+Look carefully at the output. Mortality risk and the percent of white residents are negatively signed. This suggests that as the risk of dying goes up in the county, vote for Hillary Clinton fell. This makes sense if those in counties where more younger adults are dying were dissatisfied with the current Democratic president, Barack Obama, and wanted a change in the party in the White House as a result.  The negative sign on **percent_white** is consistent with the expectation that white voters were less likely to vote Democratic and more likely to vote Republican.
 
-All other variables are positively signed, again as we would expect. The greater the percentage of college educated adults, Blacks, and Hispanics, the greater the percent of the vote cast for Hillary Clinton. Voters in counties with higher wage growth, a positive economic outcome, rewarded the incumbent party's candidate in higher percentages.
+All other variables are positively signed, again, as we would expect. The greater the percentage of college-educated adults, Blacks, and Hispanics in each county, the greater the percentage of votes cast for Hillary Clinton. Voters in counties with higher wage growth, a positive economic outcome, rewarded the incumbent party's candidate in higher percentages.
 
-What can we say about the specific effects of **wage_growth** in this model? Recall that <span style="color:blue">we interpret the slope as the expected change in the outcome variable associated with a one unit increase in the explanatory variable, *controlling for all other variables in the model*.</span>.
+What can we say about the specific effects of **wage_growth** in this model? Recall that <span style="color:blue">we interpret the slope as the expected change in the outcome variable associated with a one-unit increase in the explanatory variable, *controlling for all other variables in the model*.</span>.
 
-The coefficient estimate for the effect of **wage_growth** is 0.31406. Thus we interpret this to mean "For every percentage point increase in wages, the percent of the vote for Hillary Clinton increased by about one third of a percentage point, controlling for the effect of mortality risk and the percent of the county's residents that were white, black, hispanic, and college educated.
+The coefficient estimate for the effect of **wage_growth** is 0.31406. Thus we interpret this to mean "For every percentage point increase in wages, the percent of the vote for Hillary Clinton increased by about one-third of a percentage point, controlling for the effect of mortality risk and the percent of the county's residents that were white, black, Hispanic, and college-educated.
 
-Look at the output above and answer the following questions
+Look at the output above and answer the following questions.
 
 
 ```{r letter-a, echo=FALSE}
 question("Which of the following statements is true?",
   answer("For every one percentage point increase in the vote for Hillary Clinton, the percent of the county's residents with a college degree increased on average by 0.64585, all else equal", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal."),
-  answer("For every one point increase in the percent of a county's residents with a college degree, the percent of the vote cast for Hillary Clinton increased on average by 0.64585  percentage points, all else equal", correct=TRUE, message="The slope coefficient tells us how much we expect the *dependent* variable, **dem2p_percent**, to change when the *independent* variable, **college_grad_percent**, increases by one point, all else equal. Therefore, each percentage point increase in **college_grad_percent** is expected to increase **dem2p_percent** by the slope, 0.64585."),
+  answer("For every one-point increase in the percent of a county's residents with a college degree, the percent of the vote cast for Hillary Clinton increased on average by 0.64585  percentage points, all else equal", correct=TRUE, message="The slope coefficient tells us how much we expect the *dependent* variable, **dem2p_percent**, to change when the *independent* variable, **college_grad_percent**, increases by one point, all else equal. Therefore, each percentage point increase in **college_grad_percent** is expected to increase **dem2p_percent** by the slope, 0.64585."),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -119,9 +119,9 @@ question("Which of the following statements is true?",
 
 ```{r letter-b, echo=FALSE}
 question("Which of the following statements is true?",
-  answer("For every one point increase in the percent of a county's residents who were white, the percent of the vote cast for Hillary Clinton increased on average by 0.56750  percentage points, all else equal", message="The coefficient on **percent_white** is negatively signed, so a one point increase in the percent of whites in the county was associated with a drop in the vote for Hillary Clinton. "),
+  answer("For every one-point increase in the percent of a county's residents who were white, the percent of the vote cast for Hillary Clinton increased on average by 0.56750  percentage points, all else equal", message="The coefficient on **percent_white** is negatively signed, so a one-point increase in the percent of whites in the county was associated with a drop in the vote for Hillary Clinton. "),
     answer("For every one point increase in the percent of a county's residents who were white, the percent of the vote cast for Hillary Clinton decreased on average by 0.56750  percentage points, all else equal", correct=TRUE),
-  answer("For every one percentage point increase in mortality risk, on average the percent of the vote Hillary Clinton received fell 3.11711 percentage points, all else equal", correct=TRUE, message="The slope coefficient tells us how much we expect the *dependent* variable, **dem2p_percent**, to change when the *independent* variable increases by one point, all else equal. Therefore, each one point increase in **white_percent** is expected to increase **dem2p_percent** by the slope, -0.56750 (in other words, to decrease) and each one point increase in mortality risk is like to increase it by -3.1171 (to decrease it)."),
+  answer("For every one percentage point increase in mortality risk, on average the percent of the vote Hillary Clinton received fell 3.11711 percentage points, all else equal", correct=TRUE, message="The slope coefficient tells us how much we expect the *dependent* variable, **dem2p_percent**, to change when the *independent* variable increases by one point, all else equal. Therefore, each one-point increase in **white_percent** is expected to increase **dem2p_percent** by the slope, -0.56750 (in other words, to decrease) and each one-point increase in mortality risk is like to increase it by -3.1171 (to decrease it)."),
     answer("For every one percentage point increase in the vote for Hillary Clinton, the percent of a county's residents who are black increased by 0.12942 percentage points", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal."),
   allow_retry = TRUE
   )
@@ -129,7 +129,7 @@ question("Which of the following statements is true?",
 
 
   
-Note that we never see a one percentage point increase (or decrease) in mortality risk (that's a big change). Thus it would make more sense to discuss a 0.10 point change than a 1 point change. To do so we simply divide the slope by 10. We can thus say, for every 0.10 percentage point increase in mortality risk, the vote for Hillary Clinton is expected to drop by -0.311711 or about one third of a percentage point.
+Note that we never see a one percentage point increase (or decrease) in mortality risk (that's a big change). Thus it would make more sense to discuss a 0.10 point change than a 1 point change. To do so we simply divide the slope by 10. We can thus say, for every 0.10 percentage point increase in mortality risk, the vote for Hillary Clinton is expected to drop by -0.311711 or about one-third of a percentage point.
 
   
 ### Conduct Hypothesis Tests
@@ -159,7 +159,7 @@ question("Which of the following statements are true?",
   answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence and therefore conclude the wage growth in a county is not significantly related to the percent of the vote received by Hillary Clinton",  message="Remember if p is low the null must go!"),
   answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis", correct=TRUE),
   answer("Because the confidence interval does not include the null value, we can reject the null hypothesis", correct=TRUE),
-  answer("There is less than a one percent probability the null hypothesis is true", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (zero). Each of these facts means we can reject the null hypothesis. The p-value gives the probability we observe a coefficient this far from the hypothesized value if in fact the null is true. Since the p-value is less that 0.01, there is less than a one percent probability the null is true."),
+  answer("There is less than a one percent probability the null hypothesis is true", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (zero). Each of these facts means we can reject the null hypothesis. The p-value gives the probability we observe a coefficient this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true."),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -184,16 +184,16 @@ question("Which of the following statements are true?",
 
 ## Regression with Multiple Categorical Independent Variables
 
-Often we will want to include nominal variables in our regression models. Nominal variables are treated differently than interval variables in regression analysis. Each category of a nominal variable must be entered in the regression as its own dichotomous indicator and we must omit one category. This category is then represented by the intercept. All slope coefficients on the indicator variables are interpreted in comparison to the intercept value.
+Often we will want to include nominal variables in our regression models. Nominal variables are treated differently than interval variables in regression analysis. Each category of a nominal variable must be entered in the regression as its own dichotomous indicator, and we must omit one category. This category is then represented by the intercept. All slope coefficients on the indicator variables are interpreted in comparison to the intercept value.
 
-You are likely familiar with post election commentary on the 2016 presidential election. Much was made of a rural/urban divide in the electorate.  If how rural or urban a county is influenced vote for Hillary Clinton, we want to include it in our model. Further, if how rural or urban a county is is correlated with the variables already in our model we must include it to get unbiased estimates of the effects of those variables.
+You are likely familiar with post-election commentary on the 2016 presidential election. Much was made of a rural/urban divide in the electorate.  If how rural or urban a county is influenced vote for Hillary Clinton, we want to include it in our model. Further, if how rural or urban a county is correlated with the variables already in our model we must include it to get unbiased estimates of the effects of those variables.
 
-The data frame **counties** contains a variable called **UrbanCat** that takes a value of 0 if the county is rural, 1 if the county is urban and -1 if it is neither rural nor urban.
+The data frame **counties** contains a variable called **UrbanCat** that takes a value of 0 if the county is rural, 1 if the county is urban, and -1 if it is neither rural nor urban.
 
 
 ### Estimate a Regression
 
-To include a nominal variable in a regression in R, we specify `factor(categorical-variable-name)` rather than simply listing the variable. You do not need to create separate dichotomous variables for each category. R will omit one category by default, as long as it knows the variable is a factor. Which one? <span style="color:DarkGreen">If the variable has numeric codes it omits the category with the smallest value. If the variable is a character vector, it omits the category that is first alphabetically.</span>  (Note: if a nominal variable has a factor class, you do not need to enclose it inside the `factor()` function.)
+To include a nominal variable in a regression in R, we specify `factor(categorical-variable-name)` rather than simply listing the variable. You do not need to create separate dichotomous variables for each category. R will omit one category by default, as long as it knows the variable is a factor. Which one? <span style="color:DarkGreen">If the variable has numeric codes, it omits the category with the smallest value. If the variable is a character vector, it omits the category that is first alphabetically.</span>  (Note: if a nominal variable has a factor class, you do not need to enclose it inside the `factor()` function.)
 
 Now we are ready to estimate the regression from above, adding the nominal variable **UrbanCat**. Simply add it to the list of independent variables by enclosing it inside the `factor()` function: `factor(**UrbanCat**)`.  Because -1 is the smallest value of this variable and this value denotes "neither rural nor urban", this is the baseline category.
 
@@ -204,7 +204,7 @@ summary(model2)
 ```
 
 
-Before we interpret our findings,  note that the estimated slope for **wage_growth** in this model is slightly smaller than in the model without rural/urban status. It dropped from 0.31406 to 0.28601. This suggests that **wage_growth** was picking up some of the effect of rural/urban status. In other words, some of what appeared to be the effect of **wage_growth** was really due to rural/urban status. If you look at the other estimated coefficients, you will find additional differences. The effect of the percent Black also dropped (from 0.12942 to 0.11028). Note, though, that our inference about the statistical significance of none of the variables changed (although that's always possible).
+Before we interpret our findings, note that the estimated slope for **wage_growth** in this model is slightly smaller than in the model without rural/urban status. It dropped from 0.31406 to 0.28601. This suggests that **wage_growth** was picking up some of the effects of rural/urban status. In other words, some of what appeared to be the effect of **wage_growth** was really due to rural/urban status. If you look at the other estimated coefficients, you will find additional differences. The effect of the percent Black also dropped (from 0.12942 to 0.11028). Note, though, that our inference about the statistical significance of none of the variables changed (although that's always possible).
 
 ### Interpret the Estimated Coefficients
 
@@ -216,18 +216,18 @@ Recall that the <span style="color:blue">intercept</span> describes the expected
 
 The <span style="color:blue">slope</span> on each of the categorical variables gives the difference between that category and the baseline category. 
 
-+ The slope for rural counties **factor(UrbanCat)0** is -3.49621. This tells us that rural counties, on average, cast a smaller share of their votes for Hillary Clinton, *relative to counties that are neither rural nor urban*, about 3.5 percentage points fewer votes. If we substract this value from the intercept, we have the average percent of the vote cast for Hillary Clinton in rural counties, *when all other variables take a value of zero*: 75.97646-3.49621= 72.48025.
++ The slope for rural counties **factor(UrbanCat)0** is -3.49621. This tells us that rural counties, on average, cast a smaller share of their votes for Hillary Clinton, *relative to counties that are neither rural nor urban*, about 3.5 percentage points fewer votes. If we subtract this value from the intercept, we have the average percentage of the vote cast for Hillary Clinton in rural counties, *when all other variables take a value of zero*: 75.97646-3.49621= 72.48025.
 
 + The most urban counties **factor(UrbanCat)1** cast -0.90957 or about 1 percentage point fewer votes for Hillary Clinton, again *relative to counties that are neither rural nor urban*. We can again subtract that value from the intercept to get the expected share of the vote for Clinton in urban counties *when all other variables take a value of zero*: 75.97646-0.909576=75.06688.
 
-If we wanted to chose a different baseline category, we would need to recode the **UrbanCat** variable!
+If we wanted to choose a different baseline category, we would need to recode the **UrbanCat** variable!
 
 ### Conduct Hypothesis Tests
 
 
 The p-values on the categorical dummy variables only tell you whether each category's mean is significantly different from the reference category's mean. 
 
-In our example, rural counties (**factor(UrbanCat)0**) cast a significantly smaller share of their votes for Clinton than did counties that are neither rural nor urban (p<0.000). However urban counties  (**factor(UrbanCat)1**) did *not* cast a significantly smaller share of their votes for Clinton than did counties that are neither rural nor urban (p>0.05).  
+In our example, rural counties (**factor(UrbanCat)0**) cast a significantly smaller share of their votes for Clinton than did counties that are neither rural nor urban (p<0.000). However, urban counties  (**factor(UrbanCat)1**) did *not* cast a significantly smaller share of their votes for Clinton than did counties that are neither rural nor urban (p>0.05).  
 
 Note that we cannot tell whether rural counties cast significantly different shares of their votes for Clinton than did urban counties (without some additional work)! To do so, we would need to use one of these categories as the omitted, baseline category.
 
@@ -237,12 +237,12 @@ The proportion of the variance explained by this model is a little bigger in thi
 
 ## A Second Example: The Quality of Government
 
-As a second example we will work with data from the Quality of Government basic data set from The Quality of Government Institute, \url(http://www.qog.pol.gu.s). The data frame is call **qog** and contains data from the year 2016 for a number of countries around the world. We will attempt  to explain a country's overall governance score, **iiag_gov**. This variable aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development. This is an interval level variable that ranges between 11. and 80.1 with a standard deviation of 13.8. Our independent variables include:
+As a second example, we will work with data from the Quality of Government basic data set from The Quality of Government Institute, \url(http://www.qog.pol.gu.s). The data frame is call **qog** and contains data from the year 2016 for a number of countries around the world. We will attempt to explain a country's overall governance score, **iiag_gov**. This variable aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development. This is an interval level variable that ranges between 11. and 80.1 with a standard deviation of 13.8. Our independent variables include:
 
 + **wdi_fertility**: the fertility rate in the country
 + **bti_eo**: a measure of equal opportunity on a scale from 1 to 10 where 10 is more equal
 + **bti_pp**: a measure of the freedom of political participation on a scale from 1 to 10 where 10 is more free.
-+ **democ**: a three category ordinal variable in which the least democratic countries are given a score of 0, the most democratic countries a score of 2, and countries falling in the middle a score of 1. We will treat this variable as a nominal variable because it does not seem reasonable to assume the difference between the categories are the same.
++ **democ**: a three-category ordinal variable in which the least democratic countries are given a score of 0, the most democratic countries a score of 2, and countries that fall in the middle a score of 1. We will treat this variable as a nominal variable because it does not seem reasonable to assume the difference between the categories is the same.
 
 ### Estimate a multiple regression model
 
@@ -273,11 +273,11 @@ Look at the output from your regression analysis and answer the following questi
 
 ```{r letter-g, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("For a one point increase on the equal opportunity scale, on average there is an increase of 4.6128 on the quality of governance score", correct=TRUE),
+  answer("For a one-point increase on the equal opportunity scale, on average there is an increase of 4.6128 on the quality of governance score", correct=TRUE),
   answer("For each additional birth averaged in a country, the quality of governance increases by 2.0678", message="The coefficient for the fertility rate is negative. "),
-  answer("For each one point increase in the quality of government score, on average a country's equal opportunity scale increases by 4.6128", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
+  answer("For each one-point increase in the quality of government score, on average a country's equal opportunity scale increases by 4.6128", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
   answer("The most democratic governments have an average quality of governance score of 11.9053 when all other variables are zero", message="To calculate the average quality of governance score for the most democratic governments we would need to add the intercept and the coefficient for factor(democ)2. "),
-  answer("The most democratic governments have an average quality of governance score that is 11.9053 greater than the least democratic countries", correct=TRUE, message="The slope coefficient tells us the expected change in the dependent variable for a one unit change in the independent variable. 4.6128 is the coefficient on equal opportunity scale. Thus, for each one point increase in that variable, the quality of governance score increases on average by 4.6128. The slope of a nominal variable tells us how much the average value of the dependent variable changes compared to the baseline category, here least democratic governments, so the most democratic governments have an average quality of governance score 11.9053 points greater than the least democratic."),
+  answer("The most democratic governments have an average quality of governance score that is 11.9053 greater than the least democratic countries", correct=TRUE, message="The slope coefficient tells us the expected change in the dependent variable for a one unit change in the independent variable. 4.6128 is the coefficient on the equal opportunity scale. Thus, for each one point increase in that variable, the quality of governance score increases on average by 4.6128. The slope of a nominal variable tells us how much the average value of the dependent variable changes compared to the baseline category, here least democratic governments, so the most democratic governments have an average quality of governance score 11.9053 points greater than the least democratic."),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -285,7 +285,7 @@ question("Which of the following statements are true?",
 
 ### Conduct hypothesis tests
 
-By now you should be getting comfortable with the steps for hypothesis testing.
+By now, you should be getting comfortable with the steps for hypothesis testing.
 
 
 ```{r letter-h, echo=FALSE}
@@ -313,7 +313,7 @@ question("Select the statements that are true",
 
 ## A Third Example: Freedom of the Press
 
-For our final example, we will analyze **fh_score5**, Freedom House's measure of freedom of the press, in countries around around the world. The variable is in the **qog** data frame used in the previous example. Scores range from 0 to 100 where higher numbers signify **less** press freedom. We might be interested in knowing how the regime type influences how much freedom the press has in a country. In particular, do more democratic countries allow more freedom of the press? Our central variable of interest is the ordinal variable **democ** used in the previous exercise. (Remember least democratic countries are given a score of 0, the most democratic countries a score of 2, and countries falling in the middle a score of 1.) We will treat this as a nominal variable to allow the three levels of democracy to have unequal effects on freedom of the press.
+For our final example, we will analyze **fh_score5**, Freedom House's measure of freedom of the press, in countries around the world. The variable is in the **qog** data frame used in the previous example. Scores range from 0 to 100 where higher numbers signify **less** press freedom. We might be interested in knowing how the regime type influences how much freedom the press has in a country. In particular, do more democratic countries allow more freedom of the press? Our central variable of interest is the ordinal variable **democ** used in the previous exercise. (Remember least democratic countries are given a score of 0, the most democratic countries a score of 2, and countries falling in the middle a score of 1.) We will treat this as a nominal variable to allow the three levels of democracy to have unequal effects on freedom of the press.
 
 
 We will need to control for other factors that might be related to regime type and freedom of the press. In this exercise, we will control for state fragility (**cspf_sfi**, an index ranging from 0 to 24 where 0 is least fragile and 24 is most fragile), state legitimacy (**ffp_sl**, an index based on the level of corruption, political participation, government effectiveness, power struggles and more ranging from 1 to 10, where 1 is less legitimacy and 10 is more), and the unevenness of economic development (**ffp_ued**, an index ranging from 1 -- less uneven -- to 10 -- most uneven).
@@ -349,8 +349,8 @@ Look at the output above and answer the question below.
 
 ```{r letter-j, echo=FALSE}
 question("Select the statements that are true",
-  answer("For every one point increase in the freedom of the press index (drop in press freedom), state fragility decreases by -0.4701 points", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
-  answer("As state legitimacy increases by one point, freedom of the press improves on average by 6.4033 points", message="As state legitimcay increases by one point, the freedom of the press index increases on average by 6.4033 points, **but** higher values of **fh_score5** mean the press is less free. "),
+  answer("For every one-point increase in the freedom of the press index (drop in press freedom), state fragility decreases by -0.4701 points", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
+  answer("As state legitimacy increases by one point, freedom of the press improves on average by 6.4033 points", message="As state legitimacy increases by one point, the freedom of the press index increases on average by 6.4033 points, **but** higher values of **fh_score5** mean the press is less free. "),
   answer("The most democratic states on average have freedom of the press index scores that are 19.7060 lower than the least democratic states", correct=TRUE, message="The slope of a nominal variable tells us how much the average value of the dependent variable changes compared to the baseline category, here least democratic governments. So the most democratic governments have an average freedom of the press score 19.7060 points less than the least democratic."),
   allow_retry = TRUE,
   try_again = ""
@@ -363,7 +363,7 @@ Examine the t-statistics and p-values for the estimated coefficients in the outp
 
 ```{r letter-k, echo=FALSE}
 question("Select the statements that are true",
-  answer("We can be 95% confident that the uneveness of economic development does not affect freedom of the press scores", correct=TRUE, message="Because **ffp_ued** has a p-value greater than 0.05, we cannot reject the null hypothesis for this variable but for all others the p-value is less than 0.05. "),
+  answer("We can be 95% confident that the unevenness of economic development does not affect freedom of the press scores", correct=TRUE, message="Because **ffp_ued** has a p-value greater than 0.05, we cannot reject the null hypothesis for this variable but for all others the p-value is less than 0.05. "),
   answer("We can reject the null hypothesis that the estimated coefficient is different from zero with 95% confidence for the state fragility index", correct=TRUE, message="Because the p-value is less than 0.05, we can be 95% confident that state fragility influences freedom of the press. "),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
@@ -372,7 +372,7 @@ question("Select the statements that are true",
 
 ### Assess model fit
 
-Last, but not least, we assess the fit of the model. Look at the output and answer the following question.
+Last but not least, we assess the fit of the model. Look at the output and answer the following question.
 
 ```{r letter-l, echo=FALSE}
 question("Select the statements that are true",
@@ -386,9 +386,9 @@ question("Select the statements that are true",
 
 ## Takeaways
 
- Multiple regression analysis is a simple extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome. Even if our interest lies in determining the effect of a single variable on some outcome, it is essential that we control for additional variables to eliminate spurious findings and to produce estimates that are unbiased. This means that we must think carefully about the variety of factors that produce the outcome and include variables measuring those factors if they are also correlated with the variable of interest. In the next tutorial we will consider extensions to multiple regression analysis that allow for conditional (or interactive) relationships where the effect of a variable depends on the value of some other variable.
+ Multiple regression analysis is a simple extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome. Even if our interest lies in determining the effect of a single variable on some outcome, it is essential that we control for additional variables to eliminate spurious findings and to produce estimates that are unbiased. This means that we must think carefully about the variety of factors that produce the outcome and include variables measuring those factors if they are also correlated with the variable of interest. In the next tutorial we will consider extensions to multiple regression analyses that allow for conditional (or interactive) relationships where the effect of a variable depends on the value of some other variable.
  
-Like simple regression, multiple regression analysis is easy to conduct in R using the `lm()` command and results are easily displayed using the `summary()` function.  
+Like simple regression, multiple regression analysis is easy to conduct in R using the `lm()` command, and results are easily displayed using the `summary()` function.  
 
 
 
@@ -414,8 +414,8 @@ question("Which of the following statements are true?",
 
 ```{r letter-y, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we can expect a one dollar change in X to increase Y by 10 units, all else equal.", correct=TRUE),
-  answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we expect a one unit change in X to increase Y by 10 dollars, all else equal. ", correct=FALSE, message="Remember, the slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
+  answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we can expect a one-dollar change in X to increase Y by 10 units, all else equal.", correct=TRUE),
+  answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we expect a one-unit change in X to increase Y by 10 dollars, all else equal. ", correct=FALSE, message="Remember, the slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
   answer("If the p-value associated with a coefficient estimate is greater than 0.05, we can reject the null hypothesis that it has an effect on Y with 95% confidence. ", correct=FALSE, message = "The p-value tells us the probability the null hypothesis is true, therefore we want a low p-value in order to reject the null hypothesis. Specifically, it should be less than 0.05 to be - at least - 95% confident that the null hypothesis is not true. "),
   answer("The intercept value tells us the expected value of Y when all independent variables take the value zero", correct=TRUE),
   allow_retry = TRUE,
