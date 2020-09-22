@@ -1,0 +1,645 @@
+---
+title: "Presenting Regression Results"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to present regression results from multiple regression.
+---
+
+## Learning Objectives
+
+In this tutorial, you will learn how present results from regression analysis in R. Specifically we will cover:
+
+* How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
+* How to produce a plot of the coefficient estimates as an alternative to a table using the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
+* How to use the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a regression analysis.
+
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(knitr)
+library(poliscidata)
+library(stargazer)
+library(sjPlot)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+#tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+counties <- qpaTutorials::counties
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+counties$wage_growth <- counties$wage_growth*100
+counties$black_percent <- counties$prop_black*100
+counties$white_percent <- counties$prop_white*100
+counties$hispanic_percent <- counties$prop_hispanic*100
+counties$college_grad_percent <- counties$prop_college_grad*100
+counties$White[counties$prop_white>0.5] <- 1
+counties$White[counties$prop_white<=0.5] <- 0
+counties$Obama2p_percent <- counties$Linc2pvs*100
+counties$College_percent <- counties$prop_college_grad*100
+df <- qpaTutorials::df
+df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
+qog <- qpaTutorials::qog
+#The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban, 9 is most rural, so -1 is rural
+counties$UrbanCat[counties$rural_urban>=7] <- -1
+#Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
+counties$UrbanCat[counties$rural_urban<=3] <- 1
+#Finally, we recode UrbanCat to -1 if the value of the variable is greater than 3 AND it is less than 7
+counties$UrbanCat[counties$rural_urban>3 & counties$rural_urban<7] <- 0
+qog$democ[qog$fh_ipolity2<4] <-0
+qog$democ[qog$fh_ipolity2>6] <-2
+qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
+states <- qpaTutorials::states
+states$p.liberal <- states$liberal/100
+states$region_censusf <- factor(states$region_census, 
+                            labels =  c("South", "Northeast", "Midwest", "West"))
+```
+
+
+## Overview
+
+
+Once you have estimated a regression, the challenge is to present and to interpret those results in a way that is easiest for you and your readers to understand. In this tutorial, you will learn how to present results from regression analysis in an effective manner using tables, coefficient plots, and predicted values.
+
+
+
+## Presenting regression results in a stargazer table
+
+The `summary()` function presents results from a regression analysis, but the output format is not informative to readers. There is no title and variable names are typically only meaningful to the analyst who created them. We want to create tables that look like those you see in articles and books. To do so we will use the `stargazer()` function from the <span style="color:DarkGreen">stargazer</span> package.
+
+### Estimate the Regresion
+
+We first need to estimate a regression model. To illustrate how to generate a table with the `stargazer()` function we will use the **counties** data frame, which contains **demp2p_percent**, the percent of the two-party vote cast for Hillary Clinton in the 2016 presidential election across all counties in the United States. We will model this dependent variable as a function of **mortality_risk_25_45** (mortality risk for those aged 25-45 measured as a percent), **wage_growth** (percent growth in wages over the last 4 years), and the percent of a county's residents in several demographic categories (**college_grad_percent**, **hispanic_percent**, **white_percent**, **black_percent**).
+
+Run the code below, making sure you understand it first.
+
+```{r lm1, exercise = TRUE}
+model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+summary(model1)
+```
+
+```{r model1-setup, include=FALSE}
+model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+summary(model1)
+```
+### A basic table
+
+Now that we have a model object, **model1**, which contains the regression results from the `lm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type=text` so that the output is readable. That's all we need to do to create a basic table.
+
+Note that we need to load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
+
+```{r star, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+library(stargazer)
+stargazer(model1,
+          type = "text")
+```
+
+Look at the table and confirm that the results match the summary output from the regression.  The table includes coefficient estimates, standard errors, the number of observations, and measures of fit.  To aid in interpretation, one asterisk is included by coefficient estimates that are significant at the 0.10 level, two asterisks for estimates that are significant at the 0.05 level, and three asterisks for estimates that are significant at the 0.01 level.
+
+### A more informative table
+
+This looks pretty good, but we can make it better. Let's make this more informative by adding a title with the `title` argument; a label for the dependent variable with the `dep.var.labels` argument, and labels for the rows of the table with the `covariate.labels` argument. Afterall, we can't expect our reader to know what the names of our variables stand for. In this example, they might be able to guess, but often it is helpful to give more substantive names in our tables. Each of the values for these arguments must be set in quotes, and anytime we have more than a single label to pass the argument, we must put them inside the `c()` function and separate them by commas.  Don't forget to separate each argument in the `stargazer()` function with a comma!
+
+<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
+
+```{r star2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+library(stargazer)
+stargazer(model1,
+          type = "text",
+          title = "Linear Regression Model of the Vote for Hillary Clinton",
+          dep.var.labels = "Percent of the Two-Party Vote",
+          covariate.labels = c("Mortality Risk Age 25-45", "Wage Growth (%)", "College Graduates (%)","Hispanic (%)", "White (%)", "Black (%)", "Constant"))
+```
+
+This table is much more reader-friendly. If you want to control the number of digits before rounding, you can add the `digits` argument and set it equal to the desired number of digits. See `?stargazer` for more options to customize the look of the table.
+
+### Practice
+
+Let's add the nominal variable **UrbanCat** to this model, estimate the regression, and produce a table. **UrbanCat** takes the value 1 if a county is urban, 0 if a county is neither urban nor rural, and -1 if a county is rural.  
+
+Estimate the regression. Notice that I have enclosed **UrbanCat** inside the `factor()` function so that the `lm()` function treats is as a nominal variable -- creating binary indicators for each category and omitting one category, which is captured by the intercept.  I've named the object containing the regression results **model2**.
+
+
+```{r lm2, exercise = TRUE}
+model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data=counties)
+summary(model2)
+```
+
+Try creating a basic table without labels for **model2** by editing the code below. *You can ignore the warning message: Last value being used to check answer is invisible. See `?invisible` for more information.*
+
+```{r model2-setup, include=FALSE}
+model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data=counties)
+summary(model2)
+```
+
+
+```{r star3, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+stargazer(XXX,
+          XXX = "XXX")
+```
+
+```{r star3-solution}
+stargazer(model2,
+          type = "text")
+```
+
+```{r star3-check}
+grade_code()
+```
+
+Now add a title and the dependent and covariate labels.
+
+```{r star4, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+stargazer(My.second.model,
+          type = "text",
+          XXX = "Linear Regression Model of the Vote for Hillary Clinton",
+          XXX = "Percent of the Two-Party Vote",
+          XXX = c(XXX))
+```
+
+```{r star4-hint-1}
+The first XXX gives the title for the table, so specify 
+the title argument.
+
+The second XXX gives the dependent variable names, so 
+specify the dep.var.label argument.
+```
+
+```{r star4-hint-2}
+The third XXX specifies the covariate labels, so
+specify the covariate.labels argument.
+
+The final XXX should be labeled in order entered into the
+regression, with the categories of UrbanCat starting with
+the second smallest (0, Rural) followed by (1, Neither Rural
+nor Urban)
+```
+
+```{r star4-solution}
+stargazer(model2,
+          type = "text",
+          title = "Linear Regression Model of the Vote for Hillary Clinton",
+          dep.var.labels  = "Percent of the Two-Party Vote",
+          covariate.labels  = c("Mortality Risk Age 25-45", "Wage Growth (%)", "College Graduates (%)","Hispanic (%)", "White (%)", "Black (%)", "Rural", "Neither Rural Nor Urban","Constant"))
+```
+
+```{r star4-check}
+grade_code()
+```
+
+
+## Plotting Coefficient Estimates
+
+A picture is worth a 1000 words, so let's present our results in a coefficient plot. We will be using the `plot_model()` function in the  <span style="color:Green">sjPlot</span> package. Load the package with `library(sjPlot)` before you use it. 
+
+The `plot_model()` function plots each coefficient estimate and the confidence interval around it. Only two arguments are required. The first argument is the name of the model that was fit. The second argument, `type`, tells `plot_model()` what type of plot to produce. We set it to `"est"` (in quotes). This tells the function to plot the estimated coefficients.
+
+Let's check it out by plotting the results from **model1** above
+
+
+```{r coeffplot1, warning=FALSE, message=FALSE,exercise=TRUE, exercise.setup="model1-setup"}
+library(sjPlot)
+plot_model(model1, 
+           type = "est")
+```
+
+
+
+
+Each row is a different independent variable The circle is the estimated $\hat{\beta}$. The lines extending from the point estimate give the 95% confidence interval around the estimate. The smaller the confidence interval (the shorter the lines), the more precise the estimate. The plot automatically includes  a thicker vertical line at zero. Any coefficient estimate whose standard errors cross the zero line are not statistically significantly different from zero at the 95% level of confidence. As a bonus, the function provides stars to indicate variables that are significant and the level of significance. Two stars means p<0.05. 
+
+
+### A more informative coefficient plot
+
+We can make this plot more informative and visually pleasing. There are several options available to us:
+
+* We can add the values of the coefficient estimates to the plot by setting the `show.values` argument to `TRUE`. If you choose `FALSE` (the default), they will not be printed. This is a matter of personal taste. If you choose to show the coefficient values, you will want to set the `value.offset` argument. It shifts the labels so that they are not set on top of the estimate or its confidence interval. Choosing a value of .3 seems to work well. Bigger values move the label further from the point and line.
+* The `show.intercept` argument controls whether or not the intercept is plotted. Generally you want to set it to `FALSE` (the default).
+* Regardless of the options you choose, you want to add an informative title to the plot and replace the variable names with meaning words or phrases just as we did when creating a table. The argument names are not all the same as with the `stargazer()` function, so be sure to note the differences.
+
+* The `title`, use something informative
+* `axis.labels` refer to the variable names. Run the function once without axis.labels to see the order they are listed. Then replace with a list of informative names. *We list variable names starting with the variable at the bottom of the plot and working up*. Names must be placed inside the `c()` function, in quotations, and separated by commas. 
+* `axis.title`, this refers to the x-axis for coefficient plots. The default is "Estimates", which may be fine. If you like that, omit this argument.
+    
+    
+Let's clean up our first coefficient plot.
+    
+```{r coeffplot2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+library(sjPlot)
+plot_model(model1, 
+           type = "est",
+           show.values = TRUE, 
+           value.offset = .3,
+           show.intercept = FALSE,
+           title="Linear Regression Model of the Vote for Hillary Clinton", 
+           axis.labels = c("Black (%)","White (%)", "Hispanic (%)", "College Graduates (%)","Wage Growth (%)", "Mortality Risk Age 25-45"),
+           axis.title = "Coefficient Estimates")
+```
+
+This looks much better!
+
+### Practice
+
+Edit the code below to produce a basic coefficient plot for **model2**.
+
+
+```{r coeffplot2a, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+XXX(XXX, 
+      XXX = XXX)
+```
+
+```{r coeffplot2a-hint}
+Use the plot_model() function, set the first argument 
+to **model2**, specify the type argument as "est"
+```
+
+```{r coeffplot2a-solution}
+plot_model(model2, 
+           type = "est")
+```
+
+```{r coeffplot2a-check}
+grade_code()
+```
+
+Look carefully at the output, noting the order of the variables in the plot. Then edit the code below to create an informative plot that includes the values of the estimated coefficients but does not include the intercept.
+
+```{r coeffplot2b, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+plot_model(XXX, 
+           type = XXX,
+           XXX = TRUE, 
+           value.offset = .3,
+           XXX = FALSE,
+           title="Linear Regression Model of the Vote for Hillary Clinton", 
+           axis.labels = c(XXX),
+           axis.title = (XXX))
+```
+
+
+```{r coeffplot2b-hint}
+Have you passed the function **model2** as the first argument?
+  
+Make sure to specify "est" (in quotes) for the type argument.
+
+Because we want to print values we set show.values to TRUE.
+
+Because we don't want to plot the intercept we set show.intercept to FALSE.
+```
+
+
+```{r coeffplot2b-solution}
+library(sjPlot)
+plot_model(model2, 
+           type = "est",
+           show.values = TRUE, 
+           value.offset = .3,
+           show.intercept = FALSE,
+           title="Linear Regression Model of the Vote for Hillary Clinton", 
+           axis.labels = c("Neither Rural Nor Urban","Rural", "Black (%)","White (%)", "Hispanic (%)", "College Graduates (%)","Wage Growth (%)", "Mortality Risk Age 25-45"),
+           axis.title = "Coefficient Estimates")
+```
+
+```{r coeffplot2b-check}
+grade_code()
+```
+## Predicted Values from Regression Models
+
+Why should we concern ourselves with predicted values?   We need to take the estimates from our models and make them "real." We need to give the estimates from any model content and context. In the context of a linear regression model to say that "a one-unit change in X has an average effect on Y equal to the estimated slope" is all well and good, but is that effect big or small? How do our control variables impact the outcome we wish to understand? 
+
+We can answer questions like:
+
++ **What if** a county had very few nonwhites and was relatively wealthy and with low mortality risk? How would that affect the percent of the vote won by Hillary Clinton?
++ **How much different** is the expected percent of the vote Hillary Clinton won in counties with lower and higher precentages of whites? Or lower and higher wage growth?
+
+We can, of course, simply identify the values of our independent variables for any profile we might be interested in, plug those values into the regression equation, multiply them by their respective coefficients, and add them up to get predicted values, but visualizing predictions is often more intuitive.
+
+
+## Predicting the effect of a single independent variable when all other variables are set at their mean
+
+We can easily produce a plot that shows the effect of one independent variable when all other independent variables are set at their mean (any factor is set at its base level and all dichotomous variables are set to 0).
+
+Here we will use the `plot_model()` function we used to produce the coefficient plot above but now we set the `type` argument to `"pred"` to tell the function we want predicted values.
+
+We must tell the function the name of the independent variable whose effects we wish to isolate. We do this using the `term` argument, setting it equal to the variable name (in quotes). All other variables are automatically held at their mean values, if they are interval or ordinal, and at their base levels if they are categorical. 
+
+The `show.data` argument controls whether the raw data points (the bivariate scatterplot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
+
+
+The remaining options replace the default labels in the plot. <span style="color:Red">Note: The label arguments are different in `plot_model()` than when using `ggplot()`.</span>
+
++ `title`, the main title for the plot
++ `axis.title` allows you to change the x and y axis labels. List these using the `c()` function, giving the labels in quotations, separated by commas. The x-axis label is listed first, followed by the y-axis label.
+  
+For additional arguments see ?plot_model or for examples see the vignette here: http://www.strengejacke.de/sjPlot/reference/plot_model.html#arguments
+
+Here we will look at the effect of **white_percent**. Note that all other variables are set at their means.  Run the code and then change `show.data` to equal TRUE and run the code again to see what you learn.
+
+```{r pred1, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model1-setup"}
+plot_model(model1, 
+           type = "pred", 
+           terms = "white_percent",
+           show.data = FALSE,
+           title="Predicted Percent of the Vote for Hillary Clinton \nas a Function of County Percent White", 
+           axis.title = c("White (%)","Hillary Clinton (%)"))
+```
+
+This plot shows us the line representing the predicted percent of the vote cast for Hillary Clinton as a function of the percent of the county's residents were white, *setting the value of all other variables at their mean*. We can see that for a county with 50% whites, we expect just over half the vote to be cast for Hillary Clinton. For a county with 75% white, the expected value is about 40%.
+
+
+
+For nominal variables (or ordinal variables treated as nominal variables), the predicted values give the mean vale of the dependent variable for each category when all other interval-level variables are held at their means and any other categorical variables are set to their base value.
+
+Let's plot the predicted percent of the vote for Hillary Clinton for our three category nominal variable **UrbanCat** included in **model2** 
+ 
+```{r pred2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="model2-setup"}
+plot_model(model2, 
+           type = "pred", 
+           terms = "UrbanCat",
+           show.data = FALSE,
+           title="Predicted Percent of the Vote for Hillary Clinton", 
+           axis.title = c("","Hillary Clinton (%)"))
+```
+
+Notice that the x-axis tick mark labels are not informative. We'll discuss how to solve that problem below.  But this is otherwise a very informative plot. It tells us that when all other independent variables are set at their means, counties that are rural (-1) were expected to cast about 31.5% of their votes for Hillary Clinton, while counties that were neither rural nor urban (0) were expected to cast almost 35% of their votes for Hillary Clinton. Counties that were urban (1) were expected to cast about 34% of their vote for Hillary Clinton. We can also see that the latter two types of counties predicted values are not different from each other because their confidence intervals overlap.
+
+
+## Practice
+
+Let's consider another example and practice creating tables, coefficient plots, and predicted value plots.
+
+We will be working with the data frame **states**, which is a subset of the "The Correlates of State Policy Project" data set, which contains many state policy outcomes on many topics and a variety of state level measures of demographics, opinion, economic conditions, governmental conditions and more. Our version of the dataset has one observation for each state in the year 2010. 
+
+Before we start, we are going to recode **region_census** as a factor variable using names instead of numbers so that plots are labeled to aid interpretation. To recode a variable as a factor and assign the result to a new variable, we use the `factor()` function:
+
++ The first argument is the name of the original variable.
++ The second argument is the `labels` argument, which gives the label for each of the values of the original variable in the order corresponding to the lowest to the highest values of the original variable. Here for **region_census**, the original values are 1=South, 2=Northeast, 3=Midwest, and 4=West.
++ We assign the result to a new variable within the data frame, adding f to the name to denote factor.
+
+```{r recodef, warning=FALSE, message=FALSE, exercise=TRUE}
+states$region_censusf <- factor(states$region_census, 
+                            labels =  c("South", "Northeast", "Midwest", "West"))
+```
+
+
+
+### Estimate the Regression
+
+
+Estimate a regression model of the proportion of Democrats in the House (**hs\_dem\_prop\_all**) as a function of the proportion of the state population that is nonwhite (**nonwhite**), the proportion who are  liberal (**p.liberal**), the poverty rate (**povrate**), and the region in which the state is located (**region_censusf**).  Because **region_censusf** is a factor variable, we do not need to include the `factor()` function when adding this variable to the model.  Assign the result to **fit1**.
+
+
+```{r myfit1, exercise=TRUE}
+
+```
+
+```{r myfit1-hint}
+Use the lm() function, listing hs_Dem_prop_all as the dependent variable, followed by the tilde.
+Then list each of the variables separated by a plus sign. Insert a comma and use the data
+argument, setting it to states.  Finally, use the summary function to call fit1.
+```
+
+
+```{r myfit1-solution}
+fit1 <- lm(hs_dem_prop_all ~ nonwhite + p.liberal + povrate + region_censusf, data = states)
+summary(fit1)
+```
+
+```{r myfit1-check}
+grade_code()
+```
+
+### Create a Table
+
+```{r fit1-setup, include=FALSE}
+fit1 <- lm(hs_dem_prop_all ~ nonwhite + p.liberal + povrate + region_censusf, data = states)
+summary(fit1)
+```
+
+Create a basic table first.
+
+```{r statetable, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+
+```
+
+```{r statetable-hint}
+Call the stargazer function. The first argument is the
+name of the model fit object, **fit1**.
+
+The second argument is type and should be set to "text".
+```
+
+
+```{r statetable-solution}
+stargazer(fit1,
+          type="text")
+```
+
+```{r statetable-check}
+grade_code()
+```
+
+Look at the coefficient order in the plot and make this table more informative by adding a title, dependent variable label, and covariate labels.
+
+```{r statetable2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+
+```
+
+```{r statetable2-hint}
+The first two lines of code are identical to the previous  
+exercise. Insert a comma and then add the title argument,
+giving a title in quotes. 
+
+Then insert a comma and the dep.var.labels argument and
+label it "Proportion Democrat". 
+```
+
+```{r statetable2-hint-2}
+Add a comma and the final
+argument covariate.labels. Set it equal to c("Proportion Nonwhite",
+"Proportion Liberal", "Poverty Rate", "Northeast",
+"Midwest", "West", "Intercept")
+
+Don't forget to end with a parenthesis
+```
+
+
+```{r statetable2-solution}
+stargazer(fit1,
+          type="text",
+          title="Regression Model of Proportion of House Seats Held by the Democrats",
+          dep.var.labels = "Proportion Democrat",
+          covariate.labels = c("Proportion Nonwhite",
+                               "Proportion Liberal",
+                               "Poverty Rate",
+                               "Northeast",
+                               "Midwest",
+                               "West",
+                               "Intercept"))
+```
+
+```{r statetable2-check}
+grade_code()
+```
+### Create a Coefficient Plot
+
+Create a basic coefficient plot with the `plot_model()` function. We'll add labels next.
+
+```{r stateplot, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+
+```
+
+```{r stateplot-hint}
+Call the plot_model function.
+
+The first argument is the name of the model fit object.
+
+The second argument is type and should be set to "est".
+```
+
+
+```{r stateplot-solution}
+plot_model(fit1,
+           type="est")
+```
+
+```{r stateplot-check}
+grade_code()
+```
+
+Now add a title, show the values of the estimates, offset them so that they are above the point/line, label the covariates (bottom to top). Do not present the intercept.
+
+```{r stateplot2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+
+```
+
+```{r stateplot2-hint-1}
+Begin as with the previous plot.
+
+The next argument is show.values. Set it equal to TRUE
+followed by a comma.
+
+Now use the value.offset argument. Set it to .3 (add a comma). 
+```
+
+```{r stateplot2-hint-2}
+The next argument is show.intercept. Set it to TRUE 
+and add a comma. 
+
+Specify the axis.labels argument and list the covariate 
+labels (in quotes, separated by commas) inside the c() function.
+
+Make sure you go in order from bottom to top.
+```
+
+
+```{r stateplot2-solution}
+plot_model(fit1,
+           type="est",
+           show.values = TRUE,
+           value.offset = .3,
+           show.intercept = FALSE,
+           title="Linear Regression Model of Proportion of State House Held by Democrats", 
+           axis.labels = c("West","Midwest", "Northeast","Poverty Rate", "Proportion Liberal", "Proportion Nonwhite"),
+           axis.title = "Coefficient Estimates")
+```
+
+```{r stateplot2-check}
+grade_code()
+```
+
+### Generate Predictions for an Interval Variable
+
+Next, plot the predicted proportion of House seats held by the Democrats as a function of the proportion of the state's residents that are liberal.  Remember that all other variables are set at their means with the exception of **region_censusf**, which is set to south, the baseline category.
+
+
+```{r statepred1, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+
+```
+
+```{r statepred1-hint-1}
+Specify the fit object, fit1, as the first argument 
+to plot_model().
+
+Then specify the type argument.
+
+Specify the term argument. We want to plot "p.liberal".
+```
+
+```{r statepred1-hint-2}
+Specify the show.data, title, and axis.title arguments.
+
+Remember the x-axis title is the first, followed by the
+y-axis title.
+```
+
+
+
+```{r statepred1-solution}
+plot_model(fit1,
+           type="pred",
+           term="p.liberal",
+           show.data = FALSE,
+           title="Predicted Proportion of House Seats \nHeld by Democrats",  
+           axis.title = c("Proportion Liberal","Proportion of Democratic House Seats"))
+```
+
+```{r statepred1-check}
+grade_code()
+```
+
+This plot helps us to see that as the proportion of people calling themselves liberal in a state increases, so, too, does the proportion of house seats held by Democrats. We can see that for a proportion liberal of 0.2 we would expect the Democrats to hold just over 50% of the seats in the legislature, **when all other variables in the model are set at their means and any factor variables are set to their base level.**  Further, because we plotted the data, we can tell where most of the data falls along the line. 
+
+### Generate Predictions for a Nominal Variable
+ 
+
+Now plot the predicted effects of census region from the regression given in **fit1**, holding all other variables at their means. Specify the title, axis.title arguments and show the data.
+
+
+```{r statepred2, warning=FALSE, message=FALSE, exercise=TRUE, exercise.setup="fit1-setup"}
+
+```
+
+```{r statepred2-hint-1}
+Specify the fit object, fit1, as the first argument 
+to plot_model().
+
+Then specify the type argument.
+
+Specify the term argument. We want to plot "region_censusf".
+```
+
+```{r statepred2-hint-2}
+Specify the show.data, title, and axis.title arguments.
+
+Remember the x-axis title is the first, followed by the
+y-axis title.
+```
+
+```{r statepred2-solution}
+plot_model(fit1, 
+           type = "pred", 
+           terms = "region_censusf",
+           show.data = FALSE,
+           title="Predicted Proportion of House Seats Held \nby Democrats by Region", 
+           axis.title = c("","Proportion of House Seats \nHeld by Democrats"))
+```
+
+
+```{r statepred2-check}
+grade_code()
+```
+The plot shows us that the predictions overlap for each of the census regions so that the predicted values are not statistically different from each other based on the region of the country a state is in.
+
+  
+## The Takeaways
+
+It is important to present findings from your regression analysis professionally. Tables that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model are important. Measures of fit should always be reported as well. The `stargazer()` function in the <span style="color:DarkGreen">stargazer</span> package provides one option for producing tables. 
+
+Sometimes we prefer a  plot to present coefficient estimates, but the text should then clearly identify measures of model fit.  The `plot_model()` function in the <span style="color:DarkGreen">sjPlots</span> package can be used to produce coefficient plots. We specify the `type` of plot as `"est"` A number of additional arguments can be specified to control the look and feel of the plot.
+
+Presenting the coefficient estimates is informative, but we can provide richer interpretations with predicted value plots.  The `plot_model()` function will also accomplish this task. We specify the `type` of plot as `"pred"` for predictions. Here again we can supply additional arguments to enhance our visualization.  It is important to remember that predicted values are (by default) calculated assuming all variables, other than for the variable we plot (specified with the `terms` argument) are set to their means if they are measured at the interval level, and at their base value if they are nominal. The base value corresponds to the category that takes the smallest numeric value or that is first alphabetically, depending on how it is coded.  It is possible to control the values these additional variables take using additional arguments. 
+
+See http://www.strengejacke.de/sjPlot/articles/plot_marginal_effects.html for examples and consult the help menu with ?plot_model for details.
