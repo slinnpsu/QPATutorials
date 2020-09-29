@@ -78,7 +78,18 @@ question("Which of the following statements about the alternative hypothesis are
 
 **Step 3. Compute the appropriate test statistic.** 
 
-To compute a one-sample $t$-test, we use the `t.test()` function. The function requires we pass it the name of the variable for which to calculate the sample mean and the argument `mu`, which gives the value under the null hypothesis. Running the following code will produce the value of the t-test, the corresponding p-value, a confidence interval for the mean, and the sample mean.
+The test statistic we use to test the significance of a sample mean, denoted $z$ is given by:
+
+$$z=\frac{\bar{Y} - \mu_0}{\sigma/\sqrt{n}}$$
+The z-score tells us how many standard deviations away from the mean an observation is. The further away our sample z-score is from the null hypothesis value, the further out in the tails of the distribution the statistic is and the more confident we can be that the null hypothesis is wrong. However, we don't know the population standard deviation ($\sigma$). This means we have to switch things up a bit. We replace $\sigma$ with $s$ (the estimated standard deviation) and calculate a $t$-score:
+
+$$t=\frac{\bar{Y} - \mu_0}{s/\sqrt{n}}.$$
+
+
+
+The t-statistic will be further from zero the more $\bar{Y}$ differs from $\mu_0$ and the smaller the standard error (Recall $s.e.=s/\sqrt{n}$).  Note that you do not need to remember the formula for the test statistics. You should understand the logic of each test statistic, but R will compute them for you.
+
+To compute a one-sample $t$-test in R, we use the `t.test()` function. The function requires we pass it the name of the variable for which to calculate the sample mean and the argument `mu`, which gives the value under the null hypothesis. Running the following code will produce the value of the t-test, the corresponding p-value, a confidence interval for the mean, and the sample mean.
 
 By default, R computes the test statistic assuming the alternative hypothesis is two-tailed (the null is $\ne$ to the hypothesized value). This means you do not have to specify the test is two-tailed. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower than the hypothesized value under the null -- we add the `alternative` argument, setting it to `"greater"` if the mean is hypothesized to be greater than under the null and `"less"` if the mean in is hypothesized to be smaller than the null.
 
@@ -192,7 +203,15 @@ question("Which of the following correctly states the null and alternative hypot
 
 **Step 3. Compute the appropriate test statistic.** 
 
-To test whether the mean value of a single variable, $Y$, is the same in two different populations (in two groups) against the alternative that it is different, we need to use what R calls a formula. We list the name of the (interval level) variable for which we want to calculate the mean, then we type a tilde (~) and then the name of the variable that defines the two groups: `t.test(X ~ GroupVariable)`. If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`.
+
+The test statistic we use to test the difference of means is the Welch 2-sample t-test:
+
+$$ t=\frac{\bar{Y}_1 - \bar{Y}_2-0}{\sqrt{\frac{s^2_1}{n_1}+\frac{s^2_2}{n_2}}}$$
+
+where 1 and 2 denote the two groups, here Trump majority of Clinton majority. We assume the two groups are independent, i,e., that no one is in both groups.
+
+
+To test whether the mean value of a single variable, $Y$, in R is the same in two different populations (in two groups) against the alternative that it is different, we need to use what R calls a formula. We list the name of the (interval level) variable for which we want to calculate the mean, then we type a tilde (~) and then the name of the variable that defines the two groups: `t.test(X ~ GroupVariable)`. If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`.
 
 If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower in one of the two groups -- we add the `alternative` argument, setting it to `"greater"` if the mean in group one is hypothesized to be greater  than in group two and `"less"` if the mean in group one is hypothesized to be smaller than in group two. The default is a two-tailed alternative hypothesis, so you don't need to specify this argument if the alternative hypothesis is two-tailed.
 
@@ -300,6 +319,23 @@ question("Which of the following correctly states the null and alternative hypot
 ```
 
 **Step 3. Compute the appropriate test statistic.** 
+
+The test statistic for the paired samples $t$-test, denoted $t$, follows the same formula as the one sample $t$-test.
+
+$$t=\frac{\bar{Y}_{diff}-0}{se_{\bar{Y}}}$$
+
+where
+
+$$se_{\bar{Y}} = \frac{s_{diff}}{\sqrt{n}}$$
+
+and
+
++ $\bar{Y}_{diff}$ = Sample mean of the differences;
++ $n$ = Sample size (i.e., number of observations);
++ $s_{diff}$ = Sample standard deviation of the differences;
++ $se_{\bar{Y}}$ = Estimated standard error of the mean.
+
+The calculated $t$ value is then compared to the critical $t$ value with df = $n - 1$ from the $t$ distribution table for a chosen confidence level. 
 
 To conduct a paired t-test in R, use `t.test(X1, X2, paired=TRUE)`. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean difference is higher or lower than the value under the null hypothesis (0), we add the `alternative` argument, setting it to `"greater"` if the mean difference is hypothesized to be greater  than the hypothesized value and `"less"` if the mean difference is hypothesized to be smaller than the hypothesized value.
 
