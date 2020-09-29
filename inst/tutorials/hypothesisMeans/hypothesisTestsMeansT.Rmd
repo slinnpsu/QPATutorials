@@ -81,10 +81,9 @@ question("Which of the following statements about the alternative hypothesis are
 The test statistic we use to test the significance of a sample mean, denoted $z$ is given by:
 
 $$z=\frac{\bar{Y} - \mu_0}{\sigma/\sqrt{n}}$$
-The z-score tells us how many standard deviations away from the mean an observation is. The further away our sample z-score is from the null hypothesis value, the further out in the tails of the distribution the statistic is and the more confident we can be that the null hypothesis is wrong. However, we don't know the population standard deviation ($\sigma$). This means we have to switch things up a bit. We replace $\sigma$ with $s$ (the estimated standard deviation) and calculate a $t$-score:
+The z-score tells us how many standard deviations away from the mean an observation is. The further away our sample z-score is from the null hypothesis value, the further out in the tails of the distribution the statistic is and the more confident we can be that the null hypothesis is wrong. However, we don't typically know the population standard deviation ($\sigma$). This means we have to switch things up a bit. We replace $\sigma$ with $s$ (the estimated standard deviation) and calculate a $t$-score:
 
 $$t=\frac{\bar{Y} - \mu_0}{s/\sqrt{n}}.$$
-
 
 
 The t-statistic will be further from zero the more $\bar{Y}$ differs from $\mu_0$ and the smaller the standard error (Recall $s.e.=s/\sqrt{n}$).  Note that you do not need to remember the formula for the test statistics. You should understand the logic of each test statistic, but R will compute them for you.
@@ -335,7 +334,6 @@ and
 + $s_{diff}$ = Sample standard deviation of the differences;
 + $se_{\bar{Y}}$ = Estimated standard error of the mean.
 
-The calculated $t$ value is then compared to the critical $t$ value with df = $n - 1$ from the $t$ distribution table for a chosen confidence level. 
 
 To conduct a paired t-test in R, use `t.test(X1, X2, paired=TRUE)`. If we wish to test the null hypothesis against a one-tailed alternative -- that the mean difference is higher or lower than the value under the null hypothesis (0), we add the `alternative` argument, setting it to `"greater"` if the mean difference is hypothesized to be greater  than the hypothesized value and `"less"` if the mean difference is hypothesized to be smaller than the hypothesized value.
 
