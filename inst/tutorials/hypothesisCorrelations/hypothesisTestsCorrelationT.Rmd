@@ -16,6 +16,9 @@ In this tutorial, you will learn how to conduct a hypothesis test to determine w
 * How to use the `corr.test()` function to estimate and test the significance of Pearson's correlation coefficient.
 * Practice walking through the steps for hypothesis testing.
 
+This tutorial assumes that you already familiar with the logic of hypothesis testing and Pearson's correlation coefficient.  See the tutorial "Bivariate Description: Two Interval Variables" to review the correlation coefficient and how to make scatter plots to illustrate the relationship.
+
+
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -79,7 +82,7 @@ cor.test(counties$dem2p_vote_share,counties$mortality_risk_25_45,use="pairwise.c
 
 Look at the results and find the t-statistic (-3.6626), p-value (0,0002538), the 95% confidence interval (-0.10045627, -0.03047349) and the estimated correlation (denoted cor, -0.06554548).
 
-We can see that the bivariate relationship is negative (about -0.07) -- as mortality risk goes up, so too does the percent of the vote Hillary Clinton won. This correlation is significantly different from zero (p<0.05) and the 95% confidence interval does not include zero. We can, therefore, reject the null hypothesis that the correlation is zero with 95% confidence. Even though the correlation is small, we can be quite confident it is different from zero.
+We can see that the bivariate relationship is negative (about -0.07) -- as mortality risk goes up, the percent of the vote Hillary Clinton won goes down. This correlation is significantly different from zero (p<0.05) and the 95% confidence interval does not include zero. We can, therefore, reject the null hypothesis that the correlation is zero with 95% confidence. Even though the correlation is small, we can be quite confident it is different from zero.
 
 
 ### Example 2:  The correlation between governance score and freedom of the press around the world
