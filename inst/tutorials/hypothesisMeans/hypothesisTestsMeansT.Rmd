@@ -17,6 +17,8 @@ In this tutorial, you will learn how conduct hypothesis tests about means. Speci
 * Practice walking through the steps for hypothesis testing.
 * Plot means with confidence intervals using `ggplot()`.
 
+This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here.
+
 ```{r setup, include=FALSE}
 library(learnr)
 library(tidyverse)
@@ -101,7 +103,7 @@ A lot of information is included in the output for the test. The output begins b
 
 **Step 4. Translate the test statistic into a p-value.**
 
-R reports the two-tailed p-value associated with the t-statistic in scientific notation as "p-value < 2.23-16."  This is 2.23 to the negative 16th or 0.000000000000000223. When the p-value is this small, we report p<0.001.
+R reports the two-tailed p-value associated with the t-statistic in scientific notation as "p-value < 2.23-16."  This is 2.23 to the negative 16th or 0.000000000000000223. When the p-value is this small, we report p<.001.
 
 **Step 5. Draw a conclusion.**
 
@@ -379,8 +381,8 @@ We first produce a new data frame that contains the information to plot.
 
 + Use the `filter()` function to drop any missing values for each of our two variables.
 + Use the `group_by()` function to group the variables by the variable that denotes our categories.
-+ Use the `summarise()` function to calculate the mean in each group using `mean=mean()`. This is the numerator in the formula for the t-statistic. We also need to calculate the number of cases in each group using `n=n()`; and the standard deviation for each group using `sd=sd()`. This information is needed to calculate the denominator in the formula for the t-statistic.
-+ Use the `mutate()` function to calculate the standard error using  `se=2*(sd/sqrt(n))`. This is the denominator in the formula for the t-test.
++ Use the `summarise()` function to calculate the mean in each group using `mean=mean()`. We also need to calculate the number of cases in each group using `n=n()`; and the standard deviation for each group using `sd=sd()`. This information is needed to calculate the margin of error in the formula for the confidence interval: $\bar{Y} \pm 1.96*se$.
++ Use the `mutate()` function to calculate the 95% margin of error ($1.96*se$) using  `margin=1.96*(sd/sqrt(n))`. 
 
     
 Let's create the new data frame we need to plot the means and confidence intervals for **gdp08** in democratic and non-democratic regimes. Look carefully at each line of code to ensure you understand what it is doing.
@@ -392,7 +394,7 @@ world%>%
   filter(!is.na(democ_regime) & !is.na(gdp08))%>%
   group_by(democ_regime)%>% 
   summarize(mean=mean(gdp08), n=n(), sd=sd(gdp08))%>%
-  mutate(se=sd/sqrt(n))
+  mutate(margin=1.96*sd/sqrt(n))
 ```
 
 The first column contains the values of **democ_regime** that form the groups for which we wish to calculate means. The data frame containing two rows, one for non-democratic regimes ("No") and one for democratic regimes ("Yes").  Columns 2-4 contain the values of the other variables we created, calculated for each value of the grouping variable.
@@ -403,7 +405,7 @@ We specify the same steps for plotting as before:
 
 1.  Tell `ggplot()` the name of the data set that contains the variable(s) to plot. This time we will pass our new data frame to the `data` argument in `ggplot()` by piping the result above to `ggplot()`.
 2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the means (**mean**) to the y-axis, and we want the x-axis values to denote the grouping variable (here **democ_regime**).
-3.  Tell `ggplot()` how to plot the data by adding a **geom** layer.  We will plot two **geom** layers. First, we will add `geom_point()` to plot a point for each mean. This function needs no arguments, although we could add color, and we could change the size and shape of the points that represent the means. Second, we will add a `geom_errorbar()` layer to plot the confidence intervals We need to pass `geom_errorbar()` its own aesthetic and set the lower and upper limits of the confidence interval. We do this by specifying `ymin=mean-1.96*se` and `ymax=mean+1.96*se`. This will add 1.96 times the standard errors around the mean value, creating the confidence interval.  I've also added the `width` argument to `geom_errorbar()` to control the width of the bars marking the confidence limit. This is optional.
+3.  Tell `ggplot()` how to plot the data by adding a **geom** layer.  We will plot two **geom** layers. First, we will add `geom_point()` to plot a point for each mean. This function needs no arguments, although we could add color, and we could change the size and shape of the points that represent the means. Second, we will add a `geom_errorbar()` layer to plot the confidence intervals We need to pass `geom_errorbar()` its own aesthetic and set the lower and upper limits of the confidence interval. We do this by specifying `ymin=mean-margin` and `ymax=mean+margin`. This will add 1.96 times the standard error around the mean value, creating the confidence interval.  I've also added the `width` argument to `geom_errorbar()` to control the width of the bars marking the confidence limit. This is optional.
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
 Let's create a basic plot and make the plot more informative in a second step.
@@ -415,10 +417,10 @@ world%>%
   filter(!is.na(democ_regime) & !is.na(gdp08))%>%
   group_by(democ_regime)%>% 
   summarize(mean=mean(gdp08), n=n(), sd=sd(gdp08))%>%
-  mutate(se=sd/sqrt(n)) %>%
+  mutate(margin=1.96*sd/sqrt(n)) %>%
 ggplot(mapping=aes(y=mean, x=democ_regime)) +
   geom_point() +
-  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) 
+  geom_errorbar(aes(ymin=mean-margin, ymax=mean+margin), width=.1) 
 ```
 
 We can easily see the means and that the confidence intervals overlap. Thus we can conclude, as with the results of the difference of means test above, that the means are not significantly different from each other.
@@ -426,15 +428,14 @@ We can easily see the means and that the confidence intervals overlap. Thus we c
 Let's add labels and clean up our plot. Below I've added the `title`, `y`, and `x` labels using the `labs()`function. I've also removed the (duplicative) legend with `theme(legend.position="none")` and changed the labels for the x-axis tick marks using `scale_x_discrete(labels=c("Non Democracies","Democracies"))
 
 ```{r prettyplot, exercise=TRUE, message=FALSE}
-library(ggplot2)
 world%>%
   filter(!is.na(democ_regime) & !is.na(gdp08))%>%
   group_by(democ_regime)%>% 
   summarize(mean=mean(gdp08), n=n(), sd=sd(gdp08))%>%
-  mutate(se=sd/sqrt(n)) %>%
+  mutate(margin=1.96*sd/sqrt(n)) %>%
 ggplot(mapping=aes(y=mean, x=democ_regime)) +
-  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) +
-    geom_point() +
+  geom_point() +
+  geom_errorbar(aes(ymin=mean-margin, ymax=mean+margin), width=.1) +
     labs(title="GDP by Regime Type",
          y="GDP", 
          x=NULL) +
@@ -452,9 +453,9 @@ XXX%>%
   filter(!is.na(XXX) & XXX(XXX))%>%
   group_by(rural=factor(rural_urban))%>% 
   summarize(mean=mean(XXX), n=n(), sd=XXX(dem2p_percent))%>%
-  XXX(se=XXX) %>%
+  XXX(margin=XXX) %>%
 ggplot(mapping=aes(y=XXX, x=XXX)) +
-  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) +
+  geom_errorbar(aes(ymin=mean-margin, ymax=mean+margin), width=.1) +
     geom_point() +
     labs(title="Percent of the Vote Won by Hillary Clinton",
          subtitle = "US Counties 2016",
@@ -469,15 +470,13 @@ Begin with the counties data object.
 Filter so that we have only non-missing values of 
 rural_urban and dem2p_percent.
 
-In the summarize function, take the mean of dem2p_percent.
+In the summarize function, take the mean and standard deviation of dem2p_percent.
 
 Don't forget to remove any missing values with the 
 na.rm argument.
 
-Set sd=sd(demp2p_percent).
-
-Then use the mutate function to generate the standard error by setting 
-se=sd/sqrt(n)).
+Then use the mutate function to generate the margin of error by setting 
+margin=1.96*sd/sqrt(n)).
 ```
 
 
@@ -487,9 +486,9 @@ counties%>%
   filter(!is.na(rural_urban) & !is.na(dem2p_percent))%>%
   group_by(rural=factor(rural_urban))%>% 
   summarize(mean=mean(dem2p_percent), n=n(), sd=sd(dem2p_percent))%>%
-  mutate(se=sd/sqrt(n)) %>%
+  mutate(margin=1.96*sd/sqrt(n)) %>%
 ggplot(mapping=aes(y=mean, x=rural)) +
-  geom_errorbar(aes(ymin=mean-1.96*se, ymax=mean+1.96*se), width=.1) +
+  geom_errorbar(aes(ymin=mean-margin, ymax=mean+margin), width=.1) +
     geom_point() +
     labs(title="Percent of the Vote Won by Hillary Clinton",
          subtitle = "US Counties 2016",
@@ -513,7 +512,7 @@ Often we will be interest in comparing means to a given population value, or com
     + If the groups are identified by another variable, the first argument is the variable for which we wish to calculate the means and we specify the tilde followed by the name of the variable that denotes the categories: `t.test(counties$prop_black ~ counties$TrumpMajority)`. 
     + If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`. 
     + We can only use the difference of means test to compare means in two groups. If the nominal variable has more than two categories, you may need to create a new, two-caetgory variable to use in the test.
-+ If we want to compare the means of two variables in a single sample, we conduct a <span style="color:blue">paired t-test</span>, which matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero: `t.test(world$gini10, world$gini08)`. But note that we cannot compare the means of just any two variables, the comparison must be logical. We cannot, for example, compare the mean of the difference between the age of a survey respondent and their level of education. That makes no sense! Typically, a paired t-test will involve the comparison of two variables that measure the same concept, measured identically, at two points in time.
++ If we want to compare the mean difference between two variables in a single sample, we conduct a <span style="color:blue">paired t-test</span>, which matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero: `t.test(world$gini10, world$gini08)`. But note that we cannot compare the mean difference of just any two variables, the comparison must be logical. We cannot, for example, compare the mean of the difference between the age of a survey respondent and their level of education. That makes no sense! Typically, a paired t-test will involve the comparison of two variables that measure the same concept, measured identically, at two points in time.
 
 By default, all tests are two-tailed, but we can specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
 
