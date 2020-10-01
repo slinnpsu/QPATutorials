@@ -17,6 +17,8 @@ In this tutorial, you will learn how conduct hypothesis tests about proportions.
 * How to use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package to test whether two nominal and/or ordinal variables are independent.
 * Practice walking through the steps for hypothesis testing.
 
+This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here.
+
 ```{r setup, include=FALSE}
 library(learnr)
 library(tidyverse)
@@ -68,12 +70,11 @@ To illustrate the one-sample proportion test, consider that we might wish to kno
 
 Let's walk through the five steps of hypothesis testing and answer this question.
 
-**1. Formulate the null hypothesis**. $$H_0: \pi=0.489$$ The proportion of voters who voted for Trump in the ANES sample ($p$) is consistent with the population value of 0.489.
+**1. Formulate the null hypothesis**. $$H_0: \pi=0.489$$ The proportion of voters who voted for Trump in the  sample ($p$) is consistent with the population value of 0.489.
 
-**2. State the alternative hypothesis**. $$H_A: \pi \ne 0.489$$ The proportion of people in the ANES sample that voted for Trump ($p$) is not equal to that in the population (0.489).
+**2. State the alternative hypothesis**. $$H_A: \pi \ne 0.489$$ The proportion of people in the sample that voted for Trump ($p$) is not equal to that in the population (0.489).
 
 **3. Compute the appropriate test statistic**.
-
 
 To test whether the proportion of cases taking some value associated with the variable $X$ in a sample is equal to some value in the population against the alternative that it is not that value, we use the `prop.test()` function. The function takes three arguments and returns the $\chi^2$ test statistic.
 
@@ -355,7 +356,7 @@ We will use the **counties** data frame, which contains data on counties in the 
 
 **Step 3. Compute the test statistic**.
 
-Write the code to generate the counts needed to calculate proportions. You do not need to eliminate missing values since there are few categories. Make sure to name your count variable **counts**.
+Write the code to generate the counts needed to calculate proportions. You do not need to eliminate missing values. Make sure to name your count variable **counts**.
 
 ```{r votecross, exercise = TRUE}
 
@@ -433,7 +434,7 @@ To illustrate this test we use the **aNES** data frame to consider whether a res
 
 **Step 3. Calculate the appropriate test statistic**.
 
-The **aNES** data frame contains the variable **pid_strength**, a 7-point scale in which higher variables indicate a stronger partisan attachment (whether or not one is Republican or Democrat, 7 means they consider themselves strong partisans). We generate the cross-tab and conduct the test using the `CrossTable()` function. We specify the outcome variable first (here **pid_strength**), followed by the predictor variable (here **male**). To simplify interpretation of the cross-tab, we set `prop.r`, `prop.t`, `prop.chisq` to `FALSE` and `prop.c` to `TRUE`. To conduct the test we supple the `chisq` argument and set it to `TRUE`.
+The **aNES** data frame contains the variable **pid_strength**, a 7-point scale in which higher variables indicate a stronger partisan attachment (whether or not one is Republican or Democrat, 7 means they consider themselves strong partisans). We generate the cross-tab and conduct the test using the `CrossTable()` function. We specify the outcome variable first (here **pid_strength**), followed by the predictor variable (here **male**). To simplify interpretation of the cross-tab, we set `prop.r`, `prop.t`, `prop.chisq` to `FALSE` and `prop.c` to `TRUE`. To conduct the test we supply the `chisq` argument and set it to `TRUE`.
 
 ```{r cross, exercise = TRUE}
 library(descr)
@@ -449,7 +450,7 @@ The p-value is very small, 2.06e-11, much smaller than .05, so we reject the nul
 
 For our final exercise, we will investigate whether there is a relationship between a person's decision to watching Modern Family and their vote choice in the sample of respondents in the American National Election Study.  
 
-**Step 1. Formulate the null hypothesis**. Under the null hypothesis there is no relationship between whether a person watches Modern Family and from whom they voted for president in the population. This implies that knowing whether or not someone watched Modern Family will not help us predict their vote choice.
+**Step 1. Formulate the null hypothesis**. Under the null hypothesis there is no relationship between whether a person watches Modern Family and for whom they voted for president in the population. This implies that knowing whether or not someone watched Modern Family will not help us predict their vote choice.
 
 **Step 2. Formulate the alternative hypothesis**. Under the alternative hypothesis knowing whether someone chooses to watch Modern Family helps us to predict their vote choice. Remember that the alternative hypothesis does not say anything about how the two variables are related, just that they are.
 
