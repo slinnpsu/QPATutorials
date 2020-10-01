@@ -17,7 +17,8 @@ In this tutorial, you will learn how conduct hypothesis tests about means. Speci
 * Practice walking through the steps for hypothesis testing.
 * Plot means with confidence intervals using `ggplot()`.
 
-This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here.
+This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here. See the tutorial "Bivariate Description: One Categorical Variable and One Interval Variable" to review how to generate tables of means of an interval variable by categories of a categorical variable and how to compare the distribution of the interval variable based on the values of the categorical variable.
+
 
 ```{r setup, include=FALSE}
 library(learnr)
