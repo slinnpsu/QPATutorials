@@ -17,7 +17,7 @@ In this tutorial, you will learn how conduct hypothesis tests about proportions.
 * How to use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package to test whether two nominal and/or ordinal variables are independent.
 * Practice walking through the steps for hypothesis testing.
 
-This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here.
+This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here.  See the tutorial "Bivariate Description: Two Categorical Variables" to review how to generate and interpret cross-tabs and grouped bar plots to illustrate the relationship.
 
 ```{r setup, include=FALSE}
 library(learnr)
