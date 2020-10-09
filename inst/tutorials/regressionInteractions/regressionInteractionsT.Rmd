@@ -1,21 +1,21 @@
 ---
-title: "Multiple Regression: Conditional (or Interactive) Relationships with Interval-Level Variables"
+title: "Multiple Regression: Conditional (or Interactive) Relationships"
 output: 
   learnr::tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
 description: >
-  Learn how to estimate and interpret conditional relationships involving 2 interval level variables.
+  Learn how to estimate and interpret conditional relationships.
 ---
 
 
 ## Learning Objectives
 
-In this tutorial, you will learn how estimate and interpret interactive relationships involving interval-level variables using R. Specifically, we will cover:
+In this tutorial, you will learn how estimate and interpret interactive, also called conditional, relationships using R. Specifically, we will cover:
 
 * How to conduct multiple regression analysis involving conditional relationships in R.
-* How to interpret results from multiple regression analysis with interactions using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce plots of predicted values
+* How to interpret results from multiple regression analysis with interactions using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce plots of predicted values.
 
 
 
@@ -47,6 +47,9 @@ counties$College_percent <- counties$prop_college_grad*100
 df <- qpaTutorials::df
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 qog <- qpaTutorials::qog
+qog$rights[qog$fh_pr<=2] <- 0
+qog$rights[qog$fh_pr>2] <- 1
+
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban
 counties$UrbanCat[counties$rural_urban>=7] <- 0
 #Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
@@ -69,13 +72,16 @@ states$liberalf[states$p.liberal<.5] <-0
 states$liberalf[states$p.liberal>=.5] <-1
 countiesX <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth + mortality_risk_25_45*wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
 countiesX2 <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth +mortality_risk_25_45*white_percent + college_grad_percent + hispanic_percent +  black_percent, data=counties)
+model1 <- lm(epi_epi ~ factor(rights) + ipi_tradeopen + factor(rights)*ipi_tradeopen + hf_efiscore, data=qog)
+model2<-lm(confidence~factor(hi_gdp)+polity+factor(hi_gdp)*polity, data=world)
+
 ```
 
 
 
 ## Overview
 
-Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables using R and how to visualize their effects.
+Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables and those involving one interval and one categorical variable using R and how to visualize their effects.
 
 
 ## Conditional Relationships in Multiple Regression
@@ -104,11 +110,11 @@ We need to think carefully about our expectations for conditional relationships.
 
 It is important to remember conditional relationships are symmetric: if $X_2$ conditions the effect of $X_2$, then $X_1$ must condition the effect of $X_2$ on $Y$. We must always consider our expectations for both variables in the interaction.
 
-Interpretation of interactive effects depends on the level of measurement of $X_1$ and $X_2$. Below we illustrate how to estimate and interpret interactive relationships when $X_1$ and $X_2$ are both measured at the interval level. Additional tutorials consider the cases where $X_1$ is measured at the interval level and $X_2$ is a binary nominal variables and where $X_1$ and $X_2$ are both binary nominal variables.
+Interpretation of interactive effects depends on the level of measurement of $X_1$ and $X_2$. Below we illustrate how to estimate and interpret interactive relationships when $X_1$ and $X_2$ are both measured at the interval level and when one variable is interval and another categorical.
 
 ## Interpretation of Effects
 
- Consider the following regression: 
+ Consider the following regression where $X_1$ and $X_2$ are both measured at the interval level: 
 
 
 $$Y_i = \hat{\alpha} + \hat{\beta}_1 X_{1,i} + \hat{\beta}_2 X_{2,i} + \hat{\beta}_3 X_{1,i}X_{2,i} + ... + \hat{\epsilon}_i$$
@@ -123,7 +129,7 @@ How do we interpret the conditional effects of $X_1$ and $X_2$ in this model?
 
 The effect of $X_1$ on $Y$ is affected by the value of $X_2$; the effect of $X_2$ on $Y$ is affected by the value of $X_1$.
 
-Because the effects are conditional, the nature (and even the direction or sign) of the effects are necessarily the same for all values of the constituent variable (the individual variables comprising the interaction). Thus, analysts often present these effects by plotting predicted values for different combinations of values of the variables.  Below we will consider  a number of illustrative examples. We will (a) state our expectations for the conditional relationship, (b) estimate the conditional effects using the `lm()` function, and (c) plot predicted values to aid in our interpretation using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
+Because the effects are conditional, the nature (and even the direction or sign) of the effects are not necessarily the same for all values of the constituent variable (the individual variables comprising the interaction). Thus, analysts often present these effects by plotting predicted values for different combinations of values of the variables.  Below we will consider  a number of illustrative examples. We will (a) state our expectations for the conditional relationship, (b) estimate the conditional effects using the `lm()` function, and (c) plot predicted values to aid in our interpretation using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
 
 ### Example 1: The conditional effects of mortality risk and wage growth on vote for Hillary Clinton in US counties
 
@@ -188,7 +194,7 @@ Next consider a different potential interaction effect in our model of Hillary C
 
 2. <span style="color:magenta">When are the conditional effects of each variable expected to be weakest and strongest?</span>
     a. We expect the conditional effect of mortality risk to be biggest (most negative) when percent white is highest if counties with more whites are more sensitive to mortality risk and to be less negative in counties with fewer whites if whites are less sensitive.    
-    b. We expect the conditional effect of percent white on the percent of the vote won by Hillary Clinton to be greater in counties that experience higher mortality risk if mortality risk makes white more anti-incumbent.
+    b. We expect the conditional effect of percent white on the percent of the vote won by Hillary Clinton to be greater in counties that experience higher mortality risk if mortality risk makes whites more anti-incumbent.
 
 If these expectations are accurate, then the relationship of each variable with **dem2p_percent** is conditional and we need to include **mortality_risk_25_45 times white_percent** in our regression.
 
@@ -380,13 +386,13 @@ grade_code("You are getting good at this.")
 question("Examine the plot above and select the statements that are true",
   answer("The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when the percentage of whites is 100%", correct=TRUE, message="We can tell the effect of mortality risk is is biggest in counties with 100% white because the slope is steepest. "),
   answer("The effect of mortality risk on the predicted vote for Hillary Clinton is largest for counties with 50% white",  message="Regardless of the value of **mortality_risk_25_45**, its effect on the predicted vote for Hillary Clinton is essentially zero when there are 50% whites in a county because the slope of the line is essentially zero. "),
-  answer("The effect of mortality risk is significantly different for these three levels of **white_percent**", correct=TRUE, message="The effect of mortality risk on Hillary Clinton's vote depends on the percent white because the confidence intervals do not overlap. "),
+  answer("The effect of mortality risk is significantly different for these three levels of **white_percent**", correct=TRUE, message="The effect of mortality risk on Hillary Clinton's vote is significantly different for these values of the percent white because the confidence intervals do not overlap. "),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct answer"
   )
 ```
 
-Write code to produce a plot illustrating the effect of the percent white conditioned on the value of mortality risk in a county and run the code.  Use values of **mortality_risk_25_45** of 1 (low risk), 3 (approximately mean risk), and 5 (high risk) to generate the plot.
+Write code to produce a plot illustrating the effect of the percent white conditioned on the value of mortality risk in a county and run the code.  Use values of **mortality_risk_25_45** of 1 (low risk), 3 (approximately mean risk), and 5 (high risk) to generate the plot. For titles for your plot use "Predicted Effect of Percent White by Mortality Risk," "Percent White," and "Mortality Risk."
 
 
 ```{r plotcountiesX2b, exercise = TRUE}
@@ -397,13 +403,13 @@ Write code to produce a plot illustrating the effect of the percent white condit
 1. Call plot_model and specify in order the model fit object, 
 the term argument, the title, axis.title, and legend. title 
 arguments.
-2. Secify type="pred"?
+2. Specify type="pred".
 3. Specify terms by listing white_percent first, a comma,
-and mortality_risk_25_45[1,3,5] each in quotes inside c()?
+and mortality_risk_25_45[1,3,5] each in quotes inside c().
 4. Specify the axis.title by listing "Percent White" 
 followed by a comma and "Predicted Vote for Hillary Clinton (%)", 
-listing these inside the c() function?
-5. Specify the legend.title as "Mortality Risk"?
+listing these inside the c() function.
+5. Specify the legend.title as "Mortality Risk".
 ```
 
 ```{r plotcountiesX2b-solution}
@@ -422,10 +428,284 @@ grade_code("Nice plot!")
 
 
 
-Your plot should show that the effect of percent white is always negative (all slopes are negative) and is biggest (the slope is steepest) for counties with the highest mortality risk when all other variables are held at their mean value. There is support for the expectation that higher mortality risk makes whites more anti-incumbent.
+Your plot should show that the effect of percent white is always negative (all slopes are negative) and is biggest (the slope is steepest) for counties with the highest mortality risk when all other variables are held at their mean value. There is support for the expectation that higher mortality risk makes predominantly white counties more anti-incumbent than other counties.
+
+## Interactions Involing One Categorical and One Interval Variable
+
+Little changes when our interactions involve in interval and categorical variable. Consider the following regression where $X_1$ is a binary categorical variable and $X_2$ is an interval-level variable:
+
+
+$$Y_i = \hat{\alpha} + \hat{\beta}_1 X_{1,i} + \hat{\beta}_2 X_{2,i} + \hat{\beta}_3 X_{1,i}X_{2,i} + ... + \hat{\epsilon}_i.$$
+
+1. $\hat{\alpha}$ tells us the expected value of $Y$ when all the explanatory variables, including the interaction term, are zero. Thus it gives us the effect of being in the baseline category when $X_2$ and all other variables have a value of zero.
+2. $\hat{\beta_1}$ is the difference in the expected value of $Y$ between cases in the baseline and the included category when $X_2$=0. 
+3. $\hat{\alpha} + \hat{\beta_1}$ is the expected value of $Y$ for the included category when $X_2$ (and all other explanatory variables are zero).
+4. $\hat{\beta_2}$ is the effect of $X_2$ on $Y$ when $X_1=0$, i.e., when the case is in the baseline category.
+5. $\hat{\beta_3}$ is the additional effect of $X_2$ on $Y$ when neither are 0. Thus it is the additional effect of $X_2$ for the included category. The difference in the expected value of $Y$ between the two categories widens or shrinks as the value of the interval-level variable increases.
+
+
+### Example 1: The conditional effects of political rights and trade openness on environmental performance
+
+To illustrate interpretation of interaction terms involving a categorical and interval variable we will use the Quality of Government data set, **qog**, which has data from countries around the world. We will investigate the effects of trade openness (**ipi_tradeopen**, measured on a scale from 1-10, where 10 is most open), citizen political rights (**rights**, coded as 0 if a country's citizens have few political rights and 1 if they have many), and economic freedoms (**hf_efiscore**, measured on a scale from 0 to 100 where 100 is more freedoms) on a country's overall environmental health (**epi_epi**, measured on a scale from 0 to 100 where 100 is better performance). 
+
+Let's assume we suspect that the effect of trade openness depends on the existence or lack thereof of political rights and that the effect of political rights depends on trade openness. Let's see what we find.
+
+### Estimate the regression
+
+Estimate the appropriate model. Save the result to **model1** and use the `summary()` function to examine your results.
+
+
+```{r modelepi1, exercise = TRUE}
+
+```
+
+```{r modelepi1-hint-1}
+1. Use the lm() function, specifying epi_epi as the dependent variable.
+2. Type a tilde and then list rights inside the factor function plus
+ipi_tradeopen + factor(rights)*ipi_tradeopen + hg_efiscore
+3. Be sure to include the data argument, setting it equal to qog
+4. Examine your results with summary(model1)
+```
+
+```{r modelepi1-solution}
+model1 <- lm(epi_epi ~ factor(rights) + ipi_tradeopen + factor(rights)*ipi_tradeopen + hf_efiscore, data=qog)
+summary(model1)
+```
+
+```{r modelepi1-check}
+grade_code()
+```
+
+
+Let's interpret the effects of the variables involved in the interaction. 
+
+1. -7.399, the intercept tells us the expected value of the environmental protection index when a country's citizens have few political rights (**rights**=0) and there is no trade openness (**ipi_tradeopen**=0) and there are no economic freedoms (**hf_efiscore**=0).
+2. 29.226, the coefficient on **rights**, is the difference in the expected value of the environmental protection index for country's that do not and do have lots of political rights when trade openness, **ipi_tradeopen**, = 0. So countries with lots of political rights have a score on the environmental protection index that is about 29 points higher.
+3.-7.3999 + 29.226 = 21.8261 is the expected value of the environmental performance index for for countries with many political rights when a country scores zero on the trade openness index (and all other explanatory variables are zero).
+4. 4.750, the coefficient on **ipi_tradeopen**, is the effect of each unit increase on the trade openness scale when a country has few political rights (**rights**=0). For these country's trade openness increases their environmental protection index score.
+5. -4.629, the coefficient on the interaction term, is the difference in the effect of each unit increase on the trade openness scale when a country has many political rights (**rights**=1) compared to few. Thus, the effect of trade openness drops 4.629 when a country's citizens have many political rights. In fact, it nearly cancels out the main effect of 4.750.
+
+### Plot the conditional effects of political rights
+
+Let's plot the conditional effects of political rights for different values of trade openness. Replace the XXX and run the code.
+
+```{r plotepi1, exercise = TRUE}
+plot_model(model1, 
+           type="pred", 
+           terms=c(XXX, XXX),
+           title = "Predicted Effect of Rights by Trade Openness", 
+           XXX = c("Political Rights","Predicted Environmental Performance Index"),
+           XXX= "Trade as Percent of GDP")
+
+```
+
+```{r plotepi1-hint}
+Make sure to list the variable you want on the x-axis first in the terms argument.
+(It should be rights.)
+Did you specify axis.title and legend.title?
+```
+
+```{r plotepi1-solution}
+plot_model(model1, 
+           type="pred", 
+           terms=c("rights", "ipi_tradeopen"),
+           title = "Predicted Effect of Rights by Trade Openness", 
+           axis.title = c("Political Rights","Predicted Environmental Performance Index"),
+           legend.title= "Trade as Percent of GDP") 
+
+```
+
+```{r plotepi1-check}
+grade_code()
+```
+
+What does this plot tell us? Several things! The effect of political rights depends on trade openness only for those countries that have few political rights (**rights**=0). For levels of trade openness one standard deviation below the mean, we expect a relatively low score on the environmental performance index while for countries at the mean we expect a higher score and for those countries with trade openness one standard deviation above the mean, we expect an even higher score on the EPI index. These effects are statistically different from one another because the confidence intervals do not overlap. But the effect of having lots of political freedoms does not change based on a country's trade openness. 
+
+
+Now plot the conditional effects of trade openness by replacing the XXX in the code below. Use "Trade as Share of GDP" and "Political Rights" for the omitted titles. Be sure to put them in the right place.
+
+```{r plotepi1b, exercise = TRUE}
+plot_model(model1, 
+           type=XXX, 
+           terms=c(XXX, XXX),
+           title = "Predicted Effect of Trade by Rights", 
+           axis.title = c(XXX,"Predicted Environmental Protection Index"),
+           legend.title= XXX)
+
+```
+```{r plotepi1b-hint}
+Did you set type to "pred"?
+The terms argumbent should list ipi_tradeopen first, followed by rights,
+both inside quotation marks
+The axis.title should specify "Trade as Share of GDP" and the legend.title
+"Political Rights"
+```
+
+```{r plotepi1b-solution}
+plot_model(model1, 
+           type="pred", 
+           terms=c("ipi_tradeopen", "rights"),
+           title = "Predicted Effect of Trade by Rights", 
+           axis.title = c("Trade as Share of GDP","Predicted Environmental Protection Index"),
+           legend.title= "Political Rights")
+
+```
+
+```{r plotepi1b-check}
+grade_code()
+```
+
+
+
+
+```{r letter-f, echo=FALSE}
+question("Examine the plot above and select the statements that are true",
+  answer("The effect of trade openness on the predicted environmental performance index is larger when a country's citizens have many political rights", correct=FALSE, message="We can tell the effect of trade openness is larger when there are few political rights than many because the slope is steeper when they have few political rights. "),
+  answer("The effect of trade openness on the predicted environmental performance index is smaller when a country's citizens have more political rights",  correct=TRUE, message="We can tell the effect of trade openness is larger when there are few political rights than many because the slope is steeper when they have few political rights. "),
+   allow_retry = TRUE,
+  try_again = "Try again"
+  )
+```
+
+
+### Example 2: The conditional effects of a high GDP and democracy on confidence in institutions
+
+For our second example illustrating interpretation of interaction terms involving a categorical and interval variable we will use data from countries around the world in the data frame **world**.  We will investigate the interactive effects of democracy (**polity**, measured on a scale from -10 to +10, where 10 is most democratic) and high versus low GDP (**hi_gdp**, coded as "Low GDP" and "High GDP"), on citizens confidence in the institutions of government (**confidence**, a scale from 0 to 100 where 100 is most confident).
+
+
+### Estimate the regression
+
+Estimate the appropriate model. Save the result to **model2** and use the `summary()` function to examine your results.
+
+```{r modelconfidence, exercise = TRUE}
+
+```
+
+```{r modelconfidence-hint-1}
+1. Use the lm() function, specifying confidence as the dependent variable.
+2. Type a tilde and then list hi_gdp inside the factor function plus
+polity + factor(hi_gdp)*polity
+3. Be sure to include the data argument, setting it equal to world
+4. Examine your results with summary(model2)
+```
+
+```{r modelconfidence-solution}
+model2<-lm(confidence~factor(hi_gdp)+polity+factor(hi_gdp)*polity, data=world)
+summary(model2)
+```
+
+```{r modelconfidence-check}
+grade_code()
+```
+
+
+
+```{r letter-g, echo=FALSE}
+question("Examine the output above and select the statements that are true",
+  answer("The intercept tells us that the expected level of confidence in government institutions is about 57 points when a country has a zero on the Polity score and a low GDP", correct=TRUE, message="The intercept tells us the expected value of Y when all variables in the model are zero or at their base level. The base level of hi_GDP is Low GDP. "),
+  answer("Countries with high GDP have an expected level of confidence that is 36.49 points lower on the confidence in government institutions scale than countries with a low GDP when the Polity score is zero", correct=TRUE, message="The slope coefficient on GDP tells us the difference in the expected value of Y when GDP is High compared to when it is Low when polity=0. "),
+  answer("Among countries with a low GDP, each unit increase in the Polity democracy score yields a drop of 1.26 points in the confidence in government institutions index.",  correct=TRUE, message="The slope on the Polity democracy score tells us the effect of that variable when GDP is in the base category, here Low GDP. "),
+  answer("The difference in the effect of each unit increase on the Polity democracy score when GDP is High, compared to when it is low, is 3.99.", correct=TRUE, message="The coefficient on the interaction term, is the difference in the effect of each unit increase on the polity score when a country is not in the base category (Low) compared to when it is. Thus, the effect of Polity increases by 3.99 when a country has a high GDP."),
+   allow_retry = TRUE,
+  try_again = "Hint: Have you selected all correct answers?"
+  )
+```
+
+
+### Plot the conditional effect of a high versus low GPP
+
+It is easier to understand the effect of interactions by plotting. Replace the XXX in the code below to generate the predicted effect of a high versus a low GDP conditioned on a countries Polity score. Notice that I've omitted the x-axis title as the labels provide all the necessary information to interpret the plot.
+
+```{r plotmodel2-hint}
+1. We use the plot_model function.
+2. The type of plot we want is predicted values so set type to "pred".
+3. Next we specify the terms argument, listing the variable we wish to plot on the
+x-axis first, here "hi_gdp", and the conditioning variable second, here "polity."
+```
+
+```{r plotmodel2, exercise = TRUE}
+XXX(model2, 
+           type=XXX, 
+           XXX=c(XXX, XXX),
+           title = "Predicted Effect of High GDP by Democracy Score", 
+           axis.title = c("","Predicted Confidence"),
+           legend.title= "Polity Democracy Score")
+
+```
+
+```{r plotmodel2-solution}
+plot_model(model2, 
+           type="pred", 
+           terms=c("hi_gdp", "polity"),
+           title = "Predicted Effect of  GDP by Democracy Score", 
+           axis.title = c("","Predicted Confidence"),
+           legend.title= "Polity Democracy Score")
+
+```
+
+```{r plotmodel2-check}
+grade_code()
+```
+
+Recall that the `plot_model()` function selects vaues of the Polity Democracy Score one standard deviation below the mean, the mean, and one standard deviation above the mean.
+
+```{r letter-h, echo=FALSE}
+question("Examine the plot above select the statements that are true",
+  answer("Countries with a Polity score one standard deviation below the mean (1.2) and a low GDP have significantly higher confidence in government then countries with a Polity score of 1.2 and a high GDP", correct=TRUE, message="The point estimates in red are different and their confidence intervals do not overlap. Therefore, these differences are statistically significant. "),
+  answer("Among countries with a low GDP, the predicted values of confidence in government institutions is significantly different for these values of the Polity score.",  correct=FALSE, message="Because the red, blue, and green confidence intervals overlap for countries with low GDP, the effect of the democracy score for these values of Polity is not significantly different."),
+  answer("Among countries with a high GDP, those with a Polity score of 1.2 and 11.7 have a significantly different predicted level of confidence in government institutions.", correct=TRUE, message="Because the red and greed confidence intervals do not overlap for countries with a high GDP, countries with a Polity score of 1.2 and 11.7 have significantly different expected values of confidence in government institutions with countries with lower democracy scores have significantly lower confidence than those with higher democracy scores."),
+   allow_retry = TRUE,
+  try_again = "Hint: Did you select all correct answers?"
+  )
+```
+
+Now, see if you can create the plot for the effects of democracy score on confidence, conditional on having a high versus low GDP. Give your plot the title "Predicted Effect of GDP by Democracy Score" and label the legend title "GDP", the x-axis title "Polity Democracy Score", and the y-axis title "Predicted Confidence".
+
+```{r plotmodel2b, exercise=TRUE}
+
+```
+
+```{r plotmodel2b-hint}
+1. Begin with the plot_model function and list model2 as the first argument.
+2. Specify the type argument as "pred" to tell the function to plot predicted values.
+3. Specify the terms argument to tell the function what effects you want to plot.
+4. List the x-axis variable first. This is the variable whose effects you want to plot.
+In this example, we want to plot the effects of democracy score, "polity".
+5. Then list the conditioning variable, here "hi_GDP".
+6. Add the title argument. Make sure to set it equal to the title in the instructions.
+7. Add the axis.title argument. Remember the titles must be placed in quotes inside the c function.
+Be sure to list the x-axis title first and the y-axis title second.
+8. Specify the legend.title argument to name the legend "GDP"
+
+```
+
+```{r plotmodel2b-solution}
+plot_model(model2, 
+           type="pred", 
+           terms=c("polity","hi_gdp"),
+           title = "Predicted Effect of GDP by Democracy Score", 
+           axis.title = c("Polity Democracy Score","Predicted Confidence"),
+           legend.title= "GDP")
+```
+
+```{r plotmodel2b-check}
+grade_code()
+```
+
+
+```{r letter-i, echo=FALSE}
+question("Examine the plot above. TRUE or FALSE: The effect of democracy score on predicted confidence in governnment institutions is positive for countries with a high GDP and negative for a country with low GDP.",
+  answer("TRUE", correct=TRUE, message="Because the slope of the line is positive for countries with a high GDP, increases in democracy scores lead to higher confidence for these countries and because the slope is negative for countries with a low GDP, increases in democracy scores lead to lower confdience for these countries."),
+  answer("FALSE",  correct=FALSE, message="Because the slope of the line is positive for countries with a high GDP, increases in democracy scores lead to higher confidence for these countries and because the slope is negative for countries with a low GDP, increases in democracy scores lead to lower confdience for these countries. "),
+   allow_retry = TRUE,
+  try_again = "Try again"
+  )
+```
 
 
 ## The Takeaways
+
+
 
  Multiple regression analysis is a straightforward extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome and to estimate conditional or interactive  relationships. A <span style="color:blue">**conditional** or **interactive relationship** implies that the effect of each variable depends on the values taken by another.</span> Including conditional relationships in the model requires us to include each individual explanatory variable and in addition to include a term multiplying the two variables in the interaction.
  
@@ -436,7 +716,7 @@ It is important to think carefully about our expectations for conditional relati
 
 We may not have clear expectations for both variables and/or for either one of these questions. That's okay!
 
-Interpreting the effects of interactions is best accomplished by using predicted values. The `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package. The function will calculate the predicted values of the outcome variable (by setting the type argument to "pred") as a function of one variable (the first in the terms argument) conditional on the second variable (the second in the terms argument) in the interaction.  **Remember:** *Predictions are calculating after setting the values of all other variables at their mean values if interval (or ordinal treated as interval) and at their base value if they are categorical (nominal or ordinal).*  Ninety-five percent confidence intervals are included around the predictions, allowing you to see when predictions are significantly different from each other.
+Interpreting the effects of interactions is often most easily accomplished by using predicted values. The `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package. The function will calculate the predicted values of the outcome variable (by setting the type argument to "pred") as a function of one variable (the first in the terms argument) conditional on the second variable (the second in the terms argument) in the interaction.  **Remember:** *Predictions are calculating after setting the values of all other variables at their mean values if interval (or ordinal treated as interval) and at their base value if they are categorical (nominal or ordinal).*  Ninety-five percent confidence intervals are included around the predictions, allowing you to see when predictions are significantly different from each other.
 
 The results from these plots can be used to assess theoretical expectations about the nature of the conditional relationship. There are additional arguments that can be passed to the `plot_model()` function to generate predictions holding other variables are specific values. We'll cover these arguments in the context of logistic regression models. 
 
