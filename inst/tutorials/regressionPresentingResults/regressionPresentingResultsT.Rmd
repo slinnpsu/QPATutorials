@@ -205,7 +205,7 @@ plot_model(model1,
 
 
 
-Each row is a different independent variable The circle is the estimated $\hat{\beta}$. The lines extending from the point estimate give the 95% confidence interval around the estimate. The smaller the confidence interval (the shorter the lines), the more precise the estimate. The plot automatically includes  a thicker vertical line at zero. Any coefficient estimate whose standard errors cross the zero line are not statistically significantly different from zero at the 95% level of confidence. As a bonus, the function provides stars to indicate variables that are significant and the level of significance. Two stars means p<0.05. 
+Each row is a different independent variable The circle is the estimated $\hat{\beta}$. The lines extending from the point estimate give the 95% confidence interval around the estimate. The smaller the confidence interval (the shorter the lines), the more precise the estimate. The plot automatically includes  a thicker vertical line at zero. Any coefficient estimate whose standard errors cross the zero line are not statistically significantly different from zero at the 95% level of confidence. 
 
 
 ### A more informative coefficient plot
@@ -234,7 +234,7 @@ plot_model(model1,
            axis.title = "Coefficient Estimates")
 ```
 
-This looks much better!
+This looks much better! 
 
 ### Practice
 
@@ -314,13 +314,13 @@ We can, of course, simply identify the values of our independent variables for a
 
 ## Predicting the effect of a single independent variable when all other variables are set at their mean
 
-We can easily produce a plot that shows the effect of one independent variable when all other independent variables are set at their mean (any factor is set at its base level and all dichotomous variables are set to 0).
+We can easily produce a plot that shows the effect of one independent variable when all other independent variables are set at their mean (any factor is set at its base level and all dichotomous variables are set to the smallest value, usually zero).
 
 Here we will use the `plot_model()` function we used to produce the coefficient plot above but now we set the `type` argument to `"pred"` to tell the function we want predicted values.
 
 We must tell the function the name of the independent variable whose effects we wish to isolate. We do this using the `term` argument, setting it equal to the variable name (in quotes). All other variables are automatically held at their mean values, if they are interval or ordinal, and at their base levels if they are categorical. 
 
-The `show.data` argument controls whether the raw data points (the bivariate scatterplot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
+The `show.data` argument controls whether the raw data points (the bivariate scatte rplot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
 
 
 The remaining options replace the default labels in the plot. <span style="color:Red">Note: The label arguments are different in `plot_model()` than when using `ggplot()`.</span>
@@ -544,7 +544,9 @@ grade_code()
 
 ### Generate Predictions for an Interval Variable
 
-Next, plot the predicted proportion of House seats held by the Democrats as a function of the proportion of the state's residents that are liberal.  Remember that all other variables are set at their means with the exception of **region_censusf**, which is set to south, the baseline category.
+Next, plot the predicted proportion of House seats held by the Democrats as a function of the proportion of the state's residents that are liberal.  Remember that all other variables are set at their means with the exception of **region_censusf**, which is set to south, the baseline category.  
+
+Set the title for the plot to "Predicted Proportion of House Seats \nHeld by Democrats" and the axis titles to "Proportion Liberal" and "Proportion of Democratic House Seats". Set the `show.data` equal to TRUE to plot the bivariate scatter plot.
 
 
 ```{r statepred1, warning=FALSE, message=FALSE, exercise=TRUE}
@@ -573,7 +575,7 @@ y-axis title.
 plot_model(fit1,
            type="pred",
            term="p.liberal",
-           show.data = FALSE,
+           show.data = TRUE,
            title="Predicted Proportion of House Seats \nHeld by Democrats",  
            axis.title = c("Proportion Liberal","Proportion of Democratic House Seats"))
 ```
@@ -587,7 +589,7 @@ This plot helps us to see that as the proportion of people calling themselves li
 ### Generate Predictions for a Nominal Variable
  
 
-Now plot the predicted effects of census region from the regression given in **fit1**, holding all other variables at their means. Specify the title, axis.title arguments and show the data.
+Now plot the predicted effects of census region from the regression given in **fit1**, holding all other variables at their means. Specify the title ("Predicted Proportion of House Seats Held \nby Democrats by Region"), axis.title arguments (specify "" for a blank title for the x-axis and "Proportion of House Seats \nHeld by Democrats" for the y-axis) and do not show the data.
 
 
 ```{r statepred2, warning=FALSE, message=FALSE, exercise=TRUE}
