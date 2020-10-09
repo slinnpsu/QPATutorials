@@ -195,7 +195,7 @@ The data frame **counties** contains a variable called **UrbanCat** that takes a
 
 To include a nominal variable in a regression in R, we specify `factor(categorical-variable-name)` rather than simply listing the variable. You do not need to create separate dichotomous variables for each category. R will omit one category by default, as long as it knows the variable is a factor. Which one? <span style="color:DarkGreen">If the variable has numeric codes, it omits the category with the smallest value. If the variable is a character vector, it omits the category that is first alphabetically.</span>  (Note: if a nominal variable has a factor class, you do not need to enclose it inside the `factor()` function.)
 
-Now we are ready to estimate the regression from above, adding the nominal variable **UrbanCat**. Simply add it to the list of independent variables by enclosing it inside the `factor()` function: `factor(**UrbanCat**)`.  Because -1 is the smallest value of this variable and this value denotes "neither rural nor urban", this is the baseline category.
+Now we are ready to estimate the regression from above, adding the nominal variable **UrbanCat**. Simply add it to the list of independent variables by enclosing it inside the `factor()` function: `factor(UrbanCat)`.  Because -1 is the smallest value of this variable and this value denotes "neither rural nor urban", this is the baseline category.
 
 
 ```{r lm2, exercise = TRUE}
@@ -274,7 +274,7 @@ Look at the output from your regression analysis and answer the following questi
 ```{r letter-g, echo=FALSE}
 question("Which of the following statements are true?",
   answer("For a one-point increase on the equal opportunity scale, on average there is an increase of 4.6128 on the quality of governance score", correct=TRUE),
-  answer("For each additional birth averaged in a country, the quality of governance increases by 2.0678", message="The coefficient for the fertility rate is negative. "),
+  answer("For each additional one-point increase in the birth rate averaged in a country, the quality of governance increases by 2.0678", message="The coefficient for the fertility rate is negative. "),
   answer("For each one-point increase in the quality of government score, on average a country's equal opportunity scale increases by 4.6128", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
   answer("The most democratic governments have an average quality of governance score of 11.9053 when all other variables are zero", message="To calculate the average quality of governance score for the most democratic governments we would need to add the intercept and the coefficient for factor(democ)2. "),
   answer("The most democratic governments have an average quality of governance score that is 11.9053 greater than the least democratic countries", correct=TRUE, message="The slope coefficient tells us the expected change in the dependent variable for a one unit change in the independent variable. 4.6128 is the coefficient on the equal opportunity scale. Thus, for each one point increase in that variable, the quality of governance score increases on average by 4.6128. The slope of a nominal variable tells us how much the average value of the dependent variable changes compared to the baseline category, here least democratic governments, so the most democratic governments have an average quality of governance score 11.9053 points greater than the least democratic."),
@@ -363,7 +363,7 @@ Examine the t-statistics and p-values for the estimated coefficients in the outp
 
 ```{r letter-k, echo=FALSE}
 question("Select the statements that are true",
-  answer("We can be 95% confident that the unevenness of economic development does not affect freedom of the press scores", correct=TRUE, message="Because **ffp_ued** has a p-value greater than 0.05, we cannot reject the null hypothesis for this variable but for all others the p-value is less than 0.05. "),
+  answer("We cannot reject the null hypothesis that the unevenness of economic development does not affect freedom of the press scores at an alpha level of 0.05", correct=TRUE, message="Because **ffp_ued** has a p-value greater than 0.05, we cannot reject the null hypothesis for this variable but for all others the p-value is less than 0.05. "),
   answer("We can reject the null hypothesis that the estimated coefficient is different from zero with 95% confidence for the state fragility index", correct=TRUE, message="Because the p-value is less than 0.05, we can be 95% confident that state fragility influences freedom of the press. "),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
@@ -386,7 +386,7 @@ question("Select the statements that are true",
 
 ## Takeaways
 
- Multiple regression analysis is a simple extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome. Even if our interest lies in determining the effect of a single variable on some outcome, it is essential that we control for additional variables to eliminate spurious findings and to produce estimates that are unbiased. This means that we must think carefully about the variety of factors that produce the outcome and include variables measuring those factors if they are also correlated with the variable of interest. In the next tutorial we will consider extensions to multiple regression analyses that allow for conditional (or interactive) relationships where the effect of a variable depends on the value of some other variable.
+ Multiple regression analysis is a simple extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome. Even if our interest lies in determining the effect of a single variable on some outcome, it is essential that we control for additional variables to eliminate spurious findings and to produce estimates that are unbiased. This means that we must think carefully about the variety of factors that produce the outcome and include variables measuring those factors if they are also correlated with the variable of interest. In a subsequent tutorial we will consider extensions to multiple regression analyses that allow for conditional (or interactive) relationships where the effect of a variable depends on the value of some other variable.
  
 Like simple regression, multiple regression analysis is easy to conduct in R using the `lm()` command, and results are easily displayed using the `summary()` function.  
 
