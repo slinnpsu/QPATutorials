@@ -277,7 +277,7 @@ This looks pretty good, but we can make it better. Let's make this more informat
 library(stargazer)
 stargazer(model1,
           type = "text",
-          title = "Linear Regression Model of the Vote for Donald Trump",
+          title = "Logistic Regression Model of the Vote for Donald Trump",
           dep.var.labels = "Vote for Donald Trump",
           covariate.labels = c("Feelings toward Police (0-100)", "Feelings toward Illegal Immigrants (0-100)", "Republican","Democrat", "Female", "Education Level (1-5)", "Constant"))
 ```
