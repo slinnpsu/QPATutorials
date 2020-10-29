@@ -265,7 +265,7 @@ stargazer(model1,
           type = "text")
 ```
 
-Look at the table and confirm that the results match the summary output from the regression.  The table includes coefficient estimates, standard errors, the number of observations, and some additional information.  Because the table does not report t-statistics or p-values, one asterisk is included by coefficient estimates that are significant at the 0.10 level, two asterisks for estimates that are significant at the 0.05 level, and three asterisks for estimates that are significant at the 0.01 level. Thus, we can reject the null hypothesis that a coefficient is zero if two or three asterisks reported next to the estimated coefficient.
+Look at the table and confirm that the results match the summary output from the regression.  The table includes coefficient estimates, standard errors, the number of observations, and some additional information.  Because the table does not report t-statistics or p-values, one asterisk is included by coefficient estimates that are significant at the 0.10 level, two asterisks for estimates that are significant at the 0.05 level, and three asterisks for estimates that are significant at the 0.01 level. Thus, we can reject the null hypothesis that a coefficient is zero if two or three asterisks are reported next to the estimated coefficient.
 
 ### A more informative table
 
@@ -299,7 +299,7 @@ question("Look at the table above. Which of the following statements are true?",
 ### Practice
 
 
-Let's estimate a model of voter turnout in which we estimate turnout (**turnout**, coded 0 if an individual did not vote and 1 if they did) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which we generated above), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). This last variable captures the size of the difference in their feelings toward the two candidates and ranges from 0 (they evaluated the two candidates identically) to 100 (the valued the two candidates at 0 and 100). We will treat both **educ** and **income** as interval variables in this example rather than as categorical variables because they have a number of categories and while differences are not precisely equal across the scale, we will assume they are. 
+Let's estimate a model of voter turnout in which we estimate turnout (**turnout**, coded 0 if an individual did not vote and 1 if they did) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which we generated above), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). This last variable captures the size of the difference in their feelings toward the two candidates and ranges from 0 (they evaluated the two candidates identically) to 100 (they valued the two candidates at 0 and 100). We will treat both **educ** and **income** as interval variables in this example rather than as categorical variables because they have a number of categories and while differences are not precisely equal across the scale, we will assume they are. 
 
 Complete the code to estimate the model.
 
@@ -638,66 +638,6 @@ question("Look at carefully at the figure above. Which of the following statemen
 
 Let's plot predictions from our model of voter turnout. Recall that we estimated turnout (**turnout**) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which we generated above), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). We saved the model fit object as **model2**.
 
-Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan".Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education", and change the y-axis scale so that there is no scientific notation.
-
-```{r m2p, exercise=TRUE, message=FALSE}
-
-```
-
-```{r m2p-hint-1}
-Call the plot_model() function and pass it model2
-```
-
-```{r m2p-hint-2}
-Specify type="pred" for predicted values
-```
-
-```{r m2p-hint-3}
-Set the terms argument ="educ"
-This places education on the x-axis
-```
-
-```{r m2p-hint-4}
-Add the condition argument and set it to 
-c(income=2, thermdiff=50, strongf="Not a Strong Partisan")
-```
-
-```{r m2p-hint-5}
-Add title="Predicted Probability of Casting a Ballot"
-```
-
-```{r m2p-hint-6}
-Add axis.title=c(), where inside () you list the x-axis title first followed by
-the y-axis title
-```
-
-
-```{r m2p-hint-7}
-Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
-```
-
-```{r m2p-solution}
-plot_model(model2,
-           type="pred",
-           terms="educ",
-           condition=c(income=2, thermdiff=50, strongf="Not a Strong Partisan"),
-           title="Predicted Probability of Casting a Ballot",
-           axis.title = c("Level of Education","Predicted Probability") )+
-  scale_y_continuous(labels=NotScientific)
-```
-
-```{r m2p-check}
-grade_code()
-```
-
-
-```{r letter-d, echo=FALSE}
-question("Looking at the figure above is the following TRUE or FALSE? At all levels of education, an individual is more likely to turn out that not turn out ",
-  answer("FALSE", correct=FALSE, message="The predicted values in the plot only apply to someone who has  an average income, who is not a strong partisan, and who evaluates the candidates 50 degrees differently"),
-  answer("TRUE", correct=TRUE),
-  allow_retry = TRUE
-  )
-```
 
 
 Generate the predicted probability of voting in 2016 as a function of the difference in evaluations of the two candidates and the strength of partisanship, setting education and income at their mean values. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Absolute Difference in Feelings toward Clinton and Trump", and the legend title "Strength of Partisanship"; and change the y-axis scale so that there is no scientific notation.
@@ -760,7 +700,68 @@ question("Look at carefully at the figure above. Which of the following statemen
   )
 ```
 
-Generate predicted turnout scores as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level"; and change the y-axis scale so that there is no scientific notation.
+Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan".Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education", and change the y-axis scale so that there is no scientific notation.
+
+```{r m2p, exercise=TRUE, message=FALSE}
+
+```
+
+```{r m2p-hint-1}
+Call the plot_model() function and pass it model2
+```
+
+```{r m2p-hint-2}
+Specify type="pred" for predicted values
+```
+
+```{r m2p-hint-3}
+Set the terms argument ="educ"
+This places education on the x-axis
+```
+
+```{r m2p-hint-4}
+Add the condition argument and set it to 
+c(income=2, thermdiff=50, strongf="Not a Strong Partisan")
+```
+
+```{r m2p-hint-5}
+Add title="Predicted Probability of Casting a Ballot"
+```
+
+```{r m2p-hint-6}
+Add axis.title=c(), where inside () you list the x-axis title first followed by
+the y-axis title
+```
+
+
+```{r m2p-hint-7}
+Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p-solution}
+plot_model(model2,
+           type="pred",
+           terms="educ",
+           condition=c(income=2, thermdiff=50, strongf="Not a Strong Partisan"),
+           title="Predicted Probability of Casting a Ballot",
+           axis.title = c("Level of Education","Predicted Probability") )+
+  scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p-check}
+grade_code()
+```
+
+
+```{r letter-d, echo=FALSE}
+question("Looking at the figure above is the following TRUE or FALSE? At all levels of education, an individual is more likely to turn out that not turn out ",
+  answer("FALSE", correct=FALSE, message="The predicted values in the plot only apply to someone who has  an average income, who is not a strong partisan, and who evaluates the candidates 50 degrees differently"),
+  answer("TRUE", correct=TRUE),
+  allow_retry = TRUE
+  )
+```
+
+Generate predicted turnout as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level"; and change the y-axis scale so that there is no scientific notation.  Think carefully about which terms to list and the order in which you need to list them to generate the requested predictions.
 
 
 ```{r m2p2, exercise=TRUE, message=FALSE}
@@ -832,8 +833,8 @@ We began this tutorial with an illustration of the use of the `factor()` functio
 
 Our focus in this tutorial, however, is on the presentation of results from logistic regression. The process is identical to that from linear regression. 
 
-* We can use the `stargazer()` function in the <span style="color:DarkGreen">stargazer</span> package to present tables that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model. 
-* We can also use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present coefficient plots. We specify the `type` of plot as `"est"`. A number of additional arguments can be specified to control the look and feel of the plot.
+* We can use the `stargazer()` function in the <span style="color:DarkGreen">stargazer</span> package to present tables of results from a logistic regression that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model.  See ?stargazer for additional details.
+* We can  use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present coefficient plots of the results from a logistic regression. We specify the `type` of plot as `"est"`. A number of additional arguments can be specified to control the look and feel of the plot. See ?plot_model for additional details.
 * We can also use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present predicted value plots. We specify the `type` of plot as `"pred"`. We can plot predictions from a model as a function of one, two, or three variables.
     * We can plot the effect of a single variable holding all other values at their mean or base/reference category by specifying a single variable in the `terms` argument. If we wish to choose values other than the mean or base/reference category, we can specify the `condition` argument, naming the variables and values we wish to set as the basis for our predictions.
     * We can plot the effect of two variables by adding a second variable name to the `terms` argument. The first variable named in the `terms` argument is plotted on the x-axis and the second variable named breaks down the effects of the first variable based on categories of the second. If the second variable is measured at the interval level, by default the mean and one standard deviation above and below the mean are selected for the plot. You can change the values by including [X, Y, Z] after the variable name and replace X, Y, and Z with the desired values of the variable. We can also combine the `terms` argument with the `condition` argument when we plot the effect of two variables on the predictions from the model. Here again, this allows us to set the values taken by the variables not plotted.
