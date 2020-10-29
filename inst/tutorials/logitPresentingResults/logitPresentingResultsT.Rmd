@@ -1,0 +1,844 @@
+---
+title: "Presenting Logistic Regression Results"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to present results from logistic regression.
+---
+
+## Learning Objectives
+
+In this tutorial, you will learn how to work with factors in R and to present results from logistic regression analysis in R. Specifically we will cover:
+
+* How to use the `factor()` function with the `labels` argument to generate a factor with labels and how to use the `relevel()` function to set the reference or base category of a factor
+* How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
+* How to use the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a logistic regression analysis. Specifically, we will cover how to plot the effects of one or more variables and how to set the values of independent variables not being plotted.
+
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+#library(knitr)
+library(poliscidata)
+library(stargazer)
+library(sjPlot)
+library(sjlabelled)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+#tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+counties <- qpaTutorials::counties
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+counties$wage_growth <- counties$wage_growth*100
+counties$black_percent <- counties$prop_black*100
+counties$white_percent <- counties$prop_white*100
+counties$hispanic_percent <- counties$prop_hispanic*100
+counties$college_grad_percent <- counties$prop_college_grad*100
+counties$White[counties$prop_white>0.5] <- 1
+counties$White[counties$prop_white<=0.5] <- 0
+counties$Obama2p_percent <- counties$Linc2pvs*100
+counties$College_percent <- counties$prop_college_grad*100
+df <- qpaTutorials::df
+df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
+qog <- qpaTutorials::qog
+#The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban, 9 is most rural, so -1 is rural
+counties$UrbanCat[counties$rural_urban>=7] <- -1
+#Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
+counties$UrbanCat[counties$rural_urban<=3] <- 1
+#Finally, we recode UrbanCat to -1 if the value of the variable is greater than 3 AND it is less than 7
+counties$UrbanCat[counties$rural_urban>3 & counties$rural_urban<7] <- 0
+qog$democ[qog$fh_ipolity2<4] <-0
+qog$democ[qog$fh_ipolity2>6] <-2
+qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
+states <- qpaTutorials::states
+states$p.liberal <- states$liberal/100
+states$region_censusf <- factor(states$region_census, 
+                            labels =  c("South", "Northeast", "Midwest", "West"))
+aNES <- qpaTutorials::aNES
+
+#First assign a "Democrat" to all cases where Dem is equal to 1
+aNES$party[aNES$Dem==1] <- 1
+#Next assign a "Repbulican" to all cases where GOP is equal to 1
+aNES$party[aNES$GOP==1] <- -1
+#Then assign "Neither" to all cases where both Dem and GOP are equal to 0
+aNES$party[(aNES$GOP==0 & aNES$Dem==0)] <- 0
+aNES$partyf <- factor(aNES$party, labels=c("Republican", "Neither Democrat nor Republican", "Democrat"))
+aNES$partyf<- relevel(aNES$partyf, ref = "Neither Democrat nor Republican")
+aNES$educ[aNES$educ==9] <=NA
+aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
+aNES <- aNES %>%
+  mutate(turnout=ifelse(Trump2016==1, 1,
+                        ifelse(Clinton2016==1, 1, 0)))
+aNES$Trump2016f <- factor(aNES$Trump2016, labels="Clinton","Trump")
+aNES <- aNES %>%
+  mutate(strong=ifelse(pid_strength==1, 0,
+                        ifelse(pid_strength==7, 1, 1)))
+
+aNES$strongf <- factor(aNES$strong, labels=c("Strong Partisan","Not a Strong Partisan"))
+aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
+model1 <- glm(Trump2016 ~  Police.FT + Illegals.FT + partyf + femalef + educ, family = "binomial", data = aNES)
+aNES$thermdiff <- abs(aNES$GOP.Pres.cand.FT-aNES$Dem.Pres.cand.FT)
+model2 <- glm(turnout~strongf + income+educ + thermdiff, family="binomial", data=aNES)
+states2020 <- qpaTutorials::states2020
+NotScientific <- function(l) {
+ l <- format(l, scientific = FALSE)
+ parse(text=l)
+}
+states2020$party_govf <- factor(states2020$party_gov, labels = c("Republican","Democrat"))
+states2020$party_govf <-relevel(states2020$party_govf, ref="Democrat")
+```
+
+
+
+
+## Overview
+
+
+Once you have estimated a logistic regression, the challenge is to present and to interpret those results in a way that is easiest for you and your readers to understand. In this tutorial, you will learn how to present results from logistic regression analysis in an effective manner using tables, coefficient plots, and predicted values.
+
+In addition, we will learn how to create factor class variables. Doing so will allow us to set the reference category and ensure that plots are labeled informatively, providing understandable labels rather than numeric values or abbreviations for categorical variables.
+
+
+## Dealing with Factors in R
+
+Many of the variables you work with are categorical. R does not know that a variable coded -1, 0, 1 (for example) is a categorical variable that can only take these three values. So far, we've dealt with this by referring to the variable in any function we execute as factor(variablename). This is fine for most purposes. But it can be easier to create a new factor version of the variable. If you do so, then it is not necessary to use the factor function when referring to that variable. In addition, if you do so you can associate labels with the values and you can set the reference category (the omitted category in your linear regression or logistic regression).
+
+We will walk through the steps to create, label, and change the reference category of a factor variable using variables with which we will work in this tutorial. We will consider three variables in the data frame **aNES**. The data frame contains a subset of variables from the 2016 American National Election Study (ANES). The ANES is a nationally representative sample of adults surveyed before and after the presidential election. 
+
+
+The variable **female** is a binary categorical variable that is coded 0 for males and 1 for females. We will first create a new variable that is a factor called **femalef**, where the "f" reminds us it is a factor, and add labels to the factor. To do so we use the `factor()` function. The first argument inside the `factor()` function is the name of the variable that we want to recode as a factor, here **female**. Note that we have to include the name of the data frame and the dollar sign so that R knows where to find the variable. The second argument is the `labels` argument. We set this equal to a vector of names using the `c()` function. The names we give for the labels can be anything we want that is informative but they must be given in order from the least to the greatest numeric value. This means we need to list "Male" first, followed by "Female". We assign the results to our new variable. (Remember to use aNES followed by the dollar sign). To check our work, I've included `levels(aNES$femaleF)`. This will print the levels we've assigned.
+
+Look carefully at the code to make sure you understand it before running it.
+
+
+
+```{r femalef, exercise=TRUE}
+aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
+levels(aNES$femalef)
+```
+
+The first value, here "Male", is the reference category.
+
+We will also be working below with a variable measuring an individual's party identification. The variable **party** from the data frame **aNES** is coded as -1 if an individual is a Republican, 0 if an individual is neither a Democrat or Republican, and 1 if an individual is a Democrat.
+
+Edit the code below to create a new variable called **partyf**, labeling it appropriately (capitalize the first letter), and check the levels.
+
+```{r partyf1, exercise=TRUE}
+XXX <- factor(XXX, labels=c("XXX", "Neither Democrat nor Republican", "XXX"))
+XXX(aNES$partyf)
+```
+
+```{r partyf1-hint-1}
+The first XXX should be the name of our new variable, including the name of the data frame:
+  aNES$partyF
+```
+
+```{r partyf1-hint-2}
+The second XXX should be the name of our original variable, including the name of the data frame:
+  aNES$party
+```
+
+```{r partyf1-hint-3}
+Because Republican is coded -1 and that's the smallest value, the first label should
+be "Republican", followed by "Neither Democrat nor Republican" because it is coded 0,
+and the last should be "Democrat", because it is coded +1
+```
+
+```{r partyf1-hint-4}
+Use the levels() function to print the levels of the factor
+```
+
+```{r partyf1-solution}
+aNES$partyf <- factor(aNES$party, labels=c("Republican", "Neither Democrat nor Republican", "Democrat"))
+levels(aNES$partyf)
+```
+
+```{r partyf1-check}
+grade_code()
+```
+
+The reference level is "Republican." That might be fine, but we might want to compare Republicans and Democrats to those who are not partisans. If so, then we want "Neither Democrat nor Republican" to be our reference category. We can control which category is the reference category by using the `relevel()` function. The `relevel` function takes two arguments. The first is the name of our factor variable, the second is `ref`, which we set equal to the desired reference category. We assign the results to our factor variable.  I've used the `levels()` function to show the result. Take care to make sure capitalization and spacing match the factor label.
+
+```{r level3, exercise=TRUE}
+aNES$partyf<- relevel(aNES$partyf, ref = "Neither Democrat nor Republican")
+levels(aNES$partyf)
+```
+
+Notice that "Neither Democrat nor Republican" is now listed first so it is our reference category.
+
+The variable **strong** is a binary categorical variable coded as 0 if a respondent in the ANES survey reported they were either a strong Democrat or a strong Republican and 1 if a respondent was not a strong partisan or stated they were an independent. Write the code to create a factor class variable called **strongf**. Check your work using the `levels()` function. Use the labels "Not a Strong Partisan" and "Strong Partisan".
+
+```{r partygovf, exercise=TRUE}
+
+```
+
+```{r partygovf-hint-1}
+Our new variable should be named first, aNES$strongf
+```
+
+```{r partygovf-hint-2}
+Specify the factor() function. The first argument should be the name of the original variable:
+  aNES$strong
+```
+
+```{r partygovf-hint-3}
+Next specify the labels argument and provide the labels "Strong Partisan" and "Not a Strong Partisan"
+inside the c() function, separated by a comma. "Strong Partisan" is listed first because
+strong is coded as 0 if the respondent is either a strong Democrat nor a strong Republican and 1 if they are not
+```
+
+```{r partygovf-hint-4}
+Finally, specify the levels() function and place our new variable name inside it.
+```
+
+
+```{r partygovf-solution}
+aNES$strongf <- factor(aNES$strong, labels=c("Not a Strong Partisan","Strong Partisan"))
+levels(aNES$strongf)
+```
+
+```{r partygovf-check}
+grade_code()
+```
+
+Complete the code to change the reference category to "Not a Strong Partisan" and show the levels with the `levels()` function.
+
+```{r relevel1, exercise=TRUE}
+aNES$strongf <- 
+```
+
+```{r relevel1-hint-1}
+Call the relevel() function and first name our factor variable
+```
+
+```{r relevel1-hint-2}
+Use the ref argument to change the reference category. Set it equal to "Not a Strong Partisan"
+```
+
+```{r relevel1-hint-3}
+Check that the base category is "Not a Strong Partisan" by calling the levels() function
+and passing it our factor variable
+```
+
+```{r relevel1-solution}
+aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
+levels(aNES$strongf)
+```
+
+```{r relevel1-check}
+grade_code()
+```
+
+One of the advantages of creating and labeling factor variables is that plots we generate using these variables will show descriptive names rather than values. This can save you and your reader from confusion when looking at figures.
+
+
+## Presenting logistic regression results in a stargazer table
+
+The `summary()` function presents results from a regression analysis, but the output format is not informative to readers. There is no title and variable names are typically only meaningful to the analyst who created them. We want to create tables that look like those you see in articles and books. To do so we will use the `stargazer()` function from the <span style="color:DarkGreen">stargazer</span> package. 
+If you completed the tutorial "Presenting Regression Results" you already know how to create a table with the `stargazer()` function. We will do a quick review here in the context of logistic regression.
+
+### Estimate the Logistic Regresion
+
+We first need to estimate the model. To illustrate how to generate a table with the `stargazer()` function we will estimate a logistic regression of an individual's vote choice for president in 2016. We will use data from the American National Election Study provided in the **aNES** data frame. The data contains the variable **Trump2016**, which is coded 0 if the respondent cast a vote for Hillary Clinton and 1 if they did so for Donald Trump. This is our dependent variable. Note that we do NOT want to code our dependent variable as a factor. The `glm()` function requires the dependent variable to be 0 or 1 and models the probability it equals 1. Our explanatory variables include individual feelings toward the police (**Police.FT**) and illegal immigrants (**Illegals.FT**), measured using feeling thermometers ratings (coded from 0 to 100, where 0 is very cool and 100 is very warm), an individual's party identification (**partyf**, which we created above), the level of education an individual completed (**educ**, where 1 denotes a respondent did not complete high school, 2 denotes they have a high school diploma, 3 denotes they attended some college, trade, or business school, 4 denotes they have a college degree, and 5 denotes post graduate work), and whether or not an individual is a female (**femalef**, which we created above). Note that we will treat **educ** as an interval level variable for the purposes of this illustration.
+
+
+Run the code below, making sure you understand it first.
+
+```{r m1, exercise=TRUE}
+model1 <- glm(Trump2016 ~  Police.FT + Illegals.FT + partyf + femalef + educ, family = "binomial", data = aNES)
+summary(model1)
+```
+
+
+### A basic table
+
+Now that we have a model object, **model1**, which contains the logistic regression results from the `glm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type=text` so that the output is readable. That's all we need to do to create a basic table.
+
+Note that we need to load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
+
+```{r star, warning=FALSE, message=FALSE, exercise=TRUE}
+library(stargazer)
+stargazer(model1,
+          type = "text")
+```
+
+Look at the table and confirm that the results match the summary output from the regression.  The table includes coefficient estimates, standard errors, the number of observations, and some additional information.  Because the table does not report t-statistics or p-values, one asterisk is included by coefficient estimates that are significant at the 0.10 level, two asterisks for estimates that are significant at the 0.05 level, and three asterisks for estimates that are significant at the 0.01 level. Thus, we can reject the null hypothesis that a coefficient is zero if two or three asterisks reported next to the estimated coefficient.
+
+### A more informative table
+
+This looks pretty good, but we can make it better. Let's make this more informative by adding a title with the `title` argument; a label for the dependent variable with the `dep.var.labels` argument, and labels for the rows of the table with the `covariate.labels` argument. Afterall, we can't expect our reader to know what the names of our variables stand for. Each of the values for these arguments must be set in quotes, and anytime we have more than a single label to pass the argument, we must put them inside the `c()` function and separate them by commas.  Don't forget to separate each argument in the `stargazer()` function with a comma!
+
+<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
+
+```{r star2, warning=FALSE, message=FALSE, exercise=TRUE}
+library(stargazer)
+stargazer(model1,
+          type = "text",
+          title = "Linear Regression Model of the Vote for Donald Trump",
+          dep.var.labels = "Vote for Donald Trump",
+          covariate.labels = c("Feelings toward Police (0-100)", "Feelings toward Illegal Immigrants (0-100)", "Republican","Democrat", "Female", "Education Level (1-5)", "Constant"))
+```
+
+This table is much more reader-friendly. If you want to control the number of digits before rounding, you can add the `digits` argument and set it equal to the desired number of digits. See `?stargazer` for more options to customize the look of the table.
+
+
+```{r letter-aa, echo=FALSE}
+question("Look at the table above. Which of the following statements are true?",
+  answer("All coefficients are statistically different from zero at for an alpha level of .05 or .01", correct=FALSE, message="The coefficient estimates for female and education level are not significantly different from zero, which we can tell because there are no asterisks next to the estimates. "),
+  answer("For every one degree warmer an individual feels toward the police, on average the probability they vote for Donald Trump increases .02 or about 2 percentage points, all else equal", correct=FALSE, message="We cannot interpret the slopes in a logistic regression as the effect of a unit change on the probability of the outcome. In fact, for every one degree warmer an individual feels toward the police, on average the log-odds of voting for Donald Trump increases by .02. We need to transform the estimate before interpreting its effect on the probability. "),
+  answer("Democrats have a significantly higher probability of voting for Donald Trump than do those who are not Democrats or Republicans", correct=TRUE, message="Because the sign on the slope for Republicans is positive, we know they have a higher probability of voting for Donald Trump than the omitted category, which is neither Democrat nor Republican. Because the coefficient has three asterisks, we conclude it is significantly different from zero with 99% confidence. "),
+    answer("As feelings toward illegal immigrants become warmer the probability of a vote for Donald Trump declines", correct=TRUE, message="Because the sign on the slope for the illegal immigrant feeling thermometer is negative, we know that increases in this variable are associated with a drop in the probability of a vote for Donald Trump. We cannot tell how big the effect until we transform the estimate into a probability. "),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct answer"
+  )
+```
+
+### Practice
+
+
+Let's estimate a model of voter turnout in which we estimate turnout (**turnout**, coded 0 if an individual did not vote and 1 if they did) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which we generated above), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). This last variable captures the size of the difference in their feelings toward the two candidates and ranges from 0 (they evaluated the two candidates identically) to 100 (the valued the two candidates at 0 and 100). We will treat both **educ** and **income** as interval variables in this example rather than as categorical variables because they have a number of categories and while differences are not precisely equal across the scale, we will assume they are. 
+
+Complete the code to estimate the model.
+
+```{r model2, exercise=TRUE}
+model2 <- 
+```
+
+```{r model2-hint-1}
+Use the glm() function, first specifying the dependent variable, turnout,
+followed by the tilde (~) and each independent variable, separated by a +
+Note that you do not have to put strongf inside the factor()
+function because they are already factor class variables.
+```
+
+```{r model2-hint-2}
+Specify the family argument, setting it to "binomial" so that the
+function knows to estimate a logistic regression.
+```
+```{r model2-hint-3}
+Specify the data argument, setting it equal to aNES.
+```
+
+```{r model2-hint-4}
+Report the results with the summary() function, passing it model2,
+```
+
+```{r model2-solution}
+model2 <- glm(turnout~strongf + income+educ + thermdiff, family="binomial", data=aNES)
+summary(model2)
+```
+
+
+Try creating a basic table without labels for **model2** by editing the code below. *You can ignore the warning message: Last value being used to check answer is invisible. See `?invisible` for more information.*
+
+
+
+```{r star3, warning=FALSE, message=FALSE, exercise=TRUE}
+stargazer(XXX,
+          XXX = "XXX")
+```
+
+```{r star3-hint}
+First name the model fit object, model2
+The set type="text"
+```
+
+```{r star3-solution}
+stargazer(model2,
+          type = "text")
+```
+
+```{r star3-check}
+grade_code()
+```
+
+Now add a title and the dependent and covariate labels.
+
+```{r star4, warning=FALSE, message=FALSE, exercise=TRUE}
+stargazer(model2,
+          type = "text",
+          XXX = "Logistic Regression Model of Reported Turnout",
+          XXX  = "Reported Turnout",
+          XXX  = c("Strong Partisan", "Income", "Education","Absolute Difference in Feeling Thermometer Ratings of Clinton and Trump","Constant"))
+```
+
+```{r star4-hint-1}
+The first XXX gives the title for the table, so specify 
+the title argument.
+```
+
+```{r star4-hint-2}
+The second XXX gives the dependent variable names, so 
+specify the dep.var.label argument.
+```
+
+```{r star4-hint-3}
+The third XXX specifies the covariate labels, so
+specify the covariate.labels argument.
+```
+
+```{r star4-hint-4}
+The final XXX should be labeled in order entered into the
+regression.
+```
+
+```{r star4-solution}
+stargazer(model2,
+          type = "text",
+          title = "Logistic Regression Model of Reported Turnout",
+          dep.var.labels  = "Reported Turnout",
+          covariate.labels  = c("Strong Partisan", "Income", "Education","Absolute Difference in Feeling Thermometer Ratings of Clinton and Trump","Constant"))
+```
+
+```{r star4-check}
+grade_code()
+```
+
+## Coefficient Plots
+
+If you wish to review how to plot coefficient estimates from a logistic model, see the tutorial "Presenting Regression Results."  Like creating tables, nothing is different when we have estimated a logistic regression rather than a linear regression. I've included the code to produce a coefficient plot for the results of **model1**, predicting vote for Donald Trump.
+
+
+```{r coplot, exercise=TRUE}
+plot_model(model1, 
+           type = "est",
+           show.values = TRUE, 
+           value.offset = .3,
+           show.intercept = TRUE,
+           transform = NULL,
+           title="Results: Logit Model of the Probability of Voting for Donald Trump", 
+           axis.labels = c("Republican","Democrat","Illegal Immigrant Feeling Thermometer Score","Female", "Level of Education", "Police Feeling Thermometer Score", "Constant"),
+           axis.title = "Coefficient Estimates")
+```
+
+## Predicted Values from Logistic Regression Models
+
+
+Logistic regression models the probability the dependent variable equals one conditional on the explanatory variables included in the model. The form of the relationship between the dependent and independent variables is assumed to be nonlinear. In particular, we expect that small changes in $X$ may matter less at more extreme values and matter more over a range of values located in between the extremes. Consider our model of vote for Donald Trump. Assume an individual moves one degree on the feeling thermometer toward illegal immigrants. For very cool ratings we expect it won't change the probability an individual votes for Donald Trump very much. The same is true if they feel very warmly toward illegal immigrants. However, at the middle of the scale moving one degree may have a large effect on the probability an individual votes for Donald Trump. 
+
+The fact that the relationship is nonlinear means that the effects of any explanatory variable in the model depend on the values that variable takes **and** the values taken by all other variables. This means that when we generate predicted values, we have to specify the values of all the independent variables. Thus, unlike linear regression, we can NOT interpret a slope as the effect of an explanatory variable *all else equal*.
+
+We know that we can plug values into the formula for the logistic regression given below, where the three dots indicate that we could have additional explanatory variables.
+
+$$Pr(\hat{Y_i}=1|X_{1i}, X_{2i},...) = \frac{\exp(\hat{\alpha} + \hat{\beta_1} X_{1i} + \hat{\beta_2} X_{2i}+...)}{1+ \exp(\hat{\alpha} + \hat{\beta_1} X_{1i} + \hat{\beta_2} X_{2i}+...)}$$
+
+
+But how do we decide what values to use for our predictions? Partly the answer depends on your research question. But generally, we are interested in showing either specific predicted probabilities for a covariate profile -- a set of values for the independent variables that speaks to our research question or is common in the data -- or we use plots to show the effects over the range of one explanatory variable for specify values of the remaining explanatory variables. In the tutorial "Logistic Regression," we illustrated how to generate predicted values for particular values of the covariates using the `predict()` function. Here we will illustrate how to plot predictions. As we will see, plots contain more information about the nature of the effects estimated in a logistic regression.
+
+## Predicting the effect of a single independent variable when all other variables are set at their mean
+
+We can easily produce a plot that shows the effect of one independent variable when all other independent variables are set at their mean (any factor variable is set at its reference or base level).
+
+Here we will use the `plot_model()` function we used to produce the coefficient plot above but now we set the `type` argument to `"pred"` to tell the function we want predicted values.
+
+We must tell the function the name of the independent variable whose effects we wish to isolate. We do this using the `terms` argument, setting it equal to the variable name (in quotes). All other variables are automatically held at their mean values, if they are interval (or ordinal and treated as interval), and at their base levels if they are categorical. 
+
+The `show.data` argument controls whether the raw data points (the bivariate scatter plot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
+
+
+The remaining options replace the default labels in the plot. <span style="color:Red">Note: The label arguments are different in `plot_model()` than when using `ggplot()`.</span>
+
++ `title`, the main title for the plot
++ `axis.title` allows you to change the x and y axis labels. List these using the `c()` function, giving the labels in quotations, separated by commas. **The x-axis label is listed first, followed by the y-axis label.**
+  
+For additional arguments see ?plot_model or for examples see the vignette here: http://www.strengejacke.de/sjPlot/reference/plot_model.html#arguments
+
+Here we will look at the effect of **illegals.FT** from our model of vote for Donald Trump (**model1**). Note that all other interval variables (**Police.FT** and **educ**) are set at their means and categorical variables are set at their base level (**party** is set to "Neither Republican nor Democrat" and **femalef** is set to Male).  This means we are generating predictions of the effect of attitudes toward illegal immigrants for those who are male, neither Republican nor Democrat, and have average ratings of police and average levels of education. Look carefully at the code to ensure you understand each line and then run it.
+
+```{r p1, exercise=TRUE, message=FALSE}
+plot_model(model1, 
+           type="pred",
+           terms = "Illegals.FT",
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability"))
+```
+
+Unfortunately, to eliminate scientific notation from the plot we need to do a little work.  The code below creates a function that turns a value in scientific notation into one without it. 
+
+```{r fancy, exercise=TRUE}
+NotScientific <- function(l) {
+ l <- format(l, scientific = FALSE)
+ parse(text=l)
+}
+```
+
+
+
+Once we've run this code, we can add a line to our plot that changes the y-axis notation so that it is not scientific. We do so by adding (with a plus) the line `scale_y_continuous(labels=NotFancy)` at the end of the `plot_model()` function:
+
+```{r p2, exercise=TRUE, message=FALSE}
+plot_model(model1, 
+           type="pred",
+           terms = "Illegals.FT",
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability")) +
+  scale_y_continuous(labels=NotScientific)
+```
+
+That looks better! Let's interpret the plot. The y-axis contains the predicted probability our dependent variable takes the value 1 (voted for Trump). The x-axis gives the feeling thermometer rating of illegal immigrants. The curve gives the predicted probability of voting for Trump for each value of feelings toward illegal immigrants. The gray area around the curve represents the 95% confidence interval around our predictions. Remember, these predictions are generated setting **Police.FT** and **educ** at their mean values and **femalef** and **partyf** at their reference categories, male and neither Democrat nor Republican. We see that the predictions do not follow a straight line.  Moving from 0 to 25 on the feeling thermometer produces a drop in the probability of voting for Donald Trump of about 0.55-0.42=0.13 (or 13 percent) while changing from 75 to 100 produces a change of about 0.18-0.12=0.06 (or about 6 percent).
+
+Create a predicted value plot that shows the effects of **Police.FT** by editing the code below. 
+
+
+```{r p2b, exercise=TRUE, message=FALSE}
+plot_model(model1, 
+           type=XXX",
+           terms = XXX,
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) +
+  scale_y_continuous(XXX=XXX)
+```
+
+```{r p2b-hint-1}
+The type of plot we want is a predicted value plot, denoted "pred"
+The terms give the variable whose effects we want to plot, here Police.FT
+```
+
+```{r p2b-hint-2}
+To get rid of scientific notation we add the scale_y_continuous function,
+setting labels=NotScientific
+```
+
+```{r p2b-solution}
+plot_model(model1, 
+           type="pred",
+           terms = "Police.FT",
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) +
+  scale_y_continuous(labels=NotScientific)
+```
+```{r p2b-check}
+grade_code()
+```
+
+```{r letter-a, echo=FALSE}
+question("Look at carefully at the figure above. Which of the following statements are true?",
+  answer("Someone who rates the police at 0 on the feeling thermometer has a predicted probability of about .05 (or 5%) of voting for Donald Trump", correct=FALSE, message="The figure shows predictions for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education, not *someone*. "),
+  answer("All predicted effects of ratings of the police presented in the figure are for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education", correct=TRUE, message="Predicted value plots are generated holding all interval variables at their mean and all categorical variables at their base or reference category. "),
+  answer("As feelings toward the police become more warm, the probability of voting for Donald Trump increases linearly ", correct=FALSE, message="The predicted values illustrate the nonlinear relationship between feelings toward the police and the probability of voting for Donald Trump. "),
+  answer("A male who is nonpartisan and who has average feeling thermometer ratings of illegal immigrants and an average level of education does not have a predicted probability of voting for Donald Trump greater than one half for any value of their feeling thermometer rating of the police", correct=TRUE, message="For this profile of voter, for no value of feeling thermometer ratings of the police did the predicted probability of a Trump vote top .50."),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct answer"
+  )
+```
+
+## Plotting the Effects of Two Variables at Once
+
+We can plot the effects of two variables by adding a second variable to the `terms` argument. Since we are passing two variable names to the terms argument, we must put them inside the `c()` function and separate them with a comma. The first variable will be plotted on the x-axis. We will continue to look at the effects of **illegals.FT**. The second variable whose effects we will plot is **partyf**. Because this variable is categorical, separate curves will be added to the plot for each "Democrats", "Neither Democrat nor Republican" and "Republicans".  I've added the `legend.title` argument so that our legend has an informative title. (It has informative labels because we coded the variable as a factor and gave the values labels.)
+
+Edit the code to produce the plot. Pay special attention to the `terms` argument and the `legend.title` argument.
+
+```{r p3, exercise=TRUE, message=FALSE}
+plot_model(XXX, 
+           XXX=XXX,
+           terms = c("Illegals.FT","XXX"),
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
+           legend.title="Party Identification") +
+  scale_y_continuous(labels=NotScientific)
+```
+```{r p3-hint-1}
+The model containing the results to plot is model1. This should be entered
+in place of the first XXX
+```
+
+```{r p3-hint-2}
+We must specify the type of plot we want, here "pred"
+```
+
+```{r p3-hint-3}
+Add partyf to the terms argument
+```
+
+```{r p3-solution}
+plot_model(model1, 
+           type="pred",
+           terms = c("Illegals.FT","partyf"),
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
+           legend.title="Party Identification") +
+  scale_y_continuous(labels=NotScientific)
+```
+
+```{r p3-check}
+grade_code()
+```
+
+This plot is very informative! We now have separate predictions for the effect of feelings toward illegal immigrants for each type of partisan. We see that for an individual who is male with average feelings toward police and average levels of education, the effect of attitudes toward illegal immigrants differs based on party identification.  In particular, for Democrats (in green), changes in feelings toward illegal immigrants don't matter much for the predicted probability of a vote for Donald Trump, but for Republicans (in blue) and those who are neither Republicans nor Democrats (in red), the probability changes quite a lot as feelings toward illegal immigrants grow more warm.  Consider an individual who is a Republican who rated illegal immigrants at the middle of the scale (50), if they are male and have average education and average feelings toward Blacks, we expect them to have a predicted probability of voting for Donald Trump equal to about 0.60 or 60% but if they rate illegal immigrants at 75, it is about 0.45 or 45%. Among those who are neither Republican nor Democrat, an individual with the same feeling thermometer ratings of illegal immigrants would have about a 0.28 or 28% and 0.18 or 18% probability of voting for Donald Trump, respectively.
+
+## Plotting the Effects of Three Variables at Once
+
+
+We can even consider the effects of three variables simultaneously by adding a third term to the `terms` argument. (We cannot do more than three.) Let's examine the effects of feelings toward illegal immigrants, feelings toward the police, and party identification. The first variable listed in the `terms` argument is assigned to the x-axis, the effects of the second variable listed are plotted in separate curves (or points if the first term is categorical), and the effects of the third value listed are presented in separate panels. Remember the variables we haven't specified are set at their mean value in the sample or the base/reference category. 
+
+The legend title should always be the title of the second variable listed. Here, because the second variable is interval level, the function by default shows predicted probabilities for the mean value and one standard deviation below and above the mean. I've specified the values to use here by placing values in brackets, separated by commas after **Police.FT**. You could place any values and less or more than three in these brackets.  But you can omit [ ] if you want to go with the default values. Look carefully at the code before running it.
+
+```{r p4, exercise=TRUE, message=FALSE}
+plot_model(model1, 
+           type="pred",
+           terms = c("Illegals.FT", "Police.FT[53, 75, 98]", "partyf"),
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
+           legend.title = "Thermometer Ratings of Police")  +
+  scale_y_continuous(labels=NotScientific)
+```
+The plot on the left shows the effect of feelings toward illegal immigrants for those who are neither Democrats nor Republicans given mean (blue) feelings toward the police and feelings toward the police one standard deviation below the mean (red) and one standard deviation above the mean (green)  (for males with average levels of education). The plot in the middle presents the same information for Republicans. The plot on the right for Democrats.
+
+```{r letter-b, echo=FALSE}
+question("Look at carefully at the figure above. Which of the following statements are true?",
+  answer("Among Republicans, the predicted probability of voting for Donald Trump decreases as feelings toward illegal immigrants become more warm, regardless of how they feel about the police", correct=TRUE, message="All three curves in the middle panel decrease as we move from cooler to warmer ratings of illegal immigrants. "),
+  answer("Feeling thermometer ratings of illegal immigrants have the biggest impact on the predicted probability of voting for Trump for Democrats", correct=FALSE, message="The curves are flattest for Democrats such that changes in feeling thermometer ratings have the smallest effect on their probability of voting for Donald Trump. "),
+  answer("Republicans with feeling thermometer ratings of police one standard deviation below the mean have a higher probability of voting for Donald Trump if they feel very warmly toward illegal immigrants than do Democrats who feel cold toward illegal immigrants", correct=TRUE, message="Because the red curve is always higher in the Republican panel of the figure than in the Democratic panel, Republicans with feeling thermometer ratings of police one standard deviation below the mean have a higher probability of voting for Donald Trump if they feel very warmly toward illegal immigrants than do Democrats who feel cold toward illegal immigrants."),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct answer"
+  )
+```
+
+## Changing the Values Used to Produce the Plots
+
+For a final illustration of the type of effects you can plot with the `plot_model()` function, we will plot the effect of feelings toward the police by party conditioning on particular values -- other than the mean or base/reference category. To do so, we add one additional argument to the `plot_model()` function: `condition`. The condition argument allows us to set the values of any other variable not listed in the `terms` argument. Say we wish to look at predictions based on feelings toward the police and party identification setting the level of education at its lowest level (1), setting feeling thermometer ratings of illegal immigrants right at the middle of the scale (50), and assuming we want predictions for females only.  
+
+Look closely at the specification of the `condition` argument. We specify each variable and set it equal to the value we want. We place these inside the `c()` function. Note the we do not put the variable names in quotations.
+
+```{r p4b, exercise=TRUE, message=FALSE}
+plot_model(model1, 
+           type="pred",
+           terms = c("Police.FT", "partyf"),
+           condition = c(educ=1, Illegals.FT=50, femalef="Female"),
+           show.data = FALSE,
+           title="Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Police","Predicted Probability"),
+           legend.title = "Party Identification")  +
+  scale_y_continuous(labels=NotScientific)
+```
+  
+```{r letter-c, echo=FALSE}
+question("Look at carefully at the figure above. Which of the following statements are true?",
+  answer("The green curve represents the predicted probability a female Democrat with the lowest levels of education and a feeling thermometer value of 50 toward illegal immigrants votes for Trump based on their evaluation of the police", correct=TRUE, message="The green curve represents the predicted probability a female Democrat with the lowest levels of education and a feeling thermometer value of 50 toward illegal immigrants votes for Trump as a function of their evaluation of the police. The red curve presents the same information for those who are neither Democratic nor Republican, and the blue curve does so for Republicans. "),
+  answer("The effect of feelings toward the police on the probability of voting for Donald Trump among females with low levels of education and a thermometer rating of immigrants at the middle of the scale is biggest for Republicans ", correct=TRUE, message="Because the curve is steepest for Republicans, the effect of feelings toward the police for females with low levels of education and a thermometer rating of illegal immigrants at the middle of the scale is biggest for Republicans. "),
+  answer("Feelings toward police have a small impact on the probability a female Democrat with a thermometer rating of 50 toward illegal immigrants and low levels education will vote for Donald Trump", correct=TRUE, message="The predicted probability of voting for Donald Trump does not change much based on feelings toward the police for Democrats when they are females with a thermometer rating of 50 toward illegal and low levels education. "),
+  answer("Female Republicans who are cold (their feeling thermometer value is 0) toward the police, have a low level of education, and feelings toward illegal immigrants at the middle of the scale, have a probability of more than .5 of voting for Donald Trump ", correct=FALSE, message="Female Republicans  who are cold (their feeling thermometer value is 0) toward the police, have a low level of education (blue line), and feelings toward illegal immigrants at the middle of the scale, have a probability of about 0.16 of voting for Donald Trump."),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct answer"
+  )
+```
+
+
+## Practice Plotting Predictions
+
+Let's plot predictions from our model of voter turnout. Recall that we estimated turnout (**turnout**) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which we generated above), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). We saved the model fit object as **model2**.
+
+Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan".Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education", and change the y-axis scale so that there is no scientific notation.
+
+```{r m2p, exercise=TRUE, message=FALSE}
+
+```
+
+```{r m2p-hint-1}
+Call the plot_model() function and pass it model2
+```
+
+```{r m2p-hint-2}
+Specify type="pred" for predicted values
+```
+
+```{r m2p-hint-3}
+Set the terms argument ="educ"
+This places education on the x-axis
+```
+
+```{r m2p-hint-4}
+Add the condition argument and set it to 
+c(income=2, thermdiff=50, strongf="Not a Strong Partisan")
+```
+
+```{r m2p-hint-5}
+Add title="Predicted Probability of Casting a Ballot"
+```
+
+```{r m2p-hint-6}
+Add axis.title=c(), where inside () you list the x-axis title first followed by
+the y-axis title
+```
+
+
+```{r m2p-hint-7}
+Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p-solution}
+plot_model(model2,
+           type="pred",
+           terms="educ",
+           condition=c(income=2, thermdiff=50, strongf="Not a Strong Partisan"),
+           title="Predicted Probability of Casting a Ballot",
+           axis.title = c("Level of Education","Predicted Probability") )+
+  scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p-check}
+grade_code()
+```
+
+
+```{r letter-d, echo=FALSE}
+question("Looking at the figure above is the following TRUE or FALSE? At all levels of education, an individual is more likely to turn out that not turn out ",
+  answer("FALSE", correct=FALSE, message="The predicted values in the plot only apply to someone who has  an average income, who is not a strong partisan, and who evaluates the candidates 50 degrees differently"),
+  answer("TRUE", correct=TRUE),
+  allow_retry = TRUE
+  )
+```
+
+
+Generate the predicted probability of voting in 2016 as a function of the difference in evaluations of the two candidates and the strength of partisanship, setting education and income at their mean values. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Absolute Difference in Feelings toward Clinton and Trump", and the legend title "Strength of Partisanship"; and change the y-axis scale so that there is no scientific notation.
+
+```{r m2p1, exercise=TRUE, message=FALSE}
+
+```
+
+```{r m2p1-hint-1}
+Call the plot_model() function and pass it model2
+```
+
+```{r m2p1-hint-2}
+specify type="pred" for predicted values
+```
+
+```{r m2p1-hint-3}
+Set the terms argument =c("thermdiff", "strongf")
+This places thermdiff on the x-axis and creates a curve for each value of strongf
+```
+
+```{r m2p1-hint-4}
+Add title="Predicted Probability of Casting a Ballot"
+```
+
+```{r m2p1-hint-5}
+Add axis.title=c(), where inside () you list the x-axis title first followed by
+the y-axis title
+```
+
+```{r m2p1-hint-6}
+Set the legend.title="Strength of Party Identification"
+```
+
+```{r m2p1-hint-7}
+Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p1-solution}
+plot_model(model2,
+           type="pred",
+           terms=c("thermdiff", "strongf"),
+           title="Predicted Probability of Casting a Ballot",
+           axis.title = c("Absolute Difference in Feelings toward Clinton and Trump","Predicted Probability"),
+           legend.title = "Strength of Party Identification")+
+  scale_y_continuous(labels=NotScientific)
+```
+```{r m2p1-check}
+grade_code()
+```
+
+```{r letter-e, echo=FALSE}
+question("Look at carefully at the figure above. Which of the following statements are true?",
+  answer("Those with a greater difference in feelings toward the two candidates who have average levels of education and income are more likely to vote if they are not strong partisans than if they are", correct=FALSE, message="Because the curve for those who are strong partisans is always above the curve for those who are not, those who have average levels of education and income are always less likely to vote if they are not strong partisans than if they are. "),
+  answer("Those for whom 50 degrees separates their feelings toward Clinton and Trump and have an average level of education and income are about 60% likely to vote if they are not a strong partisan ", correct=TRUE, message="The red curve for those who are not strong partisans crosses the y-axis at about 0.6 when the absolute difference in their feelings toward the two candidates is 50 degrees. "),
+  answer("Those for whom there is no difference in their feelings between Trump and Clinton and have an average level of education and income are about as equally like to vote as not vote if they are a strong partisan", correct=TRUE, message="The blue curve for strong partisans crosses the y-axis at 0.5 when their is no difference in their ratings of the two candidates. "),
+  answer("Those who are not strong partisans who have an average level of education and income need to have a difference of at least about 30 points in their evaluations of the two candidates before they are likely to vote", correct=TRUE, message="The red curve for those who are not strong partisans crosses 0.5 on the y-axis only once the difference in their evaluations in the two candidates is about 30."),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct answer"
+  )
+```
+
+Generate predicted turnout scores as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level"; and change the y-axis scale so that there is no scientific notation.
+
+
+```{r m2p2, exercise=TRUE, message=FALSE}
+
+```
+
+
+```{r m2p2-hint-1}
+Call the plot_model() function and pass it model2
+```
+
+```{r m2p2-hint-2}
+specify type="pred" for predicted values
+```
+
+```{r m2p2-hint-3}
+Set the terms argument =c("strongf", "educ[1,3,5'")
+This places strength of partisanship on the x-axis and creates a curve for each value of education
+```
+
+```{r m2p2-hint-4}
+Add title="Predicted Probability of Casting a Ballot"
+```
+
+```{r m2p2-hint-5}
+Add axis.title=c(), where inside () you list the x-axis title first followed by
+the y-axis title
+```
+
+```{r m2p2-hint-6}
+Set the legend.title="Level of Education"
+```
+
+```{r m2p2-hint-7}
+Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p2-solution}
+plot_model(model2,
+           type="pred",
+           terms=c("strongf", "educ[1,3,5]"),
+           title="Predicted Probability of Casting a Ballot",
+           axis.title = c("Strength of Partisanship","Predicted Probability"),
+           legend.title = "Education Level")+
+  scale_y_continuous(labels=NotScientific)
+```
+
+```{r m2p2-check}
+grade_code()
+```
+
+This plot of predicted values contains point estimates rather than a curve. That's because the x-axis variable is categorical.
+
+```{r letter-f, echo=FALSE}
+question("Look at carefully at the figure above. Which of the following statements are true?",
+  answer("The least educated strong partisans have a predicted probability of turning out to vote that is about the same as those in the middle education group that are not strong partisans among those with average differences in feelings toward the two candidates and with average income levels", correct=TRUE, message="The predicted probability of voting for those in education group 3 (blue) for those who are not a strong partisan is about 0.64 and among those who are a strong partisan but in education group 1 (red) is about 0.67. This is true setting income and the difference in feelings toward the candidates at their means. Further, because the confidence intervals overlap, there is not a statistically significant difference in these predictions. "),
+  answer("For respondents with average incomes and average differences in feelings toward the two candidates, there is a statistically significant difference in the predicted probability of casting a ballot across the levels of education both among those who are not strong partisans and those who are ", correct=TRUE, message="The red (education group 1), blue (education group 3), and green (education group 5) point predictions are significantly different from one another (their confidence intervals do not overlap) within both categories of strength of partisanship. "),
+  answer("Strong partisans are more likely to turn out to vote than those that are not strong partisans at each level of education given that they have average levels of income and average differences in feelings toward the two candidates", correct=TRUE, message="The predictions for those with and without strong partisan identification are significantly different from each other in each education category . "),
+  answer("The most educated respondents who are not strong partisans are more likely to turn out to vote than are the least educated strong partisans, among those with average levels of income and average differences in feelings toward the two candidates ", correct=TRUE, message="Among those with average levels of income and average differences in feelings toward the two candidates, the most educated (green) adults who are not strong partisans have a predicted probability of voting of about 0.76 while the least educated (red) adults who are strong partisans have a predicted probability of voting of about 0.67."),
+  allow_retry = TRUE,
+  try_again = "Hint: There is more than one correct answer"
+  )
+```
+
+
+## The Takeaways
+
+We began this tutorial with an illustration of the use of the `factor()` function. We can use the `factor()` function not only to tell the `lm()` or `glm()` functions a variable is categorical but also to generate factor class variables, which R will then know are categorical. We can use the `levels()` function to specify the category we wish to treat as the reference category, also called the base category. This will be the category omitted in our regression/logistic regression. Creating factor class variables with meaningful labels also ensures that figures include meaningful labels rather than numeric values.
+
+Our focus in this tutorial, however, is on the presentation of results from logistic regression. The process is identical to that from linear regression. 
+
+* We can use the `stargazer()` function in the <span style="color:DarkGreen">stargazer</span> package to present tables that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model. 
+* We can also use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present coefficient plots. We specify the `type` of plot as `"est"`. A number of additional arguments can be specified to control the look and feel of the plot.
+* We can also use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present predicted value plots. We specify the `type` of plot as `"pred"`. We can plot predictions from a model as a function of one, two, or three variables.
+    * We can plot the effect of a single variable holding all other values at their mean or base/reference category by specifying a single variable in the `terms` argument. If we wish to choose values other than the mean or base/reference category, we can specify the `condition` argument, naming the variables and values we wish to set as the basis for our predictions.
+    * We can plot the effect of two variables by adding a second variable name to the `terms` argument. The first variable named in the `terms` argument is plotted on the x-axis and the second variable named breaks down the effects of the first variable based on categories of the second. If the second variable is measured at the interval level, by default the mean and one standard deviation above and below the mean are selected for the plot. You can change the values by including [X, Y, Z] after the variable name and replace X, Y, and Z with the desired values of the variable. We can also combine the `terms` argument with the `condition` argument when we plot the effect of two variables on the predictions from the model. Here again, this allows us to set the values taken by the variables not plotted.
+    * We can plot the effect of three variables by adding a third variable name to the `terms` argument. A separate panel is plotted to illustrate the effect of values for each category of the third variable or for the mean and one standard deviation above and below the mean if the variable is measured at the interval level. Here again you can select specific values with [X, Y, Z] and you may set the `condition` argument to control the values taken by any remaining variables in the model.
+
+See http://www.strengejacke.de/sjPlot/articles/plot_marginal_effects.html for examples and consult the help menu with ?plot_model for details.
+
+Deciding which variables to include in a predicted value plot requires careful thought, particularly for a logistic regression model. Unlike linear regression, when we illustrate predictions based on the value of some variable, the effects of any variable cannot be interpreted *all else equal*. This is because the relationship between the dependent and explanatory variables is presumed to be nonlinear. You should think about what you want to learn from your predictions before deciding what to plot.
