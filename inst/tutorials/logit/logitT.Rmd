@@ -126,7 +126,7 @@ question("Which of the following statements are true?",
   answer("$H:_0\\beta\\ne0$ is the null hypothesis", correct=FALSE, message="The null hypothesis specifies the slope is equal to zero in the population "),
   answer("$H:_A\\beta\\ne0$ is the alternative hypothesis", correct = TRUE),
   answer("$H:_0\\beta=0$ is the null hypothesis", correct=TRUE),
-  answer("$H:_A\\beta=0$ is the alternative hypothesis", correct = FALSE, message="The null hypothesis states that $\\beta=0$ in the population and the alternative hypothesis states that $\\beta\\ne$ in the population.  "),
+  answer("$H:_A\\beta=0$ is the alternative hypothesis", correct = FALSE, message="The null hypothesis states that $\\beta=0$ in the population and the alternative hypothesis states that $\\beta\\ne0$ in the population.  "),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct answer"
   )
@@ -248,7 +248,7 @@ We assess the fit of a logit model differently than for a linear regression mode
 
 A <span style="color:blue">confusion matrix</span>  is a table that tells us how many times we observed y=0 (a state did not have an open carry law) and how many times we observed a y=1 (a state has an open carry law) in the data broken down by how many of those cases were and were not correctly predicted. 
 
-The package  <span style="color:green">pscl</span> contains the function `hitmiss()` that takes as its only argument the name of the model object that was fit. We must load the package with the `library()` function before using the function. Run the code below.
+The package  <span style="color:green">pscl</span> contains the function `hitmiss()` that produces a confusion matrix and measures of fit. It takes as its only argument the name of the model object that was fit. We must load the package with the `library()` function before using the function. Run the code below.
 
 
 ```{r hitmiss1, message=FALSE, exercise=TRUE}
@@ -262,7 +262,7 @@ hitmiss(model1)
 What does this table tell us? 
 
 1. The first piece of information is the classification threshold. It is 0.5, the default. This tells us that if the predicted probability was 0.5 or greater, the case was assigned to predict a value of one for the dependent variable, otherwise the prediction for that case was assigned a zero. 
-2. Next is a cross tab where the rows of the table denote the values of $Y$ predicted by the model and the columns denote the actual values of $Y$ in the data.   
+2. Next is a cross tab where the rows of the table denote the values of $Y$ predicted by the model and the columns denote the actual values of $Y$ in the data. This is the confusion matrix.
     a. The logit model made a total of 50 predictions (one for each state). Out of those 50 cases, our model predicted 41 ones (the total in row 2 of the table) and 9 zeroes (total in row 1). 
     b. In fact, 40 states had open carry laws (40 ones, the total in column 2), and 10 did not (10 zeroes, the total in column 1).
 3. The next three lines present different measures of model fit.
@@ -272,7 +272,7 @@ What does this table tell us?
 4. The last piece of information is the <span style="color:blue">**percent correctly predicted by the "Null Model."**</span> This is a model with no independent variables and is the percent of correct predictions when we just predict the modal category for every state.
     a.  80\% of the states allowed open carry permits in 2010. That means if we just guessed a state would have open carry permits -- without knowing the percent of Republicans in the state -- our percent correctly predicted would have been 80\%. 
     
-The difference between the <span style="color:blue">**percent correctly predicted**</span> by the model and the  <span style="color:blue">**percent correctly predicted by the "Null Model."**</span> tells us our net improvement in predictions that is due to the explanatory variables. In our example, the net improvement is 94-80, or 14 percentage points. Not bad, but not great.
+The difference between the <span style="color:blue">**percent correctly predicted**</span> by the model and the  <span style="color:blue">**percent correctly predicted by the "Null Model"**</span> tells us our net improvement in predictions that is due to the explanatory variables. In our example, the net improvement is 94-80, or 14 percentage points. Not bad, but not great.
 
 
 ## Example 2: Logistic Regression with Multiple Independent Variables
@@ -289,7 +289,7 @@ You likely have some hypotheses about who was most likely to vote for Trump, inc
 
 <span style="color:Chocolate">In a comparison of individuals, we expect Republicans will have a higher likelihood of voting for Donald Trump than either Democrats or those who identify with neither party.</span> (Because Donald Trump is a Republican.)
 
-<span style="color:Chocolate">In a comparison of individuals, we xpect males will have a higher likelihood of voting for Donald Trump than females.</span> (Because the Democratic candidate was a femal and Trump made disparaging remarks about women during the campaign.)
+<span style="color:Chocolate">In a comparison of individuals, we expect males will have a higher likelihood of voting for Donald Trump than females.</span> (Because the Democratic candidate was a female and Trump made disparaging remarks about women during the campaign.)
 
 Last but not least:
 
@@ -339,9 +339,7 @@ question("Which of the following statements are true?",
 
 ### Generate Predictions from the Model
 
-We can generate predictions from our model using the `predict()` function, but we now need to specify the values for each of the independent variables in the model. We cannot interpret the effect of an explanatory variable *all else equal* because the effects of each independent variable depend on the values all other variables take in a logistic regression. 
-
-Below is the code to predict the probability an individual who sits at the middle of the feeling thermometer scale for Blacks and illegal immigrants, who is a female Democrat, and has a college degree. Run the code and then change the values of the independent variables and rerun the code to examine the predicted probabilities for other types of voters. Try to find a voter profile that results in a prediction of near 50%.
+We can generate predictions from our model using the `predict()` function. Below is the code to predict the probability an individual who sits at the middle of the feeling thermometer scale for Blacks and illegal immigrants, who is a female Democrat, and has a college degree. Run the code and then change the values of the independent variables and rerun the code to examine the predicted probabilities for other types of voters. Try to find a voter profile that results in a prediction of near 50%.
 
 
 ```{r predfun2, exercise=TRUE}
@@ -382,7 +380,7 @@ question("Look at the output above. Which of the following statements are true?"
 
 ## Example 3
 
-For our final example, we will estimate a model of turnout as a function of whether an individual is a strong partisan (**strong**, coded as 1 is strong, 0 is not strong), income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**), and sex (**femalef**). We will treat both **educ** and **income** as an interval variables in this example. This simplifying assumption implies we are willing to argue that the differences between categories are the same. Ideally, we'd include age in our model, but it is not in this small version of the American National Election Study data set. We will begin with the following hypotheses:
+For our final example, we will estimate a model of turnout as a function of whether an individual is a strong partisan (**strong**, coded as 1 is strong, 0 is not strong), income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**), and sex (**femalef**). We will treat both **educ** and **income** as interval variables in this example. This simplifying assumption implies we are willing to argue that the differences between categories are the same. Ideally, we'd include age in our model, but it is not in this small version of the American National Election Study data set. We will begin with the following hypotheses:
 
 <span style="color:Chocolate">In a comparison of individuals, those who are strong partisans will be more likely to vote than those who are non-partisan or weak partisans.</span>  (Because strong partisans are more likely to be interested in politics and more concerned about the outcome.)
 
@@ -421,8 +419,8 @@ grade_code()
 
 ```{r letter-c, echo=FALSE}
 question("Look at the output above. Which of the following statements is true?",
-  answer("All variables in the model are positively and significantly related to whether or not someone turned out to vote in 2016", correct=FALSE, message="Sex does not have a significant impact on whether or not an individual turned out to vote as z>1.96 and $p>.05$. "),
-  answer("For every additional level of education completed, an indivudal is about 25% more likely to vote", correct=FALSE, message="We cannot interpret the slope in a logistic regression as the effect of a unit change in $X$ on the probability. To determine the effect, we need to generate predictions from the model. "),
+  answer("All variables in the model are positively and significantly related to whether or not someone turned out to vote in 2016", correct=FALSE, message="Sex does not have a significant impact on whether or not an individual turned out to vote as z<1.96 and $p>.05$. "),
+  answer("For every additional level of education completed, an indivudal is about 25% more likely to vote", correct=FALSE, message="We cannot interpret the slope in a logistic regression as the effect of a unit change in $X$ on the probability. "),
   answer("Stong partisans are more likely to vote than are those individuals who are not strong partisans ",  correct=TRUE),
   allow_retry = TRUE
   )
@@ -493,13 +491,13 @@ This is not a particularly good model. We might like to control for other demogr
 
 ## The Takeaways
 
-Logistic regression estimates a nonlinear relationship between a set of predictors and a binary (two category) outcome variable. 
+Logistic regression estimates a nonlinear relationship between a set of predictors and a binary (two-category) outcome variable. 
 
 Logistic regression is easy to conduct in R using the `glm()` function. The results of the analysis can then be examined with the `summary()` function.  The results provide the information needed to interpret the direction and statistical significance of the effect of the independent variables (but not the size of the effect), to test hypotheses about the intercept and slopes, and to calculate the predicted values. In order to assess model fit we need to examine the confusion matrix and the percent of cases of the outcome variable that are correctly predicted.
 
 * We can only directly infer the sign and statistical significance of estimates from the output in a logistic regression. This is because the effects are not linear and are expressed in log-odds. We need to transform the coefficients to draw substantive interpretations about the size of effects. We can use the `predict()` function R to do this for us.
 * Another consequence of the nonlinear nature of the effects of our explanatory variables is that the effects of an independent variable in logistic regression depend on the values of all other variables. This means that when we calculate predictions, the effects are not "all else equal." We have to specify the values each variable takes.
-* Hypothesis tests on the intercept and slope in logistic regression are conducted in the same fashion as with linear regression. We specify the null and alternative hypotheses, calculate a test statistic -- here the z-value, translate the test statistic into a p-value, and draw our conclusions. If the absolute value of ze is greater than 1.96, we can reject the null hypothesis and infer that the coefficient is significantly different from zero. In the case of the slopes, we can conclude that the variable has a statistically significant impact on the likelihood of the outcome variable.
+* Hypothesis tests on the intercept and slope in logistic regression are conducted in the same fashion as with linear regression. We specify the null and alternative hypotheses, calculate a test statistic -- here the z-value, translate the test statistic into a p-value, and draw our conclusions. If the absolute value of z is greater than 1.96, we can reject the null hypothesis and infer that the coefficient is significantly different from zero with 95% confidence. In the case of the slopes, we can conclude that the variable has a statistically significant impact on the likelihood of the outcome variable.
 * $R^2$ and the residual standard error have no direct parallels in logistic regression. Instead we examine the confusion matrix, which presents a cross tab of the predicted versus the actual values of the outcome variable. From this table, we can calculate a number of interesting measures of fit. Generally, we are interested in the percent correctly predicted by the model in comparison to the null model -- a model with no explanatory variables, in which we guess the most common value of the outcome variable. In addition, it can be informative to know if we are better at predicting one outcome than the other. 
 
 In the next tutorial, "Presenting Logistic Regression Results" we will illustrate how to use plots to generate predicted values for interesting combinations of the explanatory variables.
@@ -527,7 +525,7 @@ question("Select the statement that is true",
 question("Select the statements that are true",
   answer("The percent correctly predicted by the null model is the percent correctly predicted by guessing the modal outcome category", correct=TRUE),
   answer("The difference between the percent correctly predicted by the model and the percent correctly predicted by the null model tells you how much including the explanatory variables in the model improves fit over guessing the modal outcome cateogry ",  correct=TRUE),
-   answer("The percent correctly predicted by the null modal is the percent of ones correctly predicted by the model", correct=FALSE, message="The percent correctly predicted by the null model is the percent correctly predicted by guessing the modal outcome category. "),
+   answer("The percent correctly predicted by the null model is the percent of ones correctly predicted by the model", correct=FALSE, message="The percent correctly predicted by the null model is the percent correctly predicted by guessing the modal outcome category. "),
    answer("To assess how well the model fits the data we need only know the percent correctly predicted", correct=FALSE, message="To know how well the model fits the data it is important to know how well we would do just be guessing the modal outcome category. "),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct answer"
