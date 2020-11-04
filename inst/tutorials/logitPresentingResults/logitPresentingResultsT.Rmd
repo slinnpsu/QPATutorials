@@ -289,7 +289,7 @@ This table is much more reader-friendly. If you want to control the number of di
 question("Look at the table above. Which of the following statements are true?",
   answer("All coefficients are statistically different from zero at for an alpha level of .05 or .01", correct=FALSE, message="The coefficient estimates for female and education level are not significantly different from zero, which we can tell because there are no asterisks next to the estimates. "),
   answer("For every one degree warmer an individual feels toward the police, on average the probability they vote for Donald Trump increases .02 or about 2 percentage points, all else equal", correct=FALSE, message="We cannot interpret the slopes in a logistic regression as the effect of a unit change on the probability of the outcome. In fact, for every one degree warmer an individual feels toward the police, on average the log-odds of voting for Donald Trump increases by .02. We need to transform the estimate before interpreting its effect on the probability. "),
-  answer("Democrats have a significantly higher probability of voting for Donald Trump than do those who are not Democrats or Republicans", correct=TRUE, message="Because the sign on the slope for Republicans is positive, we know they have a higher probability of voting for Donald Trump than the omitted category, which is neither Democrat nor Republican. Because the coefficient has three asterisks, we conclude it is significantly different from zero with 99% confidence. "),
+  answer("Republicans have a significantly higher probability of voting for Donald Trump than do those who are not Democrats or Republicans", correct=TRUE, message="Because the sign on the slope for Republicans is positive, we know they have a higher probability of voting for Donald Trump than the omitted category, which is neither Democrat nor Republican. Because the coefficient has three asterisks, we conclude it is significantly different from zero with 99% confidence. "),
     answer("As feelings toward illegal immigrants become warmer the probability of a vote for Donald Trump declines", correct=TRUE, message="Because the sign on the slope for the illegal immigrant feeling thermometer is negative, we know that increases in this variable are associated with a drop in the probability of a vote for Donald Trump. We cannot tell how big the effect until we transform the estimate into a probability. "),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct answer"
@@ -457,30 +457,7 @@ plot_model(model1,
            axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability"))
 ```
 
-Unfortunately, to eliminate scientific notation from the plot we need to do a little work.  The code below creates a function that turns a value in scientific notation into one without it. 
-
-```{r fancy, exercise=TRUE}
-NotScientific <- function(l) {
- l <- format(l, scientific = FALSE)
- parse(text=l)
-}
-```
-
-
-
-Once we've run this code, we can add a line to our plot that changes the y-axis notation so that it is not scientific. We do so by adding (with a plus) the line `scale_y_continuous(labels=NotFancy)` at the end of the `plot_model()` function:
-
-```{r p2, exercise=TRUE, message=FALSE}
-plot_model(model1, 
-           type="pred",
-           terms = "Illegals.FT",
-           show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability")) +
-  scale_y_continuous(labels=NotScientific)
-```
-
-That looks better! Let's interpret the plot. The y-axis contains the predicted probability our dependent variable takes the value 1 (voted for Trump). The x-axis gives the feeling thermometer rating of illegal immigrants. The curve gives the predicted probability of voting for Trump for each value of feelings toward illegal immigrants. The gray area around the curve represents the 95% confidence interval around our predictions. Remember, these predictions are generated setting **Police.FT** and **educ** at their mean values and **femalef** and **partyf** at their reference categories, male and neither Democrat nor Republican. We see that the predictions do not follow a straight line.  Moving from 0 to 25 on the feeling thermometer produces a drop in the probability of voting for Donald Trump of about 0.55-0.42=0.13 (or 13 percent) while changing from 75 to 100 produces a change of about 0.18-0.12=0.06 (or about 6 percent).
+Let's interpret the plot. The y-axis contains the predicted probability our dependent variable takes the value 1 (voted for Trump). The x-axis gives the feeling thermometer rating of illegal immigrants. The curve gives the predicted probability of voting for Trump for each value of feelings toward illegal immigrants. The gray area around the curve represents the 95% confidence interval around our predictions. Remember, these predictions are generated setting **Police.FT** and **educ** at their mean values and **femalef** and **partyf** at their reference categories, male and neither Democrat nor Republican. We see that the predictions do not follow a straight line.  Moving from 0 to 25 on the feeling thermometer produces a drop in the probability of voting for Donald Trump of about 0.55-0.42=0.13 (or 13 percent) while changing from 75 to 100 produces a change of about 0.18-0.12=0.06 (or about 6 percent).
 
 Create a predicted value plot that shows the effects of **Police.FT** by editing the code below. 
 
@@ -491,8 +468,7 @@ plot_model(model1,
            terms = XXX,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) +
-  scale_y_continuous(XXX=XXX)
+           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) 
 ```
 
 ```{r p2b-hint-1}
@@ -500,10 +476,7 @@ The type of plot we want is a predicted value plot, denoted "pred"
 The terms give the variable whose effects we want to plot, here Police.FT
 ```
 
-```{r p2b-hint-2}
-To get rid of scientific notation we add the scale_y_continuous function,
-setting labels=NotScientific
-```
+
 
 ```{r p2b-solution}
 plot_model(model1, 
@@ -511,9 +484,9 @@ plot_model(model1,
            terms = "Police.FT",
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) +
-  scale_y_continuous(labels=NotScientific)
+           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) 
 ```
+
 ```{r p2b-check}
 grade_code()
 ```
@@ -542,9 +515,9 @@ plot_model(XXX,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title="Party Identification") +
-  scale_y_continuous(labels=NotScientific)
+           legend.title="Party Identification") 
 ```
+
 ```{r p3-hint-1}
 The model containing the results to plot is model1. This should be entered
 in place of the first XXX
@@ -565,8 +538,7 @@ plot_model(model1,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title="Party Identification") +
-  scale_y_continuous(labels=NotScientific)
+           legend.title="Party Identification") 
 ```
 
 ```{r p3-check}
@@ -589,8 +561,7 @@ plot_model(model1,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title = "Thermometer Ratings of Police")  +
-  scale_y_continuous(labels=NotScientific)
+           legend.title = "Thermometer Ratings of Police")  
 ```
 The plot on the left shows the effect of feelings toward illegal immigrants for those who are neither Democrats nor Republicans given mean (blue) feelings toward the police and feelings toward the police one standard deviation below the mean (red) and one standard deviation above the mean (green)  (for males with average levels of education). The plot in the middle presents the same information for Republicans. The plot on the right for Democrats.
 
@@ -618,8 +589,7 @@ plot_model(model1,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Police","Predicted Probability"),
-           legend.title = "Party Identification")  +
-  scale_y_continuous(labels=NotScientific)
+           legend.title = "Party Identification")  
 ```
   
 ```{r letter-c, echo=FALSE}
@@ -672,9 +642,7 @@ the y-axis title
 Set the legend.title="Strength of Party Identification"
 ```
 
-```{r m2p1-hint-7}
-Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
-```
+
 
 ```{r m2p1-solution}
 plot_model(model2,
@@ -682,9 +650,9 @@ plot_model(model2,
            terms=c("thermdiff", "strongf"),
            title="Predicted Probability of Casting a Ballot",
            axis.title = c("Absolute Difference in Feelings toward Clinton and Trump","Predicted Probability"),
-           legend.title = "Strength of Party Identification")+
-  scale_y_continuous(labels=NotScientific)
+           legend.title = "Strength of Party Identification")
 ```
+
 ```{r m2p1-check}
 grade_code()
 ```
@@ -734,9 +702,6 @@ the y-axis title
 ```
 
 
-```{r m2p-hint-7}
-Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
-```
 
 ```{r m2p-solution}
 plot_model(model2,
@@ -744,8 +709,7 @@ plot_model(model2,
            terms="educ",
            condition=c(income=2, thermdiff=50, strongf="Not a Strong Partisan"),
            title="Predicted Probability of Casting a Ballot",
-           axis.title = c("Level of Education","Predicted Probability") )+
-  scale_y_continuous(labels=NotScientific)
+           axis.title = c("Level of Education","Predicted Probability") )
 ```
 
 ```{r m2p-check}
@@ -795,9 +759,7 @@ the y-axis title
 Set the legend.title="Level of Education"
 ```
 
-```{r m2p2-hint-7}
-Add -- with a plus sign -- scale_y_continuous(labels=NotScientific)
-```
+
 
 ```{r m2p2-solution}
 plot_model(model2,
@@ -805,8 +767,7 @@ plot_model(model2,
            terms=c("strongf", "educ[1,3,5]"),
            title="Predicted Probability of Casting a Ballot",
            axis.title = c("Strength of Partisanship","Predicted Probability"),
-           legend.title = "Education Level")+
-  scale_y_continuous(labels=NotScientific)
+           legend.title = "Education Level")
 ```
 
 ```{r m2p2-check}
