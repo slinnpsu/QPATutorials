@@ -496,7 +496,7 @@ question("Look at carefully at the figure above. Which of the following statemen
   answer("Someone who rates the police at 0 on the feeling thermometer has a predicted probability of about 5% of voting for Donald Trump", correct=FALSE, message="The figure shows predictions for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education, not *someone*. "),
   answer("All predicted effects of ratings of the police presented in the figure are for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education", correct=TRUE, message="Predicted value plots are generated holding all interval variables at their mean and all categorical variables at their base or reference category. "),
   answer("As feelings toward the police become more warm, the probability of voting for Donald Trump increases linearly ", correct=FALSE, message="The predicted values illustrate the nonlinear relationship between feelings toward the police and the probability of voting for Donald Trump. "),
-  answer("A male who is nonpartisan and who has average feeling thermometer ratings of illegal immigrants and an average level of education does not have a predicted probability of voting for Donald Trump greater than one half for any value of their feeling thermometer rating of the police", correct=TRUE, message="For this profile of voter, for no value of feeling thermometer ratings of the police did the predicted probability of a Trump vote top .50."),
+  answer("A male who is nonpartisan and who has average feeling thermometer ratings of illegal immigrants and an average level of education does not have a predicted probability of voting for Donald Trump greater than 50% for any value of their feeling thermometer rating of the police", correct=TRUE, message="For this profile of voter, for no value of feeling thermometer ratings of the police did the predicted probability of a Trump vote top 50%."),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct answer"
   )
@@ -610,7 +610,7 @@ Let's plot predictions from our model of voter turnout. Recall that we estimated
 
 
 
-Generate the predicted probability of voting in 2016 as a function of the difference in evaluations of the two candidates and the strength of partisanship, setting education and income at their mean values. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Absolute Difference in Feelings toward Clinton and Trump", and the legend title "Strength of Partisanship"; and change the y-axis scale so that there is no scientific notation.
+Generate the predicted probability of voting in 2016 as a function of the difference in evaluations of the two candidates and the strength of partisanship, setting education and income at their mean values. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Absolute Difference in Feelings toward Clinton and Trump", and the legend title "Strength of Partisanship".
 
 ```{r m2p1, exercise=TRUE, message=FALSE}
 
@@ -668,7 +668,7 @@ question("Look at carefully at the figure above. Which of the following statemen
   )
 ```
 
-Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan".Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education", and change the y-axis scale so that there is no scientific notation.
+Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan".Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education".
 
 ```{r m2p, exercise=TRUE, message=FALSE}
 
@@ -725,7 +725,7 @@ question("Looking at the figure above is the following TRUE or FALSE? At all lev
   )
 ```
 
-Generate predicted turnout as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level"; and change the y-axis scale so that there is no scientific notation.  Think carefully about which terms to list and the order in which you need to list them to generate the requested predictions.
+Generate predicted turnout as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level".  Think carefully about which terms to list and the order in which you need to list them to generate the requested predictions.
 
 
 ```{r m2p2, exercise=TRUE, message=FALSE}
