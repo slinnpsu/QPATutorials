@@ -376,7 +376,7 @@ The last thing we will do is plot proportions rather than the frequency distribu
 
 To plot proportions, we give the `geom_bar()` function  its own aesthetic, which formats the y-axis. This aesthetic takes two arguments: `y=..prop..`, which transforms the y-axis to a proportion, and `group=1`, which tells the function to calculate proportions out of all cases: `geom_bar(aes(y=..prop.., group=1))`.
 
-Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function.
+Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
 
 ```{r propmajority, exercise=TRUE}
 ggplot(data=df, mapping=aes(x=factor(region))) +
@@ -467,7 +467,7 @@ Descriptive statistics provide simple summaries about the sample and the measure
     b. The frequency distribution, or the distribution of proportions, reveals the <span style="color:blue">**dispersion**</span> in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the <span style="color:blue">**dispersion**</span>.
    c. Bar plots are often used to visualize the central tendency, dispersion, and shape of the distribution of a nominal variable, particularly if the specific counts or proportions are not of central interest.
 
-Which of these pieces of information should you present when conducting descriptive analysis on a nominal variable? The choice depends on the main feature or features of the data and what you wish to emphasize. You may report the modal category or categories and the number or proportion of cases in the category, or you may choose to present the entire distribution, either in a table or a plot. (Both would be redundant.) 
+Should you present a table, should you report summary statistics in the text without a table or visualization, or should you present a figure when you describe a nominal variable?  The choice depends on the main feature or features of the data and what you wish to emphasize. You may report the modal category or categories and the number or proportion of cases in the category, or you may choose to present the entire distribution, either in a table or a plot. (Both would be redundant.)  The key is to describe the central tendency, dispersion, and distribution of the data so that your audience has a complete picture of the central features of the variable. And of course, if you present a table or figure, you need to describe its contents in the text.
 
 
 ![](images/UnivariateNominal.png)
