@@ -20,6 +20,7 @@ This tutorial is designed to familiarize you with some of the basics of using R.
 * How to get to know the structure of your data with the `class()`, `View()`, `nrow()`, `ncol()`, `names()`, `head()`, `str()`, `is.na()`, `sum()` functions
 * How to access variables in a data frame using $
 * How to execute simple functions on variables: `mean()`, `min()`, `max()`, and `range()`
+* How to create a new variable and store it in a data frame
 * How to use the `save()` function to save objects as a .RData file
 
 ```{r setup, include=FALSE}
@@ -35,6 +36,7 @@ tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
 unFBposts<-qpaTutorials::unFBposts
+unFBposts$like.or.share <- unFBposts$likes_count + unFBposts$shares_count
 ```
 
 
@@ -53,7 +55,7 @@ R will read in virtually any type of data file you might wish. We will introduce
 
 R has its own file format, denoted with .RData, .rdata, or .rda. We use the `load()` function to read in these files. Note that we do not need to specify any arguments other than the file name.  
 
-Also, note that when the file has loaded, the objects it contains will already exist. This means you do not assign the result of `load()` to a new object. If you do so, it will have no effect. To learn the name of any objects in the .RData file, use the `verbose` argument inside `load()`, and set it equal to TRUE.
+**Also, note that when the file has loaded, the objects it contains will already exist. This means you do not assign the result of `load()` to a new object. If you do so, it will have no effect. To learn the name of any objects in the .RData file, use the `verbose` argument inside `load()`, and set it equal to TRUE.**
 
 When naming the file containing the data, you will need to tell the function where the file is located. If you are working in R Studio Cloud, the file will typically be in the same directory as the file as your code so that no path is required. But if you are working on a local machine or if the data is not in your working directory, you will need to specify a full path.  
 
@@ -78,7 +80,7 @@ counties
 
 You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package <span style="color:DarkGreen">rio</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so that you don't have to learn the functions for each file type. 
 
-Unlike .RData files, you need to assign the file to an object.
+**Unlike .RData files, you need to assign the file to an object.** Commit this fact to memory. Students often forget to assign the results of the `import()` function to a named data frame or they try to assign the results of the `load()` function to a named data frame. 
 
 Here again, if the file is not in the same directory as your code file, you will need to specify the path to tell `import()` where to find the data file.
 
@@ -190,6 +192,9 @@ grade_code("That's easy, right?")
 ```{r classname-solution}
 class(unFBposts)
 ```
+
+
+Each data set you read into R will have the class `data.frame`.  
 
 ### Viewing the contents of a data frame
 
@@ -431,6 +436,50 @@ grade_code()
 ```
 
 We will show later in the course how to use indexing to recode variables.
+
+## Creating a new variable in a data frame
+
+Often you will want to create a new variable from those already in the data frame and have that new variable be stored in the data frame. For example, we might want to create a variable that counts the total number of likes and shares a post receives. To do so, we first select a name for the new variable, let's call it **like.or.share**. To have that variable created inside the data frame **unFBposts**, we type **unFBposts\$like.or.share**. To that variable we assign the sum of the variables **likes_count** and **shares_count**. Each of these variables most also be prefaced with **unFBposts\$** so that R knows to find them in the data frame **unFBposts**.  This code will not produce any output on your screen.
+
+```{r newvara, exercise=TRUE}
+unFBposts$like.or.share <- unFBposts$likes_count + unFBposts$shares_count
+```
+
+We can examine the first few values of this new variable using the `head()` function.
+
+```{r newvarb, exercise=TRUE}
+head(unFBposts$like.or.share)
+```
+
+Try creating a variable called **attention** that is the sum of all types of attention paid to a post: likes, shares, and comments. Store the new variable in the data frame **unFBposts** and list the first few values.
+
+
+```{r newvar, exercise=TRUE}
+
+```
+
+```{r newvar-solution}
+unFBposts$attention <- unFBposts$likes_count + unFBposts$shares_count + unFBposts$comments_count
+head(unFBposts$attention)
+```
+
+```{r newvar-hint-1}
+Specify unFBposts$attention and the assignment operator <-
+```
+
+```{r newvar-hint-2}
+To the right of the assignment operator, type the data frame name followed
+by the dollar sign and likes_count. Then include a plus sign and
+similarly add unFBposts$shares_count and unFBposts$comments_count
+```
+
+```{r newvar-hint-3}
+On a new line, wrap the new variable inside the head() function
+```
+
+```{r newvar-check}
+grade_code()
+```
 
 
 ## Saving the data
