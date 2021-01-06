@@ -1,5 +1,7 @@
 ---
 title: "Presenting Logistic Regression Results"
+tutorial:
+  id: "18-Results-Logit"
 output: 
   learnr::tutorial:
     progressive: true
