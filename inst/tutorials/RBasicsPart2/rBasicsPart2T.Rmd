@@ -84,7 +84,7 @@ You can import all files in all kinds of data formats in R using various package
 
 Here again, if the file is not in the same directory as your code file, you will need to specify the path to tell `import()` where to find the data file.
 
-Because the functions in the package <span style="color:DarkGreen">rio</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function.
+Because the functions in the package <span style="color:DarkGreen">rio</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function. (I have already installed this package for use in the tutorial.)
 
 ### Comma-separated files
 
@@ -298,14 +298,24 @@ We can examine the first few rows of the data frame using the `head()` function.
 ```{r str, exercise=TRUE}
 head(unFBposts, n=5)
 ```
-The `str()` function displays the structure of the data frame. Specifically, it provides the number of observations and variables and then lists each variable along with its type and the values of first few observations. 
+The `str()` function displays the structure of the data frame. Specifically, it provides the number of observations and variables and then lists each variable along with its type and the values of the first few observations. 
 
 ```{r head, exercise=TRUE}
 str(unFBposts)
 ```
 
-Look carefully at the output to see what you can learn about the data before continuing.
  
+The letter abbreviations that appear to the right of the column names describe the type of data that is stored in each column of **unFBposts**. Possible types include:
+
++ int: integers.
++ dbl: doubles, or real numbers.
++ chr: character vectors, or strings.
++ dttm: date-times (a date + a time).
++ fct: factor (categorical variable)
+
+Look carefully at the output to see what you can learn about the data before continuing.
+
+
 ### The `summary()` function
 
 The `summary()` function can be used to obtain some basic descriptive information about the contents of a data frame object. What information is displayed will depend on the class of the variable. For numeric variables, it will report the minimum value, the value at the 1st quartile, the median, the value at the third quartile, and the maximum value.
@@ -318,22 +328,22 @@ See if you can see the differences in the information provided for character and
 
 ## Working with variables in a data.frame
 
-Often we will want to access a specific variable in a data frame. To do so  we use the `$` operator. Specifically, we type DATA_FRAME_NAME\$COLUMN_NAME. So, if we wanted to print the contents of the variable **type** in the data frame **unFBposts**, we would refer to it using **unFBposts$type**. I've wrapped the variable inside the `head()` function to avoid printing all 1743 values.
+Often we will want to access a specific variable in a data frame. To do so  we use the `$` operator. Specifically, we type DATA_FRAME_NAME\$COLUMN_NAME. So, if we wanted to print the contents of the variable **type** in the data frame **unFBposts**, we would refer to it using **unFBposts$type**. 
 
 
 ```{r type, exercise=TRUE}
-head(unFBposts$type)
+unFBposts$type
 ```
 
-These are the first 6 values (first 6 rows) of the variable **type**.
+These are the values of the variable **type**.
 
 ## Missing values
 
 
-When working with data frames, often some observations will not have data on one or more variables. A missing value code is assigned to these observations. We can use the `is.na()` function to learn about missing values. This function takes one argument, the name of the vector whose values we wish to evaluate.  The function returns a TRUE if a value of the vector is missing and FALSE if a value is not missing. I've wrapped the call to `is.na()` inside `head()` to limit the output here as well.
+When working with data frames, often some observations will not have data on one or more variables. A missing value code is assigned to these observations. We can use the `is.na()` function to learn about missing values. This function takes one argument, the name of the vector whose values we wish to evaluate.  The function returns a TRUE if a value of the vector is missing and FALSE if a value is not missing. 
 
 ```{r isna, exercise=TRUE}
-head(is.na(unFBposts$message))
+is.na(unFBposts$message)
 ```
 
 
