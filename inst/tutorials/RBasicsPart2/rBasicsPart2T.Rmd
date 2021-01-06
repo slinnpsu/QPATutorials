@@ -1,5 +1,7 @@
 ---
 title: "R Basics: Part 2"
+tutorial:
+  id: "02-R-Part2"
 output: 
   learnr::tutorial:
     progressive: true
@@ -8,8 +10,6 @@ runtime: shiny_prerendered
 description: >
   Learn how to read in data and execute simple functions on variables in a data frame.
 --- 
-
-
 
 ## Learning Objectives
 
