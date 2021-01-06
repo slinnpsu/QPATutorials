@@ -448,15 +448,16 @@ The remaining options replace the default labels in the plot. <span style="color
   
 For additional arguments see ?plot_model or for examples see the vignette here: http://www.strengejacke.de/sjPlot/reference/plot_model.html#arguments
 
-Here we will look at the effect of **illegals.FT** from our model of vote for Donald Trump (**model1**). Note that all other interval variables (**Police.FT** and **educ**) are set at their means and categorical variables are set at their base level (**party** is set to "Neither Republican nor Democrat" and **femalef** is set to Male).  This means we are generating predictions of the effect of attitudes toward illegal immigrants for those who are male, neither Republican nor Democrat, and have average ratings of police and average levels of education. Look carefully at the code to ensure you understand each line and then run it.
+Here we will look at the effect of **illegals.FT** from our model of vote for Donald Trump (**model1**). Note that all other interval variables (**Police.FT** and **educ**) are set at their means and categorical variables are set at their base level (**party** is set to "Neither Republican nor Democrat" and **femalef** is set to Male).  This means we are generating predictions of the effect of attitudes toward illegal immigrants for those who are male, neither Republican nor Democrat, and have average ratings of police and average levels of education. It's good to include this information in a caption to your plot so the reader knows the values of all variables that are not included in the plot. We can do this by adding a `labs` layer to the plot. Look carefully at the code to ensure you understand each line and then run it. 
 
 ```{r p1, exercise=TRUE, message=FALSE}
 plot_model(model1, 
            type="pred",
            terms = "Illegals.FT",
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability"))
+           title="Predicted Probability of a Trump Vote",
+           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability")) + 
+           labs(caption="Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of the police and education levels")
 ```
 
 Let's interpret the plot. The y-axis contains the predicted probability our dependent variable takes the value 1 (voted for Trump). The x-axis gives the feeling thermometer rating of illegal immigrants. The curve gives the predicted probability of voting for Trump for each value of feelings toward illegal immigrants. The gray area around the curve represents the 95% confidence interval around our predictions. Remember, these predictions are generated setting **Police.FT** and **educ** at their mean values and **femalef** and **partyf** at their reference categories, male and neither Democrat nor Republican. We see that the predictions do not follow a straight line.  Moving from 0 to 25 on the feeling thermometer produces a drop in the probability of voting for Donald Trump of about 55%-42%=13% while changing from 75 to 100 produces a change of about 18%-12%=6%.
@@ -470,7 +471,8 @@ plot_model(model1,
            terms = XXX,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) 
+           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) + 
+           labs(caption="Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
 ```
 
 ```{r p2b-hint-1}
@@ -486,7 +488,8 @@ plot_model(model1,
            terms = "Police.FT",
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) 
+           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) + 
+          labs(caption="Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
 ```
 
 ```{r p2b-check}
@@ -517,7 +520,8 @@ plot_model(XXX,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title="Party Identification") 
+           legend.title="Party Identification") + 
+           labs(caption="Predictions are for males with average \neducation levels and ratings of police")
 ```
 
 ```{r p3-hint-1}
@@ -540,7 +544,8 @@ plot_model(model1,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title="Party Identification") 
+           legend.title="Party Identification") + 
+           labs(caption="Predictions are for males with average \neducation levels and ratings of police")
 ```
 
 ```{r p3-check}
@@ -552,7 +557,7 @@ This plot is very informative! We now have separate predictions for the effect o
 ## Plotting the Effects of Three Variables at Once
 
 
-We can even consider the effects of three variables simultaneously by adding a third term to the `terms` argument. (We cannot do more than three.) Let's examine the effects of feelings toward illegal immigrants, feelings toward the police, and party identification. The first variable listed in the `terms` argument is assigned to the x-axis, the effects of the second variable listed are plotted in separate curves (or points if the first term is categorical), and the effects of the third value listed are presented in separate panels. Remember the variables we haven't specified are set at their mean value in the sample or the base/reference category. 
+We can even consider the effects of three variables simultaneously by adding a third term to the `terms` argument. (We cannot do more than three.) Let's examine the effects of feelings toward illegal immigrants, feelings toward the police, and party identification. The first variable listed in the `terms` argument is assigned to the x-axis, the effects of the second variable listed are plotted in separate curves (or points if the first term is categorical), and the effects of the third value listed are presented in separate panels. There are only three variables in this model, so the effects of all variables are illustrated in the plot and we do not need a caption.
 
 The legend title should always be the title of the second variable listed. Here, because the second variable is interval level, the function by default shows predicted probabilities for the mean value and one standard deviation below and above the mean. I've specified the values to use here by placing values in brackets, separated by commas after **Police.FT**. You could place any values and less or more than three in these brackets.  But you can omit [ ] if you want to go with the default values. Look carefully at the code before running it.
 
@@ -579,7 +584,7 @@ question("Look at carefully at the figure above. Which of the following statemen
 
 ## Changing the Values Used to Produce the Plots
 
-For a final illustration of the type of effects you can plot with the `plot_model()` function, we will plot the effect of feelings toward the police by party conditioning on particular values -- other than the mean or base/reference category. To do so, we add one additional argument to the `plot_model()` function: `condition`. The condition argument allows us to set the values of any other variable not listed in the `terms` argument. Say we wish to look at predictions based on feelings toward the police and party identification setting the level of education at its lowest level (1), setting feeling thermometer ratings of illegal immigrants right at the middle of the scale (50), and assuming we want predictions for females only.  
+For a final illustration of the type of effects you can plot with the `plot_model()` function, we will plot the effect of feelings toward the police by party conditioning on particular values -- other than the mean or base/reference category. To do so, we add one additional argument to the `plot_model()` function: `condition`. The condition argument allows us to set the values of any other variable not listed in the `terms` argument. Say we wish to look at predictions based on feelings toward the police and party identification setting the level of education at its lowest level (1), setting feeling thermometer ratings of illegal immigrants right at the middle of the scale (50), and assuming we want predictions for females only.  Note the caption contents.
 
 Look closely at the specification of the `condition` argument. We specify each variable and set it equal to the value we want. We place these inside the `c()` function. Note the we do not put the variable names in quotations.
 
@@ -591,7 +596,8 @@ plot_model(model1,
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Scores toward Police","Predicted Probability"),
-           legend.title = "Party Identification")  
+           legend.title = "Party Identification")  +
+           labs(caption = "Predictions are for females with low levels of \neducation, and feeling thermometer ratings of \nillegal immigrants at the middle of the scale (50)")
 ```
   
 ```{r letter-c, echo=FALSE}
@@ -612,7 +618,7 @@ Let's plot predictions from our model of voter turnout. Recall that we estimated
 
 
 
-Generate the predicted probability of voting in 2016 as a function of the difference in evaluations of the two candidates and the strength of partisanship, setting education and income at their mean values. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Absolute Difference in Feelings toward Clinton and Trump", and the legend title "Strength of Partisanship".
+Generate the predicted probability of voting in 2016 as a function of the difference in evaluations of the two candidates and the strength of partisanship, setting education and income at their mean values. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Absolute Difference in Feelings toward Clinton and Trump", and the legend title "Strength of Partisanship". Add a caption "Predictions are for those with average levels of education and income".
 
 ```{r m2p1, exercise=TRUE, message=FALSE}
 
@@ -644,7 +650,10 @@ the y-axis title
 Set the legend.title="Strength of Party Identification"
 ```
 
-
+```{r m2p1-hint-7}
+Put a + at the end of the line and add caption = "Predictions are for 
+those with average levels of education and income"
+```
 
 ```{r m2p1-solution}
 plot_model(model2,
@@ -652,7 +661,8 @@ plot_model(model2,
            terms=c("thermdiff", "strongf"),
            title="Predicted Probability of Casting a Ballot",
            axis.title = c("Absolute Difference in Feelings toward Clinton and Trump","Predicted Probability"),
-           legend.title = "Strength of Party Identification")
+           legend.title = "Strength of Party Identification") + 
+           labs(caption="Predictions are for those with average levels of education and income")
 ```
 
 ```{r m2p1-check}
@@ -670,7 +680,7 @@ question("Look at carefully at the figure above. Which of the following statemen
   )
 ```
 
-Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan".Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education".
+Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan". Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education".  Add a caption that reads "Predictions are for someone with low income, a \\ndifference in feelings toward Hillary Clinton and \\nDonald Trump of 50 who is not a strong partisan". Don't forget the \\n!
 
 ```{r m2p, exercise=TRUE, message=FALSE}
 
@@ -703,6 +713,9 @@ Add axis.title=c(), where inside () you list the x-axis title first followed by
 the y-axis title
 ```
 
+```{r m2p-hint-7}
+Add a + and labs(caption = "" including the \n)
+```
 
 
 ```{r m2p-solution}
@@ -711,7 +724,8 @@ plot_model(model2,
            terms="educ",
            condition=c(income=2, thermdiff=50, strongf="Not a Strong Partisan"),
            title="Predicted Probability of Casting a Ballot",
-           axis.title = c("Level of Education","Predicted Probability") )
+           axis.title = c("Level of Education","Predicted Probability")) +
+           labs(caption = "Predictions are for someone with low income, a \ndifference in feelings toward Hillary Clinton and \nDonald Trump of 50 who is not a strong partisan")
 ```
 
 ```{r m2p-check}
@@ -727,7 +741,7 @@ question("Looking at the figure above is the following TRUE or FALSE? At all lev
   )
 ```
 
-Generate predicted turnout as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level".  Think carefully about which terms to list and the order in which you need to list them to generate the requested predictions.
+Generate predicted turnout as a function of strength of partisanship for adults by level of education for education values of 1, 3, and 5 and the average difference in feelings toward the two candidates and income. Title your figure "Predicted Probability of Casting a Ballot"; label the y-axis "Predicted Probability", the x-axis "Strength of Partisanship", and the legend title "Education Level".  Add a caption to state that "Predictions are for those with average income and absolute value \\nof the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton". Think carefully about which terms to list and the order in which you need to list them to generate the requested predictions.
 
 
 ```{r m2p2, exercise=TRUE, message=FALSE}
@@ -761,7 +775,12 @@ the y-axis title
 Set the legend.title="Level of Education"
 ```
 
-
+```{r m2p2-hint-7}
+Put a + at the end of the line and add caption = "Predictions are for 
+those with average income and absolute value \nof the difference in 
+their feeling thermometer ratings of Donald Trump and Hillary Clinton"
+Don't forget the \n!
+```
 
 ```{r m2p2-solution}
 plot_model(model2,
@@ -769,7 +788,8 @@ plot_model(model2,
            terms=c("strongf", "educ[1,3,5]"),
            title="Predicted Probability of Casting a Ballot",
            axis.title = c("Strength of Partisanship","Predicted Probability"),
-           legend.title = "Education Level")
+           legend.title = "Education Level") + 
+           labs(caption="Predictions are for those with average income and absolute value \nof the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton")
 ```
 
 ```{r m2p2-check}
