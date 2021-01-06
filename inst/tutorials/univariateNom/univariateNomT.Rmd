@@ -1,5 +1,7 @@
 ---
 title: "Univariate Description: Nominal Variables"
+tutorial:
+  id: "04-Nominal-Description"
 output: 
   learnr::tutorial:
     progressive: true
