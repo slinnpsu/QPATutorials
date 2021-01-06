@@ -1,5 +1,7 @@
 ---
 title: "Univariate Description: Interval Variables"
+tutorial:
+  id: "06-Interval-Description"
 output: 
   learnr::tutorial:
     progressive: true
@@ -362,15 +364,16 @@ Assessing the <span style="color:blue">**shape of the distribution**</span> of a
 ## Visualizing the distribution of an interval variable
 
 
-For the same reason a frequency table is not a useful way to describe an interval variable, a bar plot is inappropriate for visualizing an interval variable. So what do we do with interval level variables? We can generalize the bar chart to illustrate the shape of the distribution of an interval level variable using a <span style="color:blue">**histogram**</span>. A histogram is a very common method for presenting the distribution of interval level data. Histograms collect observed values and put them in *bins* that cover *ranges* of values. Once in bins, the height of the bar is given by the number of values in that bin. We can also present a histogram using proportions. In this case, the height of the bar is calculated as the proportion of observations in the bin divided by the width of the bin (number of values covered by the bin). The total area in the bars sums to 1.0.  We can control the number of bins or let R pick.
+For the same reason a frequency table is not a useful way to describe an interval variable, a bar plot is inappropriate for visualizing an interval variable. So what do we do with interval level variables? We can generalize the bar chart to illustrate the shape of the distribution of an interval level variable using a <span style="color:blue">**histogram**</span>. A histogram is a very common method for presenting the distribution of interval level data. Histograms collect observed values and put them in *bins* that cover *ranges* of values. Once in bins, the height of the bar is given by the number of values in that bin. We can also present a histogram using proportions. In this case, the height of the bar is calculated as the proportion of observations in the bin divided by the width of the bin (number of values covered by the bin). The total area in the bars sums to 1.0.  We can control the number of bins -- or their width -- or let R pick.
 
 Histograms illustrate the central tendency of the variable and its dispersion, as well as the shape of the distribution.
+
+
 
 ###  The histogram
 
 Generating a histogram with `ggplot()` requires a simple change to the basic code for a bar plot.  Because we want a different visual, or geometric, representation, we replace `geom_bar()` with `geom_histogram()`. That's it! (Note that we do not need to enclose **wage_growth** inside `factor()` because the variable can take on any value in its range.) 
 
-This code will produce a warning message. Not to worry.
 
 ```{r wagehist, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=wage_growth)) +
@@ -381,13 +384,28 @@ ggplot(data=counties,  mapping=aes(x=wage_growth)) +
               caption="Linn, Nagler, and Zilinsky")
 ```
 
+Ignore the warning for now and notice that it's difficult to determine the range of values covered by a bin. Let’s add white vertical borders demarcating the bins by adding a color = "white" argument to `geom_histogram()`.
 
-Notice that there is a warning message associated with the plot. "Pick better value with `binwidth`." `ggplot()` will choose a default number of bins based on a formula. Here, it picked 30 and gave us a warning that we might wish to consider alternatives. To do so, we add `bins` argument to `geom_histogram()`. Try experimenting with the number of bins in our plot by augmenting the code and trying different values.
+
+
+
+```{r wagehist2a, exercise=TRUE}
+ggplot(data=counties,  mapping=aes(x=wage_growth)) +
+         geom_histogram(color="white") +
+         labs(title = "Wage Growth in US Counties in 2016", 
+              x=NULL, 
+              y="Frequency", 
+              caption="Linn, Nagler, and Zilinsky")
+```
+
+
+Notice that there is a warning message associated with the plot. "Pick better value with `binwidth`." `ggplot()` will choose 30 and give us a warning that we might wish to consider alternatives. To do so, we have two options. We can set the number of bins by adding the `bins` argument to `geom_histogram()` and setting it equal to some number. Try experimenting with the number of bins in our plot by augmenting the code and trying different values.
+
 
 
 ```{r wagehist2, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram() +
+         geom_histogram(color="white") +
          labs(title = "Wage Growth in US Counties in 2016", 
               x=NULL, 
               y="Frequency", 
@@ -398,8 +416,20 @@ ggplot(data=counties,  mapping=aes(x=wage_growth)) +
 Did you enter bins=50 or some other number inside geom_histogram()?
 ```
 
+Alternatively, you can control the width of the bin. This sets the range of values covered by a bin. If a variable takes values that range from, for example, 0 to 100, we might want each bin to cover 10 units. We could specify `bins=10` (100/10=10) or set `bindwidth=10`. Let's set the binwidth for wage growth to 0.1 or one-tenth of a percentage point.
 
-What can we say about the shape of the distribution?
+```{r wagehist2b, exercise=TRUE}
+ggplot(data=counties,  mapping=aes(x=wage_growth)) +
+         geom_histogram(color="white", binwidth=.01) +
+         labs(title = "Wage Growth in US Counties in 2016", 
+              x=NULL, 
+              y="Frequency", 
+              caption="Linn, Nagler, and Zilinsky")
+```
+
+Try experimenting with the binwidth in our plot to make sure you understand what this argument is doing.
+
+Let's interpret the plot. What can we say about the shape of the distribution?
 
 1. The distribution looks tightly clustered. The x-axis has such a broad range because there is a county with very large declines in wages (remember the range of the values from above) and a county with very large wage growth. If we ignored these two counties, the distribution would look much less tight as, in effect, we would zoom in on the remaining counties.
 2. The distribution looks bell-shaped or similar to a normal distribution.
@@ -417,11 +447,11 @@ Not all variables will have symmetric distributions. Instead, they may be <span 
 
 ### Adding the median and mean to a histogram
 
-Often it is useful to add a vertical line to a histogram to represent the median and/or the mean value. To do so, we add another layer to our plot.  We want to add a vertical line, so we will use the `geom_vline()` function. We need to tell R where to place the line and specifically where it crosses the x-axis. We do so by specifying an aesthetic inside `geom_vline()` and setting the `xintercept` argument equal to the value we wish. Let's add the median to our plot. We'll make the `linetype` `"dashed"` and `color` it `"red"` to make it stand out. I've also set `bins=60` in `geom_histogram()`.
+Often it is useful to add a vertical line to a histogram to represent the median and/or the mean value. To do so, we add another layer to our plot.  We want to add a vertical line, so we will use the `geom_vline()` function. We need to tell R where to place the line and specifically where it crosses the x-axis. We do so by specifying an aesthetic inside `geom_vline()` and setting the `xintercept` argument equal to the value we wish. Let's add the median to our plot. We'll make the `linetype` `"dashed"` and `color` it `"red"` to make it stand out. I've also set `bins=60` in `geom_histogram()`. This means that the width of the bins will be the maximum value of wage growth minus the minimum value and this quantity will be divided by 60.
 
 ```{r vline, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(bins=60) +
+         geom_histogram(color="white",bins=60) +
          geom_vline(aes(xintercept=median(wage_growth, na.rm=TRUE)), color="red", linetype="dashed") +
          labs(title = "Wage Growth in US Counties in 2016", 
               x=NULL, 
@@ -444,7 +474,7 @@ Try playing plotting the mean rather than the median and playing around with the
 
 ```{r vlinelabel, exercise=TRUE}
 ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(bins=60) +
+         geom_histogram(color="white",bins=60) +
          geom_vline(aes(xintercept=XXXX(XXXX)), color="red", linetype="dotted") +
          annotate("text", x =XXXX, y = XXXX, 
                   label = paste0("Mean=", 
@@ -457,7 +487,7 @@ ggplot(data=counties,  mapping=aes(x=wage_growth)) +
 
 ```{r vlinelabel-solution}
 ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(bins=60) +
+         geom_histogram(color="white",bins=60) +
          geom_vline(aes(xintercept=mean(wage_growth, na.rm=TRUE)), color="red", linetype="dotted") +
          annotate("text", x =.25, y = 900, 
                   label = paste0("Mean=", 
@@ -474,7 +504,7 @@ ggplot(data=counties,  mapping=aes(x=wage_growth)) +
 ### The box plot
 
 
-A <span style="color:blue">**box plot**</span> is an alternative way to visualize the distributions of an interval level variable. It is particularly useful when we want to compare the distribution of several variables side-by-side. A box plot visualizes the median, the IQR, and outlying observations  together in a single object.
+A <span style="color:blue">**box plot**</span> is an alternative way to visualize the distributions of an interval level variable. It is particularly useful when we want to compare the distribution of one variable broken down by categories of another variable. A box plot visualizes the median, the IQR, and outlying observations together in a single object.
 
 
 We generate a box plot by changing the basic histogram plot in two ways. First, we map the variable we want to plot to the y-axis rather than the x-axis.  Second, we use `geom_boxplot()` rather than `geom_histogram()`.
@@ -493,17 +523,17 @@ ggplot(counties, aes(y=employ_pop_ratio_25_64)) +
 
 What does this plot tell us? 
 
-1. The boxed area tells us the values in the middle $50\%$ of the data -- that ranging from the 25th to the 75th percentile of the distribution. Here this range of values is very small: in half the counties between about half and about $90\%$ of their working age population are employed.
-2. Observations outside that range are indicated by circles. Here we see that several counties have more than $100\%$ of adults age 25-54 who are employed. (These counties must be "importing" workers from other counties.)
-3. The heavy solid horizontal line indicates the median, which is $66.8\%$.
-
+1. The heavy solid horizontal line indicates the median, which is $66.8\%$.
+2. The boxed area tells us the values in the middle $50\%$ of the data -- that ranging from the 25th to the 75th percentile of the distribution. The height of each box (the value of the 3rd quartile minus the value of the 1st quartile) is the interquartile range  or IQR. It provides a measure of the spread of the middle 50% of values. Here this range of values is very small: in half the counties between about half and about $90\%$ of their working age population are employed. Longer boxes would indicate more variability. 
+3. The “whisker” portions of these plots extend out from the bottoms and tops of the boxes and represent points less than the 25th percentile and greater than the 75th percentiles, respectively. They’re set to extend out no more than 1.5 × IQR units away from either end of the boxes. Longer whiskers indicate more variability.
+4. Observations outside that range -- beyond 1.5 × IQR from the box -- are indicated by circles. The circlies represent outliers or unusual values. Here we see that several counties have more than $100\%$ of adults age 25-54 who are employed. (These counties must be "importing" workers from other counties.)
 
 
 ### Your turn
 
 Plot the variable **dem2p_percent** in the data frame **counties** and describe the distribution. Recall this variable is the percent of the-two party vote cast for the Democrat in a given county.
 
-Try to produce a histogram without looking at the hints!  If you are feeling like a challenge, add the median and mean value to the plot and label it.
+Try to produce a histogram without looking at the hints!  Outline the bars in blue If you are feeling like a challenge, add a red dashed line for the median and red dotted line for the mean value to the plot and label them.
 
 
 ```{r dem2phist, exercise=TRUE}
@@ -618,13 +648,13 @@ Consider the following image and answer the questions:
 world %>%
   filter(!is.na(spendeduc)) %>%
 ggplot(aes(x=spendeduc)) +
-  geom_histogram(bins=20) +
+  geom_histogram(color="white", bins=20) +
   labs(title = "Public Expenditure on Education Around the World",
        caption="Country Data from the United Nations",
        x="Percent of GDP",
        y="Frequency") +
-          annotate("text", x =10, y = 20, 
-                  label = paste0("standard deviation=", 
+          annotate("text", x =10, y = 18, 
+                  label = paste0("Standard Deviation = ", 
                                  round(sd(world$spendeduc, na.rm=TRUE),2))) 
 ```
 
