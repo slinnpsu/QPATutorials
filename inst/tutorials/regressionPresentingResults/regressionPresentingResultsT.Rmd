@@ -332,7 +332,7 @@ The remaining options replace the default labels in the plot. <span style="color
   
 For additional arguments see ?plot_model or for examples see the vignette here: http://www.strengejacke.de/sjPlot/reference/plot_model.html#arguments
 
-Here we will look at the effect of **white_percent**. Note that all other variables are set at their means.  Run the code and then change `show.data` to equal TRUE and run the code again to see what you learn.
+Here we will look at the effect of **white_percent**. Note that all other variables are set at their means.  It's good to include a caption in your plot by adding a `labs` layer in which you state explicitly the values of the variables whose effects are not plotted. Run the code and then change `show.data` to equal TRUE and run the code again to see what you learn.
 
 ```{r pred1, warning=FALSE, message=FALSE, exercise=TRUE}
 plot_model(model1, 
@@ -340,7 +340,8 @@ plot_model(model1,
            terms = "white_percent",
            show.data = FALSE,
            title="Predicted Percent of the Vote for Hillary Clinton \nas a Function of County Percent White", 
-           axis.title = c("White (%)","Hillary Clinton (%)"))
+           axis.title = c("White (%)","Hillary Clinton (%)")) +
+           labs(caption = "Predictions are for counties with average \nmortality risk, wage growth, percent of \ncollege graduates, Hispanics and Blacks")
 ```
 
 This plot shows us the line representing the predicted percent of the vote cast for Hillary Clinton as a function of the percent of the county's residents were white, *setting the value of all other variables at their mean*. We can see that for a county with 50% whites, we expect just over half the vote to be cast for Hillary Clinton. For a county with 75% white, the expected value is about 40%.
@@ -357,7 +358,8 @@ plot_model(model2,
            terms = "UrbanCat",
            show.data = FALSE,
            title="Predicted Percent of the Vote for Hillary Clinton", 
-           axis.title = c("","Hillary Clinton (%)"))
+           axis.title = c("","Hillary Clinton (%)")) +
+           labs(caption = "Predictions are for counties with average \nmortality risk, wage growth, and percent of \ncollege graduates, Hispanics, Whites, and Blacks")
 ```
 
 Notice that the x-axis tick mark labels are not informative. We'll discuss how to solve that problem below.  But this is otherwise a very informative plot. It tells us that when all other independent variables are set at their means, counties that are rural (-1) were expected to cast about 31.5% of their votes for Hillary Clinton, while counties that were neither rural nor urban (0) were expected to cast almost 35% of their votes for Hillary Clinton. Counties that were urban (1) were expected to cast about 34% of their vote for Hillary Clinton. We can also see that the latter two types of counties predicted values are not different from each other because their confidence intervals overlap.
@@ -477,6 +479,7 @@ stargazer(fit1,
 ```{r statetable2-check}
 grade_code()
 ```
+
 ### Create a Coefficient Plot
 
 Create a basic coefficient plot with the `plot_model()` function. We'll add labels next.
@@ -548,7 +551,9 @@ grade_code()
 
 Next, plot the predicted proportion of House seats held by the Democrats as a function of the proportion of the state's residents that are liberal.  Remember that all other variables are set at their means with the exception of **region_censusf**, which is set to south, the baseline category.  
 
-Set the title for the plot to "Predicted Proportion of House Seats \nHeld by Democrats" and the axis titles to "Proportion Liberal" and "Proportion of Democratic House Seats". Set the `show.data` equal to TRUE to plot the bivariate scatter plot.
+Set the title for the plot to "Predicted Proportion of House Seats \\nHeld by Democrats" and the axis titles to "Proportion Liberal" and "Proportion of Democratic House Seats". Set the `show.data` equal to TRUE to plot the bivariate scatter plot.  Add a caption that reads "Predictions are for southern states with an \\naverage poverty rate and proportion nonwhite". Don't forget the \\n!
+
+
 
 
 ```{r statepred1, warning=FALSE, message=FALSE, exercise=TRUE}
@@ -571,7 +576,9 @@ Remember the x-axis title is the first, followed by the
 y-axis title.
 ```
 
-
+```{r statepred1-hint-3}
+Add a labs layer with a plus and set caption = "Predictions are for southern states with an \naverage poverty rate and proportion nonwhite"
+```
 
 ```{r statepred1-solution}
 plot_model(fit1,
@@ -579,7 +586,8 @@ plot_model(fit1,
            term="p.liberal",
            show.data = TRUE,
            title="Predicted Proportion of House Seats \nHeld by Democrats",  
-           axis.title = c("Proportion Liberal","Proportion of Democratic House Seats"))
+           axis.title = c("Proportion Liberal","Proportion of Democratic House Seats")) +
+           labs(caption = "Predictions are for southern states with an \naverage poverty rate and proportion non-white")
 ```
 
 ```{r statepred1-check}
@@ -591,7 +599,7 @@ This plot helps us to see that as the proportion of people calling themselves li
 ### Generate Predictions for a Nominal Variable
  
 
-Now plot the predicted effects of census region from the regression given in **fit1**, holding all other variables at their means. Specify the title ("Predicted Proportion of House Seats Held \nby Democrats by Region"), axis.title arguments (specify "" for a blank title for the x-axis and "Proportion of House Seats \nHeld by Democrats" for the y-axis) and do not show the data.
+Now plot the predicted effects of census region from the regression given in **fit1**, holding all other variables at their means. Specify the title ("Predicted Proportion of House Seats Held \\nby Democrats by Region"), axis.title arguments (specify "" for a blank title for the x-axis and "Proportion of House Seats \\nHeld by Democrats" for the y-axis) and do not show the data. Add a caption that reads Predictions are for southern states with an \\naverage poverty rate and proportion nonwhite"
 
 
 ```{r statepred2, warning=FALSE, message=FALSE, exercise=TRUE}
@@ -614,13 +622,19 @@ Remember the x-axis title is the first, followed by the
 y-axis title.
 ```
 
+
+```{r statepred2-hint-3}
+Add a labs layer with a plus and set caption = "Predictions are for southern states with an \naverage poverty rate and proportion nonwhite"
+```
+
 ```{r statepred2-solution}
 plot_model(fit1, 
            type = "pred", 
            terms = "region_censusf",
            show.data = FALSE,
            title="Predicted Proportion of House Seats Held \nby Democrats by Region", 
-           axis.title = c("","Proportion of House Seats \nHeld by Democrats"))
+           axis.title = c("","Proportion of House Seats \nHeld by Democrats")) +
+           labs(caption = "Predictions are for states with an average poverty \nrate, proportion liberal and proportion non-white")
 ```
 
 
