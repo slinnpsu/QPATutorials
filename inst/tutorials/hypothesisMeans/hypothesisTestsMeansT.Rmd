@@ -1,5 +1,7 @@
 ---
 title: "Hypothesis Tests Involving Means"
+tutorial:
+  id: "10-Hypotheses-Means"
 output: 
   learnr::tutorial:
     progressive: true
