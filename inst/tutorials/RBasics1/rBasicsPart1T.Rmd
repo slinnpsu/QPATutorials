@@ -21,7 +21,7 @@ The tutorials will typically introduce code with examples that you will run -- u
 
 You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later but unless you are running the tutorials on a local installation of R Studio, your progress will not be saved. 
 
-I encourage you to take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for labs, or for your final project.
+I encourage you to resist the temptation to view the solution and copy it. Typing out the code will help you to understand what each exercise is doing and to recall code in you own work. Take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for labs, or for your final project.
 
 
 ## Learning Objectives
@@ -34,6 +34,7 @@ This tutorial is designed to familiarize you with some of the basics of using R.
 * How to determine the class of an object with the `class()` function
 * How to create and use vectors using the `c()` function
 * How to select and replace elements of a vector using indexing
+* How to install packages with the `install.packages()` function and access the functions in them with the `library()` function
 
 
 
@@ -45,10 +46,10 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-dem.pres.vote.share <- c(0.448, 0.408, 0.461, 0.535, 0.547, 0.503, 0.488, 0.537, 0.520, 0.511)
+dem.pres.vote.share <- c(0.448, 0.408, 0.461, 0.535, 0.547, 0.503, 0.488, 0.537, 0.520, 0.511, 0.513)
 first.5.candidates <- c("Carter", "Mondale", "Dukakis", "Clinton","Clinton")
-second.5.candidates <- c("Gore", "Kerry","Obama","Obama", "Clinton")
-dem.candidates <- c(first.5.candidates, second.5.candidates)
+last.6.candidates <- c("Gore", "Kerry","Obama","Obama", "Clinton", "Biden")
+dem.candidates <- c(first.5.candidates, last.6.candidates)
 num.list<-c(1,2,3,4,5)
 ```
 
@@ -203,7 +204,7 @@ R Studio will open a help window providing details on the function.
 R recognizes different types of objects by assigning each object to a *class*. This allows R to perform appropriate operations depending on the class of the object. We've seen two classes of objects so far, numeric and character. In RStudio, the Environment window will show the class of each object. You can also use the function `class()`, inserting the object name in parentheses. R will return the object's class.  Functions, like sqrt and class, have their own class -- function!
 
 
-Find the class of my.first.object, another.object, and the function sqrt:
+Find the class of **my.first.object**, **another.object**, and the function `sqrt`:
 
 
 ```{r prepare-classes, echo=FALSE}
@@ -253,10 +254,10 @@ my.first.vector
 
 Let's try something a bit more interesting.
 
-Here are the two-party vote shares won by the Democratic presidential candidate in the last 10 presidential elections:
+Here are the two-party vote shares won by the Democratic presidential candidate in the last 11 presidential elections:
 
 
-Election Year  | 2-Party Vote Share | Democratic Candidate | Republican Candidate
+Election Year  | Democratic 2-Party Vote Share | Democratic Candidate | Republican Candidate
 -------------  | ------------------ | -------------------- | --------------
  1980   | 0.448 | Jimmy Carter | Ronald Reagan
  1984   | 0.408 | Walter Mondale | Ronald Reagan
@@ -268,8 +269,9 @@ Election Year  | 2-Party Vote Share | Democratic Candidate | Republican Candidat
  2008   | 0.537 | Barack Obama | John McCain
  2012   | 0.520 | Barack Obama | Mitt Romney
  2016   | 0.511 | Hillary Clinton | Donald Trump
+ 2020   | 0.513 | Joe Biden | Donald Trump
  
-We can enter the share of the two-party vote won by the Democratic presidential candidates in the last 10 elections as elements of a single vector we will name **dem.pres.vote.share**. 
+We can enter the share of the two-party vote won by the Democratic presidential candidates in the last 11 elections as elements of a single vector we will name **dem.pres.vote.share**. 
 
 Create the vector and print it to check your work.
 
@@ -285,7 +287,7 @@ type the assignment operator.
 ```
 
 ```{r demshare-solution}
-dem.pres.vote.share <- c(0.448, 0.408, 0.461, 0.535, 0.547, 0.503, 0.488, 0.537, 0.520, 0.511)
+dem.pres.vote.share <- c(0.448, 0.408, 0.461, 0.535, 0.547, 0.503, 0.488, 0.537, 0.520, 0.511, 0.513)
 dem.pres.vote.share
 ```
 
@@ -295,7 +297,7 @@ grade_code(" ")
 
 The `c()` function can be used to combine multiple vectors. 
 
-Let's create two string vectors, one with the Democratic candidate last names for the first 5 elections (call it **first.5.candidates**) and the other with candidate last names for the second 5 elections (call it **second.5.candidates**) and then combine them into a vector called **dem.candidates**. Check your work by printing the final vector. (Hint: candidates' names are strings. You will need to use quotation marks around each name.)
+Let's create two string vectors, one with the Democratic candidate last names for the first 5 elections (call it **first.5.candidates**) and the other with candidate last names for the second 6 elections (call it **last.6.candidates**) and then combine them into a vector called **dem.candidates**. Check your work by printing the final vector. (Hint: candidates' names are strings. You will need to use quotation marks around each name.)
 
 ```{r candnames, exercise=TRUE}
 
@@ -306,14 +308,14 @@ Let's create two string vectors, one with the Democratic candidate last names fo
 To create first.5.candidates give the name and then assign it
 to the object with <-, then type c() with the first five
 names in parentheses, separated by commas. Repeat with the
-second five names and then use the c() function to combine 
+second six names and then use the c() function to combine 
 the two objects and assign the result to dem.candidates.
 ```
 
 ```{r candnames-solution}
 first.5.candidates <- c("Carter", "Mondale", "Dukakis", "Clinton","Clinton")
-second.5.candidates <- c("Gore", "Kerry","Obama","Obama", "Clinton")
-dem.candidates <- c(first.5.candidates, second.5.candidates)
+last <- c("Gore", "Kerry","Obama","Obama", "Clinton", "Biden")
+dem.candidates <- c(first.5.candidates, last.6.candidates)
 dem.candidates
 ```
 
@@ -324,7 +326,7 @@ grade_code("")
 
 ### Accessing Elements of a Vector
 
-**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. Here is an example that extracts the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
+**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] behind the vector. Inside the brackets, place the number of the element that you’d like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
 
 ```{r access, exercise=TRUE}
 dem.pres.vote.share[1]
@@ -354,12 +356,12 @@ What was the vote share won by the Democrat in the last 5 elections?
 
 ```{r last5-hint}
 Inside square brackets use the c() function to
-select elections 6 through 10, separating each
+select elections 7 through 11, separating each
 by commas
 ```
 
 ```{r last5-solution}
-dem.pres.vote.share[c(6,7,8,9,10)]
+dem.pres.vote.share[c(7,8,9,10,11)]
 ```
 
 ```{r last5-check}
@@ -376,7 +378,7 @@ dem.pres.vote.share[c(5,9)]
 We can also use a dash in the index to remove an element from a vector. For example, we can remove the vote share won by the Democrat in the last election as follows:
 
 ```{r remove, exercise=TRUE}
-dem.pres.vote.share[-10]
+dem.pres.vote.share[-11]
 ```
 
 ## Numeric Operations on a Numeric Vector
@@ -435,17 +437,19 @@ Can you figure out how to do that without looking at the hints? Try it! (Remembe
 
 ```
 
-```{r rename-hint}
-1. First, you need to figure out which elements (which
+```{r rename-hint-1}
+First, you need to figure out which elements (which
 index values) of your vector of candidate names
 (**dem.candidates**) are associated with elections in
 which one of the Clintons ran for president. 
-2. Then you will need to use square brackets to
-surround the index values you just identified. 
-3. Inside those square brackets, you will need to use
-the concatenate function. This specifies the index
-values you wish to replace.
-4. Then assign the replacement candidate. Be sure to
+```
+
+```{r rename-hint-2}
+Use square brackets to surround the index values you just identified. 
+Inside those square brackets, you will need to use the concatenate 
+function. This specifies the index values you wish to replace.
+
+Then assign the replacement candidate. Be sure to
 use the `c()` function, place the names in quotes, and
 separate the names with commas.
 
@@ -509,7 +513,7 @@ Let's create an object for the "election year" variable in our table using this 
 ```
 
 ```{r years-hint}
-The first election year is 1980 and the last is 2016. 
+The first election year is 1980 and the last is 2020. 
 We only have election years to need to increment by 4.
 Specity the from, to, and by arguments inside the seq()
 function. Don't forget to separate the arguments with commas.
@@ -517,7 +521,7 @@ function. Don't forget to separate the arguments with commas.
 
 
 ```{r years-solution}
-elect.year <- seq(from=1980, to=2016, by=4)
+elect.year <- seq(from=1980, to=2020, by=4)
 elect.year
 ```
 
@@ -530,7 +534,7 @@ grade_code(" ")
 Note that we can create decreasing sequences by making the `by` argument negative. 
 
 ```{r backward, exercise=TRUE}
-seq(from=2016, to=1980,
+seq(from=2020, to=1980,
     by=-4)
 ```
 
@@ -540,7 +544,7 @@ The `names()` function can access and assign names to an object. Names are not p
 Below we use the `names()` function first to see if names are assigned to the vector **dem.pres.vote.share** and seeing that there are none, we assign the names of the election year to the **dem.pres.vote.share.** Once we do so, the vector is printed with a useful label.
 
 ```{r elect}
-elect.year <- seq(from=1980, to=2016, by=4)
+elect.year <- seq(from=1980, to=2020, by=4)
 ```
 
 ```{r names, exercise=TRUE, exercise.setup="elect"}
@@ -554,12 +558,12 @@ dem.pres.vote.share
 
 Base R contains many functions to accomplish a variety of tasks. But many of the functions we will use are contained in packages that have been contributed to the Comprehensive R Archive Network (CRAN).  A package bundles together code, data, and help files. There are over 10,000 packages written for R, and more are contributed all the time. R does not automatically install or load packages in order to save memory.
 
-Many packages will be installed for you in R Studio Cloud so that you don't have to. But if you are working on a local copy of R Studio, you will need to download and install them using the `install.packages()` function by passing the function the name of the package in quotes. Once installed, you load the package using the `library()` function. For example, we will use the `ggplot()` function in the  <span style="color:DarkGreen">ggplot2</span> package. If you don't first load the package, you will get an error:
+Many packages will be installed for you in R Studio Cloud so that you don't have to. But if you are working on a local copy of R Studio, you will need to install them using the `install.packages()` function by passing the function the name of the package in quotes. Once installed, you load the package using the `library()` function. For example, we will use the `ggplot()` function in the  <span style="color:DarkGreen">ggplot2</span> package. You must load a package each time you start R before you can use the functions it contains (but only install it once). If you don't first load the package, you will get an error:
 
 ```{r errorlib, exercise=TRUE}
 ggplot()
 ```
-Instead, we load the package first. This makes its functions available in memory.
+Instead, we load the package first. This makes its functions available in memory. Note the error message. Any time you receive an error that begins "could not find function" the likely problem is that you haven't loaded the packaged that contains the function!
 
 ```{r lib, exercise=TRUE}
 library(ggplot2)
@@ -603,7 +607,7 @@ rep.pres.vote.share
 grade_code(" ")
 ```
 
-Create a vector called **closeness** that calculates how close the results were. Here you will need to use the absolute value function, which is the `abs()` function. (You will need to list the Republican vote share first inside this function.) Print it.
+Create a vector called **victory.margin** that calculates the margin of victory. Here you will need to use the absolute value function, which is the `abs()` function. (You will need to list the Republican vote share first inside this function.) Print it.
 
 
 ```{r Repshare-me}
@@ -615,14 +619,14 @@ rep.pres.vote.share <- 1-dem.pres.vote.share
 ```
 
 ```{r close-hint}
-The closeness of the election is captured by the difference
+The margin of victory is captured by the difference
 between the Democratic vote share and the Republican vote share
 and taking the absolute value of that quantity.
 ```
 
 ```{r close-solution}
-closeness <- abs(rep.pres.vote.share-dem.pres.vote.share)
-closeness
+victory.margin <- abs(rep.pres.vote.share-dem.pres.vote.share)
+victory.margin
 ```
 
 ```{r close-check}
@@ -644,7 +648,7 @@ tutorial.
 ```
  
 ```{r repnames-solution}
-rep.names <- c("Reagan", "Reagan", "Bush", "Bush", "Dole", "Bush", "Bush", "McCain", "Romney", "Trump")
+rep.names <- c("Reagan", "Reagan", "Bush", "Bush", "Dole", "Bush", "Bush", "McCain", "Romney", "Trump", "Trump")
 rep.names
 ```
 
