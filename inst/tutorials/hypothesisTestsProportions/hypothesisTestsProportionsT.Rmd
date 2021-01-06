@@ -1,5 +1,7 @@
 ---
 title: "Hypothesis Tests Involving Proportions"
+tutorial:
+  id: "11-Hypotheses-Proportions"
 output: 
   learnr::tutorial:
     progressive: true
