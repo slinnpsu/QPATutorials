@@ -1,5 +1,7 @@
 ---
 title: "Univariate Description: Ordinal Variables"
+tutorial:
+  id: "05-Ordinal-Description"
 output: 
   learnr::tutorial:
     progressive: true
