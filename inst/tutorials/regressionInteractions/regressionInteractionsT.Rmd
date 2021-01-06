@@ -1,5 +1,7 @@
 ---
 title: "Multiple Regression: Conditional (or Interactive) Relationships"
+tutorial:
+  id: "16-Interactions-Regression"
 output: 
   learnr::tutorial:
     progressive: true
@@ -12,7 +14,7 @@ description: >
 
 ## Learning Objectives
 
-In this tutorial, you will learn how estimate and interpret interactive, also called conditional, relationships using R. Specifically, we will cover:
+In this tutorial, you will learn how to estimate and interpret interactive, also called conditional, relationships using R. Specifically, we will cover:
 
 * How to conduct multiple regression analysis involving conditional relationships in R.
 * How to interpret results from multiple regression analysis with interactions using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce plots of predicted values.
@@ -81,7 +83,7 @@ model2<-lm(confidence~factor(hi_gdp)+polity+factor(hi_gdp)*polity, data=world)
 
 ## Overview
 
-Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables and those involving one interval and one categorical variable using R and how to visualize their effects.
+Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables and those involving one interval and one categorical variable using R and we illustrate how to visualize their effects.
 
 
 ## Conditional Relationships in Multiple Regression
@@ -430,7 +432,7 @@ grade_code("Nice plot!")
 
 Your plot should show that the effect of percent white is always negative (all slopes are negative) and is biggest (the slope is steepest) for counties with the highest mortality risk when all other variables are held at their mean value. There is support for the expectation that higher mortality risk makes predominantly white counties more anti-incumbent than other counties.
 
-## Interactions Involing One Categorical and One Interval Variable
+## Interactions Involving One Categorical and One Interval Variable
 
 Little changes when our interactions involve in interval and categorical variable. Consider the following regression where $X_1$ is a binary categorical variable and $X_2$ is an interval-level variable:
 
