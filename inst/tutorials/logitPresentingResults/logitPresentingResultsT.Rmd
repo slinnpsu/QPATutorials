@@ -467,12 +467,12 @@ Create a predicted value plot that shows the effects of **Police.FT** by editing
 
 ```{r p2b, exercise=TRUE, message=FALSE}
 plot_model(model1, 
-           type=XXX",
-           terms = XXX,
+           type="XXX",
+           terms = "XXX",
            show.data = FALSE,
            title="Predicted Probability of a Trump Vote", 
            axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) + 
-           labs(caption="Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
+           labs(caption = "Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
 ```
 
 ```{r p2b-hint-1}
