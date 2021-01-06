@@ -1,5 +1,7 @@
 ---
 title: "Presenting Regression Results"
+tutorial:
+  id: "15-Results-Regression"
 output: 
   learnr::tutorial:
     progressive: true
