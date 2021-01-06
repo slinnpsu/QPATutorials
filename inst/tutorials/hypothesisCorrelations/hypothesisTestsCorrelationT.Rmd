@@ -1,5 +1,7 @@
 ---
 title: "Hypothesis Tests for Correlation"
+tutorial:
+  id: "12-Hypotheses-Correlations"
 output: 
   learnr::tutorial:
     progressive: true
