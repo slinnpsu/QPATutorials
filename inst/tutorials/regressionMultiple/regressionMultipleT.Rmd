@@ -1,5 +1,7 @@
 ---
 title: "Multiple Regression"
+tutorial:
+  id: "14-Multiple-Regression"
 output: 
   learnr::tutorial:
     progressive: true
