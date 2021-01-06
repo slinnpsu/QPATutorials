@@ -1,5 +1,7 @@
 ---
 title: "Bivariate Description: Two Categorical (Nominal and/or Ordinal) Variables"
+tutorial:
+  id: "07-Bivariate-Description-Categorical-Data"
 output: 
   learnr::tutorial:
     progressive: true
@@ -249,7 +251,7 @@ We follow the same basic steps to build a grouped bar plot as we did for a bar p
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
 
-When plotting a single variable, we simply identified  `x` inside the `aes()` function in step 2. In order to visualize two nominal and/or ordinal variables in a bar plot, we add a `fill` argument to the `aes()` function to specify the grouping variable. Which variable do we specify as the `x` and which as `fill`? The dependent variable should be on the x-axis.
+When plotting a single variable, we simply identified  `x` inside the `aes()` function in step 2. In order to visualize two nominal and/or ordinal variables in a bar plot, we add a `fill` argument to the `aes()` function to specify the grouping variable. Which variable do we specify as the `x` and which as `fill`? The dependent variable should be on the x-axis. The `fill` aesthetic breaks down the categories of the x-axis variable based on values of the variable mapped to the `fill` aesthetic.
 
 Below I've provided the code to create a bar plot of the frequencies from the cross-tab relating the variable **rural** in the **counties** data frame to **TrumpMajority**.  We specify both `x` and `fill` variables as factors so that `ggplot()` knows the values of these variables are discrete (whole numbers only).
 
