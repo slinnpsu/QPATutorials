@@ -1,5 +1,7 @@
 ---
 title: "Simple Regression"
+tutorial:
+  id: "13-Simple-Regression"
 output: 
   learnr::tutorial:
     progressive: true
@@ -211,8 +213,7 @@ question("Look at the output above. True or False, the value of the residual sta
 
 ### Residual standard error
 
-<span style="color:blue">Residual standard error.</span> The residual standard error tells us the typical difference between the observed values of the dependent variable and the values predicted by the model is about 15.99 percentage points from the regression line.  Not so hot!
-
+<span style="color:blue">Residual standard error.</span> The residual standard error is the standard deviation of the residuals. The residual standard error tells us the typical difference between the observed values of the dependent variable and the values predicted by the model. In this example, the residual standard error is about 15.99 percentage points. Thus are preditions are off, on average, but about 16 points. Not so hot!
 
 
 ## Example 2: Vote for Hillary Clinton and Percent Black
@@ -313,7 +314,7 @@ question("Which of the following statements are true?",
   answer("$R^2=0.2276$ implies that for every percentage point increase in the percent of black residents in a county on average Hillary Clinton's vote increased by 0.2276 percentage points", message="The expected increase in the vote for Hillary Clinton with each percentage point increase in the percent of black residents is given by the slope, not  $R^2$ interpretation"),
   answer("$R^2=0.2276$ implies that the percent of a county's residents that are black accounts for less than five percent of the variation in Hillary Clinton's vote",  message="You need to multiply $R^2$ by 100 to get the percentage of the variation explained by the model"),
   answer("$R^2=0.2276$ implies that the percent of a county's residents that are black accounts for about 23 percent of the variation in Hillary Clinton's vote", correct=TRUE),
-  answer("The residual standard error implies that for a majority of counties our error in predicting Hillary Clinton's vote share based on the model is 14.2 percentage points", correct=TRUE, message="We multiple the value of $R^2$ by 100 to get the percent of the variation in the dependent variable that is explained by the model. The residual standard error tells the amount of error in our predictions for more than half the cases."),
+  answer("The residual standard error implies that for a typical county our error in predicting Hillary Clinton's vote share based on the model is 14.2 percentage points", correct=TRUE, message="We multiple the value of $R^2$ by 100 to get the percent of the variation in the dependent variable that is explained by the model. The residual standard error tells the average amount of error in our predictions."),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -404,7 +405,7 @@ Find the $R^2$ and residual standard deviation in the output above and answer th
 ```{r letter-i, echo=FALSE}
 question("Which of the following statements are true?",
   answer("$R^2=0.18$ implies that knowing whether a county is a majority or not majority white country explains 18% of the variation in county vote for Hillary Clinton", correct=TRUE),
-  answer("The residual standard deviation implies that in more than half the counties our prediction of Hillary Clinton's vote share based on the model is off by 14.64 percentage points or less", correct=TRUE, message="We multiple the value of $R^2$ by 100 to get the percent of the variation in the dependent variable that is explained by the model. The residual standard deviation tells the amount of error in our predictions for more than half the cases. We are off by quite a lot!"),
+  answer("The residual standard deviation implies that in more than half the counties our prediction of Hillary Clinton's vote share based on the model is off by 14.64 percentage points or less", correct=TRUE, message="We multiple the value of $R^2$ by 100 to get the percent of the variation in the dependent variable that is explained by the model. The residual standard deviation tells the average error in our predictions. We are off by quite a lot!"),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
