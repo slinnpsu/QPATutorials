@@ -1,7 +1,7 @@
 ---
 title: "R Basics: Part 1"
 tutorial:
-  id: "R-Part1"
+  id: "01-R-Part1"
 output: 
   learnr::tutorial:
     progressive: true
