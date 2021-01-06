@@ -1,5 +1,7 @@
 ---
 title: "Levels of Measurement"
+tutorial:
+  id: "03-Levels-of-Measurement"
 output: 
   learnr::tutorial:
     progressive: true
@@ -31,7 +33,7 @@ knitr::opts_chunk$set(error = TRUE)
 
 The purpose of data analysis is to find meaning in data and use it to solve problems. In this class, we take data as given. Although there is an unbelievable amount of data at our disposal, how we make use of data depends on how well it measures the concepts we care about. Much effort in the research enterprise is devoted to creating measures of concepts and to gathering data to operationalize those measures. The results of those efforts are the data sets we will analyze in class.  The variables in these and other data sets are the building blocks for all analyses.
 
-What is a variable? A variable is an empirical measure of  the characteristics central to our concepts. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
+What is a variable? A variable is an empirical measure of the characteristics central to our concepts. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
 
 
 ## Levels of Measurement
@@ -76,7 +78,7 @@ Most of the time, an ordinal variable will be coded with numeric rather than cha
 question("Which of the following variables are ordinal level measures?",
   answer("Whether Freedom House labels a country as free, partly free, or not free", correct = TRUE),
   answer("Whether a county's population is majority of white, Black, Hispanic or some other race", message = "Racial majority is a nominal variable, the categories cannot be rank-ordered."),
-  answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with Donald Trump's response to the COVID-19 pandemic", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categories and is therefore ordinal-level. The Likert scale assessing satisfaction with the COVID-19 pandemic similarly denotes responses that can be ranked in order and is therefore measured at the ordinal level."),
+  answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with Donald Trump's response to the COVID-19 pandemic", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categorie so this is therefore ordinal-level. The Likert scale assessing satisfaction with the COVID-19 pandemic similarly denotes responses that can be ranked in order and is therefore measured at the ordinal level."),
   answer("A nation's level of inflation", message = "Inflation is not an ordinal variable because difference between the values of the variable are meaningful."),
   allow_retry = TRUE,
   try_again = "Hint: There are two ordinal variables in this list."
@@ -97,10 +99,10 @@ Interval variables may be <span style="color:blue">**discrete**</span> or <span 
 
 ```{r letter-c, echo=FALSE}
 question("Which of the following variables are interval (or ratio) level measures?",
-  answer("Whether a state's governor is a Republican or Democrat or something else", message = "Gubernatorial partisanship is a nominal variable with values denoting categories that cannot be rank-ordered"),
+  answer("Whether a state's governor is a Republican or Democrat or something else", message = "Gubernatorial partisanship is a nominal variable with values denoting categories that cannot be rank-ordered. "),
   answer("The level of foreign direct investment in a country measured in dollars", correct=TRUE),
   answer("The homocide rate in a country is a year", correct = TRUE, message="The level of foreign direct investment and homocide rate take values that are both rank-ordered and the differences between values are equivalent. Therefore both variables are measured at the interval level. "),
-  answer("Whether an individual approves, neither approves nor disapproves, or disapproves of the president's handling on the economy", message = "Presidential approval is an ordinal variable because the differences between categories are rank-ordered but the differences between them are not equal"),
+  answer("Whether an individual approves, neither approves nor disapproves, or disapproves of the president's handling on the economy", message = "Presidential approval is an ordinal variable because the differences between categories are rank-ordered, but the differences between them are not equal"),
   allow_retry = TRUE,
   try_again = "Hint: There are two interval variables in this list."
 )
@@ -122,9 +124,9 @@ Consider support for Donald Trump in US counties in 2016:
 
 ```{r letter-d, echo=FALSE}
 question("What level of measurement would a variable be that was coded as whether or not a majority of the county vote was cast for Donald Trump?",
-  answer("Nominal", correct=TRUE),
-  answer("Ordinal", message="The values of the variable are not rank-ordered so this is not an ordinal variable"),
-  answer("Interval", message="The values of the variable are not ordered and equally distant so this is not an interval variable"),
+  answer("Nominal", correct=TRUE, message="The values of the variable consitute unordered categories."),
+  answer("Ordinal", message="The values of the variable are not rank-ordered so this is not an ordinal variable."),
+  answer("Interval", message="The values of the variable are not ordered and equally distant so this is not an interval variable."),
   allow_retry = TRUE
 )
 ```
@@ -132,9 +134,9 @@ question("What level of measurement would a variable be that was coded as whethe
 
 ```{r letter-e, echo=FALSE}
 question("What level of measurement would a variable be that was coded as percentage of the vote cast for Donald Trump?",
-  answer("Nominal", message="The values this variable takes are ordered and distances between them are meaningful so it is not nominal"),
-  answer("Ordinal", message="The values this variable takes are ordered but distances between them are meaningful so it is not ordinal"),
-  answer("Interval", correct = TRUE),
+  answer("Nominal", message="The values this variable takes are ordered and distances between them are meaningful so it is not nominal."),
+  answer("Ordinal", message="The values this variable takes are ordered but distances between them are meaningful so it is not ordinal."),
+  answer("Interval", correct = TRUE, message="The values this variable takes are ordered and distances between them are meaningful."),
   allow_retry = TRUE
 )
 ```
@@ -144,9 +146,9 @@ Consider the political ideology of members of Congress:
 
 ```{r letter-f, echo=FALSE}
 question("What level of measurement would a variable be that was coded based on responses to the question: On a scale of 1 to 7, where 1 is very liberal and 7 is very conservative, where would you place yourself?",
-  answer("Nominal", message="The values this variable takes are ordered so it is not nominal"),
-  answer("Ordinal", correct=TRUE),
-  answer("Interval", message="The values of the variable are ordered but differences between them are not meaningful so this is not an interval variable"),
+  answer("Nominal", message="The values this variable takes are ordered so it is not nominal."),
+  answer("Ordinal", correct=TRUE, message="The values are rank-ordered, but differences between respondent scores are not necessarily equal."),
+  answer("Interval", message="The values of the variable are ordered but differences between them are not meaningful so this is not an interval variable."),
   allow_retry = TRUE
   )
 ```
@@ -155,8 +157,8 @@ question("What level of measurement would a variable be that was coded based on 
 ```{r letter-g, echo=FALSE}
 question("What level of measurement would ideology be if the variable was coded as the percent of times a member of Congress voted with the Republican leadership?",
   answer("Nominal", message="The values this variable takes are ordered and distances between them are meaningful so it is not nominal."),
-  answer("Ordinal", message="The values this variable takes are ordered and distances between them are meaningful so it is not ordinal"),
-  answer("Interval", correct=TRUE),
+  answer("Ordinal", message="The values this variable takes are ordered and distances between them are meaningful so it is not ordinal."),
+  answer("Interval", correct=TRUE, message="The values this variable takes are ordered and distances between them are meaningful."),
   allow_retry = TRUE
 )
 ```
