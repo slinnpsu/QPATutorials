@@ -507,12 +507,12 @@ ggplot(data=counties,  mapping=aes(x=wage_growth)) +
 A <span style="color:blue">**box plot**</span> is an alternative way to visualize the distributions of an interval level variable. It is particularly useful when we want to compare the distribution of one variable broken down by categories of another variable. A box plot visualizes the median, the IQR, and outlying observations together in a single object.
 
 
-We generate a box plot by changing the basic histogram plot in two ways. First, we map the variable we want to plot to the y-axis rather than the x-axis.  Second, we use `geom_boxplot()` rather than `geom_histogram()`.
+We generate a box plot by changing the basic histogram plot in two ways. First, we map the variable we want to plot to the y-axis rather than the x-axis. Use `x=""` for a cleaner plot. Second, we use `geom_boxplot()` rather than `geom_histogram()`.
 
 Let's plot the percent of working-age adults. Recall this variable is named **employ_pop_ratio_25_64**. 
 
 ```{r honeypot, exercise=TRUE}
-ggplot(counties, aes(y=employ_pop_ratio_25_64)) +
+ggplot(counties, aes(x="", y=employ_pop_ratio_25_64)) +
   geom_boxplot() +
   labs(title="Distribution of the Employment to Population Ratio \n Adults Aged 25-64", 
        subtitle = "US Counties, 2016",
