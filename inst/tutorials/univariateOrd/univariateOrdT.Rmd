@@ -327,8 +327,8 @@ Did you use a plus sign and add the geom_bar() layer?
 
 ```{r FHplot-hint-4}
 Did you remember that to replace the labels you need to 
-put both the old and new names in quotations and to
-separate them with commas and place them inside c()?
+put the new names in quotations and to separate
+them with commas and place them inside c()?
 ```
 
 ```{r FHplot-hint-5}
@@ -342,7 +342,7 @@ ggplot(data=fHouse,  mapping=aes(x=factor(FHStatus))) +
          labs(title = "Freedom House Ranking of Countries", 
               x=NULL,  
               y="Frequency") +
-        scale_x_discrete(na.translate=FALSE, labels=c("0"="Not Free","1" = "Partly Free", "2"="Free"))
+        scale_x_discrete(na.translate=FALSE, labels=c("Not Free", "Partly Free", "Free"))
 ```
 
 ```{r FHplot-check}
