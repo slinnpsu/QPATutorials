@@ -312,7 +312,7 @@ ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
 
 We can also change the x-axis value labels. We will want to do this any time the values of the variables are not substantively informative. To do so we add (again with a plus at the end of the last line of the current code) the function `scale_x_discrete()`, passing it labels. Note that this is only a sensible layer to add to a plot if the x-axis measures a discrete variable, i.e., it is categorical. Later we will introduce the `scale_x_continuous()` function.
 
-Look carefully at the last line of code below. To change the labels we have to specify the `label` argument. Because we want to change multiple values, we assign the new labels using the `c()` function. Inside the `c()` function, we first list the old value in parentheses and set it equal to the new value we want for the label, then we repeat for the second label.
+Look carefully at the last line of code below. To change the labels we have to specify the `label` argument. Because we want to change multiple values, we assign the new labels using the `c()` function. Inside the `c()` function, we list the new value we want for the labels, separated by commas. Make sure to list them in the correct order,
 
 ```{r stepfourb, exercise=TRUE}
 ggplot(data=counties, mapping=aes(x=factor(TrumpMajority))) +
@@ -322,7 +322,7 @@ ggplot(data=counties, mapping=aes(x=factor(TrumpMajority))) +
               x=NULL,  
               y="Frequency", 
               caption="Source: Linn, Nagler, Zilinsky") +
-  scale_x_discrete(labels = c("0" = "Clinton","1" = "Trump"))
+  scale_x_discrete(labels = c("Clinton","Trump"))
 ```
 
 
@@ -332,7 +332,7 @@ We can see that Trump won most counties ("Trump Majority" is the mode) and that 
 
 ### Dispersion and the distribution of racial majorities in US counties
 
-Can you generate a bar plot of the frequencies of the **racial_majority** distribution?  There is one additional complication with this variable because we do not have data for 2 counties. We can drop these NA cases from the plot by adding `na.translate = FALSE` to the `scale_x_discrete()` function.  I've done this for you in the code below. Before you run the code, replace the XXXX with the appropriate code. Replace the variable values ("Black Majority", "Hispanic Majority", "Other Majority", and "White Majority") with versions without the word "Majority".  Use "Frequency" for the y-axis label. (Note that the ordering of the categories is alphabetical.)
+Can you generate a bar plot of the frequencies of the **racial_majority** distribution?  There is one additional complication with this variable because we do not have data for 2 counties. We can drop these NA cases from the plot by adding `na.translate = FALSE` to the `scale_x_discrete()` function.  I've done this for you in the code below. Before you run the code, replace the XXXX with the appropriate code. Replace the variable values ("Black Majority", "Hispanic Majority", "Other Majority", and "White Majority") with versions without the word "Majority".  Use "Frequency" for the y-axis label. (Note that the ordering of the categories of a character variable is alphabetical.)
 
 
 
@@ -350,8 +350,7 @@ ggplot(data=counties, mapping=XXXX(XXX=factor(racial_majority))) +
 ```{r plotrace-hint-1}
 1. The mapping argument requires specifying the aesthetics and that you specify the axis to map the variable to.
 2. Have you specified the geom? Have you provided a meaningful y label?
-3. Have you listed each value taken by racial_majority in quotes and set it
-equal to the new label (in quotes)?
+3. Have you set each value label alphabetically (in quotes, separated by commas)?
 ```
 
 ```{r plotrace-solution}
@@ -362,7 +361,7 @@ ggplot(data=counties, mapping=aes(x=factor(racial_majority))) +
        x=NULL,
        y="Frequency",
        caption = "Source: Linn, Nagler, Zilinsky") +
-  scale_x_discrete(na.translate = FALSE, labels = c("Black Majority" = "Black", "Hispanic Majority" = "Hispanic", "Other Majority" = "Other", "White Majority"= "White"))
+  scale_x_discrete(na.translate = FALSE, labels = c("Black", "Hispanic", "Other", "White"))
 ```
 
 ```{r plotrace-check}
@@ -407,7 +406,7 @@ ggplot(data=XXXX, mapping=aes(x=factor(dem_level4))) +
        subtitle = "The Economist",
        x=NULL,
        y="XXXX") +
-  XXXX(na.translate = FALSE, labels = c("Full Democ" = "Full Democracy", "Part Democ" = "Partial Democracy", "Hybrid" = "Hybrid", "Authoritarian"= "Authoritarian"))
+  XXXX((na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
 
@@ -428,7 +427,7 @@ ggplot(data=world, mapping=aes(x=factor(dem_level4))) +
        subtitle = "The Economist",
        x=NULL,
        y="Proportion") +
-  scale_x_discrete(na.translate = FALSE, labels = c("Full Democ" = "Full Democracy", "Part Democ" = "Partial Democracy", "Hybrid" = "Hybrid", "Authoritarian"= "Authoritarian"))
+  scale_x_discrete(na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
 ```{r plotraceprop-check}
@@ -454,7 +453,7 @@ ggplot(data=counties, mapping=aes(x=reorder(factor(racial_majority), racial_majo
        x=NULL,
        y="Frequency",
        caption = "Source: Linn, Nagler, Zilinsky") +
-  scale_x_discrete(na.translate = FALSE, labels = c("Black Majority" = "Black", "Hispanic Majority" = "Hispanic", "Other Majority" = "Other", "White Majority"= "White")) +
+  scale_x_discrete(na.translate = FALSE, labels = c("Black", "Hispanic", "Other", "White")) +
   coord_flip()
 ```
 
