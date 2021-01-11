@@ -1,0 +1,236 @@
+---
+title: "Working with Factor Class Variables"
+tutorial:
+  id: "15-Working-with-Factors"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to create factors and change the base category.
+---
+
+## Learning Objectives
+
+In this tutorial, you will learn how to work with factors in R. Specifically we will cover:
+
+* How to use the `factor()` function with the `labels` argument to generate a factor with labels
+* How to use the `relevel()` function to set the reference or base category of a factor
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+#library(knitr)
+library(poliscidata)
+library(stargazer)
+library(sjPlot)
+library(sjlabelled)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+#tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+counties <- qpaTutorials::counties
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+counties$wage_growth <- counties$wage_growth*100
+counties$black_percent <- counties$prop_black*100
+counties$white_percent <- counties$prop_white*100
+counties$hispanic_percent <- counties$prop_hispanic*100
+counties$college_grad_percent <- counties$prop_college_grad*100
+counties$White[counties$prop_white>0.5] <- 1
+counties$White[counties$prop_white<=0.5] <- 0
+counties$Obama2p_percent <- counties$Linc2pvs*100
+counties$College_percent <- counties$prop_college_grad*100
+df <- qpaTutorials::df
+df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
+qog <- qpaTutorials::qog
+#The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban, 9 is most rural, so -1 is rural
+counties$UrbanCat[counties$rural_urban>=7] <- -1
+#Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
+counties$UrbanCat[counties$rural_urban<=3] <- 1
+#Finally, we recode UrbanCat to -1 if the value of the variable is greater than 3 AND it is less than 7
+counties$UrbanCat[counties$rural_urban>3 & counties$rural_urban<7] <- 0
+qog$democ[qog$fh_ipolity2<4] <-0
+qog$democ[qog$fh_ipolity2>6] <-2
+qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
+states <- qpaTutorials::states
+states$p.liberal <- states$liberal/100
+states$region_censusf <- factor(states$region_census, 
+                            labels =  c("South", "Northeast", "Midwest", "West"))
+aNES <- qpaTutorials::aNES
+
+#First assign a "Democrat" to all cases where Dem is equal to 1
+aNES$party[aNES$Dem==1] <- 1
+#Next assign a "Repbulican" to all cases where GOP is equal to 1
+aNES$party[aNES$GOP==1] <- -1
+#Then assign "Neither" to all cases where both Dem and GOP are equal to 0
+aNES$party[(aNES$GOP==0 & aNES$Dem==0)] <- 0
+aNES$partyf <- factor(aNES$party, labels=c("Republican", "Neither Democrat nor Republican", "Democrat"))
+aNES$partyf<- relevel(aNES$partyf, ref = "Neither Democrat nor Republican")
+aNES$educ[aNES$educ==9] <=NA
+aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
+aNES <- aNES %>%
+  mutate(turnout=ifelse(Trump2016==1, 1,
+                        ifelse(Clinton2016==1, 1, 0)))
+aNES$Trump2016f <- factor(aNES$Trump2016, labels="Clinton","Trump")
+aNES <- aNES %>%
+  mutate(strong=ifelse(pid_strength==1, 0,
+                        ifelse(pid_strength==7, 1, 1)))
+
+aNES$strongf <- factor(aNES$strong, labels=c("Strong Partisan","Not a Strong Partisan"))
+aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
+model1 <- glm(Trump2016 ~  Police.FT + Illegals.FT + partyf + femalef + educ, family = "binomial", data = aNES)
+aNES$thermdiff <- abs(aNES$GOP.Pres.cand.FT-aNES$Dem.Pres.cand.FT)
+model2 <- glm(turnout~strongf + income+educ + thermdiff, family="binomial", data=aNES)
+states2020 <- qpaTutorials::states2020
+NotScientific <- function(l) {
+ l <- format(l, scientific = FALSE)
+ parse(text=l)
+}
+states2020$party_govf <- factor(states2020$party_gov, labels = c("Republican","Democrat"))
+states2020$party_govf <-relevel(states2020$party_govf, ref="Democrat")
+```
+
+
+
+
+## Overview
+
+
+Many of the variables you work with are nominal. R does not know that a variable coded -1, 0, 1 (for example) is a categorical variable that can only take these three values. So far, we've dealt with this by referring to the variable in any function we execute as factor(variablename). This is fine for most purposes. However, the base category will be either the lowest numeric value if it is numeric or the category that comes first alphabetically if it is a character variable. In addition, for numeric or character variables, plots will have uninformative labels.
+
+Creating a factor class variable will allow you to change the base category (the omitted category in your linear regression or logistic regression) and will produce plots with labels you assign. Further, if you do so, then it is not necessary to use the factor function when referring to that variable.
+
+## Dealing with Factors in R
+
+We will walk through the steps to create, label, and change the reference category of a factor variable with several examples using three variables in the data frame **aNES**. The data frame contains a subset of variables from the 2016 American National Election Study (ANES). The ANES is a nationally representative sample of adults surveyed before and after the presidential election. 
+
+
+The variable **female** is a binary categorical variable that is coded 0 for males and 1 for females. We will first create a new variable that is a factor called **femalef**, where the "f" reminds us it is a factor, and add labels to the factor. To do so we use the `factor()` function. The first argument inside the `factor()` function is the name of the variable that we want to recode as a factor, here **female**. Note that we have to include the name of the data frame and the dollar sign so that R knows where to find the variable. The second argument is the `labels` argument. We set this equal to a vector of names using the `c()` function. The names we give for the labels can be anything we want that is informative but they must be given in order from the least to the greatest numeric value. This means we need to list "Male" first, followed by "Female". We assign the results to our new variable. (Remember to use aNES followed by the dollar sign). To check our work, I've included `levels(aNES$femaleF)`. This will print the levels we've assigned.
+
+Look carefully at the code to make sure you understand it before running it.
+
+
+
+```{r femalef, exercise=TRUE}
+aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
+levels(aNES$femalef)
+```
+
+The first value, here "Male", is the reference category.
+
+The variable **party** from the data frame **aNES** is coded as -1 if an individual is a Republican, 0 if an individual is neither a Democrat or Republican, and 1 if an individual is a Democrat.
+
+Edit the code below to create a new variable called **partyf**, labeling it appropriately (capitalize the first letter), and check the levels.
+
+```{r partyf1, exercise=TRUE}
+XXX <- factor(XXX, labels=c("XXX", "Neither Democrat nor Republican", "XXX"))
+XXX(aNES$partyf)
+```
+
+```{r partyf1-hint-1}
+The first XXX should be the name of our new variable, including the name of the data frame:
+  aNES$partyF
+```
+
+```{r partyf1-hint-2}
+The second XXX should be the name of our original variable, including the name of the data frame:
+  aNES$party
+```
+
+```{r partyf1-hint-3}
+Because Republican is coded -1 and that's the smallest value, the first label should
+be "Republican", followed by "Neither Democrat nor Republican" because it is coded 0,
+and the last should be "Democrat", because it is coded +1
+```
+
+```{r partyf1-hint-4}
+Use the levels() function to print the levels of the factor
+```
+
+```{r partyf1-solution}
+aNES$partyf <- factor(aNES$party, labels=c("Republican", "Neither Democrat nor Republican", "Democrat"))
+levels(aNES$partyf)
+```
+
+```{r partyf1-check}
+grade_code()
+```
+
+The reference level is "Republican." That might be fine, but we might want to compare Republicans and Democrats to those who are not partisans. If so, then we want "Neither Democrat nor Republican" to be our reference category. We can control which category is the reference category by using the `relevel()` function. The `relevel` function takes two arguments. The first is the name of our factor variable, the second is `ref`, which we set equal to the desired reference category. We assign the results to our factor variable.  I've used the `levels()` function to show the result. Take care to make sure capitalization and spacing match the factor label.
+
+```{r level3, exercise=TRUE}
+aNES$partyf<- relevel(aNES$partyf, ref = "Neither Democrat nor Republican")
+levels(aNES$partyf)
+```
+
+Notice that "Neither Democrat nor Republican" is now listed first so it is our reference category.
+
+The variable **strong** is a binary categorical variable coded as 0 if a respondent in the ANES survey reported they were either a strong Democrat or a strong Republican and 1 if a respondent was not a strong partisan or stated they were an independent. Write the code to create a factor class variable called **strongf**. Check your work using the `levels()` function. Use the labels "Not a Strong Partisan" and "Strong Partisan".
+
+```{r partygovf, exercise=TRUE}
+
+```
+
+```{r partygovf-hint-1}
+Our new variable should be named first, aNES$strongf
+```
+
+```{r partygovf-hint-2}
+Specify the factor() function. The first argument should be the name of the original variable:
+  aNES$strong
+```
+
+```{r partygovf-hint-3}
+Next specify the labels argument and provide the labels "Strong Partisan" and "Not a Strong Partisan"
+inside the c() function, separated by a comma. "Strong Partisan" is listed first because
+strong is coded as 0 if the respondent is either a strong Democrat nor a strong Republican and 1 if they are not
+```
+
+```{r partygovf-hint-4}
+Finally, specify the levels() function and place our new variable name inside it.
+```
+
+
+```{r partygovf-solution}
+aNES$strongf <- factor(aNES$strong, labels=c("Not a Strong Partisan","Strong Partisan"))
+levels(aNES$strongf)
+```
+
+```{r partygovf-check}
+grade_code()
+```
+
+Complete the code to change the reference category to "Not a Strong Partisan" and show the levels with the `levels()` function.
+
+```{r relevel1, exercise=TRUE}
+aNES$strongf <- 
+```
+
+```{r relevel1-hint-1}
+Call the relevel() function and first name our factor variable
+```
+
+```{r relevel1-hint-2}
+Use the ref argument to change the reference category. Set it equal to "Not a Strong Partisan"
+```
+
+```{r relevel1-hint-3}
+Check that the base category is "Not a Strong Partisan" by calling the levels() function
+and passing it our factor variable
+```
+
+```{r relevel1-solution}
+aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
+levels(aNES$strongf)
+```
+
+```{r relevel1-check}
+grade_code()
+```
+
+One of the advantages of creating and labeling factor variables is that plots we generate using these variables will show descriptive names rather than values. This can save you and your reader from confusion when looking at figures.
+
+## The Takeaways
+
+This tutorial illustrated the use of the `factor()` function. We can use the `factor()` function not only to tell the `lm()` or `glm()` functions a variable is categorical but also to generate factor class variables, which R will then know are categorical. We can use the `levels()` function to specify the category we wish to treat as the reference category, also called the base category. This will be the category omitted in our regression/logistic regression. Creating factor class variables with meaningful labels also ensures that figures include meaningful labels rather than numeric values.
