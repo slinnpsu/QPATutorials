@@ -1,7 +1,7 @@
 ---
 title: "Presenting Logistic Regression Results"
 tutorial:
-  id: "18-Results-Logit"
+  id: "19-Results-Logit"
 output: 
   learnr::tutorial:
     progressive: true
@@ -13,9 +13,8 @@ description: >
 
 ## Learning Objectives
 
-In this tutorial, you will learn how to work with factors in R and to present results from logistic regression analysis in R. Specifically we will cover:
+In this tutorial, you will learn how to present results from logistic regression analysis in R. Specifically we will cover:
 
-* How to use the `factor()` function with the `labels` argument to generate a factor with labels and how to use the `relevel()` function to set the reference or base category of a factor
 * How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
 * How to use the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a logistic regression analysis. Specifically, we will cover how to plot the effects of one or more variables and how to set the values of independent variables not being plotted.
 
@@ -101,140 +100,8 @@ states2020$party_govf <-relevel(states2020$party_govf, ref="Democrat")
 
 Once you have estimated a logistic regression, the challenge is to present and to interpret those results in a way that is easiest for you and your readers to understand. In this tutorial, you will learn how to present results from logistic regression analysis in an effective manner using tables, coefficient plots, and predicted values.
 
-In addition, we will learn how to create factor class variables. Doing so will allow us to set the reference category and ensure that plots are labeled informatively, providing understandable labels rather than numeric values or abbreviations for categorical variables.
 
 
-## Dealing with Factors in R
-
-Many of the variables you work with are categorical. R does not know that a variable coded -1, 0, 1 (for example) is a categorical variable that can only take these three values. So far, we've dealt with this by referring to the variable in any function we execute as factor(variablename). This is fine for most purposes. But it can be easier to create a new factor version of the variable. If you do so, then it is not necessary to use the factor function when referring to that variable. In addition, if you do so you can associate labels with the values and you can set the reference category (the omitted category in your linear regression or logistic regression).
-
-We will walk through the steps to create, label, and change the reference category of a factor variable using variables with which we will work in this tutorial. We will consider three variables in the data frame **aNES**. The data frame contains a subset of variables from the 2016 American National Election Study (ANES). The ANES is a nationally representative sample of adults surveyed before and after the presidential election. 
-
-
-The variable **female** is a binary categorical variable that is coded 0 for males and 1 for females. We will first create a new variable that is a factor called **femalef**, where the "f" reminds us it is a factor, and add labels to the factor. To do so we use the `factor()` function. The first argument inside the `factor()` function is the name of the variable that we want to recode as a factor, here **female**. Note that we have to include the name of the data frame and the dollar sign so that R knows where to find the variable. The second argument is the `labels` argument. We set this equal to a vector of names using the `c()` function. The names we give for the labels can be anything we want that is informative but they must be given in order from the least to the greatest numeric value. This means we need to list "Male" first, followed by "Female". We assign the results to our new variable. (Remember to use aNES followed by the dollar sign). To check our work, I've included `levels(aNES$femaleF)`. This will print the levels we've assigned.
-
-Look carefully at the code to make sure you understand it before running it.
-
-
-
-```{r femalef, exercise=TRUE}
-aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
-levels(aNES$femalef)
-```
-
-The first value, here "Male", is the reference category.
-
-We will also be working below with a variable measuring an individual's party identification. The variable **party** from the data frame **aNES** is coded as -1 if an individual is a Republican, 0 if an individual is neither a Democrat or Republican, and 1 if an individual is a Democrat.
-
-Edit the code below to create a new variable called **partyf**, labeling it appropriately (capitalize the first letter), and check the levels.
-
-```{r partyf1, exercise=TRUE}
-XXX <- factor(XXX, labels=c("XXX", "Neither Democrat nor Republican", "XXX"))
-XXX(aNES$partyf)
-```
-
-```{r partyf1-hint-1}
-The first XXX should be the name of our new variable, including the name of the data frame:
-  aNES$partyF
-```
-
-```{r partyf1-hint-2}
-The second XXX should be the name of our original variable, including the name of the data frame:
-  aNES$party
-```
-
-```{r partyf1-hint-3}
-Because Republican is coded -1 and that's the smallest value, the first label should
-be "Republican", followed by "Neither Democrat nor Republican" because it is coded 0,
-and the last should be "Democrat", because it is coded +1
-```
-
-```{r partyf1-hint-4}
-Use the levels() function to print the levels of the factor
-```
-
-```{r partyf1-solution}
-aNES$partyf <- factor(aNES$party, labels=c("Republican", "Neither Democrat nor Republican", "Democrat"))
-levels(aNES$partyf)
-```
-
-```{r partyf1-check}
-grade_code()
-```
-
-The reference level is "Republican." That might be fine, but we might want to compare Republicans and Democrats to those who are not partisans. If so, then we want "Neither Democrat nor Republican" to be our reference category. We can control which category is the reference category by using the `relevel()` function. The `relevel` function takes two arguments. The first is the name of our factor variable, the second is `ref`, which we set equal to the desired reference category. We assign the results to our factor variable.  I've used the `levels()` function to show the result. Take care to make sure capitalization and spacing match the factor label.
-
-```{r level3, exercise=TRUE}
-aNES$partyf<- relevel(aNES$partyf, ref = "Neither Democrat nor Republican")
-levels(aNES$partyf)
-```
-
-Notice that "Neither Democrat nor Republican" is now listed first so it is our reference category.
-
-The variable **strong** is a binary categorical variable coded as 0 if a respondent in the ANES survey reported they were either a strong Democrat or a strong Republican and 1 if a respondent was not a strong partisan or stated they were an independent. Write the code to create a factor class variable called **strongf**. Check your work using the `levels()` function. Use the labels "Not a Strong Partisan" and "Strong Partisan".
-
-```{r partygovf, exercise=TRUE}
-
-```
-
-```{r partygovf-hint-1}
-Our new variable should be named first, aNES$strongf
-```
-
-```{r partygovf-hint-2}
-Specify the factor() function. The first argument should be the name of the original variable:
-  aNES$strong
-```
-
-```{r partygovf-hint-3}
-Next specify the labels argument and provide the labels "Strong Partisan" and "Not a Strong Partisan"
-inside the c() function, separated by a comma. "Strong Partisan" is listed first because
-strong is coded as 0 if the respondent is either a strong Democrat nor a strong Republican and 1 if they are not
-```
-
-```{r partygovf-hint-4}
-Finally, specify the levels() function and place our new variable name inside it.
-```
-
-
-```{r partygovf-solution}
-aNES$strongf <- factor(aNES$strong, labels=c("Not a Strong Partisan","Strong Partisan"))
-levels(aNES$strongf)
-```
-
-```{r partygovf-check}
-grade_code()
-```
-
-Complete the code to change the reference category to "Not a Strong Partisan" and show the levels with the `levels()` function.
-
-```{r relevel1, exercise=TRUE}
-aNES$strongf <- 
-```
-
-```{r relevel1-hint-1}
-Call the relevel() function and first name our factor variable
-```
-
-```{r relevel1-hint-2}
-Use the ref argument to change the reference category. Set it equal to "Not a Strong Partisan"
-```
-
-```{r relevel1-hint-3}
-Check that the base category is "Not a Strong Partisan" by calling the levels() function
-and passing it our factor variable
-```
-
-```{r relevel1-solution}
-aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
-levels(aNES$strongf)
-```
-
-```{r relevel1-check}
-grade_code()
-```
-
-One of the advantages of creating and labeling factor variables is that plots we generate using these variables will show descriptive names rather than values. This can save you and your reader from confusion when looking at figures.
 
 
 ## Presenting logistic regression results in a stargazer table
@@ -244,7 +111,7 @@ If you completed the tutorial "Presenting Regression Results" you already know h
 
 ### Estimate the Logistic Regresion
 
-We first need to estimate the model. To illustrate how to generate a table with the `stargazer()` function we will estimate a logistic regression of an individual's vote choice for president in 2016. We will use data from the American National Election Study provided in the **aNES** data frame. The data contains the variable **Trump2016**, which is coded 0 if the respondent cast a vote for Hillary Clinton and 1 if they did so for Donald Trump. This is our dependent variable. Note that we do NOT want to code our dependent variable as a factor. The `glm()` function requires the dependent variable to be 0 or 1 and models the probability it equals 1. Our explanatory variables include individual feelings toward the police (**Police.FT**) and illegal immigrants (**Illegals.FT**), measured using feeling thermometers ratings (coded from 0 to 100, where 0 is very cool and 100 is very warm), an individual's party identification (**partyf**, which we created above), the level of education an individual completed (**educ**, where 1 denotes a respondent did not complete high school, 2 denotes they have a high school diploma, 3 denotes they attended some college, trade, or business school, 4 denotes they have a college degree, and 5 denotes post graduate work), and whether or not an individual is a female (**femalef**, which we created above). Note that we will treat **educ** as an interval level variable for the purposes of this illustration.
+We first need to estimate the model. To illustrate how to generate a table with the `stargazer()` function we will estimate a logistic regression of an individual's vote choice for president in 2016. We will use data from the American National Election Study provided in the **aNES** data frame. The data contains the variable **Trump2016**, which is coded 0 if the respondent cast a vote for Hillary Clinton and 1 if they did so for Donald Trump. This is our dependent variable. Note that we do NOT want to code our dependent variable as a factor. The `glm()` function requires the dependent variable to be 0 or 1 and models the probability it equals 1. Our explanatory variables include individual feelings toward the police (**Police.FT**) and illegal immigrants (**Illegals.FT**), measured using feeling thermometers ratings (coded from 0 to 100, where 0 is very cool and 100 is very warm), an individual's party identification (**partyf**, a factor class variable with the reference category set to "Neither Democrat nor Republican), the level of education an individual completed (**educ**, where 1 denotes a respondent did not complete high school, 2 denotes they have a high school diploma, 3 denotes they attended some college, trade, or business school, 4 denotes they have a college degree, and 5 denotes post graduate work), and whether or not an individual is a female (**femalef**, which is a factor class variable with the reference category set to "Male"). Note that we will treat **educ** as an interval level variable for the purposes of this illustration.
 
 
 Run the code below, making sure you understand it first.
@@ -301,7 +168,7 @@ question("Look at the table above. Which of the following statements are true?",
 ### Practice
 
 
-Let's estimate a model of voter turnout in which we estimate turnout (**turnout**, coded 0 if an individual did not vote and 1 if they did) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which we generated above), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). This last variable captures the size of the difference in their feelings toward the two candidates and ranges from 0 (they evaluated the two candidates identically) to 100 (they valued the two candidates at 0 and 100). We will treat both **educ** and **income** as interval variables in this example rather than as categorical variables because they have a number of categories and while differences are not precisely equal across the scale, we will assume they are. 
+Let's estimate a model of voter turnout in which we estimate turnout (**turnout**, coded 0 if an individual did not vote and 1 if they did) as a function of whether an individual stated they were a strong partisan (either Democrat or Republican) or not a strong partisan/independent (**strongf**, which is a factor class variable with the reference category set to "Not a Strong Republican"), their  income (**income**, an ordinal variable coded from 1-6 based on 6 income categories), level of education completed (**educ**),  and the absolute value of the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton (**thermdiff**). This last variable captures the size of the difference in their feelings toward the two candidates and ranges from 0 (they evaluated the two candidates identically) to 100 (they valued the two candidates at 0 and 100). We will treat both **educ** and **income** as interval variables in this example rather than as categorical variables because they have a number of categories and while differences are not precisely equal across the scale, we will assume they are. 
 
 Complete the code to estimate the model.
 
