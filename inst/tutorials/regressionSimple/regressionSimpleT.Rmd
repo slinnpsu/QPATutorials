@@ -329,7 +329,9 @@ Still continuing to work with the data frame **counties**, assume we want to kno
 
 ### Estimate the regression
 
-Enter and run the code to specify a regression model using the variables **dem2p_percent** and **White**. **White** is coded 0 if the county is not majority white and 1 if the county is majority white. Thus our independent variable is a dichotomous/binary/two-category variable for this example. Name your model **My.third.model** and summarize the output.
+Enter and run the code to specify a regression model using the variables **dem2p_percent** and **White**. **White** is coded 0 if the county is not majority white and 1 if the county is majority white. Thus, our independent variable is a dichotomous/binary/two-category variable for this example. 
+
+Name your model **My.third.model** and summarize the output.
 
 ```{r third, exercise=TRUE}
 
@@ -362,6 +364,7 @@ grade_code()
 
 ### Interpret the coefficients
 
+Remember that the slope coefficient on a binary categorical variable is interpreted differently than that on an interval variable. 
 
 ```{r letter-g, echo=FALSE}
 question("Which of the following statements are true?",
