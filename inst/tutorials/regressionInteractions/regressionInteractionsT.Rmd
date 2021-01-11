@@ -1,7 +1,7 @@
 ---
 title: "Multiple Regression: Conditional (or Interactive) Relationships"
 tutorial:
-  id: "16-Interactions-Regression"
+  id: "17-Interactions-Regression"
 output: 
   learnr::tutorial:
     progressive: true
