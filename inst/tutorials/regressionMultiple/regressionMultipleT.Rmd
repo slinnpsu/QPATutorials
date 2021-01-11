@@ -184,7 +184,7 @@ question("Which of the following statements are true?",
 ```
 
 
-## Regression with Multiple Categorical Independent Variables
+## Regression with Categorical Independent Variables with Multiple Categories
 
 Often we will want to include nominal variables in our regression models. Nominal variables are treated differently than interval variables in regression analysis. Each category of a nominal variable must be entered in the regression as its own dichotomous indicator, and we must omit one category. This category is then represented by the intercept. All slope coefficients on the indicator variables are interpreted in comparison to the intercept value.
 
