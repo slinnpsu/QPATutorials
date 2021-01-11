@@ -1,7 +1,7 @@
 ---
 title: "Logistic Regression"
 tutorial:
-  id: "17-Logit"
+  id: "18-Logit"
 output: 
   learnr::tutorial:
     progressive: true
