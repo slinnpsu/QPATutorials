@@ -210,7 +210,7 @@ counties %>%
   ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
     geom_point() +
   labs(title="Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",y="Wage Growth", x=NULL, caption="Source: Linn, Nagler, and Zilinsky") +
-  scale_x_discrete(labels = c("0"="Clinton", "1"="Trump"))
+  scale_x_discrete(labels = c("Clinton", "Trump"))
 ```
 
 Finally, let's change the `size` and `shape` of the points inside `geom_point()` and change the limits of the y axis by adding another layer to the plot with `scale_y_continuous()`. This function tells `ggplot()` to rescale a continuous y axis. Inside we can use the `limits` argument to set the lower and upper limits. We list the lower limit followed by a comma and the upper limit inside the `c()` function: 0 to 10 seems a good choice.
@@ -225,7 +225,7 @@ counties %>%
 ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
     geom_point(size=3,shape=19) +
   labs(title="Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",y="Change in Mortality Risk", x=NULL, caption="Source: Linn, Nagler, and Zilinsky") +
-  scale_x_discrete(labels = c("0"="Clinton", "1"="Trump")) +
+  scale_x_discrete(labels = c("Clinton", "Trump")) +
   scale_y_continuous(limits=c(0,10)) 
 ```
 
@@ -267,7 +267,7 @@ caption arguments (separate them with commas).
 
 ```{r meanrisk2-hint-5}
 Fix the scales with scale_x_discrete setting the labels 
-argument to c("0"="Clinton", "1"="Trump") and
+argument to c("Clinton", "Trump") and
 set the limits argument c(-10,10) inside the
 scale_y_discrete function.
 
@@ -284,7 +284,7 @@ ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
        y="Change in Mortality Risk", 
        x=NULL, 
        caption="Source: Linn, Nagler, and Zilinsky") +
-  scale_x_discrete(labels = c("0"="Clinton", "1"="Trump")) +
+  scale_x_discrete(labels = c("Clinton", "Trump")) +
   scale_y_continuous(limits=c(-10,10)) 
 ```
 
@@ -318,7 +318,7 @@ world %>%
   labs(title="Mean GDP by Level of Democracy",
        x=NULL,
        y="Mean GDP") +
-  scale_x_discrete(labels=c("Full Democ"="Full \nDemocracy", "Part Democ"="Partial \nDemocracy", "Hybrid"="Hybrid", "Authoritarian"="Autoritarian"))
+  scale_x_discrete(labels=c("Full \nDemocracy", "Partial \nDemocracy", "Hybrid", "Autoritarian"))
 ```
 
 ```{r meangdp2-check}
@@ -343,7 +343,7 @@ ggplot(data=counties, mapping=aes(x=mortality_risk_25_45_change, fill=factor(Tru
        caption="Source: Linn, Nagler, and Zilinksy")  +
     facet_wrap(~factor(TrumpMajority)) +
   scale_fill_discrete(name="",
-                      labels=c("0"="Clinton", "1"="Trump"))
+                      labels=c("Clinton", "Trump"))
 ```
 
 
@@ -359,7 +359,7 @@ ggplot(data=world, mapping=aes(x=dem_level4, y=lifeex_total, fill=dem_level4)) +
   labs(title="Distribution of Life Expectancy at Birth", 
        x="Democracy Level", 
        y="Age")  +
-  scale_x_discrete(labels=c("Full Democ"="Full Democracy", "Part Democ"="Partial Democracy", "Hybrid"="Hybrid", "Authoritarian"="Authoritarian")) +
+  scale_x_discrete(labels=c("Full Democracy", "Partial Democracy", "Hybrid", "Authoritarian")) +
 guides(fill=FALSE)
 ```
 
