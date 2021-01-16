@@ -101,7 +101,7 @@ Interval variables may be <span style="color:blue">**discrete**</span> or <span 
 question("Which of the following variables are interval (or ratio) level measures?",
   answer("Whether a state's governor is a Republican or Democrat or something else", message = "Gubernatorial partisanship is a nominal variable with values denoting categories that cannot be rank-ordered. "),
   answer("The level of foreign direct investment in a country measured in dollars", correct=TRUE),
-  answer("The homocide rate in a country is a year", correct = TRUE, message="The level of foreign direct investment and homocide rate take values that are both rank-ordered and the differences between values are equivalent. Therefore both variables are measured at the interval level. "),
+  answer("The homocide rate in a country in a year", correct = TRUE, message="The level of foreign direct investment and homocide rate take values that are both rank-ordered and the differences between values are equivalent. Therefore both variables are measured at the interval level. "),
   answer("Whether an individual approves, neither approves nor disapproves, or disapproves of the president's handling on the economy", message = "Presidential approval is an ordinal variable because the differences between categories are rank-ordered, but the differences between them are not equal"),
   allow_retry = TRUE,
   try_again = "Hint: There are two interval variables in this list."
