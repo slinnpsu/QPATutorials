@@ -314,7 +314,7 @@ the two objects and assign the result to dem.candidates.
 
 ```{r candnames-solution}
 first.5.candidates <- c("Carter", "Mondale", "Dukakis", "Clinton","Clinton")
-last <- c("Gore", "Kerry","Obama","Obama", "Clinton", "Biden")
+last.6.candidates <- c("Gore", "Kerry","Obama","Obama", "Clinton", "Biden")
 dem.candidates <- c(first.5.candidates, last.6.candidates)
 dem.candidates
 ```
