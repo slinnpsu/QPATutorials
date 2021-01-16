@@ -425,7 +425,7 @@ We are likely to use indexing with a single variable in a data frame object. For
 unFBposts$message[which(unFBposts$likes_count==max(unFBposts$likes_count, na.rm=TRUE))]
 ```
 
-You may want to find the message with the minimum value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **share_count**.
+You may want to find the message with the minimum value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **shares_count**.
 
 ```{r index4, exercise=TRUE}
 
