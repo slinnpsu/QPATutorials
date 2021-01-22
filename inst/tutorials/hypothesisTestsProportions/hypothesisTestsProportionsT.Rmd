@@ -101,7 +101,7 @@ aNES %>%
 ```{r onesample-hint}
 You need to pass TrumpClintonVote to the group_by function
 and then use the summarize function to generate the
-counts we need by setting counts=n().
+counts we need by setting counts = n().
 
 ```
 
@@ -113,13 +113,13 @@ grade_code()
 library(dplyr)
 aNES %>%
   group_by(TrumpClintonVote)%>%
-  summarize(counts=n())   
+  summarize(counts = n())   
 ```
 
 We see that 1178 voters voted for Trump. This is the numerator for the proportion we wish to evaluate, and therefore the value of the `x` argument in the `prop.test()` function.  There are 1803 missing values (non-voters and third-party voters), which we can ignore. The sample size for the test is 1290+1178 voters. This is the denominator in the proportion and therefore the value of the `n` argument in the `prop.test()` function. We can now apply the `prop.test()` function, specifying `x` and `n` and setting the `p` argument to our hypothesized population proportion, 0.489. Our alternative hypothesis specifies a 2-sided test, which is the default.
 
 ```{r onesample2, exercise = TRUE}
-prop.test(x=1178, n=1178+1290, p = 0.489)
+prop.test(x = 1178, n = 1178 + 1290, p = 0.489)
 ```
 
 Notice that the function calculates the proportion for us. It is good practice to make sure the proportion estimated is the one you intended.  The output also reports the value of the $\chi^2$ statistic (X-squared), the p-value for the test statistic, the alternative hypothesis, and the 95% confidence interval for the sample proportion.
@@ -166,7 +166,7 @@ Did you create a new variable and set it equal to n()?
 ```{r onesample3-solution}
 aNES %>%
   group_by(male)%>%
-  summarize(counts=n())   
+  summarize(counts = n())   
 ```
 
 ```{r onesample3-check}
@@ -179,7 +179,7 @@ Replace the XXX in the code below to conduct a one-sample proportion test. Allow
 
 
 ```{r onesample4, exercise = TRUE}
-prop.test(x=XXX, n=XXX, p = XXX)
+prop.test(x = XXX, n = XXX, p = XXX)
 ```
 
 ```{r onesample4-hint}
@@ -190,7 +190,7 @@ The p argument is the population proportion.
 
 
 ```{r onesample4-solution}
-prop.test(x=2232, n=2232+1987, p = 0.5052)
+prop.test(x = 2232, n = 2232 + 1987, p = 0.5052)
 ```
 
 ```{r onesample4-check}
@@ -241,16 +241,16 @@ To get this information, we will use the functions in the <span style="color:Dar
 aNES %>%
   filter(!is.na(TrumpClintonVote) & !is.na(male))%>%
   group_by(TrumpClintonVote, male)%>%
-  summarize(counts=n())   
+  summarize(counts = n())   
 ```
 
 
-This table tells us that 737 females voted for Clinton and 575 females voted for Trump. Among males, 532 voted for Clinton and 596 for Trump. There were a total of 532+596=1128 male and 737+575=1312 female voters in the sample.
+This table tells us that 737 females voted for Clinton and 575 females voted for Trump. Among males, 532 voted for Clinton and 596 for Trump. There were a total of 532 + 596 = 1128 male and 737 + 575 = 1312 female voters in the sample.
 
-Since we want to compare the proportions of male and female Trump voters, the numerator in our desired proportions is the numbers of Donald Trump voters in each sex. Thus, we assign `c(596, 575)` to the `x` argument. The denominators are given by the number of male and female voters, respectively. Thus we assign c(1128, 1312) to the `n` argument of the `prop.test()` function. (We could also have the function do the addition by setting `n=c(532+596,737+575)`)
+Since we want to compare the proportions of male and female Trump voters, the numerator in our desired proportions is the numbers of Donald Trump voters in each sex. Thus, we assign `c(596, 575)` to the `x` argument. The denominators are given by the number of male and female voters, respectively. Thus we assign c(1128, 1312) to the `n` argument of the `prop.test()` function. (We could also have the function do the addition by setting `n = c(532 + 596, 737 + 575)`)
 
 ```{r twosample2, exercise = TRUE}
-prop.test(x=c(596,575),n=c(1128,1312))
+prop.test(x = c(596, 575), n = c(1128, 1312))
 ```
 
 **Step 4. Determine the p-value**. 
@@ -296,7 +296,7 @@ generate a new variable equal to n()?
 aNES %>%
   filter(!is.na(male) & !is.na(ideology)) %>%
   group_by(male, ideology) %>%
-  summarize(counts=n())
+  summarize(counts = n())
 ```
 
 ```{r twosamplectab-check}
@@ -306,7 +306,7 @@ grade_code()
 Think carefully about the proportions you want to compare and complete the code to conduct the test. When specifying the `n` argument, let R do the necessary addition for you.
 
 ```{r ideology, exercise = TRUE}
-prop.test(x=XXX, n=XXX)
+prop.test(x = XXX, n = XXX)
 ```
 
 ```{r ideology-hint-1}
@@ -323,7 +323,7 @@ wrapping it inside the c() function.
 
 
 ```{r ideology-solution}
-prop.test(x=c(85,58), n=c(85+2882+202+469+221+320+76, 58+211+173+415+282+374+90))
+prop.test(x = c(85, 58), n = c(85 + 2882 + 202 + 469 + 221 + 320 + 76, 58 + 211 + 173 + 415 + 282 + 374 + 90))
 ```
 
 ```{r ideology-check}
@@ -374,7 +374,7 @@ generate a new variable equal to n()?
 ```{r votecross-solution}
 counties %>%
   group_by(White, TrumpMajority) %>%
-  summarize(counts=n())
+  summarize(counts = n())
 ```
 
 ```{r votecross-check}
@@ -393,13 +393,13 @@ wrapped inside the c() function.
 ```
 
 ```{r countyprop-hint-2}
-The denominator for the first proportion is the number of white majority counties (2604+357) and for the second is the number of non-majority white counties (17+133). Assign this to the n argument
+The denominator for the first proportion is the number of white majority counties (2604 + 357) and for the second is the number of non-majority white counties (17 + 133). Assign this to the n argument
 wrapping it inside the c() function.
 ```
 
 
 ```{r countyprop-solution}
-prop.test(x=c(2604,17), n=c(2604+357, 17+133))
+prop.test(x = c(2604, 17), n = c(2604 + 357, 17 + 133))
 ```
 
 ```{r countyprop-check}
@@ -440,7 +440,7 @@ The **aNES** data frame contains the variable **pid_strength**, a 7-point scale 
 
 ```{r cross, exercise = TRUE}
 library(descr)
-CrossTable(aNES$pid_strength,aNES$male,  prop.r=FALSE, prop.c=TRUE, prop.t=FALSE, prop.chisq = FALSE, chisq = TRUE)
+CrossTable(aNES$pid_strength,aNES$male,  prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE, chisq = TRUE)
 ```
 
 **Step 4. Determine the p-value** and **Step 5. Draw a conclusion.**
@@ -476,7 +476,7 @@ prop.c and chisq arguments to TRUE
 ```
 
 ```{r family-solution}
-CrossTable(aNES$TrumpClintonVote ,aNES$modern.family,  prop.r=FALSE, prop.c=TRUE, prop.t=FALSE, prop.chisq = FALSE, chisq = TRUE)
+CrossTable(aNES$TrumpClintonVote ,aNES$modern.family,  prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE, chisq = TRUE)
 ```
 
 ```{r family-check}

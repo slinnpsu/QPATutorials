@@ -24,8 +24,6 @@ library(tidyverse)
 #library(knitr)
 library(poliscidata)
 library(stargazer)
-library(sjPlot)
-library(sjlabelled)
 library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
@@ -113,7 +111,7 @@ Look carefully at the code to make sure you understand it before running it.
 
 
 ```{r femalef, exercise=TRUE}
-aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
+aNES$femalef <- factor(aNES$female, labels = c("Male", "Female"))
 levels(aNES$femalef)
 ```
 
@@ -124,7 +122,7 @@ The variable **party** from the data frame **aNES** is coded as -1 if an individ
 Edit the code below to create a new variable called **partyf**, labeling it appropriately (capitalize the first letter), and check the levels.
 
 ```{r partyf1, exercise=TRUE}
-XXX <- factor(XXX, labels=c("XXX", "Neither Democrat nor Republican", "XXX"))
+XXX <- factor(XXX, labels = c("XXX", "Neither Democrat nor Republican", "XXX"))
 XXX(aNES$partyf)
 ```
 
@@ -149,7 +147,7 @@ Use the levels() function to print the levels of the factor
 ```
 
 ```{r partyf1-solution}
-aNES$partyf <- factor(aNES$party, labels=c("Republican", "Neither Democrat nor Republican", "Democrat"))
+aNES$partyf <- factor(aNES$party, labels = c("Republican", "Neither Democrat nor Republican", "Democrat"))
 levels(aNES$partyf)
 ```
 
@@ -193,7 +191,7 @@ Finally, specify the levels() function and place our new variable name inside it
 
 
 ```{r partygovf-solution}
-aNES$strongf <- factor(aNES$strong, labels=c("Not a Strong Partisan","Strong Partisan"))
+aNES$strongf <- factor(aNES$strong, labels = c("Not a Strong Partisan","Strong Partisan"))
 levels(aNES$strongf)
 ```
 
@@ -221,7 +219,7 @@ and passing it our factor variable
 ```
 
 ```{r relevel1-solution}
-aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
+aNES$strongf <- relevel(aNES$strongf, ref = "Not a Strong Partisan")
 levels(aNES$strongf)
 ```
 

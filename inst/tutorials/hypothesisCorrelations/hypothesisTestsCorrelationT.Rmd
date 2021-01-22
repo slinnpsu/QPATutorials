@@ -77,7 +77,7 @@ We can estimate the correlation and the test statistic using the `cor.test()` fu
 By default, the test is two-tailed, but we can specify a one-tailed test using the `alternative` argument. We specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
 
 ```{r votemortality, exercise = TRUE}
-cor.test(counties$dem2p_vote_share,counties$mortality_risk_25_45,use="pairwise.complete.obs")
+cor.test(counties$dem2p_vote_share, counties$mortality_risk_25_45, use = "pairwise.complete.obs")
 ```
 
 **Step 4. Determine the p-value** and  **Step 5. Draw a conclusion**.
@@ -101,7 +101,7 @@ As a second example, we will work with data from the Quality of Government basic
 Replace the XXX in the code below to estimate the test statistic and run the code.
 
 ```{r fop, exercise = TRUE}
-XXX(XXX,XXX,XXX="pairwise.complete.obs")
+XXX(XXX, XXX, XXX = "pairwise.complete.obs")
 ```
 
 ```{r fop-hint}
@@ -111,7 +111,7 @@ Replace the final set of XXX with the use argument.
 ```
 
 ```{r fop-solution}
-cor.test(qog$iiag_gov, qog$fhp_score5, use="pairwise.complete.obs")
+cor.test(qog$iiag_gov, qog$fhp_score5, use = "pairwise.complete.obs")
 ```
 
 ```{r fop-check}
@@ -156,7 +156,7 @@ Make sure to separate the arguments with a comma.
 ```
 
 ```{r hdigdp-solution}
-cor.test(world$hdi,world$gdppcap08,use="pairwise.complete.obs")
+cor.test(world$hdi,world$gdppcap08, use = "pairwise.complete.obs")
 ```
 
 ```{r hdigdp-check}
