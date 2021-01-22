@@ -69,7 +69,7 @@ Notice we don't need `counties$` before the variable names, because we are using
 
 
 ```{r first, exercise=TRUE}
-My.first.model <- lm(dem2p_percent ~ wage_growth, data=counties)
+My.first.model <- lm(dem2p_percent ~ wage_growth, data = counties)
 summary(My.first.model)
 ```
 
@@ -231,7 +231,7 @@ The Democratic Party has consistently garnered more support from black voters th
 Edit the code below, replacing XXX with the appropriate code, and run it.
 
 ```{r second, exercise=TRUE}
-My.second.model <- lm(XXX, data=XXX)
+My.second.model <- lm(XXX, data = XXX)
 summary(My.second.model)
 ```
 
@@ -242,7 +242,7 @@ the tilde and the independent variable.
 ```
 
 ```{r second-solution}
-My.second.model <- lm(dem2p_percent ~ black_percent, data=counties)
+My.second.model <- lm(dem2p_percent ~ black_percent, data = counties)
 summary(My.second.model)
 ```
 
@@ -354,7 +354,7 @@ The last step is to use the summary() function, passing it My.third.model
 ```
 
 ```{r third-solution}
-My.third.model <- lm(dem2p_percent ~ White, data=counties)
+My.third.model <- lm(dem2p_percent ~ White, data = counties)
 summary(My.third.model)
 ```
 

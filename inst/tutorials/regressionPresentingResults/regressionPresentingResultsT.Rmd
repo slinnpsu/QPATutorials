@@ -82,7 +82,7 @@ We first need to estimate a regression model. To illustrate how to generate a ta
 Run the code below, making sure you understand it first.
 
 ```{r lm1, exercise = TRUE}
-model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data = counties)
 summary(model1)
 ```
 
@@ -113,7 +113,7 @@ stargazer(model1,
           type = "text",
           title = "Linear Regression Model of the Vote for Hillary Clinton",
           dep.var.labels = "Percent of the Two-Party Vote",
-          covariate.labels = c("Mortality Risk Age 25-45", "Wage Growth (%)", "College Graduates (%)","Hispanic (%)", "White (%)", "Black (%)", "Constant"))
+          covariate.labels = c("Mortality Risk Age 25-45", "Wage Growth (%)", "College Graduates (%)", "Hispanic (%)", "White (%)", "Black (%)", "Constant"))
 ```
 
 This table is much more reader-friendly. If you want to control the number of digits before rounding, you can add the `digits` argument and set it equal to the desired number of digits. See `?stargazer` for more options to customize the look of the table.
@@ -126,11 +126,11 @@ Estimate the regression. Notice that I have enclosed **UrbanCat** inside the `fa
 
 
 ```{r lm2, exercise = TRUE}
-model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data=counties)
+model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data = counties)
 summary(model2)
 ```
 
-Try creating a basic table without labels for **model2** by editing the code below. *You can ignore the warning message: Last value being used to check answer is invisible. See `?invisible` for more information.*
+Try creating a basic table without labels for **model2** by editing the code below. *If a warning appears, you can ignore it.*
 
 
 
@@ -181,7 +181,7 @@ stargazer(model2,
           type = "text",
           title = "Linear Regression Model of the Vote for Hillary Clinton",
           dep.var.labels  = "Percent of the Two-Party Vote",
-          covariate.labels  = c("Mortality Risk Age 25-45", "Wage Growth (%)", "College Graduates (%)","Hispanic (%)", "White (%)", "Black (%)", "Rural", "Neither Rural Nor Urban","Constant"))
+          covariate.labels  = c("Mortality Risk Age 25-45", "Wage Growth (%)", "College Graduates (%)", "Hispanic (%)", "White (%)", "Black (%)", "Rural", "Neither Rural Nor Urban", "Constant"))
 ```
 
 ```{r star4-check}
@@ -231,8 +231,8 @@ plot_model(model1,
            show.values = TRUE, 
            value.offset = .3,
            show.intercept = FALSE,
-           title="Linear Regression Model of the Vote for Hillary Clinton", 
-           axis.labels = c("Black (%)","White (%)", "Hispanic (%)", "College Graduates (%)","Wage Growth (%)", "Mortality Risk Age 25-45"),
+           title = "Linear Regression Model of the Vote for Hillary Clinton", 
+           axis.labels = c("Black (%)", "White (%)", "Hispanic (%)", "College Graduates (%)", "Wage Growth (%)", "Mortality Risk Age 25-45"),
            axis.title = "Coefficient Estimates")
 ```
 
@@ -270,7 +270,7 @@ plot_model(XXX,
            XXX = TRUE, 
            value.offset = .3,
            XXX = FALSE,
-           title="Linear Regression Model of the Vote for Hillary Clinton", 
+           title = "Linear Regression Model of the Vote for Hillary Clinton", 
            axis.labels = c(XXX),
            axis.title = (XXX))
 ```
@@ -294,8 +294,8 @@ plot_model(model2,
            show.values = TRUE, 
            value.offset = .3,
            show.intercept = FALSE,
-           title="Linear Regression Model of the Vote for Hillary Clinton", 
-           axis.labels = c("Neither Rural Nor Urban","Rural", "Black (%)","White (%)", "Hispanic (%)", "College Graduates (%)","Wage Growth (%)", "Mortality Risk Age 25-45"),
+           title = "Linear Regression Model of the Vote for Hillary Clinton", 
+           axis.labels = c("Neither Rural Nor Urban", "Rural", "Black (%)", "White (%)", "Hispanic (%)", "College Graduates (%)", "Wage Growth (%)", "Mortality Risk Age 25-45"),
            axis.title = "Coefficient Estimates")
 ```
 
@@ -339,8 +339,8 @@ plot_model(model1,
            type = "pred", 
            terms = "white_percent",
            show.data = FALSE,
-           title="Predicted Percent of the Vote for Hillary Clinton \nas a Function of County Percent White", 
-           axis.title = c("White (%)","Hillary Clinton (%)")) +
+           title = "Predicted Percent of the Vote for Hillary Clinton \nas a Function of County Percent White", 
+           axis.title = c("White (%)", "Hillary Clinton (%)")) +
            labs(caption = "Predictions are for counties with average \nmortality risk, wage growth, percent of \ncollege graduates, Hispanics and Blacks")
 ```
 
@@ -357,8 +357,8 @@ plot_model(model2,
            type = "pred", 
            terms = "UrbanCat",
            show.data = FALSE,
-           title="Predicted Percent of the Vote for Hillary Clinton", 
-           axis.title = c("","Hillary Clinton (%)")) +
+           title = "Predicted Percent of the Vote for Hillary Clinton", 
+           axis.title = c("", "Hillary Clinton (%)")) +
            labs(caption = "Predictions are for counties with average \nmortality risk, wage growth, and percent of \ncollege graduates, Hispanics, Whites, and Blacks")
 ```
 
@@ -464,8 +464,8 @@ Don't forget to end with a parenthesis
 
 ```{r statetable2-solution}
 stargazer(fit1,
-          type="text",
-          title="Regression Model of Proportion of House Seats Held by the Democrats",
+          type = "text",
+          title = "Regression Model of Proportion of House Seats Held by the Democrats",
           dep.var.labels = "Proportion Democrat",
           covariate.labels = c("Proportion Nonwhite",
                                "Proportion Liberal",
@@ -534,12 +534,12 @@ Make sure you go in order from bottom to top.
 
 ```{r stateplot2-solution}
 plot_model(fit1,
-           type="est",
+           type = "est",
            show.values = TRUE,
            value.offset = .3,
            show.intercept = FALSE,
-           title="Linear Regression Model of Proportion of State House Held by Democrats", 
-           axis.labels = c("West","Midwest", "Northeast","Poverty Rate", "Proportion Liberal", "Proportion Nonwhite"),
+           title = "Linear Regression Model of Proportion of State House Held by Democrats", 
+           axis.labels = c("West", "Midwest", "Northeast", "Poverty Rate", "Proportion Liberal", "Proportion Nonwhite"),
            axis.title = "Coefficient Estimates")
 ```
 
@@ -582,11 +582,11 @@ Add a labs layer with a plus and set caption = "Predictions are for southern sta
 
 ```{r statepred1-solution}
 plot_model(fit1,
-           type="pred",
-           term="p.liberal",
+           type = "pred",
+           term = "p.liberal",
            show.data = TRUE,
-           title="Predicted Proportion of House Seats \nHeld by Democrats",  
-           axis.title = c("Proportion Liberal","Proportion of Democratic House Seats")) +
+           title = "Predicted Proportion of House Seats \nHeld by Democrats",  
+           axis.title = c("Proportion Liberal", "Proportion of Democratic House Seats")) +
            labs(caption = "Predictions are for southern states with an \naverage poverty rate and proportion non-white")
 ```
 
@@ -632,8 +632,8 @@ plot_model(fit1,
            type = "pred", 
            terms = "region_censusf",
            show.data = FALSE,
-           title="Predicted Proportion of House Seats Held \nby Democrats by Region", 
-           axis.title = c("","Proportion of House Seats \nHeld by Democrats")) +
+           title = "Predicted Proportion of House Seats Held \nby Democrats by Region", 
+           axis.title = c("", "Proportion of House Seats \nHeld by Democrats")) +
            labs(caption = "Predictions are for states with an average poverty \nrate, proportion liberal and proportion non-white")
 ```
 

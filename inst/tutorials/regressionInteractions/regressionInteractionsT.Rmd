@@ -154,7 +154,7 @@ If these expectations are accurate, then the relationship of each variable with 
 To estimate an interactive relationship, we include **mortality_risk_25_45**, **wage_growth**, and we include **mortality_risk_25_45 * wage_growth** as **mortality_risk_25_45 * wage_growth** in the model, along with our other independent variables as below.  Examine and run the code.
 
 ```{r model1, exercise = TRUE}
-countiesX <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth + mortality_risk_25_45*wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+countiesX <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth + mortality_risk_25_45*wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data = counties)
 summary(countiesX)
 ```
 
@@ -216,7 +216,7 @@ Make sure you use * for the interaction and not X to multiply.
 ```
 
 ```{r model2-solution}
-countiesX2 <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth +mortality_risk_25_45*white_percent + college_grad_percent + hispanic_percent +  black_percent, data=counties)
+countiesX2 <- lm(dem2p_percent ~  mortality_risk_25_45 + wage_growth +mortality_risk_25_45*white_percent + college_grad_percent + hispanic_percent +  black_percent, data = counties)
 summary(countiesX2)
 ```
 
@@ -271,11 +271,11 @@ The remaining arguments are not required but make the plot more informative. Her
 ```{r plotcountiesX1, exercise = TRUE}
 library(sjPlot)
 plot_model(countiesX, 
-           type="pred", 
-           terms=c("wage_growth", "mortality_risk_25_45"),
+           type = "pred", 
+           terms = c("wage_growth", "mortality_risk_25_45"),
            title = "Predicted Effect of Wage Growth by Mortality Risk", 
-           axis.title = c("Wage Growth","Predicted Vote for Hillary Clinton (%)"),
-           legend.title= "Mortality Risk")
+           axis.title = c("Wage Growth", "Predicted Vote for Hillary Clinton (%)"),
+           legend.title = "Mortality Risk")
 
 ```
 
@@ -292,11 +292,12 @@ What is the predicted percentage of the vote for Hillary Clinton when wages are 
 What can we say about the effect of mortality risk? To plot the effect of **mortality_risk_25_45**, we create another plot, identical to the last but flipping the order of the `terms` and correcting the labels. Replace the XXX in the code and generate the plot.
 
 ```{r plotcountiesX1b, exercise = TRUE}
-plot_model(countiesX, type="pred", 
-           XXX=XXX,
+plot_model(countiesX, 
+           type = "pred", 
+           XXX = XXX,
            title = XXX, 
-           axis.title =XXX,
-           legend.title= XXX)
+           axis.title = XXX,
+           legend.title = XXX)
 
 ```
 
@@ -304,12 +305,12 @@ plot_model(countiesX, type="pred",
 
 
 ```{r plotcountiesX1b-hint}
-Specify the terms argument as c("mortality_risk_25_45","wage_growth").
+Specify the terms argument as c("mortality_risk_25_45", "wage_growth").
 
 Change the title to say predicted effect of mortality risk by 
 wage growth.
 
-Specify the axis.title argument as "Mortality Risk","Predicted Vote for Hillary Clinton (%)" 
+Specify the axis.title argument as "Mortality Risk", "Predicted Vote for Hillary Clinton (%)" 
 making sure to enclose them inside the c() function and 
 separate with commas.
 
@@ -317,11 +318,12 @@ Change the legend.title to "Wage Growth"
 ```
 
 ```{r plotcountiesX1b-solution}
-plot_model(countiesX, type="pred", 
-           terms=c("mortality_risk_25_45","wage_growth"),
+plot_model(countiesX, 
+           type = "pred", 
+           terms = c("mortality_risk_25_45", "wage_growth"),
            title = "Predicted Effect of Mortality Risk by Wage Growth", 
-           axis.title = c("Mortality Risk","Predicted Vote for Hillary Clinton (%)"),
-           legend.title= "Wage Growth")
+           axis.title = c("Mortality Risk", "Predicted Vote for Hillary Clinton (%)"),
+           legend.title = "Wage Growth")
 
 ```
 
@@ -350,11 +352,11 @@ Replace the XXX in the code and produce the plot.  Notice that I've added `[50, 
 
 
 ```{r plotcountiesX2a, exercise = TRUE}
-plot_model(XXX, XXX=XXX, 
-           XXX="mortality_risk_25_45","white_percent[50, 86, 100]",
+plot_model(XXX, XXX = XXX, 
+           XXX = "mortality_risk_25_45", "white_percent[50, 86, 100]",
            title = "Predicted Effect of Mortality Risk by Majority White", 
-           axis.title = c("XXX","Predicted Vote for Hillary Clinton (%)"),
-           legend.title= "XXX")
+           axis.title = c("XXX", "Predicted Vote for Hillary Clinton (%)"),
+           legend.title = "XXX")
 
 ```
 
@@ -371,11 +373,11 @@ term.
 
 ```{r plotcountiesX2a-solution}
 plot_model(countiesX2, 
-           type="pred", 
-           terms=c("mortality_risk_25_45","white_percent[50, 86, 100]"),
+           type = "pred", 
+           terms = c("mortality_risk_25_45", "white_percent[50, 86, 100]"),
            title = "Predicted Effect of Mortality Risk by Percent White", 
-           axis.title = c("Mortality Risk","Predicted Vote for Hillary Clinton (%)"),
-           legend.title= "Percent White")
+           axis.title = c("Mortality Risk", "Predicted Vote for Hillary Clinton (%)"),
+           legend.title = "Percent White")
 
 ```
 
@@ -406,6 +408,9 @@ Write code to produce a plot illustrating the effect of the percent white condit
 the term argument, the title, axis.title, and legend. title 
 arguments.
 2. Specify type="pred".
+```
+
+```{r plotcountiesX2b-hint-2}
 3. Specify terms by listing white_percent first, a comma,
 and mortality_risk_25_45[1,3,5] each in quotes inside c().
 4. Specify the axis.title by listing "Percent White" 
@@ -416,11 +421,11 @@ listing these inside the c() function.
 
 ```{r plotcountiesX2b-solution}
 plot_model(countiesX2, 
-           type="pred", 
-           terms=c("white_percent", "mortality_risk_25_45[1,3,5]"),
+           type = "pred", 
+           terms = c("white_percent", "mortality_risk_25_45[1,3,5]"),
            title = "Predicted Effect of Percent White by Mortality Risk", 
-           axis.title = c("Percent White","Predicted Vote for Hillary Clinton (%)"),
-           legend.title= "Mortality Risk")
+           axis.title = c("Percent White", "Predicted Vote for Hillary Clinton (%)"),
+           legend.title = "Mortality Risk")
 
 ```
 
@@ -470,7 +475,7 @@ ipi_tradeopen + factor(rights)*ipi_tradeopen + hg_efiscore
 ```
 
 ```{r modelepi1-solution}
-model1 <- lm(epi_epi ~ factor(rights) + ipi_tradeopen + factor(rights)*ipi_tradeopen + hf_efiscore, data=qog)
+model1 <- lm(epi_epi ~ factor(rights) + ipi_tradeopen + factor(rights)*ipi_tradeopen + hf_efiscore, data = qog)
 summary(model1)
 ```
 
@@ -493,11 +498,11 @@ Let's plot the conditional effects of political rights for different values of t
 
 ```{r plotepi1, exercise = TRUE}
 plot_model(model1, 
-           type="pred", 
-           terms=c(XXX, XXX),
+           type = "pred", 
+           terms = c(XXX, XXX),
            title = "Predicted Effect of Rights by Trade Openness", 
-           XXX = c("Political Rights","Predicted Environmental Performance Index"),
-           XXX= "Trade as Percent of GDP")
+           XXX = c("Political Rights", "Predicted Environmental Performance Index"),
+           XXX = "Trade as Percent of GDP")
 
 ```
 
@@ -509,11 +514,11 @@ Did you specify axis.title and legend.title?
 
 ```{r plotepi1-solution}
 plot_model(model1, 
-           type="pred", 
-           terms=c("rights", "ipi_tradeopen"),
+           type = "pred", 
+           terms = c("rights", "ipi_tradeopen"),
            title = "Predicted Effect of Rights by Trade Openness", 
-           axis.title = c("Political Rights","Predicted Environmental Performance Index"),
-           legend.title= "Trade as Percent of GDP") 
+           axis.title = c("Political Rights", "Predicted Environmental Performance Index"),
+           legend.title = "Trade as Percent of GDP") 
 
 ```
 
@@ -528,11 +533,11 @@ Now plot the conditional effects of trade openness by replacing the XXX in the c
 
 ```{r plotepi1b, exercise = TRUE}
 plot_model(model1, 
-           type=XXX, 
-           terms=c(XXX, XXX),
+           type = XXX, 
+           terms = c(XXX, XXX),
            title = "Predicted Effect of Trade by Rights", 
-           axis.title = c(XXX,"Predicted Environmental Protection Index"),
-           legend.title= XXX)
+           axis.title = c(XXX, "Predicted Environmental Protection Index"),
+           legend.title = XXX)
 
 ```
 ```{r plotepi1b-hint}
@@ -545,11 +550,11 @@ The axis.title should specify "Trade as Share of GDP" and the legend.title
 
 ```{r plotepi1b-solution}
 plot_model(model1, 
-           type="pred", 
-           terms=c("ipi_tradeopen", "rights"),
+           type = "pred", 
+           terms = c("ipi_tradeopen", "rights"),
            title = "Predicted Effect of Trade by Rights", 
-           axis.title = c("Trade as Share of GDP","Predicted Environmental Protection Index"),
-           legend.title= "Political Rights")
+           axis.title = c("Trade as Share of GDP", "Predicted Environmental Protection Index"),
+           legend.title = "Political Rights")
 
 ```
 
@@ -592,7 +597,7 @@ polity + factor(hi_gdp)*polity
 ```
 
 ```{r modelconfidence-solution}
-model2<-lm(confidence~factor(hi_gdp)+polity+factor(hi_gdp)*polity, data=world)
+model2<-lm(confidence ~ factor(hi_gdp) + polity + factor(hi_gdp) * polity, data = world)
 summary(model2)
 ```
 
@@ -627,21 +632,21 @@ x-axis first, here "hi_gdp", and the conditioning variable second, here "polity.
 
 ```{r plotmodel2, exercise = TRUE}
 XXX(model2, 
-           type=XXX, 
-           XXX=c(XXX, XXX),
+           type = XXX, 
+           XXX = c(XXX, XXX),
            title = "Predicted Effect of High GDP by Democracy Score", 
-           axis.title = c("","Predicted Confidence"),
-           legend.title= "Polity Democracy Score")
+           axis.title = c("", "Predicted Confidence"),
+           legend.title = "Polity Democracy Score")
 
 ```
 
 ```{r plotmodel2-solution}
 plot_model(model2, 
-           type="pred", 
-           terms=c("hi_gdp", "polity"),
+           type = "pred", 
+           terms = c("hi_gdp", "polity"),
            title = "Predicted Effect of  GDP by Democracy Score", 
-           axis.title = c("","Predicted Confidence"),
-           legend.title= "Polity Democracy Score")
+           axis.title = c("", "Predicted Confidence"),
+           legend.title = "Polity Democracy Score")
 
 ```
 
@@ -667,13 +672,16 @@ Now, see if you can create the plot for the effects of democracy score on confid
 
 ```
 
-```{r plotmodel2b-hint}
+```{r plotmodel2b-hint-1}
 1. Begin with the plot_model function and list model2 as the first argument.
 2. Specify the type argument as "pred" to tell the function to plot predicted values.
 3. Specify the terms argument to tell the function what effects you want to plot.
 4. List the x-axis variable first. This is the variable whose effects you want to plot.
 In this example, we want to plot the effects of democracy score, "polity".
 5. Then list the conditioning variable, here "hi_GDP".
+```
+
+```{r plotmodel2b-hint-2}
 6. Add the title argument. Make sure to set it equal to the title in the instructions.
 7. Add the axis.title argument. Remember the titles must be placed in quotes inside the c function.
 Be sure to list the x-axis title first and the y-axis title second.
@@ -683,11 +691,11 @@ Be sure to list the x-axis title first and the y-axis title second.
 
 ```{r plotmodel2b-solution}
 plot_model(model2, 
-           type="pred", 
-           terms=c("polity","hi_gdp"),
+           type = "pred", 
+           terms = c("polity", "hi_gdp"),
            title = "Predicted Effect of GDP by Democracy Score", 
-           axis.title = c("Polity Democracy Score","Predicted Confidence"),
-           legend.title= "GDP")
+           axis.title = c("Polity Democracy Score", "Predicted Confidence"),
+           legend.title = "GDP")
 ```
 
 ```{r plotmodel2b-check}

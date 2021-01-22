@@ -87,7 +87,7 @@ The code below illustrates the code to estimate our model and saves the result t
 
 
 ```{r lm1, exercise = TRUE}
-model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data=counties)
+model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data = counties)
 summary(model1)
 ```
 
@@ -201,7 +201,7 @@ Now we are ready to estimate the regression from above, adding the nominal varia
 
 
 ```{r lm2, exercise = TRUE}
-model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data=counties)
+model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data = counties)
 summary(model2)
 ```
 
@@ -251,7 +251,7 @@ As a second example, we will work with data from the Quality of Government basic
 Complete the code below by replacing the XXX and estimate a model of quality of governance.  Make sure you place **democ** inside the `factor()` function so that the `lm()` function knows to treat this variable as nominal. The base category is the least democratic countries because the value zero is the smallest value taken by the variable. Summarize the model using the `summary()` function.
 
 ```{r lm3, exercise = TRUE}
-model3<-lm(iiag_gov XXX, data=XXX)
+model3<-lm(iiag_gov XXX, data = XXX)
 summary(XXX)
 ```
 
@@ -261,7 +261,7 @@ variables and to separate each with a plus.
 ```
 
 ```{r lm3-solution}
-model3<-lm(iiag_gov~wdi_fertility+bti_eo+factor(democ), data=qog)
+model3<-lm(iiag_gov ~ wdi_fertility + bti_eo + factor(democ), data = qog)
 summary(model3)
 ```
 
@@ -337,7 +337,7 @@ Don't forget to place **democ** inside the `factor()` function.
 ```
 
 ```{r lm4-solution}
-model4<-lm(fhp_score5~cspf_sfi+ffp_ued+ffp_sl+factor(democ), data=qog)
+model4<-lm(fhp_score5 ~ cspf_sfi + ffp_ued + ffp_sl + factor(democ), data = qog)
 summary(model4)
 ```
 
