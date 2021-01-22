@@ -66,7 +66,7 @@ save(counties, file="counties2016.RData")
 ```
 
 ```{r loadr, exercise=TRUE, exercise.setup="loadr-setup"}
-load("counties2016.RData", verbose=TRUE)
+load("counties2016.RData", verbose = TRUE)
 ```
 
 Now that we know the name of the object the file contains, we can examine **counties**
@@ -92,7 +92,7 @@ Let's import the comma-separated (.csv) file, unitednations.csv, and examine its
 
 ```{r df-setup}
 tmp.df <- read.csv("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/unitednations.csv")
-write.csv(tmp.df, "unitednations.csv", row.names=F)
+write.csv(tmp.df, "unitednations.csv", row.names = F)
 rm(list=ls())
 ```
 
@@ -233,7 +233,7 @@ grade_code("So simple.")
 ```
 
 ```{r howmanyposts-solution}
-nrow(unFBposts)/365
+nrow(unFBposts) / 365
 ```
 
 
@@ -296,7 +296,7 @@ message | Text of post, NA if no text
 We can examine the first few rows of the data frame using the `head()` function. By default, it prints the first 6 rows. To look at more or less, specify the `n` argument.
 
 ```{r str, exercise=TRUE}
-head(unFBposts, n=5)
+head(unFBposts, n = 5)
 ```
 The `str()` function displays the structure of the data frame. Specifically, it provides the number of observations and variables and then lists each variable along with its type and the values of the first few observations. 
 
@@ -401,7 +401,7 @@ If there are missing values in a vector, we include `na.rm=TRUE` (must be all ca
 Let's calculate the mean number of shares for UN Facebook posts, allowing for missing values (there are not any so we would get the same value if we did not use this option but we would get an error if we omit the option when there are missing values).
 
 ```{r naex, exercise=TRUE}
-mean(unFBposts$shares,na.rm=TRUE)
+mean(unFBposts$shares, na.rm = TRUE)
 ```
 
 ### Indexing in a data frame
@@ -411,18 +411,18 @@ We can use indexing to select rows and columns in a data frame, but unlike with 
 For example, to see the 3rd row in the 2nd colum of **unFBposts** we use square brackets and list the row, followed by a comma, and the column:
 
 ```{r index1, exercise=TRUE}
-unFBposts[3,2]
+unFBposts[3, 2]
 ```
 If we want to list all values of a particular variable, say **type**, we leave the row number blank. If we want a sequence of row (or column numbers), we use the smallest value followed by a colon and the largest value (no spaces). We can also give the variable name in quotes rather than the column number. The code below prints rows 10-15 of the variable **type**.
 
 ```{r index2, exercise=TRUE}
-unFBposts[10:15,"type"]
+unFBposts[10:15, "type"]
 ```
 
 We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it.  Here there is only one message with the maximum number of likes so it returns just one message.
 
 ```{r index3, exercise=TRUE}
-unFBposts$message[which(unFBposts$likes_count==max(unFBposts$likes_count, na.rm=TRUE))]
+unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
 ```
 
 You may want to find the message with the minimum value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **shares_count**.
@@ -432,7 +432,7 @@ You may want to find the message with the minimum value. It turns out in this da
 ```
 
 ```{r index4-solution}
-unFBposts$message[which(unFBposts$shares_count==max(unFBposts$shares_count, na.rm=TRUE))]
+unFBposts$message[which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE))]
 ```
 
 ```{r index4-hint}
@@ -500,7 +500,7 @@ The following code saves **unFBposts** as an R data set, but it cannot be run fr
 
 
 ```{r save, exercise=FALSE, eval=FALSE}
-save(unFBposts, file="/Users/sld8/Dropbox/PLSC309/MyDataFile.Rdata")
+save(unFBposts, file = "/Users/sld8/Dropbox/PLSC309/MyDataFile.Rdata")
 ```
 
 If we had created new objects separate from those in **unFBposts**, saving **unFBposts** will not save them. 
@@ -563,7 +563,7 @@ Include the na.rm argument. It's always good practice.
 ```
 
 ```{r likes-solution}
-mean(unFBposts$likes_count, na.rm=TRUE)
+mean(unFBposts$likes_count, na.rm = TRUE)
 ```
 
 
@@ -583,7 +583,7 @@ Include the na.rm argument. It's always good practice.
 ```
 
 ```{r mean-solution}
-mean(unFBposts$comments_count, na.rm=TRUE)
+mean(unFBposts$comments_count, na.rm = TRUE)
 ```
 
 
@@ -603,7 +603,7 @@ Use the mean function with the na.rm argument sent to TRUE.
 
 
 ```{r shares-solution}
-mean(unFBposts$shares_count, na.rm=TRUE)
+mean(unFBposts$shares_count, na.rm = TRUE)
 ```
 
 ```{r shares-check}
