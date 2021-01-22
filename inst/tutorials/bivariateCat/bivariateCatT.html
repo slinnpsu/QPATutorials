@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="progressive" content="true" />
+<meta name="allow-skip" content="true" />
+
+<title>Bivariate Description: Two Categorical (Nominal and/or Ordinal) Variables</title>
+
+
+<!-- highlightjs -->
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+<!-- taken from https://github.com/rstudio/rmarkdown/blob/67b7f5fc779e4cfdfd0f021d3d7745b6b6e17149/inst/rmd/h/default.html#L296-L362 -->
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("section-TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+<!-- end tabsets -->
+
+
+
+</head>
+
+<body>
+
+
+
+<div class="pageContent band">
+<div class="bandContent page">
+
+<div class="topics">
+
+<div id="section-learning-objectives" class="section level2">
+<h2>Learning Objectives</h2>
+<p>In this tutorial, you will learn how to describe the relationship between two variables measured at the nominal and/or ordinal level. Specifically, we will cover:</p>
+<ul>
+<li>How to conduct a descriptive analysis of the relationship between two nominal or ordinal variables (or one of each) using cross-tabs.</li>
+<li>How to use the <code>CrossTable()</code> function in the R package <span style="color:DarkGreen">descr</span> to produce cross-tabs.</li>
+<li>How to plot the information in cross-tabs using grouped bar plots using the <code>ggplot()</code> function in the R package <span style="color:DarkGreen">ggplot2</span>.</li>
+</ul>
+</div>
+<div id="section-bivariate-description" class="section level2">
+<h2>Bivariate Description</h2>
+<p>Once we have described the main features of the individual variables in our study, we want to look at the relationship between variables. The hypotheses we bring to our analyses suggest what we should see when we do so. For example, if we hypothesize that more rural counties were more likely to support Donald Trump in 2016, we can begin to examine the evidence by comparing the proportion of counties that cast a majority of their votes for Donald Trump in more rural counties to that in more urban counties. Or we could compare the mean vote share in urban and rural counties.</p>
+<p>How we describe bivariate relationships, relationships between two variables, depends on the level of measurement that characterizes the variables.</p>
+<ol style="list-style-type: decimal">
+<li><p>If the relationship we wish to describe involves categorical variables – some combination of nominal and ordinal variables – we describe the relationship using a cross-tabulation, which we may choose to represent as a plot.</p></li>
+<li><p>If the relationship involves one nominal or ordinal variable and an interval level variable, we can compare the mean of the interval variable across categories of the nominal or ordinal variable. Plots may be used to illustrate the differences (or similarities) in the means.</p></li>
+<li><p>If both variables are measured at the interval level, we can illustrate the relationship with a scatter plot and describe its strength and direction with the correlation coefficient.</p></li>
+</ol>
+<p>In this tutorial, we will consider the first of these types of description: how to describe relationships between categorical variables measured at the nominal and ordinal levels. The next two tutorials will cover the last two types of relationships.</p>
+</div>
+<div id="section-describing-the-relationship-between-two-nominal-or-ordinal-variables" class="section level2">
+<h2>Describing the Relationship Between Two Nominal or Ordinal Variables</h2>
+<p>We use a cross-tab to describe the relationship between nominal and ordinal variables. <span style="color:blue">A cross-tabulation (or cross-tab) is a table that shows the distribution of cases (counts or proportions) across values of the dependent variable for cases that have different values on the independent variable.</span></p>
+<p>You’ve seen these tables in textbooks and other places many times. Each row of the table presents the different values one variable can take, and each column represents the values another variable takes. Each cell gives the number of cases in the data for a particular row variable value and column variable value. Below the table are the total number of cases in a column, and to the right of the table are the total number of cases in a row of the data. The bottom right corner gives the total number of cases in the table. The cross-tab may also report proportions or the percentage of cases in each cell of the table out of all cases in a column, a row, or in the table overall. Which of these representations is most useful will depend on our purpose.</p>
+<p>The image below illustrates the contents of a cross-tab that illustrates the relationship between the party identification of a survey respondent and their attitudes toward gay and lesbian relationships. The percentages given are calculated out of all cases in a column.</p>
+<p><img src="images/Crosstab2.jpg" style="width:70.0%" /></p>
+<p>We can see that 1196 or 51.8% <em>of Democratic respondents</em> were supportive of legal marriage; that 385 or 21.8% <em>of independents</em> were opposed to any legal recognition; that there were 2309 Democratic respondents; that 1861 respondents or 33.9% chose the middle response; and that there were 5492 respondents in the survey who answered both questions.</p>
+<div id="section-generating-cross-tabs" class="section level3">
+<h3>Generating Cross-tabs</h3>
+<p>We will follow two rules for the design of the cross-tab that allow us to illustrate the relationship between an explanatory variable and an outcome variable.</p>
+<p>Rule 1: the explanatory variable will be placed in the columns, and the outcome variable in the rows of the table.</p>
+<p>Rule 2: proportions will be calculated out of column totals.</p>
+<p>We’ll see below how this facilitates comparison.</p>
+</div>
+<div id="section-the-crosstable-function" class="section level3">
+<h3>The <code>CrossTable()</code> Function</h3>
+<p>To produce a cross-tab, we will use the <code>CrossTable()</code> function from the R package <span style="color:DarkGreen">descr</span>. The function requires two arguments, <code>x</code> and <code>y</code>. <code>x</code> defines the variable to appear in the rows of the table and should be the outcome or dependent variable. <code>y</code> defines the variable to appear in the columns and should be the explanatory or independent variable. By default, <code>CrossTable()</code> produces a cross-tab with proportions calculated for each row, each column, and the full table. Typically, however, we are interested in just column proportions, so we will set the <code>prop.r</code> (which stands for row proportions) and the <code>prop.t</code> (which stands for total proportions) arguments to <code>FALSE</code>. Finally, we will set the <code>prop.chisq</code> (which stands for chi square contribution) argument to <code>FALSE</code>. Doing so will eliminate clutter and make the table easier to read.</p>
+<p>The data set <strong>counties</strong> contains a variable called <strong>rural</strong>, a 3-category ordinal variable where the 0 represents more urban counties, 1 represents counties that are neither urban nor rural, and 2 represents counties that are more rural. It also contains a nominal variable called <strong>TrumpMajority</strong>, which takes a value of 0 if Hillary Clinton won a majority of the vote and 1 if Donald Trump won a majority of the vote. We’ll use this data to create our first cross-tab and to see how we use it to assess the hypothesis that Trump did better in more rural counties.</p>
+<p>We need to first load the <span style="color:DarkGreen">descr</span> package with the <code>library()</code> function so that we can use the <code>CrossTable()</code> function.</p>
+<div class="tutorial-exercise" data-label="samplecrosstb" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>library(descr) 
+CrossTable(x = counties$TrumpMajority, y = counties$rural,
+           prop.r = FALSE, prop.c = TRUE, prop.t = FALSE,
+           prop.chisq = FALSE)</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>Let’s test your interpretation of the cell entries in this table:</p>
+<div class="panel panel-default">
+<div data-label="letter-a" class="tutorial-question panel-body">
+<div id="letter-a-answer_container" class="shiny-html-output"></div>
+<div id="letter-a-message_container" class="shiny-html-output"></div>
+<div id="letter-a-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<div class="panel panel-default">
+<div data-label="letter-b" class="tutorial-question panel-body">
+<div id="letter-b-answer_container" class="shiny-html-output"></div>
+<div id="letter-b-message_container" class="shiny-html-output"></div>
+<div id="letter-b-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+</div>
+</div>
+<div id="section-assessing-our-hypothesis" class="section level2">
+<h2>Assessing our hypothesis</h2>
+<p>Now that we’ve interpreted individual cell entries, let’s see what we can learn about our hypothesis: <span style="color:chocolate"> In a comparison of [counties], those that are [more rural] will be more likely to [give a majority of their support to Trump] than will those that are [less rural (more urban)].</span></p>
+<p>Does the evidence support this hypothesis? If more rural counties are more likely to have cast a majority of their votes for Trump, what should we see?</p>
+<p>By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column prportion, we <strong>interpret a cross-tab by comparing proportions across columns at the same value of the dependent variable (in the same row)</strong>. How does the proportion (or, if we multiple them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?</p>
+<p>We know that the value 0 for <strong>rural</strong> denotes that a county is urban, 1, that it is neither urban nor rural, and 2 that it is rural. Thus, we expect the proportion of counties among those casting a majority of votes for Trump (<strong>MajorityTrump</strong>=1) in row 2 to increase as we move across the columns from the left to the right. We would also expect the reverse to be true for counties that cast a majority of votes for Clinton (<strong>MajorityTrump</strong>=0) in row 1.</p>
+<p>I’ve reproduced the cross-tab here so that you don’t have to look back.</p>
+<pre><code>##    Cell Contents 
+## |-------------------------|
+## |                       N | 
+## |           N / Col Total | 
+## |-------------------------|
+## 
+## =======================================================
+##                           counties$rural
+## counties$TrumpMajority        0       1       2   Total
+## -------------------------------------------------------
+## 0                           303     144      43     490
+##                           0.261   0.109   0.069        
+## -------------------------------------------------------
+## 1                           859    1179     584    2622
+##                           0.739   0.891   0.931        
+## -------------------------------------------------------
+## Total                      1162    1323     627    3112
+##                           0.373   0.425   0.201        
+## =======================================================</code></pre>
+<p>Consider the proportion of counties in which a majority voted for Clinton (row 1). Comparing the proportions across columns we see that 0.261 or about 1/5 <strong>of the urban counties</strong> are counties in which a majority voted for Clinton while 0.069 or 6.9% of counties in the rural category did so. Furthermore, of counties that are neither urban nor rural, the proportion of counties in which a majority of votes were cast for Clinton fell between these two values with a proportion of 0.109. So far the evidence supports the hypothesis.</p>
+<p>Similarly, if we consider the proportion of counties that cast a majority of votes for Trump, we see support for the hypothesis. A higher proportion of rural counties, 0.931, cast their votes for Trump compared to 0.891 for neither urban nor rural counties, and 0.739 for urban counties.</p>
+<div id="section-racial-majority-and-support-for-donald-trump-in-us-counties" class="section level3">
+<h3>Racial Majority and Support for Donald Trump in US Counties</h3>
+<p>We might hypothesize that: <span style="color:chocolate">In a comparison of [counties], those that are [majority-white] will be more likely to [give a majority of their support to Trump] than will those that are [not majority-white].</span></p>
+<p>The data frame <strong>counties</strong> contains a nominal variable called <strong>racial_majority</strong> that takes the character values “Black Majority,” “Hispanic Majority,” “Other/No Majority,” and “White Majority.” Thus, our hypothesis suggests that when we compare the proportion of counties <strong>within each racial majority category</strong>, the highest proportion of counties casting a majority of votes for Donald Trump will be “White Majority.”</p>
+<p>Edit the code below to produce a cross-tab to assess this hypothesis.</p>
+<div class="tutorial-exercise" data-label="samplecrosstb2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>CrossTable(x = counties$XXXX, y = counties$XXXX, prop.r = XXXX, prop.c = XXXX, prop.t = XXXX, prop.chisq = XXXX)</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="samplecrosstb2-hint" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Remember x gives the row variable, which should be set equal to the 
+outcome or dependent variable. y gives the column variable and 
+should be set to the explanatory or independent variable.  
+Because we only want column percentages, prop.c should be set to 
+TRUE and all other arguments to FALSE&gt;</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="samplecrosstb2-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>CrossTable(x = counties$TrumpMajority, y = counties$racial_majority, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)</code></pre>
+</div>
+<div class="panel panel-default">
+<div data-label="letter-w" class="tutorial-question panel-body">
+<div id="letter-w-answer_container" class="shiny-html-output"></div>
+<div id="letter-w-message_container" class="shiny-html-output"></div>
+<div id="letter-w-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<p>Does this table support the hypothesis? Yes, because a much larger proportion of majority white counties cast a majority of their votes for Donald Trump than did counties with any other (or no) racial majority.</p>
+</div>
+<div id="section-gender-equality-and-regime-type" class="section level3">
+<h3>Gender Equality and Regime Type</h3>
+<p>For a final illustration, we will examine the relationship between the nominal variable <strong>regime_type3</strong>, which takes the values “Dictatorship,” “Parliamentary democ,” or “Presidential democ” and the ordinal variable <strong>gender_equal13</strong>, which may be “Low,” “Medium,” or “High.” The variables are in the data frame <strong>world</strong>.</p>
+<p>Write the code to generate the cross-tab and run it. Assume we hypothesize that: <span style="color:chocolate"> In a comparison of [countries], those that are [dictatorships] will be less likely to [have a high degree of gender equality] than will those that are [not dictatorships].</span></p>
+<div class="tutorial-exercise" data-label="samplecrosstb3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="samplecrosstb3-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you use the Crosstab function? Remember that you need to list 
+the outcome variable first (gender equality) by assigning it to the x  
+argument. Then set the y argument to the variable you want in the columns 
+of the table. Finally, specify which information you do and do 
+not want in the table cells using the prop.r, prop.c, prop.t, and 
+prop.chisq arguments.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="samplecrosstb3-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>CrossTable(x = world$gender_equal3, y = world$regime_type3, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)</code></pre>
+</div>
+<div class="panel panel-default">
+<div data-label="letter-z" class="tutorial-question panel-body">
+<div id="letter-z-answer_container" class="shiny-html-output"></div>
+<div id="letter-z-message_container" class="shiny-html-output"></div>
+<div id="letter-z-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<p>Is there support for our hypothesis? Yes, of countries that are dictatorships, most have low gender equality and only a few have high gender equality. For non-dictatorships, low levels of gender equality are the least common outcome.</p>
+</div>
+</div>
+<div id="section-visualizing-the-information-in-cross-tabs-using-ggplot" class="section level2">
+<h2>Visualizing the Information in Cross-tabs using <code>ggplot()</code></h2>
+<p>We can plot the information in a cross-tab using a bar plot. We created bar plots with <code>ggplot()</code> in the R package <span style="color:DarkGreen">ggplot2</span> in the tutorial “Univariate Description: Nominal Variables” to visualize a single nominal variable and in the tutorial “Univariate Description: Ordinal Variables” to visualize a single ordinal variable. When presenting the information in a cross-tab in a bar plot, the data are grouped such that the bars represent the frequency or proportion of cases for each value of one variable broken down by values of another variable. Thus we can plot the number or proportion of counties in each category of the variable <strong>TrumpMajority</strong> for each category of the variable <strong>rural</strong>.</p>
+<div id="section-the-fill-aesthetic" class="section level3">
+<h3>The fill aesthetic</h3>
+<p>We follow the same basic steps to build a grouped bar plot as we did for a bar plot representing a single nominal or ordinal variable.</p>
+<ol style="list-style-type: decimal">
+<li>Tell <code>ggplot()</code> the name of the data set that contains the variable(s) to plot.</li>
+<li>Tell <code>ggplot()</code> which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the <code>mapping</code> argument and the <code>aes()</code> function.</li>
+<li>Tell <code>ggplot()</code> how to plot the data by adding a <strong>geom</strong> layer.</li>
+<li>Add layers that make the plot more informative by adding labels and formatting scales.</li>
+</ol>
+<p>When plotting a single variable, we simply identified <code>x</code> inside the <code>aes()</code> function in step 2. In order to visualize two nominal and/or ordinal variables in a bar plot, we add a <code>fill</code> argument to the <code>aes()</code> function to specify the grouping variable. Which variable do we specify as the <code>x</code> and which as <code>fill</code>? The dependent variable should be on the x-axis. The <code>fill</code> aesthetic breaks down the categories of the x-axis variable based on values of the variable mapped to the <code>fill</code> aesthetic.</p>
+<p>Below I’ve provided the code to create a bar plot of the frequencies from the cross-tab relating the variable <strong>rural</strong> in the <strong>counties</strong> data frame to <strong>TrumpMajority</strong>. We specify both <code>x</code> and <code>fill</code> variables as factors so that <code>ggplot()</code> knows the values of these variables are discrete (whole numbers only).</p>
+<p>Don’t forget that we need to load <span style="color:DarkGreen">ggplot2</span> before we can use the <code>ggplot()</code> function.</p>
+<div class="tutorial-exercise" data-label="freqtab" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>library(ggplot2)
+ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
+  geom_bar() </code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>This bar plot is called a stacked bar plot because there is one column for each value of the <code>x</code> variable and it is divided up based on the number of cases for each value of the <code>fill</code> variable.</p>
+</div>
+<div id="section-positiondodge" class="section level3">
+<h3>position=“dodge”</h3>
+<p>If we prefer to place the bars side-by-side rather than stacking them, we simply add <code>position="dodge"</code> inside the <code>geom_bar()</code> function.</p>
+<div class="tutorial-exercise" data-label="dodge" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
+  geom_bar(position = &quot;dodge&quot;) </code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>Whether you prefer a side-by-side or stacked bar plot is a often matter of personal taste but sometimes it can be harder to make comparisons with the stacked bar plot.</p>
+<p>Before we make this plot more informative, let’s consider how to plot proportions rather than frequencies. Proportions will be more informative if we wish to draw comparisons across the groupings because the number of cases in each category of the x-axis variable may be different, as here!</p>
+</div>
+<div id="section-plotting-proportions" class="section level3">
+<h3>Plotting Proportions</h3>
+<p>To plot proportions, we set an aesthetic inside the <code>geom_bar()</code> layer. Specifically, we set <code>y = ..prop..</code> to represent the y axis as a proportion, and we set <code>group</code> equal to the <code>fill</code> variable. This tells <code>ggplot()</code> to calculate the proportions based on the number of cases in each value of that variable.</p>
+<div class="tutorial-exercise" data-label="proptab" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
+  geom_bar(position = &quot;dodge&quot;, mapping = aes(y = ..prop.., group = factor(rural))) </code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>As we can see, the sum of the height of the red bars is equal to one, the sum of the height of the green bars is equal to one, and the sum of height of the blue bars is equal to one. This makes it easy to compare the relative proportions within a category of the fill variable across the categories of the x-axis variable. Thus we see here that Trump won more counties, regardless how urban or rural a county, and that he won relatively more “rural” counties than either “neither urban nor rural” or “urban” counties.</p>
+</div>
+<div id="section-making-the-plot-more-informative" class="section level3">
+<h3>Making the plot more informative</h3>
+<p>We can make each of these plots more informative by adding a <code>labs</code> layer to provide a <code>title</code>, <code>subtitle</code>, <code>x</code> and <code>y</code> axis labels, and a <code>caption</code> as well as an <code>scale_x_discrete</code> layer to change the labels for the tick marks on the x-axis, as we have before. But we also want to add a new layer to make the legend informative. To do so we add a <code>scale_fill_discrete()</code> layer. We use this function to edit the legend associated with a discrete variable (one that can take only integer values) that is identified by <code>fill</code> inside the <code>aes()</code> function. We use the <code>name</code> argument to provide the name for the legend and the <code>labels</code> argument to provide names for the values of variables. Be sure to use the <code>c()</code> function, place each label in quotations, and and separate each with a comma.</p>
+<p>Before you execute the code below, read through it carefully. You will have to edit code below to produce similar plots.</p>
+<div class="tutorial-exercise" data-label="inform" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
+  geom_bar(position = &quot;dodge&quot;, aes(y = ..prop.., group = factor(rural))) +
+  labs(title = &quot;Proportion of Counties Casting \na Majority of Votes for Clinton and Trump&quot;, 
+       x = NULL, 
+       y = &quot;Proportion&quot;,
+       caption = &quot;Source: Linn, Nagler, and Zilinsky&quot;) +
+  scale_x_discrete(labels = c(&quot;0&quot; = &quot;Clinton&quot;, &quot;1&quot; = &quot;Trump&quot;)) +
+  scale_fill_discrete(name = &quot;Urbanicity&quot;, 
+                       labels =  c(&quot;Urban&quot;, &quot;Neither Urban \nnor Rural&quot;, &quot;Rural&quot;)) </code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+</div>
+<div id="section-race-and-support-for-donald-trump" class="section level3">
+<h3>Race and Support for Donald Trump</h3>
+<p>Let’s create a bar plot to represent the cross-tab examining the relationship between <strong>TrumpMajority</strong> and <strong>racial_majority</strong>. We want to present the proportion of counties casting a majority of votes for Hillary Clinton and Donald Trump grouped by the categories of <strong>racial_majority</strong>. Note that because <strong>racial_majority</strong> is a character variable, we don’t need to specify the <code>factor()</code> function when naming this variable. Note, too, that the plot will display the bars in alphabetical order and that we could omit the <code>labels</code> argument in <code>scale_fill_discrete()</code> because the grouping variable is a character variable. I’ve included it here, shortening the labels, for practice.</p>
+<p>Replace the XXX in the following code to produce the desired plot. Place the bars side-by-side.</p>
+<div class="tutorial-exercise" data-label="raceplot" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +
+  geom_bar(XXX = XXX, aes(y = ..prop.., group = XXX)) +
+  labs(title = &quot;Proportion of Counties Casting \na Majority of Votes for Clinton and Trump&quot;, 
+       x = NULL, 
+       y = &quot;Proportion&quot;,
+       caption = &quot;Source: Linn, Nagler, and Zilinsky&quot;) +
+  scale_x_discrete(labels = c(&quot;Clinton&quot;, &quot;Trump&quot;)) +
+  scale_fill_discrete(name = &quot;Majority&quot;,
+                      labels = c(&quot;Black&quot;, &quot;Hispanic&quot;, &quot;Other/No&quot;, &quot;White&quot;)) </code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="raceplot-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you replace the first XXX with aes?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="raceplot-hint-2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>The x variable is TrumpMajority.
+We want to group by racial_majority so we provide this
+variable name to the fill argument.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="raceplot-hint-3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>We need to specify position = &quot;dodge&quot; inside geom_bar().
+This places the bars side-by-side.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="raceplot-hint-4" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>To tell ggplot how to calculate proportions for the
+plot we need to set group to the grouping variable
+specified with the fill argument.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="raceplot-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = racial_majority)) +
+  geom_bar(position = &quot;dodge&quot;, aes(y = ..prop.., group = racial_majority)) +
+  labs(title = &quot;Proportion of Counties Casting \na Majority of Votes for Clinton and Trump&quot;, 
+       x = NULL, 
+       y = &quot;Proportion&quot;,
+       caption = &quot;Source: Linn, Nagler, and Zilinsky&quot;) +
+  scale_x_discrete(labels = c(&quot;Clinton&quot;, &quot;Trump&quot;)) +
+  scale_fill_discrete(name = &quot;Majority&quot;,
+                      labels = c(&quot;Black&quot;, &quot;Hispanic&quot;, &quot;Other/No&quot;, &quot;White&quot;)) </code></pre>
+</div>
+<p>This is a super informative and professional visualization. It produces the same information as in the cross-tab we generated above, but we can interpret it much more easily. We can clearly see that of the “Black Majority” counties, a much larger proportion (about 0.95) cast a majority for Clinton, while a much smaller proportion (about 0.05) cast a majority for Donald Trump.</p>
+</div>
+<div id="section-regime-type-and-gender-equality" class="section level3">
+<h3>Regime Type and Gender Equality</h3>
+<p>Try to present the relationship between <strong>gender_equal3</strong> and <strong>regime_type3</strong> in the data frame <strong>world</strong> in a proportions bar plot. Start by building a basic side-by-side proportion plot, without worrying about the labels. Remember that you need to call the <code>ggplot()</code> function, specify the <code>data</code> and <code>mapping</code> arguments and that you need to specify both the variable to map to the x-axis (<code>x</code>) and to group by (<code>fill</code>) inside the <code>aes()</code> function. To plot proportions, remember that you need to specify another <code>aes()</code> inside <code>geom_bar()</code> by setting <code>y = ..prop..</code> and <code>group</code> equal to the <code>fill</code> variable.</p>
+<div class="tutorial-exercise" data-label="genderplot" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="genderplot-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>The first argument of the ggplot function is data. 
+The data for this example is **world**.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="genderplot-hint-2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>The next argument is the mapping (don&#39;t forget the comma
+separating arguments). It is set to the aes function where
+you specify the x argument as gender_equal3 and the fill
+argument as regime_type3</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="genderplot-hint-3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Add a plus at the end of the line and then specify the
+geom_bar function. To get a side-by-side plot we need to specify position=&quot;dodge&quot; inside geom_bar().</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="genderplot-hint-4" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>To get proportions we need to specify the aes function 
+inside geom_bar, setting y = ..prop.. and group equal to 
+the fill variable above, regime_type3.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="genderplot-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = world, mapping = aes(x = gender_equal3, fill = regime_type3)) +
+  geom_bar(position = &quot;dodge&quot;, aes(y = ..prop.., group = regime_type3)) </code></pre>
+</div>
+<p>The first thing we see is that there is a lot of missing data. You may want to eliminate this information from the plot. The easiest way to omit the NAs from the plot is to use the <code>filter()</code> function in the <span style="color:DarkGreen">dplyr</span> package. The <code>filter()</code> function keeps rows of the data frame that meet some condition. Here we want to keep those rows where <strong>gender_equal3</strong> is not missing and <strong>regime_type3</strong> is not missing. To do so, inside the <code>filter()</code> function we specify <code>!is.na(gender_equal3), !is.na(regime_type3)</code>.</p>
+<p>Remember the pipe operator? Here we start with the data frame <strong>world</strong> “and then” (%&gt;%) we <code>filter()</code> so that we keep only non-missing data “and then” we pipe that result to <code>ggplot()</code>, which means we don’t need to specify the <code>data</code> argument inside <code>ggplot()</code>. Otherwise, nothing has changed.</p>
+<p>Don’t forget to load the <span style="color:DarkGreen">dplyr</span> package with the <code>library()</code> function!</p>
+<div class="tutorial-exercise" data-label="genderplot2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>library(dplyr)
+world %&gt;%
+filter(!is.na(gender_equal3), !is.na(regime_type3)) %&gt;%
+ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
+  geom_bar(position = &quot;dodge&quot;, aes(y = ..prop.., group = regime_type3))</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>To complete the plot, let’s fix labels.</p>
+<div class="tutorial-exercise" data-label="genderplot3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>world %&gt;%
+filter(!is.na(gender_equal3), !is.na(regime_type3)) %&gt;%
+ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
+  geom_bar(position = &quot;dodge&quot;, aes(y = ..prop.., group = regime_type3)) +
+  labs(title = &quot;Gender Equality&quot;,
+       x = &quot;&quot;,
+       y = &quot;Proportion&quot;) +
+  scale_fill_discrete(name = &quot;Regime Type&quot;, 
+  labels = c(&quot;Dictatorship&quot;, &quot;Parliamentary \nDemocracy&quot;, &quot;Presidential \nDemocracy&quot;))</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>We can quickly see that across the categories of gender equality values the regime type with the lowest level of equality is “Dictatorship” and that “Parliamentary Democracy” is the regime type with the highest proportion of countries having the highest level of gender equality.</p>
+</div>
+</div>
+<div id="section-the-takeaways" class="section level2">
+<h2>The Takeaways</h2>
+<p>The key things to remember about examining the relationship between two categorical variables, whether nominal and/or ordinal level variables are:</p>
+<ol style="list-style-type: decimal">
+<li><p>We use <span style="color:blue">cross-tabs</span> to present the relationship in tabular form. This has the advantage of providing precise frequencies and proportions. Three rules guide the presentation and interpretation of cross-tabs:</p>
+<ul>
+<li>Rule 1: the explanatory variable will be placed in the columns and the outcome variable in the rows of the table.</li>
+<li>Rule 2: proportions will be calculated out of column totals.</li>
+<li>Rule 3: interpret the results by comparing proportions in each column category <strong>within</strong> rows of the table.</li>
+</ul></li>
+<li><p><span style="color:blue">Grouped bar plots</span> present the information in a cross-tab in visual form. This makes it easy to see patterns, but does not provide the exact counts or proportions in any given cell of the table.</p></li>
+<li><p>It can be difficult to remember all the lines of code to produce exactly the plot you want. I encourage you to keep notes on where you can look – in which tutorials – to find code to produce different types of plots. But the basic elements of all grouped bar plots to remember are:</p>
+<ul>
+<li>The outcome or dependent variable goes on the x-axis</li>
+<li>The explanatory or independent variable is specified using the <code>fill</code> argument.</li>
+<li>Proportions should be used if you want to draw meaningful comparisons to test hypotheses because the number of cases in each category of the dependent variable will not, in general, be the same. We generate proportions by specifying <code>aes()</code> inside the <code>geom_bar()</code> function where <code>y = ..prop..</code> and we set <code>group</code> equal to the <code>fill</code> variable.<br />
+</li>
+<li>If the variable’s values are numeric, you need to enclose them inside <code>factor()</code> so that <code>ggplot()</code> knows the variable’s values must be discrete (whole numbers).</li>
+</ul></li>
+</ol>
+
+<script type="application/shiny-prerendered" data-context="server-start">
+library(learnr)
+library(tidyverse)
+library(knitr)
+library(poliscidata)
+library(descr)
+library(ggplot2)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+#tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+counties <- qpaTutorials::counties
+counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100
+counties$dem2p_percent <- counties$dem2p_vote_share*100
+counties$rural <-1
+counties$rural[counties$rural_urban<=3] <- 0
+counties$rural[counties$rural_urban>=8] <-2
+
+fHouse <- qpaTutorials::fHouse
+sum(is.na(fHouse$FHStatus))
+#fHouse <-filter(fHouse, FHStatus==)
+fHouse$FHStatus2[fHouse$FHStatus=="NF"] <- 0
+fHouse$FHStatus2[fHouse$FHStatus=="PF"] <- 1
+fHouse$FHStatus2[fHouse$FHStatus=="F"] <- 2
+fHouse$FHStatus2[fHouse$FHStatus=="NA"] <- NA
+
+fHouse$FHStatus<-fHouse$FHStatus2
+#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c("NF", "PF", "F"))
+world <- world
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::register_http_handlers(session, metadata = list(id = "07-Bivariate-Description-Categorical-Data"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::clear_exercise_setup_chunks()
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+session$onSessionEnded(function() {
+        learnr:::event_trigger(session, "session_stop")
+      })
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(poliscidata)", "library(descr)", "library(ggplot2)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
+"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
+"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
+"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+"world <- world"), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(poliscidata)", "library(descr)", "library(ggplot2)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
+"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
+"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
+"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+"world <- world"), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(poliscidata)", "library(descr)", "library(ggplot2)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
+"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
+"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
+"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+"world <- world"), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(poliscidata)", "library(descr)", "library(ggplot2)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
+"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
+"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
+"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+"world <- world"), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(poliscidata)", "library(descr)", "library(ggplot2)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
+"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
+"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
+"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+"world <- world"), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-samplecrosstb-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-samplecrosstb-code-editor`)), session)
+output$`tutorial-exercise-samplecrosstb-output` <- renderUI({
+  `tutorial-exercise-samplecrosstb-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("samplecrosstb", list(setup = NULL, chunks = list(list(label = "samplecrosstb", 
+    code = "library(descr) \nCrossTable(x = counties$TrumpMajority, y = counties$rural,\n           prop.r = FALSE, prop.c = TRUE, prop.t = FALSE,\n           prop.chisq = FALSE)", 
+    opts = list(label = "\"samplecrosstb\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
+    solution = NULL, options = list(eval = FALSE, echo = TRUE, 
+        results = "markup", tidy = FALSE, tidy.opts = NULL, collapse = FALSE, 
+        prompt = FALSE, comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "samplecrosstb", exercise = TRUE, code = c("library(descr) ", 
+        "CrossTable(x = counties$TrumpMajority, y = counties$rural,", 
+        "           prop.r = FALSE, prop.c = TRUE, prop.t = FALSE,", 
+        "           prop.chisq = FALSE)"), out.width.px = 624, 
+        out.height.px = 384, params.src = "samplecrosstb, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-a", question = structure("How many counties in the sample are rural?", html = TRUE, class = c("html", 
+"character")), answers = list(structure(list(id = "lnr_ans_3ac9ae", 
+    option = "2622", value = "2622", label = structure("2622", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("2622 is a row total: 2622 counties have a value of 1 for the variable TrumpMajority, which denotes they cast a majority of votes for Donald Trump", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_af4ec09", option = "1162", value = "1162", 
+    label = structure("1162", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("1162 is a column total, but the wrong column: a value of 0 for the column variable rural, denotes a county is urban.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_d7501c4", option = "627", value = "627", 
+    label = structure("627", html = TRUE, class = c("html", "character"
+    )), correct = TRUE, message = structure("627 is a column total giving the number of counties that have a value of 2 for the variable rural, which denotes a county is rural", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+"character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+"character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+"character")), try_again = structure("", html = TRUE, class = c("html", 
+"character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+"character")), message = NULL, post_message = NULL), ids = list(
+    answer = "letter-a-answer", question = "letter-a"), loading = structure("<strong>Loading:<\u002fstrong> \nHow many counties in the sample are rural?\n<br/><br/><br/>", html = TRUE, class = c("html", 
+"character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 2009890177.56407, options = list()), class = c("learnr_radio", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-b", question = structure("What does the value 0.261 in the top-left cell of the table tell us?", html = TRUE, class = c("html", 
+"character")), answers = list(structure(list(id = "lnr_ans_dfc5a45", 
+    option = "The proportion of all counties that cast votes for Hillary Clinton", 
+    value = "The proportion of all counties that cast votes for Hillary Clinton", 
+    label = structure("The proportion of all counties that cast votes for Hillary Clinton", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("Proportions are calculated out of all voters in a column, not out of all counties.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_d176977", option = "The proportion of urban counties that cast a majority of the vote for Donald Trump", 
+    value = "The proportion of urban counties that cast a majority of the vote for Donald Trump", 
+    label = structure("The proportion of urban counties that cast a majority of the vote for Donald Trump", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("The proportion is for urban counties, but 0 is the value for Clinton Majority. ", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_2be9ee4", option = "The proportion of urban counties that cast a majority of the vote for Hillary Clinton", 
+    value = "The proportion of urban counties that cast a majority of the vote for Hillary Clinton", 
+    label = structure("The proportion of urban counties that cast a majority of the vote for Hillary Clinton", html = TRUE, class = c("html", 
+    "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_80e7bd8", 
+    option = "The proportion of counties that cast a majority of votes for Hillary Clinton that were also urban counties", 
+    value = "The proportion of counties that cast a majority of votes for Hillary Clinton that were also urban counties", 
+    label = structure("The proportion of counties that cast a majority of votes for Hillary Clinton that were also urban counties", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("The proportions in each cell are calculated out of all cases in a given column not out of a row; the top row gives all Clinton majority counties.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+"character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+"character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+"character")), try_again = structure("", html = TRUE, class = c("html", 
+"character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+"character")), message = NULL, post_message = NULL), ids = list(
+    answer = "letter-b-answer", question = "letter-b"), loading = structure("<strong>Loading:<\u002fstrong> \nWhat does the value 0.261 in the top-left cell of the table tell us?\n<br/><br/><br/>", html = TRUE, class = c("html", 
+"character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 1011729863.52888, options = list()), class = c("learnr_radio", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-samplecrosstb2-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-samplecrosstb2-code-editor`)), session)
+output$`tutorial-exercise-samplecrosstb2-output` <- renderUI({
+  `tutorial-exercise-samplecrosstb2-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("samplecrosstb2", list(setup = NULL, chunks = list(list(label = "samplecrosstb2", 
+    code = "CrossTable(x = counties$XXXX, y = counties$XXXX, prop.r = XXXX, prop.c = XXXX, prop.t = XXXX, prop.chisq = XXXX)", 
+    opts = list(label = "\"samplecrosstb2\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+    label = "samplecrosstb2-check")), solution = structure("CrossTable(x = counties$TrumpMajority, y = counties$racial_majority, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)", chunk_opts = list(
+    label = "samplecrosstb2-solution")), options = list(eval = FALSE, 
+    echo = TRUE, results = "markup", tidy = FALSE, tidy.opts = NULL, 
+    collapse = FALSE, prompt = FALSE, comment = NA, highlight = FALSE, 
+    strip.white = TRUE, size = "normalsize", background = "#F7F7F7", 
+    cache = 0, cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+    cache.lazy = TRUE, dependson = NULL, autodep = FALSE, cache.rebuild = FALSE, 
+    fig.keep = "high", fig.show = "asis", fig.align = "default", 
+    fig.path = "bivariateCatT_files/figure-html/", dev = "png", 
+    dev.args = NULL, dpi = 192, fig.ext = "png", fig.width = 6.5, 
+    fig.height = 4, fig.env = "figure", fig.cap = NULL, fig.scap = NULL, 
+    fig.lp = "fig:", fig.subcap = NULL, fig.pos = "", out.width = 624, 
+    out.height = NULL, out.extra = NULL, fig.retina = 2, external = TRUE, 
+    sanitize = FALSE, interval = 1, aniopts = "controls,loop", 
+    warning = TRUE, error = TRUE, message = TRUE, render = NULL, 
+    ref.label = NULL, child = NULL, engine = "r", split = FALSE, 
+    include = TRUE, purl = TRUE, max.print = 1000, tutorial = TRUE, 
+    exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+    label = "samplecrosstb2", exercise = TRUE, code = "CrossTable(x = counties$XXXX, y = counties$XXXX, prop.r = XXXX, prop.c = XXXX, prop.t = XXXX, prop.chisq = XXXX)", 
+    out.width.px = 624, out.height.px = 384, params.src = "samplecrosstb2, exercise=TRUE", 
+    fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-w", 
+    question = structure("Which of the following statements about the cross-tab are true", html = TRUE, class = c("html", 
+    "character")), answers = list(structure(list(id = "lnr_ans_8db919d", 
+        option = "Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", 
+        value = "Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", 
+        label = structure("Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("The proportion 0.111 is the proportion of counties in the White Majority column (2866 counties) that cast a majority of their votes for Hillary Clinton", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_bfe1a2a", 
+        option = "Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", 
+        value = "Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", 
+        label = structure("Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c27e191", 
+        option = "Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", 
+        value = "Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", 
+        label = structure("Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("While there are 3112 counties in the data, 0.039 is a column proportion signifying that this proportion of black majority counties cast a majority of their votes for Donald Trump", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2405c28", 
+        option = "Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", 
+        value = "Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", 
+        label = structure("Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+    "character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+    "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+    "character")), try_again = structure("Hint: More than one statement is true.", html = TRUE, class = c("html", 
+    "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+    "character")), message = NULL, post_message = NULL), ids = list(
+        answer = "letter-w-answer", question = "letter-w"), loading = structure("<strong>Loading:<\u002fstrong> \nWhich of the following statements about the cross-tab are true\n<br/><br/><br/>", html = TRUE, class = c("html", 
+    "character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 1501460863.80083, options = list()), class = c("learnr_checkbox", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-samplecrosstb3-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-samplecrosstb3-code-editor`)), session)
+output$`tutorial-exercise-samplecrosstb3-output` <- renderUI({
+  `tutorial-exercise-samplecrosstb3-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("samplecrosstb3", list(setup = NULL, chunks = list(list(label = "samplecrosstb3", 
+    code = "", opts = list(label = "\"samplecrosstb3\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+    label = "samplecrosstb3-check")), solution = structure("CrossTable(x = world$gender_equal3, y = world$regime_type3, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)", chunk_opts = list(
+    label = "samplecrosstb3-solution")), options = list(eval = FALSE, 
+    echo = TRUE, results = "markup", tidy = FALSE, tidy.opts = NULL, 
+    collapse = FALSE, prompt = FALSE, comment = NA, highlight = FALSE, 
+    strip.white = TRUE, size = "normalsize", background = "#F7F7F7", 
+    cache = 0, cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+    cache.lazy = TRUE, dependson = NULL, autodep = FALSE, cache.rebuild = FALSE, 
+    fig.keep = "high", fig.show = "asis", fig.align = "default", 
+    fig.path = "bivariateCatT_files/figure-html/", dev = "png", 
+    dev.args = NULL, dpi = 192, fig.ext = "png", fig.width = 6.5, 
+    fig.height = 4, fig.env = "figure", fig.cap = NULL, fig.scap = NULL, 
+    fig.lp = "fig:", fig.subcap = NULL, fig.pos = "", out.width = 624, 
+    out.height = NULL, out.extra = NULL, fig.retina = 2, external = TRUE, 
+    sanitize = FALSE, interval = 1, aniopts = "controls,loop", 
+    warning = TRUE, error = TRUE, message = TRUE, render = NULL, 
+    ref.label = NULL, child = NULL, engine = "r", split = FALSE, 
+    include = TRUE, purl = TRUE, max.print = 1000, tutorial = TRUE, 
+    exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+    label = "samplecrosstb3", exercise = TRUE, code = "", out.width.px = 624, 
+    out.height.px = 384, params.src = "samplecrosstb3, exercise=TRUE", 
+    fig.num = 0L, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-z", 
+    question = structure("Which of the following statements are true?", html = TRUE, class = c("html", 
+    "character")), answers = list(structure(list(id = "lnr_ans_358ae8d", 
+        option = "Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of countries is low at 0.625", 
+        value = "Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of countries is low at 0.625", 
+        label = structure("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of countries is low at 0.625", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5e659fb", 
+        option = "Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", 
+        value = "Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", 
+        label = structure("Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("While 21 countries have the highest level of gender equality, 0.062 is a column proportion calculated out of the total number of countries that are dictatorships", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_ab52195", 
+        option = "Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", 
+        value = "Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", 
+        label = structure("Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+    "character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+    "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+    "character")), try_again = structure("Hint: More than one statement is  true.", html = TRUE, class = c("html", 
+    "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+    "character")), message = NULL, post_message = NULL), ids = list(
+        answer = "letter-z-answer", question = "letter-z"), loading = structure("<strong>Loading:<\u002fstrong> \nWhich of the following statements are true?\n<br/><br/><br/>", html = TRUE, class = c("html", 
+    "character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 559902625.739275, options = list()), class = c("learnr_checkbox", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-freqtab-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-freqtab-code-editor`)), session)
+output$`tutorial-exercise-freqtab-output` <- renderUI({
+  `tutorial-exercise-freqtab-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("freqtab", list(setup = NULL, chunks = list(list(label = "freqtab", code = "library(ggplot2)\nggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +\n  geom_bar() ", 
+    opts = list(label = "\"freqtab\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "freqtab", exercise = TRUE, code = c("library(ggplot2)", 
+        "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
+        "  geom_bar() "), out.width.px = 624, out.height.px = 384, 
+        params.src = "freqtab, exercise=TRUE", fig.num = 0, exercise.df_print = "paged"), 
+    engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-dodge-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-dodge-code-editor`)), session)
+output$`tutorial-exercise-dodge-output` <- renderUI({
+  `tutorial-exercise-dodge-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("dodge", list(setup = NULL, chunks = list(list(label = "dodge", code = "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +\n  geom_bar(position = \"dodge\") ", 
+    opts = list(label = "\"dodge\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "dodge", exercise = TRUE, code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
+        "  geom_bar(position = \"dodge\") "), out.width.px = 624, 
+        out.height.px = 384, params.src = "dodge, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-proptab-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-proptab-code-editor`)), session)
+output$`tutorial-exercise-proptab-output` <- renderUI({
+  `tutorial-exercise-proptab-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("proptab", list(setup = NULL, chunks = list(list(label = "proptab", code = "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +\n  geom_bar(position = \"dodge\", mapping = aes(y = ..prop.., group = factor(rural))) ", 
+    opts = list(label = "\"proptab\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "proptab", exercise = TRUE, code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
+        "  geom_bar(position = \"dodge\", mapping = aes(y = ..prop.., group = factor(rural))) "
+        ), out.width.px = 624, out.height.px = 384, params.src = "proptab, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-inform-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-inform-code-editor`)), session)
+output$`tutorial-exercise-inform-output` <- renderUI({
+  `tutorial-exercise-inform-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("inform", list(setup = NULL, chunks = list(list(label = "inform", code = "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +\n  geom_bar(position = \"dodge\", aes(y = ..prop.., group = factor(rural))) +\n  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", \n       x = NULL, \n       y = \"Proportion\",\n       caption = \"Source: Linn, Nagler, and Zilinsky\") +\n  scale_x_discrete(labels = c(\"0\" = \"Clinton\", \"1\" = \"Trump\")) +\n  scale_fill_discrete(name = \"Urbanicity\", \n                       labels =  c(\"Urban\", \"Neither Urban \\nnor Rural\", \"Rural\")) ", 
+    opts = list(label = "\"inform\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "inform", exercise = TRUE, code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
+        "  geom_bar(position = \"dodge\", aes(y = ..prop.., group = factor(rural))) +", 
+        "  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", ", 
+        "       x = NULL, ", "       y = \"Proportion\",", "       caption = \"Source: Linn, Nagler, and Zilinsky\") +", 
+        "  scale_x_discrete(labels = c(\"0\" = \"Clinton\", \"1\" = \"Trump\")) +", 
+        "  scale_fill_discrete(name = \"Urbanicity\", ", "                       labels =  c(\"Urban\", \"Neither Urban \\nnor Rural\", \"Rural\")) "
+        ), out.width.px = 624, out.height.px = 384, params.src = "inform, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-raceplot-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-raceplot-code-editor`)), session)
+output$`tutorial-exercise-raceplot-output` <- renderUI({
+  `tutorial-exercise-raceplot-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("raceplot", list(setup = NULL, chunks = list(list(label = "raceplot", code = "ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +\n  geom_bar(XXX = XXX, aes(y = ..prop.., group = XXX)) +\n  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", \n       x = NULL, \n       y = \"Proportion\",\n       caption = \"Source: Linn, Nagler, and Zilinsky\") +\n  scale_x_discrete(labels = c(\"Clinton\", \"Trump\")) +\n  scale_fill_discrete(name = \"Majority\",\n                      labels = c(\"Black\", \"Hispanic\", \"Other/No\", \"White\")) ", 
+    opts = list(label = "\"raceplot\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+        label = "raceplot-check")), solution = structure(c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = racial_majority)) +", 
+    "  geom_bar(position = \"dodge\", aes(y = ..prop.., group = racial_majority)) +", 
+    "  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", ", 
+    "       x = NULL, ", "       y = \"Proportion\",", "       caption = \"Source: Linn, Nagler, and Zilinsky\") +", 
+    "  scale_x_discrete(labels = c(\"Clinton\", \"Trump\")) +", 
+    "  scale_fill_discrete(name = \"Majority\",", "                      labels = c(\"Black\", \"Hispanic\", \"Other/No\", \"White\")) "
+    ), chunk_opts = list(label = "raceplot-solution")), options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, strip.white = TRUE, size = "normalsize", 
+        background = "#F7F7F7", cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
+        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
+        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "raceplot", exercise = TRUE, code = c("ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +", 
+        "  geom_bar(XXX = XXX, aes(y = ..prop.., group = XXX)) +", 
+        "  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", ", 
+        "       x = NULL, ", "       y = \"Proportion\",", "       caption = \"Source: Linn, Nagler, and Zilinsky\") +", 
+        "  scale_x_discrete(labels = c(\"Clinton\", \"Trump\")) +", 
+        "  scale_fill_discrete(name = \"Majority\",", "                      labels = c(\"Black\", \"Hispanic\", \"Other/No\", \"White\")) "
+        ), out.width.px = 624, out.height.px = 384, params.src = "raceplot, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-genderplot-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-genderplot-code-editor`)), session)
+output$`tutorial-exercise-genderplot-output` <- renderUI({
+  `tutorial-exercise-genderplot-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("genderplot", list(setup = NULL, chunks = list(list(label = "genderplot", code = "", 
+    opts = list(label = "\"genderplot\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
+    solution = structure(c("ggplot(data = world, mapping = aes(x = gender_equal3, fill = regime_type3)) +", 
+    "  geom_bar(position = \"dodge\", aes(y = ..prop.., group = regime_type3)) "
+    ), chunk_opts = list(label = "genderplot-solution")), options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, strip.white = TRUE, size = "normalsize", 
+        background = "#F7F7F7", cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
+        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
+        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "genderplot", exercise = TRUE, code = "", out.width.px = 624, 
+        out.height.px = 384, params.src = "genderplot, exercise=TRUE", 
+        fig.num = 0L, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-genderplot2-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-genderplot2-code-editor`)), session)
+output$`tutorial-exercise-genderplot2-output` <- renderUI({
+  `tutorial-exercise-genderplot2-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("genderplot2", list(setup = NULL, chunks = list(list(label = "genderplot2", 
+    code = "library(dplyr)\nworld %>%\nfilter(!is.na(gender_equal3), !is.na(regime_type3)) %>%\nggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +\n  geom_bar(position = \"dodge\", aes(y = ..prop.., group = regime_type3))", 
+    opts = list(label = "\"genderplot2\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
+    solution = NULL, options = list(eval = FALSE, echo = TRUE, 
+        results = "markup", tidy = FALSE, tidy.opts = NULL, collapse = FALSE, 
+        prompt = FALSE, comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "genderplot2", exercise = TRUE, code = c("library(dplyr)", 
+        "world %>%", "filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%", 
+        "ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +", 
+        "  geom_bar(position = \"dodge\", aes(y = ..prop.., group = regime_type3))"
+        ), out.width.px = 624, out.height.px = 384, params.src = "genderplot2, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-genderplot3-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-genderplot3-code-editor`)), session)
+output$`tutorial-exercise-genderplot3-output` <- renderUI({
+  `tutorial-exercise-genderplot3-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("genderplot3", list(setup = NULL, chunks = list(list(label = "genderplot3", 
+    code = "world %>%\nfilter(!is.na(gender_equal3), !is.na(regime_type3)) %>%\nggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +\n  geom_bar(position = \"dodge\", aes(y = ..prop.., group = regime_type3)) +\n  labs(title = \"Gender Equality\",\n       x = \"\",\n       y = \"Proportion\") +\n  scale_fill_discrete(name = \"Regime Type\", \n  labels = c(\"Dictatorship\", \"Parliamentary \\nDemocracy\", \"Presidential \\nDemocracy\"))", 
+    opts = list(label = "\"genderplot3\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
+    solution = NULL, options = list(eval = FALSE, echo = TRUE, 
+        results = "markup", tidy = FALSE, tidy.opts = NULL, collapse = FALSE, 
+        prompt = FALSE, comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        label = "genderplot3", exercise = TRUE, code = c("world %>%", 
+        "filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%", 
+        "ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +", 
+        "  geom_bar(position = \"dodge\", aes(y = ..prop.., group = regime_type3)) +", 
+        "  labs(title = \"Gender Equality\",", "       x = \"\",", 
+        "       y = \"Proportion\") +", "  scale_fill_discrete(name = \"Regime Type\", ", 
+        "  labels = c(\"Dictatorship\", \"Parliamentary \\nDemocracy\", \"Presidential \\nDemocracy\"))"
+        ), out.width.px = 624, out.height.px = 384, params.src = "genderplot3, exercise=TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ <!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="dependencies">
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/cerulean.min.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["textmate.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["i18n"]},{"type":"character","attributes":{},"value":["1.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/i18n"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["i18next.min.js","jquery-i18next.min.js","tutorial-i18n-init.js"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["<script id=\"i18n-cstm-trns\" type=\"application/json\">{\"language\":\"en\",\"resources\":{\"en\":{\"translation\":{\"button\":{\"runcode\":\"Run Code\",\"hints\":\"Hints\",\"startover\":\"Start Over\",\"continue\":\"Continue\",\"submitanswer\":\"Submit Answer\",\"previoustopic\":\"Previous Topic\",\"nexttopic\":\"Next Topic\",\"questionsubmit\":\"Submit Answer\",\"questiontryagain\":\"Try Again\"},\"text\":{\"startover\":\"Start Over\",\"areyousure\":\"Are you sure you want to start over? (all exercise progress will be reset)\",\"youmustcomplete\":\"You must complete the\",\"exercise\":\"exercise\",\"exercise_plural\":\"exercises\",\"inthissection\":\"in this section before continuing.\"}}},\"fr\":{\"translation\":{\"button\":{\"runcode\":\"Lancer le Code\",\"hints\":\"Indice\",\"startover\":\"Recommencer\",\"continue\":\"Continuer\",\"submitanswer\":\"Soumettre\",\"previoustopic\":\"Chapitre Précédent\",\"nexttopic\":\"Chapitre Suivant\",\"questionsubmit\":\"Soumettre\",\"questiontryagain\":\"Réessayer\"},\"text\":{\"startover\":\"Recommencer\",\"areyousure\":\"Êtes-vous certains de vouloir recommencer? (La progression sera remise à zéro)\",\"youmustcomplete\":\"Vous devez d'abord compléter\",\"inthissection\":\"de cette section avec de continuer.\",\"exercise\":\"l'exercice\",\"exercise_plural\":\"des exercices\"}}},\"emo\":{\"translation\":{\"button\":{\"runcode\":\"🏃\",\"hints\":\"🔎\",\"startover\":\"⏮\",\"continue\":\"✅\",\"submitanswer\":\"🆗\",\"previoustopic\":\"⬅\",\"nexttopic\":\"➡\",\"questionsubmit\":\"🆗\",\"questiontryagain\":\"🔁\"},\"text\":{\"startover\":\"⏮\",\"areyousure\":\"🤔\",\"youmustcomplete\":\"⚠ 👉\",\"exercise\":\"\",\"exercise_plural\":\"\",\"inthissection\":\".\"}}}}}<\/script>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css","rstudio-theme.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["5.1.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.css","css/v4-shims.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["4.4.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]}]}
+</script>
+<!--/html_preserve-->
+<!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="execution_dependencies">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118]}},"value":[{"type":"character","attributes":{},"value":["abind","assertthat","backports","base","base64enc","bitops","broom","car","carData","caTools","cellranger","checkmate","cli","cluster","colorspace","compiler","crayon","curl","data.table","datasets","DBI","dbplyr","descr","digest","dplyr","ellipsis","evaluate","fansi","fastmap","forcats","foreign","Formula","fs","gdata","generics","ggplot2","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","httr","jpeg","jsonlite","KernSmooth","knitr","later","lattice","latticeExtra","learnr","lifecycle","lubridate","magrittr","markdown","Matrix","methods","mice","mime","mitools","modelr","munsell","nnet","openxlsx","pillar","pkgconfig","plotrix","plyr","png","poliscidata","promises","purrr","qpaTutorials","R6","RColorBrewer","Rcpp","readr","readxl","reprex","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","rvest","scales","shiny","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","tools","utils","vctrs","weights","withr","xfun","xml2","xtable","yaml","zip"]},{"type":"character","attributes":{},"value":["1.4-5","0.2.1","1.2.1","4.0.2","0.1-3","1.0-6","0.7.2","3.0-9","3.0-4","1.18.0","1.1.0","2.0.0","2.2.0","2.1.0","2.0-0","4.0.2","1.3.4","4.3","1.13.0","4.0.2","1.1.0","2.0.0","1.1.4","0.6.27","1.0.2","0.3.1","0.14","0.4.1","1.0.1","0.5.0","0.8-80","1.2-3","1.5.0","2.18.0","0.1.0","3.3.2","1.4.2","3.1.0","0.2.0.9001","4.0.2","4.0.2","4.0.2","2.3","0.3.0","3.8.2","2.3.1","4.4-1","0.5.3","2.0.1","0.5.0.9003","1.5.3","1.5.4","1.4.2","0.1-8.1","1.7.2","2.23-17","1.30","1.1.0.1","0.20-41","0.6-29","0.10.1.9007","0.2.0","1.7.9.2","2.0.1","1.1","1.2-18","4.0.2","3.11.0","0.9","2.4","0.1.8","0.5.0","7.3-14","4.1.5","1.4.7","2.0.3","3.7-8","1.8.6","0.1-7","2.3.0","1.1.1","0.3.4","0.1.0","2.5.0","1.1-2","1.0.5","1.4.0","1.3.1","0.3.0","0.5.16","0.4.10","2.6","4.1-15","2.0.2","0.13","0.3.6","1.1.1","1.5.0","4.0.2","4.0.2","1.5.3","1.4.0","4.0","3.1-12","3.0.4","1.1.2","1.1.0","1.3.0","4.0.2","4.0.2","0.3.5","1.0.1","2.3.0","0.20","1.3.2","1.8-4","2.2.1","2.1.1"]}]}]}
+</script>
+<!--/html_preserve-->
+</div>
+
+</div> <!-- topics -->
+
+<div class="topicsContainer">
+<div class="topicsPositioner">
+<div class="band">
+<div class="bandContent topicsListContainer">
+
+<!-- begin doc-metadata -->
+<div id="doc-metadata">
+<h2 class="title toc-ignore" style="display:none;">Bivariate Description: Two Categorical (Nominal and/or Ordinal) Variables</h2>
+</div>
+<!-- end doc-metadata -->
+
+</div> <!-- bandContent.topicsListContainer -->
+</div> <!-- band -->
+</div> <!-- topicsPositioner -->
+</div> <!-- topicsContainer -->
+
+
+</div> <!-- bandContent page -->
+</div> <!-- pageContent band -->
+
+
+
+
+<script>
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+</body>
+
+</html>

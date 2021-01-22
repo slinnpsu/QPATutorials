@@ -81,7 +81,7 @@ To calculate the mean of **wage_growth** for counties won by Clinton and Trump, 
 library(dplyr)
 counties %>%
   group_by(TrumpMajority)%>%
-  summarise(freq=n(),mean=mean(wage_growth, na.rm=TRUE))
+  summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE))
 ```
 
 Here we see that the mean rate of wage for counties won by Clinton is 4.86 while that for counties won by Trump is 4.23, consistent with our hypothesis.
@@ -98,7 +98,7 @@ We would expect the mean change in mortality risk (**mortality_risk_25_45_change
 ```{r meanrisk, exercise=TRUE}
 counties %>%
   XXXX(XXXX)%>%
-  XXXX(freq=XXXX,mean=mean(XXXX))
+  XXXX(freq = XXXX,mean = mean(XXXX))
 ```
 
 ```{r meanrisk-hint-1}
@@ -112,7 +112,7 @@ Remember to separate arguments with a comma.
 ```{r meanrisk-solution}
 counties %>%
   group_by(TrumpMajority)%>%
-  summarise(freq=n(),mean=mean(mortality_risk_25_45_change, na.rm=TRUE))
+  summarise(freq = n(), mean = mean(mortality_risk_25_45_change, na.rm = TRUE))
 ```
 ```{r meanrisk-check}
 grade_code()
@@ -148,7 +148,7 @@ use the na.rm argument (set to TRUE)
 ```{r meangdp-solution}
 world %>%
   group_by(dem_level4)%>%
-  summarise(freq=n(),mean=mean(gdp08, na.rm=TRUE))
+  summarise(freq = n(), mean = mean(gdp08, na.rm = TRUE))
 ```
 
 ```{r meangdp-check}
@@ -177,7 +177,7 @@ library(ggplot2)
 counties %>%
   group_by(XXXX)%>%
   summarise(XXXX) %>%
-  ggplot(mapping=aes(x=factor(TrumpMajority), y=mean) ) +
+  ggplot(mapping = aes(x = factor(TrumpMajority), y = mean) ) +
     geom_point() 
 ```
 
@@ -191,8 +191,8 @@ in the ggplot function.
 ```{r meanwageplot-solution}
 counties %>%
   group_by(TrumpMajority)%>%
-  summarise(freq=n(),mean=mean(wage_growth, na.rm=TRUE)) %>%
-  ggplot(mapping=aes(x=factor(TrumpMajority), y=mean) ) +
+  summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE)) %>%
+  ggplot(mapping = aes(x = factor(TrumpMajority), y = mean) ) +
     geom_point() 
 ```
 
@@ -206,10 +206,13 @@ Now let's improve on the plot by adding a layer of labels using the `labs()` fun
 ```{r meanwageplot2, exercise=TRUE}
 counties %>%
   group_by(TrumpMajority)%>%
-  summarise(freq=n(),mean=mean(wage_growth, na.rm=TRUE)) %>%
-  ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
+  summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE)) %>%
+  ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
     geom_point() +
-  labs(title="Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",y="Wage Growth", x=NULL, caption="Source: Linn, Nagler, and Zilinsky") +
+  labs(title = "Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",
+       y = "Wage Growth", 
+       x = NULL, 
+       caption = "Source: Linn, Nagler, and Zilinsky") +
   scale_x_discrete(labels = c("Clinton", "Trump"))
 ```
 
@@ -221,12 +224,15 @@ Look carefully at the code to make sure you understand what each argument is doi
 ```{r meanwageplot3, exercise=TRUE}
 counties %>%
   group_by(TrumpMajority)%>%
-  summarise(freq=n(),mean=mean(wage_growth, na.rm=TRUE)) %>%
-ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
-    geom_point(size=3,shape=19) +
-  labs(title="Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",y="Change in Mortality Risk", x=NULL, caption="Source: Linn, Nagler, and Zilinsky") +
+  summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE)) %>%
+ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
+    geom_point(size = 3, shape = 19) +
+  labs(title = "Mean Change in Wage Growth Among Counties \nCasting a Majority of Votes for Clinton and Trump",
+       y = "Change in Mortality Risk", 
+       x = NULL, 
+       caption = "Source: Linn, Nagler, and Zilinsky") +
   scale_x_discrete(labels = c("Clinton", "Trump")) +
-  scale_y_continuous(limits=c(0,10)) 
+  scale_y_continuous(limits = c(0, 10)) 
 ```
 
 Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title. Set the y-axis limits to -10 to 10.
@@ -268,7 +274,7 @@ caption arguments (separate them with commas).
 ```{r meanrisk2-hint-5}
 Fix the scales with scale_x_discrete setting the labels 
 argument to c("Clinton", "Trump") and
-set the limits argument c(-10,10) inside the
+set the limits argument c(-10, 10) inside the
 scale_y_discrete function.
 
 Don't forget the +!
@@ -277,15 +283,15 @@ Don't forget the +!
 ```{r meanrisk2-solution}
 counties %>%
   group_by(TrumpMajority)%>%
-  summarise(freq=n(),mean=mean(mortality_risk_25_45_change, na.rm=TRUE)) %>%
-ggplot(mapping=aes(x=factor(TrumpMajority), y=mean)) +
-    geom_point(size=3,shape=19) +
-  labs(title="Mean Change in Mortality Risk Among Counties \nCasting a Majority of Votes for Clinton and Trump",
-       y="Change in Mortality Risk", 
-       x=NULL, 
-       caption="Source: Linn, Nagler, and Zilinsky") +
+  summarise(freq = n(), mean = mean(mortality_risk_25_45_change, na.rm = TRUE)) %>%
+ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
+    geom_point(size = 3, shape = 19) +
+  labs(title = "Mean Change in Mortality Risk Among Counties \nCasting a Majority of Votes for Clinton and Trump",
+       y = "Change in Mortality Risk", 
+       x = NULL, 
+       caption = "Source: Linn, Nagler, and Zilinsky") +
   scale_x_discrete(labels = c("Clinton", "Trump")) +
-  scale_y_continuous(limits=c(-10,10)) 
+  scale_y_continuous(limits = c(-10, 10)) 
 ```
 
 ```{r meanrisk2-check}
@@ -312,13 +318,13 @@ Did you add labs()?
 ```{r meangdp2-solution}
 world %>%
   group_by(dem_level4)%>%
-  summarise(freq=n(),mean=mean(gdp08, na.rm=TRUE)) %>%
-  ggplot(mapping=aes(x=dem_level4, y=mean)) +
+  summarise(freq = n(), mean = mean(gdp08, na.rm = TRUE)) %>%
+  ggplot(mapping = aes(x = dem_level4, y = mean)) +
   geom_point() +
-  labs(title="Mean GDP by Level of Democracy",
-       x=NULL,
-       y="Mean GDP") +
-  scale_x_discrete(labels=c("Full \nDemocracy", "Partial \nDemocracy", "Hybrid", "Autoritarian"))
+  labs(title = "Mean GDP by Level of Democracy",
+       x = NULL,
+       y = "Mean GDP") +
+  scale_x_discrete(labels = c("Full \nDemocracy", "Partial \nDemocracy", "Hybrid", "Autoritarian"))
 ```
 
 ```{r meangdp2-check}
@@ -335,15 +341,15 @@ We might want to compare the distribution of some interval variable categories o
 You know how to produce a histogram. We place the interval level variable on the x-axis and use `geom_historgram()` to plot the data. If we want a separate histogram for each value of **TrumpMajority** we assign that variable to `fill`. Below I've added a new layer to the plot using `facet_wrap()`. This function will create separate panels in our plot based on the values of another variable. Here we want separate panels for each value of **TrumpMajority** so we pass this variable to `facet_wrap()`. Note that we need to include a tilde (~) before the variable name inside the function.
 
 ```{r hist, exercise=TRUE}
-ggplot(data=counties, mapping=aes(x=mortality_risk_25_45_change, fill=factor(TrumpMajority))) +
+ggplot(data = counties, mapping = aes(x = mortality_risk_25_45_change, fill = factor(TrumpMajority))) +
   geom_histogram()  +
-  labs(title="Distribution Change in Mortality Risk by Candidate \nReceiving a Majority of Votes Cast", 
-       x="Change in Mortality Risk", 
-       y="Frequency",
-       caption="Source: Linn, Nagler, and Zilinksy")  +
+  labs(title = "Distribution Change in Mortality Risk by Candidate \nReceiving a Majority of Votes Cast", 
+       x = "Change in Mortality Risk", 
+       y = "Frequency",
+       caption = "Source: Linn, Nagler, and Zilinksy")  +
     facet_wrap(~factor(TrumpMajority)) +
-  scale_fill_discrete(name="",
-                      labels=c("Clinton", "Trump"))
+  scale_fill_discrete(name = "",
+                      labels = c("Clinton", "Trump"))
 ```
 
 
@@ -354,13 +360,13 @@ Often it is useful to present box plots rather than histograms. This allows a di
 Three things are different from the histogram plot above. First, we replace `geoom_histogram()` with `geom_boxplot()`. Next, we don't need to use `facet_wrap()`. Finally, we don't need the legend, so we add `guides(fill=FALSE)` in another layer. This tells `ggplot()` that the legend (or guide) associated with the `fill` aesthetic is not to be included.
 
 ```{r box, exercise=TRUE}
-ggplot(data=world, mapping=aes(x=dem_level4, y=lifeex_total, fill=dem_level4)) +
+ggplot(data = world, mapping = aes(x = dem_level4, y = lifeex_total, fill = dem_level4)) +
   geom_boxplot()  +
-  labs(title="Distribution of Life Expectancy at Birth", 
-       x="Democracy Level", 
-       y="Age")  +
-  scale_x_discrete(labels=c("Full Democracy", "Partial Democracy", "Hybrid", "Authoritarian")) +
-guides(fill=FALSE)
+  labs(title = "Distribution of Life Expectancy at Birth", 
+       x = "Democracy Level", 
+       y = "Age")  +
+  scale_x_discrete(labels = c("Full Democracy", "Partial Democracy", "Hybrid", "Authoritarian")) +
+guides(fill = FALSE)
 ```
 
 Here we can readily see that median life expectancy is highest among full democracies and that the range of life expectancy in this group of countries is also tightly clustered. In contrast, authoritarian countries have a lower median life expectancy and a wider range of them.  We can also tell that among partial democracies there are several outlier countries with unusually short life expectancies.

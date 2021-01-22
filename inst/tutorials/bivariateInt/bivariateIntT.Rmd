@@ -139,7 +139,7 @@ function. You don't need to give it any arguments.
 
 ```{r scatter1-solution}
 library(ggplot2)
-ggplot(data=fHouse, mapping=aes(x=Pro.Dem, y=FHTotalAggr)) +
+ggplot(data = fHouse, mapping = aes(x = Pro.Dem, y = FHTotalAggr)) +
   geom_point() 
 ```
 
@@ -150,9 +150,9 @@ grade_code()
 Before we interpret our plot, let's clean it up!  The output above provides a warning that it has "Removed 125 rows containing missing values (geom_point)."  We can avoid this by filtering out the missing values using the `filter()` function in the <span style="color:DarkGreen">dplyr</span> package and piping the result to `ggplot()`. 
 
 
-I'm going to make the points purple by specifying `color="purple"` inside the `geom_point()` function. Try editing the plot to pick a new color (For a list of the color names available see http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
+I'm going to make the points purple by specifying `color = "purple"` inside the `geom_point()` function. Try editing the plot to pick a new color (For a list of the color names available see http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
 
-I'm also going to add a `geom_smooth()` layer to the plot (remember the plus sign). This adds a line through the points and aids in our interpretation. I'm making the line orange using the `color` argument inside `geom_smooth()`, telling ggplot not to add standard errors around the line (`se=FALSE`), and to use the method of least squares to draw the line (`method="lm"`). We will talk more about least squares lines in the coming classes.
+I'm also going to add a `geom_smooth()` layer to the plot (remember the plus sign). This adds a line through the points and aids in our interpretation. I'm making the line orange using the `color` argument inside `geom_smooth()`, telling ggplot not to add standard errors around the line (`se = FALSE`), and to use the method of least squares to draw the line (`method = "lm"`). We will talk more about least squares lines in the coming classes.
 
 We need to load the <span style="color:DarkGreen">dplyr</span> package with the `library()` function.
 
@@ -162,13 +162,13 @@ Look carefully at the code to make sure you understand what each line of the cod
 library(dplyr)
 fHouse %>%
   filter(!is.na(FHTotalAggr), !is.na(Pro.Dem)) %>%
-  ggplot(mapping=aes(x=Pro.Dem, y=FHTotalAggr)) +
-  geom_point(color="purple") +
-  geom_smooth(color="orange",se=FALSE,method="lm") +
-  labs(title="Support for Democratic Values \nand Level of Democracy", 
-       x="Support for Democratic Rule", 
-       y="Level of Democracy", 
-       caption="Source: WVS and EVS, 2005-2008, \nFreedom House 2017") 
+  ggplot(mapping = aes(x=Pro.Dem, y = FHTotalAggr)) +
+  geom_point(color = "purple") +
+  geom_smooth(color = "orange", se = FALSE, method = "lm") +
+  labs(title = "Support for Democratic Values \nand Level of Democracy", 
+       x = "Support for Democratic Rule", 
+       y = "Level of Democracy", 
+       caption = "Source: WVS and EVS, 2005-2008, \nFreedom House 2017") 
 ```
 
 
@@ -187,7 +187,7 @@ The `cor()` function in base R will accomplish this task. We will pass the funct
 
 
 ```{r Pr, exercise=TRUE}
-cor(x=fHouse$Pro.Dem, y=fHouse$FHTotalAggr, use = "pairwise.complete.obs",method = "pearson")
+cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = "pairwise.complete.obs", method = "pearson")
 ```
 
 The result, $r=-0.04$, is negative and close to zero. Thus we conclude that the relationship between these two variables is negative and weak. Perhaps surprisingly, there appears to be next to no relationship between support for democracy and level of democracy.
@@ -204,21 +204,21 @@ Edit the code below to produce a scatter plot illustrating the relationship betw
 ```{r scatter2b, exercise=TRUE}
 fHouse %>%
   filter(XXXX(FHTotalAggr), XXXX(Pro.Strong.Leader)) %>%
-ggplot(mapping=aes(x=Pro.Strong.Leader, y= FHTotalAggr)) +
+ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
  geom_point(XXXX) +
   geom_smooth(XXXX) +
-  labs(title="Support for Democratic Values \nand Level of Democracy",
-       x="Support for a Strong Leader", 
-       y="Level of Democracy", 
-       caption="Source: WVS and EVS, 2005-2008, \nFreedom House 2017")
+  labs(title = "Support for Democratic Values \nand Level of Democracy",
+       x = "Support for a Strong Leader", 
+       y = "Level of Democracy", 
+       caption = "Source: WVS and EVS, 2005-2008, \nFreedom House 2017")
 ```
 
 ```{r scatter2b-hint-1}
 Did you filter by selecting rows of the data frame fHouse 
 that are not missing using !is.na? (Don't forget to 
 pipe the results to ggplot).
-Did you pass geom_point() color="blue"?
-Did you pass geom_smooth()  color="red", eliminate 
+Did you pass geom_point() color = "blue"?
+Did you pass geom_smooth()  color = "red", eliminate 
 the se by setting that argument to FALSE, and set 
 the method argument to "lm"?
 ```
@@ -226,13 +226,13 @@ the method argument to "lm"?
 ```{r scatter2b-solution}
 fHouse %>%
   filter(!is.na(FHTotalAggr), !is.na(Pro.Strong.Leader)) %>%
-ggplot(mapping=aes(x=Pro.Strong.Leader, y= FHTotalAggr)) +
- geom_point(color="blue") +
-  geom_smooth(color="red",se=FALSE,method="lm") +
-  labs(title="Support for Democratic Values \nand Level of Democracy",
-       x="Support for a Strong Leader", 
-       y="Level of Democracy", 
-       caption="Source: WVS and EVS, 2005-2008, \nFreedom House 2017")
+ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
+ geom_point(color = "blue") +
+  geom_smooth(color = "red",se = FALSE, method = "lm") +
+  labs(title = "Support for Democratic Values \nand Level of Democracy",
+       x = "Support for a Strong Leader", 
+       y = "Level of Democracy", 
+       caption = "Source: WVS and EVS, 2005-2008, \nFreedom House 2017")
 ```
 
 ```{r scatter2b-check}
@@ -244,11 +244,11 @@ We can see the relationship is negative. For countries in which there is more su
 Edit the code below to estimate Pearson's correlation coefficient.
 
 ```{r Pr2, exercise=TRUE}
-cor(XXX=XXX,y=XXX$XXX, use = XXX, method = "XXX")
+cor(XXX = XXX, y = XXX$XXX, use = XXX, method = "XXX")
 ```
 
 ```{r Pr2-solution}
-cor(x=fHouse$Pro.Strong.Leader,y=fHouse$FHTotalAggr, use = "pairwise.complete.obs", method = "pearson")
+cor(x = fHouse$Pro.Strong.Leader, y = fHouse$FHTotalAggr, use = "pairwise.complete.obs", method = "pearson")
 ```
 
 ```{r Pr2-check}
@@ -257,7 +257,7 @@ grade_code()
 
 What can we conclude? There is support for our hypothesies: There is a small magnitude negative correlation, approximately -0.283. Higher levels of support for a strong leader are  associated with lower levels of institutional democracy (and vice versa).
 
-Finally, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the x-axis. Before creating the scatter plot, filter out any missing values. Make the points "blue" and add an "lm" line to the plot without standard errors (ser `se=FALSE`). Make the line "red". In the code below I've added the labels for you.
+Finally, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the x-axis. Before creating the scatter plot, filter out any missing values. Make the points "blue" and add an "lm" line to the plot without standard errors (ser `se = FALSE`). Make the line "red". In the code below I've added the labels for you.
 
 ```{r scatter3, exercise=TRUE}
 counties %>%
@@ -265,11 +265,11 @@ counties %>%
   XXXX
   XXXX
   XXXX
-  labs(title="Wage Growth and Support for Hillary Clinton",
-       subtitle="US Counties 2016",
-       x="Wage Growth", 
-       y="Democratic Vote Share", 
-       caption="Source: Linn, Nagler, and Zilinsky")
+  labs(title = "Wage Growth and Support for Hillary Clinton",
+       subtitle = "US Counties 2016",
+       x = "Wage Growth", 
+       y = "Democratic Vote Share", 
+       caption = "Source: Linn, Nagler, and Zilinsky")
 ```
 
 ```{r scatter3-hint-1}
@@ -285,7 +285,7 @@ argument with the aes() function and specify x=wage_growth and y=dem2p_vote_shar
 ```
 
 ```{r scatter3-hint-3}
-Did you add geom+point() and pass it color="blue"?
+Did you add geom+point() and pass it color = "blue"?
 Did you pass geom_smooth()  a color, eliminate the se 
 by setting that argument to FALSE, and set the method
 argument to "lm"?
@@ -296,14 +296,14 @@ Did you include a plus to add each layer to the plot?
 ```{r scatter3-solution}
 counties %>%
   filter(!is.na(wage_growth), !is.na(dem2p_vote_share)) %>%
-ggplot(mapping=aes(x=wage_growth, y= dem2p_vote_share)) +
- geom_point(color="blue") +
-  geom_smooth(color="red",se=FALSE,method="lm") +
-  labs(title="Wage Growth and Support for Hillary Clinton",
-       subtitle="US Counties 2016",
-       x="Wage Growth", 
-       y="Democratic Vote Share", 
-       caption="Source: Linn, Nagler, and Zilinsky")
+ggplot(mapping = aes(x = wage_growth, y = dem2p_vote_share)) +
+ geom_point(color = "blue") +
+  geom_smooth(color = "red", se = FALSE, method = "lm") +
+  labs(title = "Wage Growth and Support for Hillary Clinton",
+       subtitle = "US Counties 2016",
+       x = "Wage Growth", 
+       y = "Democratic Vote Share", 
+       caption = "Source: Linn, Nagler, and Zilinsky")
 ```
 
 ```{r scatter3-check}
@@ -325,7 +325,7 @@ Did you call the cor() function and pass 4 arguments?
 ```
 
 ```{r Pr3-solution}
-cor(x=counties$wage_growth, y=counties$dem2p_vote_share, use = "pairwise.complete.obs",  method = "pearson")
+cor(x = counties$wage_growth, y = counties$dem2p_vote_share, use = "pairwise.complete.obs",  method = "pearson")
 ```
 
 ```{r Pr3-check}
@@ -373,7 +373,7 @@ Consider the following cross-tab between the effective number of parliamentary p
 
 ```{r, echo=FALSE}
 library(descr)
-CrossTable(x=world$eu, y=world$enpp3_democ, prop.r=FALSE, prop.c=TRUE, prop.t=FALSE, prop.chisq = FALSE)
+CrossTable(x = world$eu, y = world$enpp3_democ, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)
 ```
 
 ```{r letter-x, echo=FALSE}
@@ -389,12 +389,12 @@ question("Which of the following statements are true",
 Consider the following scatter plot between government effectiveness (0 to 100 where 100 is more effective), **effectiveness**, and fertility rate (the number of children born per woman), **fertility**.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-ggplot(data=world, mapping=aes(x=effectiveness, y=fertility)) +
+ggplot(data = world, mapping = aes(x = effectiveness, y = fertility)) +
   geom_point() +
-  geom_smooth(method="lm", se=FALSE, linetype="dashed") +
-  labs(title="Government Effectiveness and Fertility Around the World",
-       x="Government Effectiveness Score",
-       y="Number of Children")
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
+  labs(title = "Government Effectiveness and Fertility Around the World",
+       x = "Government Effectiveness Score",
+       y = "Number of Children")
 ```
 
 
