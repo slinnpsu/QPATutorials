@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="progressive" content="true" />
+<meta name="allow-skip" content="true" />
+
+<title>Univariate Description: Ordinal Variables</title>
+
+
+<!-- highlightjs -->
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+<!-- taken from https://github.com/rstudio/rmarkdown/blob/67b7f5fc779e4cfdfd0f021d3d7745b6b6e17149/inst/rmd/h/default.html#L296-L362 -->
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("section-TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+<!-- end tabsets -->
+
+
+
+</head>
+
+<body>
+
+
+
+<div class="pageContent band">
+<div class="bandContent page">
+
+<div class="topics">
+
+<div id="section-learning-objectives" class="section level2">
+<h2>Learning Objectives</h2>
+<p>In this tutorial, you will learn how to describe an ordinal level variable, using summary statistics and plots. Specifically, we will cover:</p>
+<ul>
+<li>How to determine and describe the central tendency of an ordinal variable</li>
+<li>How to use the <code>median()</code> function</li>
+<li>How to summarize the dispersion of an ordinal variable</li>
+</ul>
+<p>We will also practice the tools we used to generate frequency distributions and proportions for nominal variables using the functions in the package <span style="color:DarkGreen">dplyr</span>, and bar plots with the <code>ggplot()</code> function in the package <span style="color:DarkGreen">ggplot2</span>.</p>
+</div>
+<div id="section-univariate-description" class="section level2">
+<h2>Univariate Description</h2>
+<p>As we discussed in the previous lesson, the first step in any analysis is to describe the variables that are the focus of our research question in order to convey how they behave, what they look like, and, therefore, what features of the data our explanation needs to account for. We introduced central tendency, dispersion, and the shape of the distribution as ways to summarize the information in a variable in the context of nominal variables. In this tutorial, we look at the tools available for describing ordinal variables.</p>
+<div class="panel panel-default">
+<div data-label="letter-a" class="tutorial-question panel-body">
+<div id="letter-a-answer_container" class="shiny-html-output"></div>
+<div id="letter-a-message_container" class="shiny-html-output"></div>
+<div id="letter-a-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<p>The methods we use for the descriptive analysis of ordinal variables are almost identical to those we use to describe nominal variables, so this tutorial will allow you to practice what you’ve learned as well as extend your knowledge.</p>
+</div>
+<div id="section-central-tendency" class="section level2">
+<h2>Central Tendency</h2>
+<p>We can calculate the central tendency of an ordinal variable using the mode, but, in addition, we can calculate the median.</p>
+<div id="section-the-mode" class="section level3">
+<h3>The mode</h3>
+<p>The data set, <strong>counties</strong>, contains the ordinal variable <strong>rural_urban</strong>. It is a 9-category scale measured by the US Department of Agriculture and coded as follows:</p>
+<ul>
+<li>1: Counties in metro areas of 1 million population or more</li>
+<li>2: Counties in metro areas of 250,000 to 1 million population</li>
+<li>3: Counties in metro areas of fewer than 250,000 population</li>
+<li>4: Urban population of 20,000 or more, adjacent to a metro area</li>
+<li>5: Urban population of 20,000 or more, not adjacent to a metro area</li>
+<li>6: Urban population of 2,500 to 19,999, adjacent to a metro area</li>
+<li>7: Urban population of 2,500 to 19,999, not adjacent to a metro area</li>
+<li>8: Completely rural or less than 2,500 urban population, adjacent to a metro area</li>
+<li>9: Completely rural or less than 2,500 urban population, not adjacent to a metro area.</li>
+</ul>
+<p>We compute the mode of an ordinal variable in exactly the same fashion as for a nominal variable: we identify the most commonly occurring value from a frequency table or the table of proportions.</p>
+<p>See if you can create a frequency and proportion table for the variable <strong>rural_urban</strong> in the data frame <strong>counties</strong> using the <span style="color:DarkGreen">dplyr</span> functions. Name your frequency variable <code>freq</code> and your proportion variable <code>prop</code>. Don’t forget to load the package with the <code>library()</code> function!</p>
+<div class="tutorial-exercise" data-label="ruraltable" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="4">
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="ruraltable-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Remember we start with then dataframe name &#39;and then&#39; use 
+group_by, summarise, and mutate in conjunction with the 
+pipe operator.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruraltable-hint-2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Have you passed the variable rural_urban to group_by?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruraltable-hint-3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Have you calculated the frequencies using the summarise 
+function and n()?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruraltable-hint-4" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Have you calculated the proportions using the mutate function to 
+generate a new variable equal to the frequency variable divided 
+by the sum of that variable?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruraltable-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>library(dplyr)
+counties %&gt;%
+  group_by(rural_urban) %&gt;%
+  summarise(freq = n()) %&gt;%
+  mutate(prop = freq / sum(freq))</code></pre>
+</div>
+<div class="panel panel-default">
+<div data-label="letter-b" class="tutorial-question panel-body">
+<div id="letter-b-answer_container" class="shiny-html-output"></div>
+<div id="letter-b-message_container" class="shiny-html-output"></div>
+<div id="letter-b-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+</div>
+<div id="section-the-median" class="section level3">
+<h3>The median</h3>
+<p>We can also use the <span style="color:blue"><strong>median</strong></span> to calculate the central tendency of an ordinal variable. The median value is the value in the middle when we list all values in rank order for all cases. Thus, it is the value at the 50th percentile: half the cases have values at or below the median and half have values at or above the median. If there are an even number of cases, we split the difference between the middle two values.</p>
+<p>Can you tell why the median is not an appropriate measure of central tendency for a nominal variable? There is no inherent ordering to nominal variables, so we cannot rank them to find the middle value. We can’t rank racial categories or regions of the country as they have no intrinsic numeric values. If a nominal variable is coded numerically, however, it is possible – <strong>but always inappropriate </strong> – to identify a median. Don’t do it!</p>
+<p>R comes with a simple to use function to calculate the median: <code>median()</code>! Note that if the variable has any missing values we need to specify <code>na.rm=TRUE</code>. Doing so removes the observations with missing values before calculating the median. Failing to do so, if there are missing values, will generate a median equal to NA.</p>
+<div class="tutorial-exercise" data-label="median" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>median(counties$rural_urban, na.rm = TRUE)</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>The median category for <strong>rural_urban</strong> is the same as the mode: 6. Half the counties are in the 6th category – having an “Urban population of 2,500 to 19,999, adjacent to a metro area” – or below and half the counties are in the 6th category or above.</p>
+</div>
+</div>
+<div id="section-dispersion-and-the-shape-of-the-distribution" class="section level2">
+<h2>Dispersion and the shape of the distribution</h2>
+<p>Like nominal level variables, we use the frequency distribution or the distribution of proportions in tabular or graphical form to describe the dispersion, or spread, of the variable and to describe the shape of the distribution.</p>
+<p>Let’s plot the frequency distribution and examine the dispersion from a bar plot. Replace the XXXX in the following code to generate a bar plot with <code>ggplot()</code>. Specify the title as “Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates”. Remember that the \n tells <code>ggplot()</code> to add a line break to split the title into two lines. You will need to include it in the code below. Set the title for the x-axis label to <code>NuLL</code>. This will omit the x-axis title. It’s not needed here as having a title is redundant for this axis.</p>
+<div class="tutorial-exercise" data-label="ruralplot" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +
+         XXXX +
+         labs(title = &quot;XXXX&quot;, 
+              subtitle = &quot;2016&quot;,
+              x = XXXX,  
+              XXXX = &quot;Frequency&quot;, 
+              XXXX = &quot;Source: Linn, Nagler, Zilinsky&quot;)</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="ruralplot-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>The first code that needs replacing tells ggplot() how to map 
+the variables to the x axis. Specify the mapping 
+argument and the aes() function</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruralplot-hint-2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Specify the geom type in the second line of code.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruralplot-hint-3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>The remaining XXXX refer to labels. Think about what
+information you want to appear for which labels and 
+supply the correct argument.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="ruralplot-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
+         geom_bar() +
+         labs(title = &quot;Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates&quot;, 
+              subtitle = &quot;2016&quot;,
+              x = NULL,  
+              y = &quot;Frequency&quot;, 
+              caption = &quot;Source: Linn, Nagler, Zilinsky&quot;)</code></pre>
+</div>
+<p>Before we interpret the plot, let’s make it more informative.</p>
+<p>We’d like to replace the variable values 1-9 on the x-axis with informative phrases, but each category label is quite long and would not fit below the bars. We can solve this problem by flipping the coordinates. This is easy to do by adding another layer to the <code>ggplot()</code>. The code below illustrates the <code>coord_flip()</code> function and replaces 1-9 with labels from the codebook entry. I’ve also filled the bars in the color <code>"green"</code> using the <code>fill</code> argument inside <code>geom_bar()</code>.</p>
+<div class="tutorial-exercise" data-label="flippedplot" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
+  geom_bar(fill = &quot;green&quot;) +
+  labs(title = &quot;USDA Urban/Rural Status&quot;, 
+       subtitle = &quot;US Counties in 2016&quot;,
+       x = NULL, 
+       y = &quot;Frequency&quot;,
+       caption = &quot;Source: Linn, Nagler, Zilinsky&quot;) +
+  scale_x_discrete(labels = c(&quot;1 Million&quot;,&quot;250,000 to 1 million&quot;, &quot;&lt; 250,000&quot;, &quot;20k+ near metro area&quot;, &quot;20k+ not near  metro area&quot;, &quot;2,500-19,999 near metro area&quot;, &quot;2,500-19,999 not near metro area&quot;, &quot;&lt; 2,500 near metro area&quot;, &quot;&lt; 2,500 not near metro area&quot;, &quot;NA&quot;)) +
+  coord_flip()</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"R code"}</script>
+</div>
+<p>The frequency distribution and bar plot illustrate the central tendency, dispersion, and shape of the distribution of an ordinal variable in the same way as for a nominal variable. For this 9 category variable, we see:</p>
+<ol style="list-style-type: decimal">
+<li>The modal category is “Urban population of 2,500 to 19,999, adjacent to a metro area”.</li>
+<li>The number of counties in many categories is somewhat similar. The data is highly dispersed.</li>
+<li>The distribution is somewhat uniform. This makes the mode less informative about the typical county’s rural-ness than if one category dominated the data, in which case the data would be unimodal. If half the counties were very urban and half very rural, the distribution would be bimodal. These distinctions are somewhat subjective, so we usually report the frequency (proportion) distribution or the bar plot and let the reader judge.</li>
+</ol>
+<p>Note that we cannot easily determine the median from the plot.</p>
+<div id="section-your-turn" class="section level3">
+<h3>Your turn</h3>
+<p>Let’s look at another ordinal variable. We will examine the variable <strong>FHStatus</strong>, Freedom House’s measure of whether a country is “Not Free” (coded 0), “Partly Free” (coded 1), or “Free” (coded 2). The variable is in the data set <strong>fHouse</strong>. The variable is ordinal rather than categorical because as you go from “Not Free” to “Free,” the country becomes <em>freer</em>. The variable constitutes a ranking of countries on this dimension.</p>
+<p>First, we will generate a frequency and proportion table using the <span style="color:DarkGreen">dplyr</span> functions. You do not need to load the package again because we’ve done so in an earlier exercise. See if you can produce the table without looking at the hints. Name the counts variable <strong>freq</strong> and the proportion variable <strong>prop</strong>.</p>
+<div class="tutorial-exercise" data-label="FHtable" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="4">
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="FHtable-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Remember to use group_by, summarise, and mutate in conjunction 
+with the pipe operator.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHtable-hint-2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you start with the dataframe fHouse?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHtable-hint-3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Have you passed the variable FHStatus to group_by?
+Have you calculated the frequencies using the summarise 
+function and n()?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHtable-hint-4" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Have you calculated the proportions using the mutate function 
+to generate a new variable equal to the frequency variable 
+divided by the sum of that variable?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHtable-hint-5" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Don&#39;t forget the pipe, %&gt;%, needs to be used at the end
+of each line telling the code &quot;and then&quot; execute the function
+on the next line.</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHtable-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>fHouse %&gt;%
+  group_by(FHStatus) %&gt;%
+  summarise(freq = n()) %&gt;%
+  mutate(prop = freq / sum(freq))</code></pre>
+</div>
+<div class="panel panel-default">
+<div data-label="letter-3" class="tutorial-question panel-body">
+<div id="letter-3-answer_container" class="shiny-html-output"></div>
+<div id="letter-3-message_container" class="shiny-html-output"></div>
+<div id="letter-3-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<p>Calculate the median.</p>
+<div class="tutorial-exercise" data-label="FHStatusMed" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="FHStatusMed-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>median(fHouse$FHStatus, na.rm=TRUE)</code></pre>
+</div>
+<p>Most nations are “Free” (coded 2) according to Freedom House, and a half or less are “Partly Free” (coded 1) and another half or more are “Partly Free”. Note that if the variable had been recoded so that “Free” was coded 0 and “Not Free” was coded 2, the median category would have been “Free.” The moral of the story is that you need to clearly state the order of the ranking (from more to less free or from less free to more free) when you provide a median.</p>
+<p>Let’s plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the <code>title</code> “Freedom House Ranking of Countries”, label the <code>y</code> axis “Frequency”, relabel the x-axis tick marks by setting “0” to “Not Free”, “1” to “Partly Free”, and “2” to “Free” in the <code>labels()</code> function so that the axis tick mark labels. Omit the missing values from your plot using <code>na.translate=FALSE</code> inside the <code>scale_x_discrete()</code> function. Do not include the <code>subtitle</code> or <code>caption</code> label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.</p>
+<div class="tutorial-exercise" data-label="FHplot" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"R code"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="FHplot-hint-1" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you call the ggplot() function and provide the data?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHplot-hint-2" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you use the mapping argument to specify the aesthetics?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHplot-hint-3" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you use a plus sign and add the geom_bar() layer?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHplot-hint-4" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Did you remember that to replace the labels you need to 
+put the new names in quotations and to separate
+them with commas and place them inside c()?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHplot-hint-5" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Are all your parentheses matched?
+Did you include a plus sign for each layer at the end of the line?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="FHplot-solution" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
+         geom_bar() +
+         labs(title = &quot;Freedom House Ranking of Countries&quot;, 
+              x = NULL,  
+              y = &quot;Frequency&quot;) +
+        scale_x_discrete(na.translate = FALSE, labels = c(&quot;Not Free&quot;, &quot;Partly Free&quot;, &quot;Free&quot;))</code></pre>
+</div>
+</div>
+</div>
+<div id="section-the-takeaways" class="section level2">
+<h2>The Takeaways</h2>
+<p>Describing ordinal variables looks very much like describing a nominal variable. The only addition to our arsenal of descriptive tools is the median. To summarize what we’ve learned:</p>
+<ol style="list-style-type: decimal">
+<li><p>There are 3 types of descriptive information to help you convey the main features of a single variable: <span style="color:blue"><strong>central tendency</strong></span>, <span style="color:blue"><strong>dispersion</strong></span>, and the <span style="color:blue"><strong>shape of the distribution</strong></span>. Each piece of information complements the others.</p></li>
+<li><p>The appropriate tools for description depend on the level of measurement of the variable you wish to describe. The information here describes what is appropriate for ordinal variables.</p>
+<ol style="list-style-type: lower-alpha">
+<li>The <span style="color:blue"><strong>mode</strong></span> is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It can also be used to describe the central tendency of an ordinal variable. In addition, we can use the <span style="color:blue"><strong>median</strong></span>. The median value marks the middle value or the value at the 50th percentile when all observations’ values are rank-ordered. Both the mode and median may be more or less useful descriptions of the center of the distribution depending on the nature of the dispersion in the data, so often we present the entire frequency distribution for ordinal variables, just as for nominal variables.</li>
+<li>The frequency distribution, or the distribution of proportions, reveals the <span style="color:blue"><strong>dispersion</strong></span> in the data, i.e., it tells us how many or what proportion of cases take each value of the variable. It also makes clear which category is the modal value and is a numeric representation of the <span style="color:blue"><strong>distribution</strong></span>.</li>
+<li>Bar plots are often used to visualize the central tendency, dispersion, and shape of the distribution of ordinal variables in the same manner as nominal variables, particularly if the specific counts or proportions are not of central interest.</li>
+</ol></li>
+</ol>
+<p>Which of these pieces of information should you present when conducting descriptive analysis on an ordinal variable? The answer is the same as for a nominal variable. The choice depends on the main feature or features of the data and what you wish to emphasize. You may report the modal category or categories, the median, and the number or proportion of cases in the category, or you may choose to present the entire distribution, either in a table or a plot.</p>
+<p><img src="images/UnivariateOrdinal.png" /></p>
+
+<script type="application/shiny-prerendered" data-context="server-start">
+library(learnr)
+library(tidyverse)
+library(knitr)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(error = TRUE)
+counties <- qpaTutorials::counties
+fHouse <- qpaTutorials::fHouse
+sum(is.na(fHouse$FHStatus))
+#fHouse <-filter(fHouse, FHStatus==)
+fHouse$FHStatus2[fHouse$FHStatus=="NF"] <- 0
+fHouse$FHStatus2[fHouse$FHStatus=="PF"] <- 1
+fHouse$FHStatus2[fHouse$FHStatus=="F"] <- 2
+fHouse$FHStatus2[fHouse$FHStatus=="NA"] <- NA
+
+fHouse$FHStatus<-fHouse$FHStatus2
+#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c("NF", "PF", "F"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::register_http_handlers(session, metadata = list(id = "05-Ordinal-Description"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::clear_exercise_setup_chunks()
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+session$onSessionEnded(function() {
+        learnr:::event_trigger(session, "session_stop")
+      })
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "fHouse <- qpaTutorials::fHouse", 
+"sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+"", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))"
+), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "fHouse <- qpaTutorials::fHouse", 
+"sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+"", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))"
+), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_setup_chunk("__setup__", c("library(learnr)", "library(tidyverse)", "library(knitr)", 
+"library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+"counties <- qpaTutorials::counties", "fHouse <- qpaTutorials::fHouse", 
+"sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+"fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+"", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))"
+), overwrite = FALSE)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-a", 
+    question = structure("Which of the following variables are ordinal level measures?", html = TRUE, class = c("html", 
+    "character")), answers = list(structure(list(id = "lnr_ans_9fbc789", 
+        option = "The GDP measured in dollars of nations in the European Union", 
+        value = "The GDP measured in dollars of nations in the European Union", 
+        label = structure("The GDP measured in dollars of nations in the European Union", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("GDP is an interval (and ratio) measure where the differences between values are equal at all points.", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_109ff38", 
+        option = "Freedom House measure of whether a country is free, partly free, or not free", 
+        value = "Freedom House measure of whether a country is free, partly free, or not free", 
+        label = structure("Freedom House measure of whether a country is free, partly free, or not free", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = structure("The Freedom House measure is ordinal because the response options are ranked based on how free a country is. ", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6c7c7dc", 
+        option = "The level of education of a respondent in a survey where the values include less than a high school degree, high school degree, college degree, and beyond college", 
+        value = "The level of education of a respondent in a survey where the values include less than a high school degree, high school degree, college degree, and beyond college", 
+        label = structure("The level of education of a respondent in a survey where the values include less than a high school degree, high school degree, college degree, and beyond college", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = structure("Level of education is ordinal because each successive value indicates more education, but the differences between the categories are not the same. ", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8695dbf", 
+        option = "A variable measuring whether a country supported a particular UN resolution", 
+        value = "A variable measuring whether a country supported a particular UN resolution", 
+        label = structure("A variable measuring whether a country supported a particular UN resolution", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("The UN support variable is a nominal variable as the values taken denote unordered categories.", html = TRUE, class = c("html", 
+        "character"))), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+    "character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+    "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+    "character")), try_again = structure("Hint: There are two ordinal variables in this list.", html = TRUE, class = c("html", 
+    "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+    "character")), message = NULL, post_message = NULL), ids = list(
+        answer = "letter-a-answer", question = "letter-a"), loading = structure("<strong>Loading:<\u002fstrong> \nWhich of the following variables are ordinal level measures?\n<br/><br/><br/>", html = TRUE, class = c("html", 
+    "character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 680088870.183309, options = list()), class = c("learnr_checkbox", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-ruraltable-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-ruraltable-code-editor`)), session)
+output$`tutorial-exercise-ruraltable-output` <- renderUI({
+  `tutorial-exercise-ruraltable-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("ruraltable", list(setup = NULL, chunks = list(list(label = "ruraltable", code = "", 
+    opts = list(label = "\"ruraltable\"", exercise = "TRUE", 
+        exercise.lines = "4"), engine = "r")), code_check = NULL, 
+    error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+        label = "ruraltable-check")), solution = structure(c("library(dplyr)", 
+    "counties %>%", "  group_by(rural_urban) %>%", "  summarise(freq = n()) %>%", 
+    "  mutate(prop = freq / sum(freq))"), chunk_opts = list(label = "ruraltable-solution")), 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "univariateOrdT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "univariateOrdT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        exercise.timelimit = 60, label = "ruraltable", exercise = TRUE, 
+        exercise.lines = 4, code = "", out.width.px = 624, out.height.px = 384, 
+        params.src = "ruraltable, exercise = TRUE, exercise.lines=4", 
+        fig.num = 0L, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-b", question = structure("Which of the following statements <em>best<\u002fem> describes the mode of the variable rural_urban?", html = TRUE, class = c("html", 
+"character")), answers = list(structure(list(id = "lnr_ans_b658c0b", 
+    option = "There is no meaningful modal category", value = "There is no meaningful modal category", 
+    label = structure("There is no meaningful modal category", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("While many of the rural-urban categories are similarly represented in the data, one category has one third more observations than any other.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_da40303", option = "The modal category is 6", 
+    value = "The modal category is 6", label = structure("The modal category is 6", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("It is better to provide substantive meaning than to list the numeric code.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_7954a99", option = "The modal category is an urban population of 2,500 to 19,999, adjacent to a metro area", 
+    value = "The modal category is an urban population of 2,500 to 19,999, adjacent to a metro area", 
+    label = structure("The modal category is an urban population of 2,500 to 19,999, adjacent to a metro area", html = TRUE, class = c("html", 
+    "character")), correct = TRUE, message = structure("The modal category for <strong>rural_urban<\u002fstrong> is the 6th category, but it is more informative to provide a substantive interpretation of the mode. In other words, the typical county is one with an Urban population of 2,500 to 19,999, adjacent to a metro area.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+"character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+"character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+"character")), try_again = structure("Incorrect", html = TRUE, class = c("html", 
+"character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+"character")), message = NULL, post_message = NULL), ids = list(
+    answer = "letter-b-answer", question = "letter-b"), loading = structure("<strong>Loading:<\u002fstrong> \nWhich of the following statements <em>best<\u002fem> describes the mode of the variable rural_urban?\n<br/><br/><br/>", html = TRUE, class = c("html", 
+"character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 1862805455.63256, options = list()), class = c("learnr_radio", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-median-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-median-code-editor`)), session)
+output$`tutorial-exercise-median-output` <- renderUI({
+  `tutorial-exercise-median-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("median", list(setup = NULL, chunks = list(list(label = "median", code = "median(counties$rural_urban, na.rm = TRUE)", 
+    opts = list(label = "\"median\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "univariateOrdT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "univariateOrdT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        exercise.timelimit = 60, label = "median", exercise = TRUE, 
+        code = "median(counties$rural_urban, na.rm = TRUE)", 
+        out.width.px = 624, out.height.px = 384, params.src = "median, exercise = TRUE", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-ruralplot-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-ruralplot-code-editor`)), session)
+output$`tutorial-exercise-ruralplot-output` <- renderUI({
+  `tutorial-exercise-ruralplot-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("ruralplot", list(setup = NULL, chunks = list(list(label = "ruralplot", code = "ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +\n         XXXX +\n         labs(title = \"XXXX\", \n              subtitle = \"2016\",\n              x = XXXX,  \n              XXXX = \"Frequency\", \n              XXXX = \"Source: Linn, Nagler, Zilinsky\")", 
+    opts = list(label = "\"ruralplot\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+    label = "ruralplot-check")), solution = structure(c("ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +", 
+"         geom_bar() +", "         labs(title = \"Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates\", ", 
+"              subtitle = \"2016\",", "              x = NULL,  ", 
+"              y = \"Frequency\", ", "              caption = \"Source: Linn, Nagler, Zilinsky\")"
+), chunk_opts = list(label = "ruralplot-solution")), options = list(
+    eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+    tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+    highlight = FALSE, strip.white = TRUE, size = "normalsize", 
+    background = "#F7F7F7", cache = 0, cache.path = "univariateOrdT_cache/html/", 
+    cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+    cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+    fig.align = "default", fig.path = "univariateOrdT_files/figure-html/", 
+    dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+    fig.width = 6.5, fig.height = 4, fig.env = "figure", fig.cap = NULL, 
+    fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, fig.pos = "", 
+    out.width = 624, out.height = NULL, out.extra = NULL, fig.retina = 2, 
+    external = TRUE, sanitize = FALSE, interval = 1, aniopts = "controls,loop", 
+    warning = TRUE, error = TRUE, message = TRUE, render = NULL, 
+    ref.label = NULL, child = NULL, engine = "r", split = FALSE, 
+    include = TRUE, purl = TRUE, max.print = 1000, tutorial = TRUE, 
+    exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+    exercise.timelimit = 60, label = "ruralplot", exercise = TRUE, 
+    code = c("ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +", 
+    "         XXXX +", "         labs(title = \"XXXX\", ", "              subtitle = \"2016\",", 
+    "              x = XXXX,  ", "              XXXX = \"Frequency\", ", 
+    "              XXXX = \"Source: Linn, Nagler, Zilinsky\")"
+    ), out.width.px = 624, out.height.px = 384, params.src = "ruralplot, exercise=TRUE", 
+    fig.num = 0, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-flippedplot-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-flippedplot-code-editor`)), session)
+output$`tutorial-exercise-flippedplot-output` <- renderUI({
+  `tutorial-exercise-flippedplot-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("flippedplot", list(setup = NULL, chunks = list(list(label = "flippedplot", 
+    code = "ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +\n  geom_bar(fill = \"green\") +\n  labs(title = \"USDA Urban/Rural Status\", \n       subtitle = \"US Counties in 2016\",\n       x = NULL, \n       y = \"Frequency\",\n       caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(labels = c(\"1 Million\",\"250,000 to 1 million\", \"< 250,000\", \"20k+ near metro area\", \"20k+ not near  metro area\", \"2,500-19,999 near metro area\", \"2,500-19,999 not near metro area\", \"< 2,500 near metro area\", \"< 2,500 not near metro area\", \"NA\")) +\n  coord_flip()", 
+    opts = list(label = "\"flippedplot\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
+    solution = NULL, options = list(eval = FALSE, echo = TRUE, 
+        results = "markup", tidy = FALSE, tidy.opts = NULL, collapse = FALSE, 
+        prompt = FALSE, comment = NA, highlight = FALSE, strip.white = TRUE, 
+        size = "normalsize", background = "#F7F7F7", cache = 0, 
+        cache.path = "univariateOrdT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "univariateOrdT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        exercise.timelimit = 60, label = "flippedplot", exercise = TRUE, 
+        code = c("ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +", 
+        "  geom_bar(fill = \"green\") +", "  labs(title = \"USDA Urban/Rural Status\", ", 
+        "       subtitle = \"US Counties in 2016\",", "       x = NULL, ", 
+        "       y = \"Frequency\",", "       caption = \"Source: Linn, Nagler, Zilinsky\") +", 
+        "  scale_x_discrete(labels = c(\"1 Million\",\"250,000 to 1 million\", \"< 250,000\", \"20k+ near metro area\", \"20k+ not near  metro area\", \"2,500-19,999 near metro area\", \"2,500-19,999 not near metro area\", \"< 2,500 near metro area\", \"< 2,500 not near metro area\", \"NA\")) +", 
+        "  coord_flip()"), out.width.px = 624, out.height.px = 384, 
+        params.src = "flippedplot, exercise=TRUE", fig.num = 0, 
+        exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-FHtable-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-FHtable-code-editor`)), session)
+output$`tutorial-exercise-FHtable-output` <- renderUI({
+  `tutorial-exercise-FHtable-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("FHtable", list(setup = NULL, chunks = list(list(label = "FHtable", code = "", 
+    opts = list(label = "\"FHtable\"", exercise = "TRUE", exercise.lines = "4"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+    label = "FHtable-check")), solution = structure(c("fHouse %>%", 
+"  group_by(FHStatus) %>%", "  summarise(freq = n()) %>%", "  mutate(prop = freq / sum(freq))"
+), chunk_opts = list(label = "FHtable-solution")), options = list(
+    eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+    tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+    highlight = FALSE, strip.white = TRUE, size = "normalsize", 
+    background = "#F7F7F7", cache = 0, cache.path = "univariateOrdT_cache/html/", 
+    cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+    cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+    fig.align = "default", fig.path = "univariateOrdT_files/figure-html/", 
+    dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+    fig.width = 6.5, fig.height = 4, fig.env = "figure", fig.cap = NULL, 
+    fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, fig.pos = "", 
+    out.width = 624, out.height = NULL, out.extra = NULL, fig.retina = 2, 
+    external = TRUE, sanitize = FALSE, interval = 1, aniopts = "controls,loop", 
+    warning = TRUE, error = TRUE, message = TRUE, render = NULL, 
+    ref.label = NULL, child = NULL, engine = "r", split = FALSE, 
+    include = TRUE, purl = TRUE, max.print = 1000, tutorial = TRUE, 
+    exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+    exercise.timelimit = 60, label = "FHtable", exercise = TRUE, 
+    exercise.lines = 4, code = "", out.width.px = 624, out.height.px = 384, 
+    params.src = "FHtable, exercise = TRUE, exercise.lines=4", 
+    fig.num = 0L, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-3", question = structure("Which of the following statements <em>best<\u002fem> describes the mode of the variable FHStatus?", html = TRUE, class = c("html", 
+"character")), answers = list(structure(list(id = "lnr_ans_d3d1104", 
+    option = "The mode is 2", value = "The mode is 2", label = structure("The mode is 2", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("Rather than refer to a value as 2, we refer to the modal category. ", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_8b3be", option = "The modal category is 2", 
+    value = "The modal category is 2", label = structure("The modal category is 2", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("It is better to provide substantive meaning than to list the numeric code. ", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_31e3f15", option = "The modal category is Free", 
+    value = "The modal category is Free", label = structure("The modal category is Free", html = TRUE, class = c("html", 
+    "character")), correct = TRUE, message = structure("The modal category for <strong>FHStatus<\u002fstrong> is the 2nd category, but it is more informative to provide a substantive interpretation of the mode. In other words, the typical country is free.", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+)), structure(list(id = "lnr_ans_66e7c5b", option = "The distribution is multi-modal", 
+    value = "The distribution is multi-modal", label = structure("The distribution is multi-modal", html = TRUE, class = c("html", 
+    "character")), correct = FALSE, message = structure("One single category is more prevalent than all others,", html = TRUE, class = c("html", 
+    "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"
+))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", 
+"character")), try_again = structure("Try Again", html = TRUE, class = c("html", 
+"character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+"character")), try_again = structure("Incorrect", html = TRUE, class = c("html", 
+"character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+"character")), message = NULL, post_message = NULL), ids = list(
+    answer = "letter-3-answer", question = "letter-3"), loading = structure("<strong>Loading:<\u002fstrong> \nWhich of the following statements <em>best<\u002fem> describes the mode of the variable FHStatus?\n<br/><br/><br/>", html = TRUE, class = c("html", 
+"character")), random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 944106287.060366, options = list()), class = c("learnr_radio", 
+"tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-FHStatusMed-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-FHStatusMed-code-editor`)), session)
+output$`tutorial-exercise-FHStatusMed-output` <- renderUI({
+  `tutorial-exercise-FHStatusMed-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("FHStatusMed", list(setup = NULL, chunks = list(list(label = "FHStatusMed", 
+    code = "", opts = list(label = "\"FHStatusMed\"", exercise = "TRUE"), 
+    engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+    label = "FHStatusMed-check")), solution = structure("median(fHouse$FHStatus, na.rm=TRUE)", chunk_opts = list(
+    label = "FHStatusMed-solution")), options = list(eval = FALSE, 
+    echo = TRUE, results = "markup", tidy = FALSE, tidy.opts = NULL, 
+    collapse = FALSE, prompt = FALSE, comment = NA, highlight = FALSE, 
+    strip.white = TRUE, size = "normalsize", background = "#F7F7F7", 
+    cache = 0, cache.path = "univariateOrdT_cache/html/", cache.vars = NULL, 
+    cache.lazy = TRUE, dependson = NULL, autodep = FALSE, cache.rebuild = FALSE, 
+    fig.keep = "high", fig.show = "asis", fig.align = "default", 
+    fig.path = "univariateOrdT_files/figure-html/", dev = "png", 
+    dev.args = NULL, dpi = 192, fig.ext = "png", fig.width = 6.5, 
+    fig.height = 4, fig.env = "figure", fig.cap = NULL, fig.scap = NULL, 
+    fig.lp = "fig:", fig.subcap = NULL, fig.pos = "", out.width = 624, 
+    out.height = NULL, out.extra = NULL, fig.retina = 2, external = TRUE, 
+    sanitize = FALSE, interval = 1, aniopts = "controls,loop", 
+    warning = TRUE, error = TRUE, message = TRUE, render = NULL, 
+    ref.label = NULL, child = NULL, engine = "r", split = FALSE, 
+    include = TRUE, purl = TRUE, max.print = 1000, tutorial = TRUE, 
+    exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+    exercise.timelimit = 60, label = "FHStatusMed", exercise = TRUE, 
+    code = "", out.width.px = 624, out.height.px = 384, params.src = "FHStatusMed, exercise=TRUE", 
+    fig.num = 0L, exercise.df_print = "paged"), engine = "r"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-FHplot-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-FHplot-code-editor`)), session)
+output$`tutorial-exercise-FHplot-output` <- renderUI({
+  `tutorial-exercise-FHplot-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache("FHplot", list(setup = NULL, chunks = list(list(label = "FHplot", code = "", 
+    opts = list(label = "\"FHplot\"", exercise = "TRUE"), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
+        label = "FHplot-check")), solution = structure(c("ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +", 
+    "         geom_bar() +", "         labs(title = \"Freedom House Ranking of Countries\", ", 
+    "              x = NULL,  ", "              y = \"Frequency\") +", 
+    "        scale_x_discrete(na.translate = FALSE, labels = c(\"Not Free\", \"Partly Free\", \"Free\"))"
+    ), chunk_opts = list(label = "FHplot-solution")), options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, strip.white = TRUE, size = "normalsize", 
+        background = "#F7F7F7", cache = 0, cache.path = "univariateOrdT_cache/html/", 
+        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
+        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
+        fig.show = "asis", fig.align = "default", fig.path = "univariateOrdT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, tutorial = TRUE, exercise.checker = "function (label = NULL, solution_code = NULL, user_code = NULL, \n    check_code = NULL, envir_result = NULL, evaluate_result = NULL, \n    envir_prep = NULL, last_value = NULL, ...) \n{\n    (utils::getFromNamespace(\"grade_learnr_\", \"gradethis\"))(label = label, \n        solution_code = solution_code, user_code = user_code, \n        check_code = check_code, envir_result = envir_result, \n        evaluate_result = evaluate_result, envir_prep = envir_prep, \n        last_value = last_value, ...)\n}", 
+        exercise.timelimit = 60, label = "FHplot", exercise = TRUE, 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "FHplot, exercise=TRUE", 
+        fig.num = 0L, exercise.df_print = "paged"), engine = "r"))
+</script>
+ <!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="dependencies">
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/cerulean.min.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["textmate.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["i18n"]},{"type":"character","attributes":{},"value":["1.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/i18n"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["i18next.min.js","jquery-i18next.min.js","tutorial-i18n-init.js"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["<script id=\"i18n-cstm-trns\" type=\"application/json\">{\"language\":\"en\",\"resources\":{\"en\":{\"translation\":{\"button\":{\"runcode\":\"Run Code\",\"hints\":\"Hints\",\"startover\":\"Start Over\",\"continue\":\"Continue\",\"submitanswer\":\"Submit Answer\",\"previoustopic\":\"Previous Topic\",\"nexttopic\":\"Next Topic\",\"questionsubmit\":\"Submit Answer\",\"questiontryagain\":\"Try Again\"},\"text\":{\"startover\":\"Start Over\",\"areyousure\":\"Are you sure you want to start over? (all exercise progress will be reset)\",\"youmustcomplete\":\"You must complete the\",\"exercise\":\"exercise\",\"exercise_plural\":\"exercises\",\"inthissection\":\"in this section before continuing.\"}}},\"fr\":{\"translation\":{\"button\":{\"runcode\":\"Lancer le Code\",\"hints\":\"Indice\",\"startover\":\"Recommencer\",\"continue\":\"Continuer\",\"submitanswer\":\"Soumettre\",\"previoustopic\":\"Chapitre Précédent\",\"nexttopic\":\"Chapitre Suivant\",\"questionsubmit\":\"Soumettre\",\"questiontryagain\":\"Réessayer\"},\"text\":{\"startover\":\"Recommencer\",\"areyousure\":\"Êtes-vous certains de vouloir recommencer? (La progression sera remise à zéro)\",\"youmustcomplete\":\"Vous devez d'abord compléter\",\"inthissection\":\"de cette section avec de continuer.\",\"exercise\":\"l'exercice\",\"exercise_plural\":\"des exercices\"}}},\"emo\":{\"translation\":{\"button\":{\"runcode\":\"🏃\",\"hints\":\"🔎\",\"startover\":\"⏮\",\"continue\":\"✅\",\"submitanswer\":\"🆗\",\"previoustopic\":\"⬅\",\"nexttopic\":\"➡\",\"questionsubmit\":\"🆗\",\"questiontryagain\":\"🔁\"},\"text\":{\"startover\":\"⏮\",\"areyousure\":\"🤔\",\"youmustcomplete\":\"⚠ 👉\",\"exercise\":\"\",\"exercise_plural\":\"\",\"inthissection\":\".\"}}}}}<\/script>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css","rstudio-theme.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["5.1.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.css","css/v4-shims.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.6"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["4.4.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1.9007"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1.9007"]}]}]}
+</script>
+<!--/html_preserve-->
+<!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="execution_dependencies">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80]}},"value":[{"type":"character","attributes":{},"value":["assertthat","backports","base","broom","cellranger","checkmate","cli","colorspace","compiler","crayon","curl","datasets","DBI","dbplyr","digest","dplyr","ellipsis","evaluate","fansi","fastmap","forcats","fs","generics","ggplot2","glue","gradethis","graphics","grDevices","grid","gtable","haven","hms","htmltools","htmlwidgets","httpuv","httr","jsonlite","knitr","later","learnr","lifecycle","lubridate","magrittr","markdown","methods","mime","modelr","munsell","pillar","pkgconfig","promises","purrr","qpaTutorials","R6","Rcpp","readr","readxl","reprex","rlang","rmarkdown","rprojroot","rstudioapi","rvest","scales","shiny","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","tools","utils","vctrs","withr","xfun","xml2","xtable","yaml"]},{"type":"character","attributes":{},"value":["0.2.1","1.2.1","4.0.2","0.7.2","1.1.0","2.0.0","2.2.0","2.0-0","4.0.2","1.3.4","4.3","4.0.2","1.1.0","2.0.0","0.6.27","1.0.2","0.3.1","0.14","0.4.1","1.0.1","0.5.0","1.5.0","0.1.0","3.3.2","1.4.2","0.2.0.9001","4.0.2","4.0.2","4.0.2","0.3.0","2.3.1","0.5.3","0.5.0.9003","1.5.3","1.5.4","1.4.2","1.7.2","1.30","1.1.0.1","0.10.1.9007","0.2.0","1.7.9.2","2.0.1","1.1","4.0.2","0.9","0.1.8","0.5.0","1.4.7","2.0.3","1.1.1","0.3.4","0.1.0","2.5.0","1.0.5","1.4.0","1.3.1","0.3.0","0.4.10","2.6","2.0.2","0.13","0.3.6","1.1.1","1.5.0","4.0.2","1.5.3","1.4.0","3.0.4","1.1.2","1.1.0","1.3.0","4.0.2","4.0.2","0.3.5","2.3.0","0.20","1.3.2","1.8-4","2.2.1"]}]}]}
+</script>
+<!--/html_preserve-->
+</div>
+
+</div> <!-- topics -->
+
+<div class="topicsContainer">
+<div class="topicsPositioner">
+<div class="band">
+<div class="bandContent topicsListContainer">
+
+<!-- begin doc-metadata -->
+<div id="doc-metadata">
+<h2 class="title toc-ignore" style="display:none;">Univariate Description: Ordinal Variables</h2>
+</div>
+<!-- end doc-metadata -->
+
+</div> <!-- bandContent.topicsListContainer -->
+</div> <!-- band -->
+</div> <!-- topicsPositioner -->
+</div> <!-- topicsContainer -->
+
+
+</div> <!-- bandContent page -->
+</div> <!-- pageContent band -->
+
+
+
+
+<script>
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+</body>
+
+</html>

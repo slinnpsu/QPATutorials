@@ -129,7 +129,7 @@ Run the code. (Note: A warning message may appear.)
 ```{r summarise, exercise=TRUE, warning=FALSE}
 counties %>%
   group_by(TrumpMajority) %>%
-  summarise(freq=n())
+  summarise(freq = n())
 ```
 
 What does this frequency table tell us is the modal value of **TrumpMajority**? The most frequently occurring outcome is 1, thus, the mode is one. But "1" is not substantively meaningful. Instead, we say, "The modal county cast a majority of its vote for Donald Trump." (Recall that's the meaning of the value "1" for this variable.) This is useful information because it tells us Donald Trump won more counties than he lost. 
@@ -145,8 +145,8 @@ Let's pipe the result above to the `mutate()` function and create this variable:
 ```{r mutate, exercise=TRUE, warning=FALSE}
 counties %>%
   group_by(TrumpMajority) %>%
-  summarize(freq=n()) %>%
-  mutate(prop=freq/sum(freq))
+  summarize(freq = n()) %>%
+  mutate(prop = freq / sum(freq))
 ```
 
 The addition of the proportions to our table confirms the modal category is "Trump-Majority" and now we can see that nearly 85% of the counties cast a majority of their votes for Donald Trump!  This summary table provides a lot of information about support for Donald Trump across counties in the 2016 presidential election.
@@ -163,8 +163,8 @@ Try it!  Fill in the missing code marked with XXXX. You can look at the hints if
 ```{r racetable, exercise = TRUE}
 counties %>%
   group_by(XXXX) %>%
-  XXXX(freq=n()) %>%
-  mutate(prop=XXXX)
+  XXXX(freq = n()) %>%
+  mutate(prop = XXXX)
 ```
 
 
@@ -183,8 +183,8 @@ function in the denominator and name the new variable prop.
 ```{r racetable-solution}
 counties %>%
   group_by(racial_majority) %>%
-  summarise(freq=n()) %>%
-  mutate(prop=freq/sum(freq))
+  summarise(freq = n()) %>%
+  mutate(prop = freq/sum(freq))
 ```
 
 ```{r racetable-check}
@@ -216,7 +216,7 @@ Don't forget the pipe operator!
 df %>%
   group_by(region) %>%
   summarise(freq = n()) %>%
-  mutate(prop=freq/sum(freq))
+  mutate(prop = freq / sum(freq))
 ```
 
 ```{r freqregion-check}
@@ -269,7 +269,7 @@ Note that we need to load <span style="color:DarkGreen">ggplot2</span>  with the
 
 ```{r stepone, exercise=TRUE}
 library(ggplot2)
-ggplot(data=counties)
+ggplot(data = counties)
 ```
 We have an empty plot! At this stage, ggplot knows the data to use but not what to plot.
 
@@ -280,7 +280,7 @@ Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this
 Run the code below.
 
 ```{r steptwo, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority)))
+ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority)))
 ```
 Now we have an x-axis, but still no data because we haven't yet told `ggplot()` *how* to plot the data.  
 
@@ -291,7 +291,7 @@ We tell `ggplot()` how to plot the data by adding a *geom* layer. There are many
 
 
 ```{r stepthree, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
+ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
   geom_bar()
 ```
 ### ggplot step four
@@ -301,13 +301,13 @@ At this point, we have an ugly plot that is not very informative. We can change 
 Look carefully at the code before you run it and make sure you understand what each line is doing. Notice that I specified NULL for the `x` axis title. This omits the x-axis label.
 
 ```{r stepfour, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=factor(TrumpMajority))) +
+ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
               subtitle = "2016",
-              x=NULL,  
-              y="Frequency", 
-              caption="Source: Linn, Nagler, Zilinsky")
+              x = NULL,  
+              y = "Frequency", 
+              caption = "Source: Linn, Nagler, Zilinsky")
 ```
 
 We can also change the x-axis value labels. We will want to do this any time the values of the variables are not substantively informative. To do so we add (again with a plus at the end of the last line of the current code) the function `scale_x_discrete()`, passing it labels. Note that this is only a sensible layer to add to a plot if the x-axis measures a discrete variable, i.e., it is categorical. Later we will introduce the `scale_x_continuous()` function.
@@ -315,13 +315,13 @@ We can also change the x-axis value labels. We will want to do this any time the
 Look carefully at the last line of code below. To change the labels we have to specify the `label` argument. Because we want to change multiple values, we assign the new labels using the `c()` function. Inside the `c()` function, we list the new value we want for the labels, separated by commas. Make sure to list them in the correct order,
 
 ```{r stepfourb, exercise=TRUE}
-ggplot(data=counties, mapping=aes(x=factor(TrumpMajority))) +
+ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
               subtitle = "2016",
-              x=NULL,  
-              y="Frequency", 
-              caption="Source: Linn, Nagler, Zilinsky") +
+              x = NULL,  
+              y = "Frequency", 
+              caption = "Source: Linn, Nagler, Zilinsky") +
   scale_x_discrete(labels = c("Clinton","Trump"))
 ```
 
@@ -337,12 +337,12 @@ Can you generate a bar plot of the frequencies of the **racial_majority** distri
 
 
 ```{r plotrace, exercise = TRUE}
-ggplot(data=counties, mapping=XXXX(XXX=factor(racial_majority))) +
+ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +
   XXXX() +
   labs(title = "Number of US Counties by Racial Majority",
        subtitle = "2016",
-       x=NULL,
-       y="XXXX",
+       x = NULL,
+       y = "XXXX",
        caption = "Source: Linn, Nagler, Zilinsky") +
   scale_x_discrete(na.translate = FALSE, labels = c(XXXX))
 ```
@@ -354,12 +354,12 @@ ggplot(data=counties, mapping=XXXX(XXX=factor(racial_majority))) +
 ```
 
 ```{r plotrace-solution}
-ggplot(data=counties, mapping=aes(x=factor(racial_majority))) +
+ggplot(data = counties, mapping = aes(x = factor(racial_majority))) +
   geom_bar() +
   labs(title = "Number of US Counties by Racial Majority",
        subtitle = "2016",
-       x=NULL,
-       y="Frequency",
+       x = NULL,
+       y = "Frequency",
        caption = "Source: Linn, Nagler, Zilinsky") +
   scale_x_discrete(na.translate = FALSE, labels = c("Black", "Hispanic", "Other", "White"))
 ```
@@ -380,11 +380,11 @@ To plot proportions, we give the `geom_bar()` function  its own aesthetic, which
 Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
 
 ```{r propmajority, exercise=TRUE}
-ggplot(data=df, mapping=aes(x=factor(region))) +
-         geom_bar(aes(y=..prop.., group=1), fill="blue") +
+ggplot(data = df, mapping = aes(x = factor(region))) +
+         geom_bar(aes(y = ..prop.., group = 1), fill = "blue") +
          labs(title = "Proportion of US States in Each Census Region", 
-              x=NULL,  
-              y="Proportion")
+              x = NULL,  
+              y = "Proportion")
 ```
 What does the plot illustrates about the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span> of this variable?
 
@@ -400,12 +400,12 @@ Replace the XXXX in the code below. Fill in the bars with the color "red". Be ca
 
 
 ```{r plotraceprop, exercise = TRUE, exercise.eval = FALSE}
-ggplot(data=XXXX, mapping=aes(x=factor(dem_level4))) +
-  geom_bar(XXXX(XXXX=XXXX, XXXX=XXXX),XXXX) +
+ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
+  geom_bar(XXXX(XXXX = XXXX, XXXX = XXXX), XXXX) +
   labs(title = "Regime Type",
        subtitle = "The Economist",
-       x=NULL,
-       y="XXXX") +
+       x = NULL,
+       y = "XXXX") +
   XXXX((na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
@@ -421,12 +421,12 @@ ggplot(data=XXXX, mapping=aes(x=factor(dem_level4))) +
 ```
 
 ```{r plotraceprop-solution}
-ggplot(data=world, mapping=aes(x=factor(dem_level4))) +
-  geom_bar(aes(y=..prop.., group=1), fill="red") +
+ggplot(data = world, mapping = aes(x = factor(dem_level4))) +
+  geom_bar(aes(y = ..prop.., group = 1), fill = "red") +
   labs(title = "Regime Type",
        subtitle = "The Economist",
-       x=NULL,
-       y="Proportion") +
+       x = NULL,
+       y = "Proportion") +
   scale_x_discrete(na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
@@ -446,12 +446,12 @@ Below I've reproduced our plot of **racial_majority**,  reordering and flipping 
 
 
 ```{r fliprace, exercise = TRUE}
-ggplot(data=counties, mapping=aes(x=reorder(factor(racial_majority), racial_majority, length))) +
+ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racial_majority, length))) +
   geom_bar() +
   labs(title = "Number of US Counties by Racial Majority",
        subtitle = "2016",
-       x=NULL,
-       y="Frequency",
+       x = NULL,
+       y = "Frequency",
        caption = "Source: Linn, Nagler, Zilinsky") +
   scale_x_discrete(na.translate = FALSE, labels = c("Black", "Hispanic", "Other", "White")) +
   coord_flip()

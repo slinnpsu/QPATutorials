@@ -113,8 +113,8 @@ by the sum of that variable?
 library(dplyr)
 counties %>%
   group_by(rural_urban) %>%
-  summarise(freq=n()) %>%
-  mutate(prop=freq/sum(freq))
+  summarise(freq = n()) %>%
+  mutate(prop = freq / sum(freq))
 ```
 
 ```{r ruraltable-check}
@@ -159,13 +159,13 @@ Let's plot the frequency distribution and examine the dispersion from a bar plot
 
 
 ```{r ruralplot, exercise=TRUE}
-ggplot(data=counties, XXXX=XXXX(x=factor(rural_urban))) +
+ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +
          XXXX +
          labs(title = "XXXX", 
               subtitle = "2016",
-              x=XXXX,  
-              XXXX="Frequency", 
-              XXXX="Source: Linn, Nagler, Zilinsky")
+              x = XXXX,  
+              XXXX = "Frequency", 
+              XXXX = "Source: Linn, Nagler, Zilinsky")
 ```
 
 
@@ -187,13 +187,13 @@ supply the correct argument.
 
 
 ```{r ruralplot-solution}
-ggplot(data=counties, mapping=aes(x=factor(rural_urban))) +
+ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
               subtitle = "2016",
-              x=NULL,  
-              y="Frequency", 
-              caption="Source: Linn, Nagler, Zilinsky")
+              x = NULL,  
+              y = "Frequency", 
+              caption = "Source: Linn, Nagler, Zilinsky")
 ```
 
 ```{r ruralplot-check}
@@ -205,14 +205,14 @@ Before we interpret the plot, let's make it more informative.
 We'd like to replace the variable values 1-9 on the x-axis with informative phrases, but each category label is quite long and would not fit below the bars. We can solve this problem by flipping the coordinates. This is easy to do by adding another layer to the `ggplot()`.  The code below illustrates the `coord_flip()` function and replaces 1-9 with labels from the codebook entry.  I've also filled the bars in the color `"green"` using the `fill` argument inside `geom_bar()`.
 
 ```{r flippedplot, exercise=TRUE}
-ggplot(data=counties, mapping=aes(x=factor(rural_urban))) +
-  geom_bar(fill="green") +
-  labs(title="USDA Urban/Rural Status", 
+ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
+  geom_bar(fill = "green") +
+  labs(title = "USDA Urban/Rural Status", 
        subtitle = "US Counties in 2016",
-       x=NULL, 
-       y="Frequency",
-       caption="Source: Linn, Nagler, Zilinsky") +
-  scale_x_discrete(labels = c("1 Million","250,000 to 1 million","< 250,000", "20k+ near metro area", "20k+ not near  metro area", "2,500-19,999 near metro area", "2,500-19,999 not near metro area", "< 2,500 near metro area", "< 2,500 not near metro area", "NA")) +
+       x = NULL, 
+       y = "Frequency",
+       caption = "Source: Linn, Nagler, Zilinsky") +
+  scale_x_discrete(labels = c("1 Million","250,000 to 1 million", "< 250,000", "20k+ near metro area", "20k+ not near  metro area", "2,500-19,999 near metro area", "2,500-19,999 not near metro area", "< 2,500 near metro area", "< 2,500 not near metro area", "NA")) +
   coord_flip()
 ```
 
@@ -268,8 +268,8 @@ on the next line.
 ```{r FHtable-solution}
 fHouse %>%
   group_by(FHStatus) %>%
-  summarise(freq=n()) %>%
-  mutate(prop=freq/sum(freq))
+  summarise(freq = n()) %>%
+  mutate(prop = freq / sum(freq))
 ```
 
 ```{r FHtable-check}
@@ -306,7 +306,7 @@ grade_code()
 Most nations are "Free" (coded 2) according to Freedom House, and a half or less are "Partly Free" (coded 1) and another half or more are "Partly Free".  Note that if the variable had been recoded so that "Free" was coded 0 and "Not Free" was coded 2, the median category would have been "Free." The moral of the story is that you need to clearly state the order of the ranking (from more to less free or from less free to more free) when you provide a median.
 
 
-Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate=FALSE` inside the `scale_x_discrete()` function. Do not include the `subtitle` or `caption` label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.
+Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate = FALSE` inside the `scale_x_discrete()` function. Do not include the `subtitle` or `caption` label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.
 
 
 ```{r FHplot, exercise=TRUE}
@@ -337,12 +337,12 @@ Did you include a plus sign for each layer at the end of the line?
 ```
 
 ```{r FHplot-solution}
-ggplot(data=fHouse,  mapping=aes(x=factor(FHStatus))) +
+ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          geom_bar() +
          labs(title = "Freedom House Ranking of Countries", 
-              x=NULL,  
-              y="Frequency") +
-        scale_x_discrete(na.translate=FALSE, labels=c("Not Free", "Partly Free", "Free"))
+              x = NULL,  
+              y = "Frequency") +
+        scale_x_discrete(na.translate = FALSE, labels = c("Not Free", "Partly Free", "Free"))
 ```
 
 ```{r FHplot-check}

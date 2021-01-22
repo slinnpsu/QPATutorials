@@ -105,8 +105,8 @@ divided by the sum of that variable?
 library(dplyr)
 counties %>%
   group_by(wage_growth) %>%
-  summarise(freq=n()) %>%
-  mutate(prop=freq/sum(freq))
+  summarise(freq = n()) %>%
+  mutate(prop = freq / sum(freq))
 ```
 
 ```{r wagetable-check}
@@ -174,8 +174,8 @@ Don't forget to use na.rm inside your functions
 ```
 
 ```{r demcentral-solution}
-median(counties$dem2p_percent, na.rm=TRUE)
-mean(counties$dem2p_percent, na.rm=TRUE)
+median(counties$dem2p_percent, na.rm = TRUE)
+mean(counties$dem2p_percent, na.rm = TRUE)
 ```
 
 ```{r demcentral-check}
@@ -247,7 +247,7 @@ The 25th and 75th percentiles comprise what is known as the <span style="color:b
 We can calculate percentiles with the `quantile()` function. By default, passing the variable name to the function will return the 0th, 25th, 50th,  75th, and 100th percentiles. (Be sure to include `na.rm=TRUE` if there are missing values for any case.) 
 
 ```{r percent, exercise=TRUE}
-quantile(counties$wage_growth, na.rm=TRUE)
+quantile(counties$wage_growth, na.rm = TRUE)
 ```
 
 Note that the $0\%$ is the minimum and the $100\%$ is the maximum value, giving the range of the variable's values.
@@ -257,8 +257,8 @@ Let's focus on the interquartile range, the values at the 25th and 75th percenti
 We can use the `quantile()` function to list additional percentiles by adding the `probs` argument inside the function. To list a specific set of percentiles set `probs=c(0.05, .1, .25, .5, .75, .9, .95)`.
 
 ```{r percent2, exercise=TRUE}
-quantile(counties$wage_growth, na.rm=TRUE, 
-         probs=c(0.05, .1, .25, .5, .75, .9, .95))
+quantile(counties$wage_growth, na.rm = TRUE, 
+         probs = c(0.05, .1, .25, .5, .75, .9, .95))
 ```
 
 The result shows that 90% of the cases fall between -0.026 and 0.099. In other words, the bottom 5% of counties experienced declines in wage growth at or below 2.6% and the top 5% of counties experienced wage increases approaching 10% or higher.
@@ -273,11 +273,11 @@ Let's look at the 0, 25th, 50th, 75th, and 100th quantiles of the percent of wor
 ```
 
 ```{r percentepr-hint}
-Did you remember to include na.rm=TRUE?
+Did you remember to include na.rm = TRUE?
 ```
 
 ```{r percentepr-solution}
-quantile(counties$employ_pop_ratio_25_64, na.rm=TRUE)
+quantile(counties$employ_pop_ratio_25_64, na.rm = TRUE)
 ```
 
 ```{r percentepr-check}
@@ -350,7 +350,7 @@ Below is a picture of two distributions. The red portion is shaded to denote $\b
 To calculate the standard deviation, $s$, of a variable we use the `sd()` function, again including `na.rm=TRUE` to remove any observations with missing values for the variable.
 
 ```{r sd, exercise=TRUE}
-sd(counties$wage_growth, na.rm=TRUE)
+sd(counties$wage_growth, na.rm = TRUE)
 ```
 
 The standard deviation tells us the most of the observations are within $0.047$ or $4.7$ percentage points of the mean, which was $0.043$. Thus more than half of the observations are between $-0.004$ and $0.900$. Over $95\%$ of  the observations are plus or minus two standard deviations of the mean or between $0.043-0.047*2$ and $0.043+0.047*2$ or $-0.51$ and $0.137$. Nearly all the observations are between $0.043-0.047*3$ and $0.043+0.047*3$, or $-0.98$ and $0.184$. This suggests the observations with the minimum and maximum values ($-0.694$ and $0.626$) are outliers, which we should investigate further. They may be data errors or they simply be atypical counties.
@@ -376,12 +376,12 @@ Generating a histogram with `ggplot()` requires a simple change to the basic cod
 
 
 ```{r wagehist, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram() +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 Ignore the warning for now and notice that it's difficult to determine the range of values covered by a bin. Let’s add white vertical borders demarcating the bins by adding a color = "white" argument to `geom_histogram()`.
@@ -390,12 +390,12 @@ Ignore the warning for now and notice that it's difficult to determine the range
 
 
 ```{r wagehist2a, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(color="white") +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
+         geom_histogram(color = "white") +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 
@@ -404,12 +404,12 @@ Notice that there is a warning message associated with the plot. "Pick better va
 
 
 ```{r wagehist2, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(color="white") +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
+         geom_histogram(color = "white") +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 ```{r wagehist2-hint-1}
@@ -419,12 +419,12 @@ Did you enter bins=50 or some other number inside geom_histogram()?
 Alternatively, you can control the width of the bin. This sets the range of values covered by a bin. If a variable takes values that range from, for example, 0 to 100, we might want each bin to cover 10 units. We could specify `bins=10` (100/10=10) or set `bindwidth=10`. Let's set the binwidth for wage growth to 0.1 or one-tenth of a percentage point.
 
 ```{r wagehist2b, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(color="white", binwidth=.01) +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
+         geom_histogram(color = "white", binwidth = .01) +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 Try experimenting with the binwidth in our plot to make sure you understand what this argument is doing.
@@ -450,13 +450,13 @@ Not all variables will have symmetric distributions. Instead, they may be <span 
 Often it is useful to add a vertical line to a histogram to represent the median and/or the mean value. To do so, we add another layer to our plot.  We want to add a vertical line, so we will use the `geom_vline()` function. We need to tell R where to place the line and specifically where it crosses the x-axis. We do so by specifying an aesthetic inside `geom_vline()` and setting the `xintercept` argument equal to the value we wish. Let's add the median to our plot. We'll make the `linetype` `"dashed"` and `color` it `"red"` to make it stand out. I've also set `bins=60` in `geom_histogram()`. This means that the width of the bins will be the maximum value of wage growth minus the minimum value and this quantity will be divided by 60.
 
 ```{r vline, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(color="white",bins=60) +
-         geom_vline(aes(xintercept=median(wage_growth, na.rm=TRUE)), color="red", linetype="dashed") +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
+         geom_histogram(color = "white", bins = 60) +
+         geom_vline(aes(xintercept = median(wage_growth, na.rm = TRUE)), color="red", linetype = "dashed") +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 It would be helpful to label the line. To do so we add another layer to the plot with the `annotate()` function. This line of code is a little more complicated. 
 
@@ -473,29 +473,29 @@ Try playing plotting the mean rather than the median and playing around with the
 
 
 ```{r vlinelabel, exercise=TRUE}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(color="white",bins=60) +
-         geom_vline(aes(xintercept=XXXX(XXXX)), color="red", linetype="dotted") +
-         annotate("text", x =XXXX, y = XXXX, 
-                  label = paste0("Mean=", 
-                                 round(mean(counties$wage_growth, na.rm=TRUE),3))) +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
+         geom_histogram(color = "white", bins = 60) +
+         geom_vline(aes(xintercept = XXXX(XXXX)), color = "red", linetype = "dotted") +
+         annotate("text", x = XXXX, y = XXXX, 
+                  label = paste0("Mean = ", 
+                                 round(mean(counties$wage_growth, na.rm = TRUE), 3))) +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 ```{r vlinelabel-solution}
-ggplot(data=counties,  mapping=aes(x=wage_growth)) +
-         geom_histogram(color="white",bins=60) +
-         geom_vline(aes(xintercept=mean(wage_growth, na.rm=TRUE)), color="red", linetype="dotted") +
-         annotate("text", x =.25, y = 900, 
-                  label = paste0("Mean=", 
-                                 round(mean(counties$wage_growth, na.rm=TRUE),3))) +
+ggplot(data = counties,  mapping = aes(x = wage_growth)) +
+         geom_histogram(color = "white", bins = 60) +
+         geom_vline(aes(xintercept = mean(wage_growth, na.rm = TRUE)), color = "red", linetype = "dotted") +
+         annotate("text", x = .25, y = 900, 
+                  label = paste0("Mean = ", 
+                                 round(mean(counties$wage_growth, na.rm = TRUE), 3))) +
          labs(title = "Wage Growth in US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 
@@ -512,13 +512,13 @@ We generate a box plot by changing the basic histogram plot in two ways. First, 
 Let's plot the percent of working-age adults. Recall this variable is named **employ_pop_ratio_25_64**. 
 
 ```{r honeypot, exercise=TRUE}
-ggplot(counties, aes(x="", y=employ_pop_ratio_25_64)) +
+ggplot(data = counties, aes(x = "", y = employ_pop_ratio_25_64)) +
   geom_boxplot() +
-  labs(title="Distribution of the Employment to Population Ratio \n Adults Aged 25-64", 
+  labs(title = "Distribution of the Employment to Population Ratio \n Adults Aged 25-64", 
        subtitle = "US Counties, 2016",
-       x=NULL, 
-       y=NULL, 
-       caption="Source: Linn, Nagler, and Zilinsky") 
+       x = NULL, 
+       y = NULL, 
+       caption = "Source: Linn, Nagler, and Zilinsky") 
 ```
 
 What does this plot tell us? 
@@ -572,22 +572,22 @@ Repeat for the median.
 
 
 ```{r dem2phist-solution}
-ggplot(data=counties,  mapping=aes(x=dem2p_percent)) +
-         geom_histogram(color="blue") +
-         geom_vline(aes(xintercept=mean(dem2p_percent, na.rm=TRUE)), color="red", linetype="dashed") +
-         annotate("text", x =43, y = 275, 
-                  label = paste0("Mean=", 
-                                 round(mean(counties$dem2p_percent, na.rm=TRUE),1))) +
-          geom_vline(aes(xintercept=median(dem2p_percent, na.rm=TRUE)), color="red", linetype="dotted") +
-         annotate("text", x =20, y = 350, 
-                  label = paste0("Median=", 
-                                 round(median(counties$dem2p_percent, na.rm=TRUE),1))) +
+ggplot(data = counties,  mapping = aes(x = dem2p_percent)) +
+         geom_histogram(color = "blue") +
+         geom_vline(aes(xintercept = mean(dem2p_percent, na.rm = TRUE)), color = "red", linetype = "dashed") +
+         annotate("text", x = 43, y = 275, 
+                  label = paste0("Mean = ", 
+                                 round(mean(counties$dem2p_percent, na.rm = TRUE), 1))) +
+          geom_vline(aes(xintercept = median(dem2p_percent, na.rm = TRUE)), color = "red", linetype = "dotted") +
+         annotate("text", x = 20, y = 350, 
+                  label = paste0("Median = ", 
+                                 round(median(counties$dem2p_percent, na.rm=TRUE), 1))) +
 
          labs(title = "Democratic Vote Share",
               subtitle = "US Counties in 2016", 
-              x=NULL, 
-              y="Frequency", 
-              caption="Linn, Nagler, and Zilinsky")
+              x = NULL, 
+              y = "Frequency", 
+              caption = "Linn, Nagler, and Zilinsky")
 ```
 
 The shape of this distribution is right-skewed. Fewer counties cast large percentages of their vote for Clinton than did for Trump. 
@@ -647,15 +647,15 @@ Consider the following image and answer the questions:
 ```{r, echo=FALSE}
 world %>%
   filter(!is.na(spendeduc)) %>%
-ggplot(aes(x=spendeduc)) +
-  geom_histogram(color="white", bins=20) +
+ggplot(aes(x = spendeduc)) +
+  geom_histogram(color = "white", bins = 20) +
   labs(title = "Public Expenditure on Education Around the World",
-       caption="Country Data from the United Nations",
-       x="Percent of GDP",
-       y="Frequency") +
-          annotate("text", x =10, y = 18, 
+       caption = "Country Data from the United Nations",
+       x = "Percent of GDP",
+       y = "Frequency") +
+          annotate("text", x = 10, y = 18, 
                   label = paste0("Standard Deviation = ", 
-                                 round(sd(world$spendeduc, na.rm=TRUE),2))) 
+                                 round(sd(world$spendeduc, na.rm = TRUE), 2))) 
 ```
 
 ```{r letter-x, echo=FALSE}
