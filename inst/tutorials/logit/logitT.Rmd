@@ -60,12 +60,12 @@ aNES$femalef <- factor(aNES$female, labels=c("Male","Female"))
 model2 <- glm(Trump2016 ~  Blacks.FT + Illegals.FT + partyf + femalef + educ, family = "binomial", data = aNES)
 
 aNES <- aNES %>%
-  mutate(turnout=ifelse(Trump2016==1, 1,
-                        ifelse(Clinton2016==1, 1, 0)))
+  mutate(turnout = ifelse(Trump2016 == 1, 1,
+                        ifelse(Clinton2016 == 1, 1, 0)))
 aNES <- aNES %>%
-  mutate(strong=ifelse(pid_strength==1, 1,
-                        ifelse(pid_strength==7, 1, 0)))
-model3 <- glm(turnout~strong + income+educ+femalef, family="binomial", data=aNES)
+  mutate(strong = ifelse(pid_strength == 1, 1,
+                        ifelse(pid_strength == 7, 1, 0)))
+model3 <- glm(turnout~strong + income + educ + femalef, family = "binomial", data=aNES)
 ```
 
 ## Overview
@@ -172,7 +172,7 @@ $$Pr(\hat{Y_i}=1|X_i=30) = \frac{\exp(-17.0391+ 0.6464*30)}{1+ \exp(-17.0391 + 0
 Below is code to have R do the algebra for us.
 
 ```{r pred1, exercise=TRUE}
-(exp(-17.0391+0.6464*30))/(1+exp(-17.0391+0.6464*30))
+(exp(-17.0391 + 0.6464 * 30)) / (1 + exp(-17.0391 + 0.6464 * 30))
 ```
 In a state with 30% Republicans, the predicted probability the state has an open carry law is just over 91%.
 
@@ -183,7 +183,7 @@ Look carefully at the code to ensure you understand what you need to do to gener
 
 
 ```{r predfun, exercise=TRUE}
-predict(model1, newdata = data.frame(republican=30), type="response")
+predict(model1, newdata = data.frame(republican = 30), type = "response")
 ```
 
 The table below presents the predicted probability for several values of $X$.
@@ -345,7 +345,7 @@ We can generate predictions from our model using the `predict()` function. Below
 
 
 ```{r predfun2, exercise=TRUE}
-predict(model2, newdata = data.frame(Blacks.FT = 50, Illegals.FT = 50, partyf="Democrat", femalef="Female", educ=4), type="response")
+predict(model2, newdata = data.frame(Blacks.FT = 50, Illegals.FT = 50, partyf = "Democrat", femalef = "Female", educ=4), type = "response")
 ```
 
 
@@ -408,7 +408,7 @@ Specity the data argument as aNES.
 ```
 
 ```{r model3-solution}
-model3 <- glm(turnout~strong + income+educ+femalef, family="binomial", data=aNES)
+model3 <- glm(turnout~strong + income + educ + femalef, family = "binomial", data = aNES)
 summary(model3)
 ```
 
@@ -430,7 +430,7 @@ question("Look at the output above. Which of the following statements is true?",
 
 ### Generate Predictions
 
-Generate code to predict the probability that an individual who is not a strong partisan (**strong**=0), has a high income (**income**=5), who has a college degree (**educ**=4), and is a female (**femalef**="Female") turns out to vote.
+Generate code to predict the probability that an individual who is not a strong partisan (**strong** = 0), has a high income (**income** = 5), who has a college degree (**educ** = 4), and is a female (**femalef** = "Female") turns out to vote.
 
 ```{r predfun3, exercise=TRUE}
 
@@ -446,7 +446,7 @@ Finally, add a comma and specify type="response".
 ```
 
 ```{r predfun3-solution}
-predict(model3, newdata=data.frame(strong=1, income=5, educ=4, femalef="Female"), type="response")
+predict(model3, newdata = data.frame(strong = 1, income = 5, educ = 4, femalef = "Female"), type = "response")
 ```
 
 ```{r predfun3-check}

@@ -124,7 +124,7 @@ summary(model1)
 
 ### A basic table
 
-Now that we have a model object, **model1**, which contains the logistic regression results from the `glm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type=text` so that the output is readable. That's all we need to do to create a basic table.
+Now that we have a model object, **model1**, which contains the logistic regression results from the `glm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type = text` so that the output is readable. That's all we need to do to create a basic table.
 
 Note that we need to load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
 
@@ -212,7 +212,7 @@ stargazer(XXX,
 
 ```{r star3-hint}
 First name the model fit object, model2
-The set type="text"
+The set type = "text"
 ```
 
 ```{r star3-solution}
@@ -231,7 +231,7 @@ stargazer(model2,
           type = "text",
           XXX = "Logistic Regression Model of Reported Turnout",
           XXX  = "Reported Turnout",
-          XXX  = c("Strong Partisan", "Income", "Education","Absolute Difference in Feeling Thermometer Ratings of Clinton and Trump","Constant"))
+          XXX  = c("Strong Partisan", "Income", "Education", "Absolute Difference in Feeling Thermometer Ratings of Clinton and Trump", "Constant"))
 ```
 
 ```{r star4-hint-1}
@@ -259,7 +259,7 @@ stargazer(model2,
           type = "text",
           title = "Logistic Regression Model of Reported Turnout",
           dep.var.labels  = "Reported Turnout",
-          covariate.labels  = c("Strong Partisan", "Income", "Education","Absolute Difference in Feeling Thermometer Ratings of Clinton and Trump","Constant"))
+          covariate.labels  = c("Strong Partisan", "Income", "Education", "Absolute Difference in Feeling Thermometer Ratings of Clinton and Trump", "Constant"))
 ```
 
 ```{r star4-check}
@@ -278,8 +278,8 @@ plot_model(model1,
            value.offset = .3,
            show.intercept = TRUE,
            transform = NULL,
-           title="Results: Logit Model of the Probability of Voting for Donald Trump", 
-           axis.labels = c("Republican","Democrat","Illegal Immigrant Feeling Thermometer Score","Female", "Level of Education", "Police Feeling Thermometer Score", "Constant"),
+           title = "Results: Logit Model of the Probability of Voting for Donald Trump", 
+           axis.labels = c("Republican", "Democrat", "Illegal Immigrant Feeling Thermometer Score", "Female", "Level of Education", "Police Feeling Thermometer Score", "Constant"),
            axis.title = "Coefficient Estimates")
 ```
 
@@ -319,12 +319,12 @@ Here we will look at the effect of **illegals.FT** from our model of vote for Do
 
 ```{r p1, exercise=TRUE, message=FALSE}
 plot_model(model1, 
-           type="pred",
+           type = "pred",
            terms = "Illegals.FT",
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote",
-           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants","Predicted Probability")) + 
-           labs(caption="Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of the police and education levels")
+           title = "Predicted Probability of a Trump Vote",
+           axis.title = c("Feeling Thermometer Ratings of Illegal Immigrants", "Predicted Probability")) + 
+           labs(caption = "Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of the police and education levels")
 ```
 
 Let's interpret the plot. The y-axis contains the predicted probability our dependent variable takes the value 1 (voted for Trump). The x-axis gives the feeling thermometer rating of illegal immigrants. The curve gives the predicted probability of voting for Trump for each value of feelings toward illegal immigrants. The gray area around the curve represents the 95% confidence interval around our predictions. Remember, these predictions are generated setting **Police.FT** and **educ** at their mean values and **femalef** and **partyf** at their reference categories, male and neither Democrat nor Republican. We see that the predictions do not follow a straight line.  Moving from 0 to 25 on the feeling thermometer produces a drop in the probability of voting for Donald Trump of about 55%-42%=13% while changing from 75 to 100 produces a change of about 18%-12%=6%.
@@ -334,11 +334,11 @@ Create a predicted value plot that shows the effects of **Police.FT** by editing
 
 ```{r p2b, exercise=TRUE, message=FALSE}
 plot_model(model1, 
-           type="XXX",
+           type ="XXX",
            terms = "XXX",
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) + 
+           title = "Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Ratings of the Police", "Predicted Probability")) + 
            labs(caption = "Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
 ```
 
@@ -351,12 +351,12 @@ The terms give the variable whose effects we want to plot, here Police.FT
 
 ```{r p2b-solution}
 plot_model(model1, 
-           type="pred",
+           type = "pred",
            terms = "Police.FT",
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Ratings of the Police","Predicted Probability")) + 
-          labs(caption="Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
+           title = "Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Ratings of the Police", "Predicted Probability")) + 
+          labs(caption = "Predictions are for males who are neither a Republican nor \nDemocrat with average ratings of illegal immigrants and education levels")
 ```
 
 ```{r p2b-check}
@@ -382,13 +382,13 @@ Edit the code to produce the plot. Pay special attention to the `terms` argument
 
 ```{r p3, exercise=TRUE, message=FALSE}
 plot_model(XXX, 
-           XXX=XXX,
+           XXX = XXX,
            terms = c("Illegals.FT","XXX"),
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title="Party Identification") + 
-           labs(caption="Predictions are for males with average \neducation levels and ratings of police")
+           title = "Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants", "Predicted Probability"),
+           legend.title = "Party Identification") + 
+           labs(caption = "Predictions are for males with average \neducation levels and ratings of police")
 ```
 
 ```{r p3-hint-1}
@@ -406,12 +406,12 @@ Add partyf to the terms argument
 
 ```{r p3-solution}
 plot_model(model1, 
-           type="pred",
+           type = "pred",
            terms = c("Illegals.FT","partyf"),
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
-           legend.title="Party Identification") + 
+           title = "Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants", "Predicted Probability"),
+           legend.title = "Party Identification") + 
            labs(caption="Predictions are for males with average \neducation levels and ratings of police")
 ```
 
@@ -430,11 +430,11 @@ The legend title should always be the title of the second variable listed. Here,
 
 ```{r p4, exercise=TRUE, message=FALSE}
 plot_model(model1, 
-           type="pred",
+           type = "pred",
            terms = c("Illegals.FT", "Police.FT[53, 75, 98]", "partyf"),
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants","Predicted Probability"),
+           title = "Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Illegal Immigrants", "Predicted Probability"),
            legend.title = "Thermometer Ratings of Police")  
 ```
 The plot on the left shows the effect of feelings toward illegal immigrants for those who are neither Democrats nor Republicans given mean (blue) feelings toward the police and feelings toward the police one standard deviation below the mean (red) and one standard deviation above the mean (green)  (for males with average levels of education). The plot in the middle presents the same information for Republicans. The plot on the right for Democrats.
@@ -457,12 +457,12 @@ Look closely at the specification of the `condition` argument. We specify each v
 
 ```{r p4b, exercise=TRUE, message=FALSE}
 plot_model(model1, 
-           type="pred",
+           type = "pred",
            terms = c("Police.FT", "partyf"),
-           condition = c(educ=1, Illegals.FT=50, femalef="Female"),
+           condition = c(educ = 1, Illegals.FT = 50, femalef = "Female"),
            show.data = FALSE,
-           title="Predicted Probability of a Trump Vote", 
-           axis.title = c("Feeling Thermometer Scores toward Police","Predicted Probability"),
+           title = "Predicted Probability of a Trump Vote", 
+           axis.title = c("Feeling Thermometer Scores toward Police", "Predicted Probability"),
            legend.title = "Party Identification")  +
            labs(caption = "Predictions are for females with low levels of \neducation, and feeling thermometer ratings of \nillegal immigrants at the middle of the scale (50)")
 ```
@@ -496,25 +496,25 @@ Call the plot_model() function and pass it model2
 ```
 
 ```{r m2p1-hint-2}
-specify type="pred" for predicted values
+specify typ e= "pred" for predicted values
 ```
 
 ```{r m2p1-hint-3}
-Set the terms argument =c("thermdiff", "strongf")
+Set the terms argument = c("thermdiff", "strongf")
 This places thermdiff on the x-axis and creates a curve for each value of strongf
 ```
 
 ```{r m2p1-hint-4}
-Add title="Predicted Probability of Casting a Ballot"
+Add title = "Predicted Probability of Casting a Ballot"
 ```
 
 ```{r m2p1-hint-5}
-Add axis.title=c(), where inside () you list the x-axis title first followed by
+Add axis.title = c(), where inside () you list the x-axis title first followed by
 the y-axis title
 ```
 
 ```{r m2p1-hint-6}
-Set the legend.title="Strength of Party Identification"
+Set the legend.title = "Strength of Party Identification"
 ```
 
 ```{r m2p1-hint-7}
@@ -524,12 +524,12 @@ those with average levels of education and income"
 
 ```{r m2p1-solution}
 plot_model(model2,
-           type="pred",
-           terms=c("thermdiff", "strongf"),
-           title="Predicted Probability of Casting a Ballot",
-           axis.title = c("Absolute Difference in Feelings toward Clinton and Trump","Predicted Probability"),
+           type = "pred",
+           terms = c("thermdiff", "strongf"),
+           title = "Predicted Probability of Casting a Ballot",
+           axis.title = c("Absolute Difference in Feelings toward Clinton and Trump", "Predicted Probability"),
            legend.title = "Strength of Party Identification") + 
-           labs(caption="Predictions are for those with average levels of education and income")
+           labs(caption = "Predictions are for those with average levels of education and income")
 ```
 
 ```{r m2p1-check}
@@ -547,7 +547,7 @@ question("Look at carefully at the figure above. Which of the following statemen
   )
 ```
 
-Generate predicted probabilities of voting in 2016 based on education for someone with an **income**=2, **thermdiff**=50, and **strongf**="Not a Strong Partisan". Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education".  Add a caption that reads "Predictions are for someone with low income, a \\ndifference in feelings toward Hillary Clinton and \\nDonald Trump of 50 who is not a strong partisan". Don't forget the \\n!
+Generate predicted probabilities of voting in 2016 based on education for someone with an **income** = 2, **thermdiff** = 50, and **strongf** = "Not a Strong Partisan". Title your figure "Predicted Probability of Casting a Ballot", label the y-axis "Predicted Probability" and the x-axis "Level of Education".  Add a caption that reads "Predictions are for someone with low income, a \\ndifference in feelings toward Hillary Clinton and \\nDonald Trump of 50 who is not a strong partisan". Don't forget the \\n!
 
 ```{r m2p, exercise=TRUE, message=FALSE}
 
@@ -558,25 +558,25 @@ Call the plot_model() function and pass it model2
 ```
 
 ```{r m2p-hint-2}
-Specify type="pred" for predicted values
+Specify type = "pred" for predicted values
 ```
 
 ```{r m2p-hint-3}
-Set the terms argument ="educ"
+Set the terms argument = "educ"
 This places education on the x-axis
 ```
 
 ```{r m2p-hint-4}
 Add the condition argument and set it to 
-c(income=2, thermdiff=50, strongf="Not a Strong Partisan")
+c(income = 2, thermdiff = 50, strongf = "Not a Strong Partisan")
 ```
 
 ```{r m2p-hint-5}
-Add title="Predicted Probability of Casting a Ballot"
+Add title = "Predicted Probability of Casting a Ballot"
 ```
 
 ```{r m2p-hint-6}
-Add axis.title=c(), where inside () you list the x-axis title first followed by
+Add axis.title = c(), where inside () you list the x-axis title first followed by
 the y-axis title
 ```
 
@@ -587,11 +587,11 @@ Add a + and labs(caption = "" including the \n)
 
 ```{r m2p-solution}
 plot_model(model2,
-           type="pred",
-           terms="educ",
-           condition=c(income=2, thermdiff=50, strongf="Not a Strong Partisan"),
-           title="Predicted Probability of Casting a Ballot",
-           axis.title = c("Level of Education","Predicted Probability")) +
+           type = "pred",
+           terms = "educ",
+           condition = c(income = 2, thermdiff = 50, strongf = "Not a Strong Partisan"),
+           title = "Predicted Probability of Casting a Ballot",
+           axis.title = c("Level of Education", "Predicted Probability")) +
            labs(caption = "Predictions are for someone with low income, a \ndifference in feelings toward Hillary Clinton and \nDonald Trump of 50 who is not a strong partisan")
 ```
 
@@ -621,25 +621,25 @@ Call the plot_model() function and pass it model2
 ```
 
 ```{r m2p2-hint-2}
-specify type="pred" for predicted values
+specify type = "pred" for predicted values
 ```
 
 ```{r m2p2-hint-3}
-Set the terms argument =c("strongf", "educ[1,3,5'")
+Set the terms argument = c("strongf", "educ[1,3,5'")
 This places strength of partisanship on the x-axis and creates a curve for each value of education
 ```
 
 ```{r m2p2-hint-4}
-Add title="Predicted Probability of Casting a Ballot"
+Add title = "Predicted Probability of Casting a Ballot"
 ```
 
 ```{r m2p2-hint-5}
-Add axis.title=c(), where inside () you list the x-axis title first followed by
+Add axis.title = c(), where inside () you list the x-axis title first followed by
 the y-axis title
 ```
 
 ```{r m2p2-hint-6}
-Set the legend.title="Level of Education"
+Set the legend.title = "Level of Education"
 ```
 
 ```{r m2p2-hint-7}
@@ -651,12 +651,12 @@ Don't forget the \n!
 
 ```{r m2p2-solution}
 plot_model(model2,
-           type="pred",
-           terms=c("strongf", "educ[1,3,5]"),
-           title="Predicted Probability of Casting a Ballot",
-           axis.title = c("Strength of Partisanship","Predicted Probability"),
+           type = "pred",
+           terms = c("strongf", "educ[1,3,5]"),
+           title = "Predicted Probability of Casting a Ballot",
+           axis.title = c("Strength of Partisanship", "Predicted Probability"),
            legend.title = "Education Level") + 
-           labs(caption="Predictions are for those with average income and absolute value \nof the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton")
+           labs(caption =  "Predictions are for those with average income and absolute value \nof the difference in their feeling thermometer ratings of Donald Trump and Hillary Clinton")
 ```
 
 ```{r m2p2-check}
