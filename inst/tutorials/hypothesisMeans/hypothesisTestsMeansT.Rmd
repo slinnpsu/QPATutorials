@@ -356,7 +356,7 @@ Don't forget to separate the arguments with a comma.
 ```
 
 ```{r paired2-solution}
-t.test(world$gini10, world$gini08, alternative = "greater")
+t.test(world$gini10, world$gini08, paired = TRUE, alternative = "greater")
 ```
 
 ```{r paired2-check}
