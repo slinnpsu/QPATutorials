@@ -72,12 +72,12 @@ The test statistic for this hypothesis is given by:
 $$t=\frac{r\sqrt{n-2}}{\sqrt{1-r^2}}$$
 where $r$ is the estimated correlation coefficient in the sample and $n$ is the sample size.
 
-We can estimate the correlation and the test statistic using the `cor.test()` function. The first two arguments name the two variables for which we estimate the correlation. If there are any missing values, we need to also set the `use` argument to `"pairwise.complete.obs"`. It's good practice to always use that option, just in case.
+We can estimate the correlation and the test statistic using the `cor.test()` function. The first two arguments name the two variables for which we estimate the correlation. If there are any missing values, we need to also set the `use` argument to `"pairwise.complete.obs"`. It's good practice to always use that option, just in case. By default, Peason's correlation coefficient is assumed, but we will specify `method = "pearson"`.
 
 By default, the test is two-tailed, but we can specify a one-tailed test using the `alternative` argument. We specify `alternative="greater"` or `alternative="less"` to identify the form of the alternative hypothesis.
 
 ```{r votemortality, exercise = TRUE}
-cor.test(counties$dem2p_vote_share, counties$mortality_risk_25_45, use = "pairwise.complete.obs")
+cor.test(counties$dem2p_vote_share, counties$mortality_risk_25_45, method = "pearson", use = "pairwise.complete.obs")
 ```
 
 **Step 4. Determine the p-value** and  **Step 5. Draw a conclusion**.
@@ -111,7 +111,7 @@ Replace the final set of XXX with the use argument.
 ```
 
 ```{r fop-solution}
-cor.test(qog$iiag_gov, qog$fhp_score5, use = "pairwise.complete.obs")
+cor.test(qog$iiag_gov, qog$fhp_score5, method = "pearson", use = "pairwise.complete.obs")
 ```
 
 ```{r fop-check}
@@ -156,7 +156,7 @@ Make sure to separate the arguments with a comma.
 ```
 
 ```{r hdigdp-solution}
-cor.test(world$hdi,world$gdppcap08, use = "pairwise.complete.obs")
+cor.test(world$hdi,world$gdppcap08, method = "pearons", use = "pairwise.complete.obs")
 ```
 
 ```{r hdigdp-check}
