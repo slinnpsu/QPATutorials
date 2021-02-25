@@ -38,14 +38,14 @@ df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "Wes
 library(dplyr)
 aNES <- qpaTutorials::aNES
 aNES <- aNES %>% 
-  mutate(TrumpClintonVote = ifelse(Trump2016 ==1 & (Trump2016 ==1 | Clinton2016==1), "Trump", ifelse(Clinton2016 ==1 & (Trump2016 ==1 | Clinton2016==1), "Clinton", NA )))
-aNES$male[aNES$female==0]<-"Male"
-aNES$male[aNES$female==1]<-"Female"
+  mutate(TrumpClintonVote = ifelse(Trump2016 == 1 & (Trump2016 == 1 | Clinton2016 == 1), "Trump", ifelse(Clinton2016 == 1 & (Trump2016 == 1 | Clinton2016 == 1), "Clinton", NA )))
+aNES$male[aNES$female == 0]<-"Male"
+aNES$male[aNES$female == 1]<-"Female"
 counties$White[counties$prop_white>0.5] <- "Majority White"
 counties$White[counties$prop_white<=0.5] <- "Non-Majority White"
 #options(digits = 3)
-aNES$pid_strength[aNES$pid_strength ==-9] <-NA
-aNES$educ[aNES$educ ==9] <-NA
+aNES$pid_strength[aNES$pid_strength ==- 9] <-NA
+aNES$educ[aNES$educ == 9] <-NA
 ```
 
 
@@ -497,6 +497,9 @@ question("Look at the output above. Which of the following statements are true?"
 ```
 
 
+One important thing to note about the $\chi^2$ test for independence is that the test statistic is only approximately distributed as $\chi^2$ for large samples. The general rule of thumb is that the test is appropriate when the *expected* counts in the cross-tab are greater than 5. If this is not the case, then Fisher's exact test should be used. Fisher's exact test is based on all the possible cross-tabs that could result from the row and column totals. It asks how likely is the given table or one more extreme if the variables are randomly associated?  The `CrossTable()` function will compute Fisher's exact test. All we need to do is replace `chisq = TRUE` with `fisher = TRUE`. The result of the test is a p-value, which can be interpreted in the same fashion as any other p-value.
+
+
 ## The Takeaways
 
 Hypothesis tests involving categorical variables, whether nominal or ordinal, involve proportions. <span style="color:blue">**One-sample proportion tests**</span> allow us to compare a sample proportion to some value. <span style="color:blue">**Two-sample or difference of proportion tests**</span> allow us to compare the same proportion but in two independent groups to determine whether they differ.  Finally, the <span style="color:blue">**$\chi^2$ test of independence**</span> allows us to test whether two categorical variables are independent of one another or whether the values taken by one variable predict those taken by another.
@@ -511,5 +514,5 @@ All three types of hypothesis tests are conducted following the same five-step p
 
 For one-sample and two-sample proportion tests, we use the `prop.test()` function, which estimates a $\chi^2$ test statistic. This function requires some additional legwork, as we must provide the function the counts that form the numerator(s) and denominator(s) of the proportion(s) involved in the test.
 
-To implement the $\chi^2$ test for independence in R we use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package. We simply set the argument `chisq=TRUE`.
+To implement the $\chi^2$ test for independence in R we use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package. We simply set the argument `chisq = TRUE`. If we have a small sample, Fisher's exact test should be used instead. To implement this test we use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package but set the argument `fisher = TRUE`. 
 
