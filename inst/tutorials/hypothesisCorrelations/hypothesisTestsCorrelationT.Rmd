@@ -101,12 +101,13 @@ As a second example, we will work with data from the Quality of Government basic
 Replace the XXX in the code below to estimate the test statistic and run the code.
 
 ```{r fop, exercise = TRUE}
-XXX(XXX, XXX, XXX = "pairwise.complete.obs")
+XXX(XXX, XXX, XXX = "pearson", XXX = "pairwise.complete.obs")
 ```
 
 ```{r fop-hint}
 Specify the cor.test function and pass it the names of the
 two variables (in either order).
+Replace the next argument with method
 Replace the final set of XXX with the use argument.
 ```
 
