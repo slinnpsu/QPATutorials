@@ -150,7 +150,7 @@ The proportion of females in the ANES sample is not equal to that in the populat
  
 **Step 3. Compute the appropriate test statistic**.
 
-We begin by generating a table of counts for the variable **Male** in **aNES** to obtain the information for the `prop.test()` function arguments. Name the variable you create to generate counts, **counts**. Try to produce the table without looking at the hints!
+We begin by generating a table of counts for the variable **male** in **aNES** to obtain the information for the `prop.test()` function arguments. Name the variable you create to generate counts, **counts**. Try to produce the table without looking at the hints!
 
 ```{r onesample3, exercise = TRUE}
   
