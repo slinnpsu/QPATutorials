@@ -19,7 +19,7 @@ The tutorials will typically introduce code with examples that you will run -- u
 
 <span style="color:blue">You will make mistakes. R, like any coding language, requires meticulous attention to things like matching parentheses, including commas in the right places, and spelling functions, arguments, and object names correctly. When you encounter errors -- and you will do so often -- always look for these types of mistakes first!</span>
 
-You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later but unless you are running the tutorials on a local installation of R Studio, your progress will not be saved. 
+You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later. If you are running the tutorials on a local installation of R Studio, your progress will be saved when you return.
 
 I encourage you to resist the temptation to view the solution and copy it. Typing out the code will help you to understand what each exercise is doing and to recall code in you own work. Take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for labs, or for your final project.
 
@@ -186,7 +186,7 @@ sd(num.list)
 
 
 
-Anytime you wish to know about a function -- the arguments it takes, what it does, the output it returns --  you can use the `help()` function. The help function takes the name of a function as its argument. Or you can simply type `?` followed by the name of the function *without parentheses*. For example, to learn about the function `sd()` we can do the following (Note: Your browser may open another window with this information while executing this tutorial):
+Anytime you wish to know about a function -- the arguments it takes, what it does, the output it returns --  you can use the `help()` function. The help function takes the name of a function as its argument. Or you can simply type `?` followed by the name of the function *with no space between ? and the function name and without parentheses following the function name*. For example, to learn about the function `sd()` we can do the following (Note: Your browser may open another window with this information while executing this tutorial):
 
 ```{r helper, exercise=TRUE}
 ?sd
@@ -326,7 +326,7 @@ grade_code("")
 
 ### Accessing Elements of a Vector
 
-**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] behind the vector. Inside the brackets, place the number of the element that you’d like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
+**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] behind the vector name. Inside the brackets, place the number of the element that you’d like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
 
 ```{r access, exercise=TRUE}
 dem.pres.vote.share[1]
@@ -440,7 +440,7 @@ Can you figure out how to do that without looking at the hints? Try it! (Remembe
 ```{r rename-hint-1}
 First, you need to figure out which elements (which
 index values) of your vector of candidate names
-(**dem.candidates**) are associated with elections in
+(dem.candidates) are associated with elections in
 which one of the Clintons ran for president. 
 ```
 
@@ -506,7 +506,7 @@ my.sequence
 ```
 
 
-Let's create an object for the "election year" variable in our table using this function. Name your object **elect.year**.
+Let's create an object for the "election year" variable in our table using this function. Name your object **elect.year** and print the result.
 
 ```{r years, exercise=TRUE}
 
@@ -558,7 +558,7 @@ dem.pres.vote.share
 
 Base R contains many functions to accomplish a variety of tasks. But many of the functions we will use are contained in packages that have been contributed to the Comprehensive R Archive Network (CRAN).  A package bundles together code, data, and help files. There are over 10,000 packages written for R, and more are contributed all the time. R does not automatically install or load packages in order to save memory.
 
-Many packages will be installed for you in R Studio Cloud so that you don't have to. But if you are working on a local copy of R Studio, you will need to install them using the `install.packages()` function by passing the function the name of the package in quotes. Once installed, you load the package using the `library()` function. For example, we will use the `ggplot()` function in the  <span style="color:DarkGreen">ggplot2</span> package. You must load a package each time you start R before you can use the functions it contains (but only install it once). If you don't first load the package, you will get an error:
+You will need to install packages using the `install.packages()` function by passing the function the name of the package in quotes. Once installed, you load the package using the `library()` function. For example, we will use the `ggplot()` function in the  <span style="color:DarkGreen">ggplot2</span> package. You must load a package each time you start R before you can use the functions it contains (but only install it once). If you don't first load the package, you will get an error:
 
 ```{r errorlib, exercise=TRUE}
 ggplot()
@@ -570,10 +570,10 @@ library(ggplot2)
 ggplot()
 ```
 
-To get help with a package (you don't need to read the output):
+To get help with a package type the `help()` function and pass it the `package` argument. Set the argument equal to the name of the package in quotes. Yyou don't need to read the output below):
 
 ```{r help1, exercise=TRUE}
-help(package="ggplot2")
+help(package = "ggplot2")
 ```
 
 ## Comments in code
@@ -607,7 +607,7 @@ rep.pres.vote.share
 grade_code(" ")
 ```
 
-Create a vector called **victory.margin** that calculates the margin of victory. Here you will need to use the absolute value function, which is the `abs()` function. (You will need to list the Republican vote share first inside this function.) Print it.
+Create a vector called **victory.margin** that calculates the margin of victory. Here you will need to use the absolute value function, which is the `abs()` function. (You will need to list the Republican vote share first inside this function to match my answer, but you could do either in your own work.) Note that we don't know which party won, we simply know the proportion of the two-party vote by which the winner won. Print it.
 
 
 ```{r Repshare-me}
