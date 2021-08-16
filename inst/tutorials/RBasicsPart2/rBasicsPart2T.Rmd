@@ -57,11 +57,11 @@ R has its own file format, denoted with .RData, .rdata, or .rda. We use the `loa
 
 **Also, note that when the file has loaded, the objects it contains will already exist. This means you do not assign the result of `load()` to a new object. If you do so, it will have no effect. To learn the name of any objects in the .RData file, use the `verbose` argument inside `load()`, and set it equal to TRUE.**
 
-When naming the file containing the data, you will need to tell the function where the file is located. If you are working in R Studio Cloud, the file will typically be in the same directory as the file as your code so that no path is required. But if you are working on a local machine or if the data is not in your working directory, you will need to specify a full path.  
+When naming the file containing the data, you will need to tell the function where the file is located. If the data file is in the same directory as the file containing your code, no path is required. But if you are working on a local machine or if the data is not in your working directory, you will need to specify a full path.  
 
 
 ```{r loadr-setup}
-save(counties, file="counties2016.RData")
+save(counties, file = "counties2016.RData")
 #rm(list=ls())
 ```
 
@@ -74,6 +74,8 @@ Now that we know the name of the object the file contains, we can examine **coun
 ```{r viewr, exercise=TRUE}
 counties
 ```
+
+You can navigate around this file. To see more variables click on the black triangle at the top right. To see more observations select the blue numbers on the bottom of the output.
 
 ## Importing other file types
 
@@ -392,11 +394,32 @@ sum(is.na(unFBposts$likes_count))
 grade_code()
 ```
 
+
+You can also calculate the number of values of a variable that are *not* missing. The only difference is that you put an `!` in front of the `is.na()` function. This signifies *not* missing.  How many values of **likes_count** are not missing?
+
+```{r sumna3, exercise=TRUE}
+
+```
+
+```{r sumna3-hint}
+Wrap the sum function around the !is.na function
+applied to likes_count. Don't forget to name the
+data object$ before listing the variable name.
+```
+
+```{r sumna3-solution}
+sum(!is.na(unFBposts$likes_count))
+```
+
+```{r sumna3-check}
+grade_code()
+```
+
 ### Handling missing values
 
 Some functions will not work if there are missing values present. Above, we learned that there are 173 messages with no content. These are missing a message. None of the other variables have missing values. But often, we will encounter variables that are missing a value for at least one entry. 
 
-If there are missing values in a vector, we include `na.rm=TRUE` (must be all caps) as an argument to many functions to tell R to drop the cases with missing values before executing the function.
+If there are missing values in a vector, we include `na.rm = TRUE` (TRUE must be all caps) as an argument to many functions to tell R to drop the cases with missing values before executing the function.
 
 Let's calculate the mean number of shares for UN Facebook posts, allowing for missing values (there are not any so we would get the same value if we did not use this option but we would get an error if we omit the option when there are missing values).
 
@@ -419,7 +442,7 @@ If we want to list all values of a particular variable, say **type**, we leave t
 unFBposts[10:15, "type"]
 ```
 
-We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it.  Here there is only one message with the maximum number of likes so it returns just one message.
+We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it. This code can be helpful for identifying values of a variable when you don't know the indiex value. Here there is only one message with the maximum number of likes so it returns just one message.
 
 ```{r index3, exercise=TRUE}
 unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
@@ -531,7 +554,7 @@ nrow(unFBposts)
 grade_code()
 ```
 
-2. What was the text of the first post in the data set?
+2. What was the text of the first post ("message") in the data set?
 
 ```{r text, exercise=TRUE}
 
@@ -664,6 +687,8 @@ range(unFBposts$shares_count)
 ```{r range-check}
 grade_code()
 ```
+
+## Good Work!
 
 
 
