@@ -17,7 +17,7 @@ This is the first of a series of tutorials you will work through over the course
 
 The tutorials will typically introduce code with examples that you will run -- using the "Run Code" button -- or submit your code to be checked -- using the "Submit Answer" button.  Then you will be asked to edit the code or complete partial code to perform related tasks and run that code.  Finally, you will be asked to reproduce code from scratch.  A "Hint" or "Solution" button will appear to help you if you are stuck, as well as the "Run Code" button.  Don't be afraid to try out code before you look at hints.
 
-<span style="color:blue">You will make mistakes. R, like any coding language, requires meticulous attention to things like matching parentheses, including commas in the right places, and spelling functions, arguments, and object names correctly. When you encounter errors -- and you will do so often -- always look for these types of mistakes first!>/span>
+<span style="color:blue">You will make mistakes. R, like any coding language, requires meticulous attention to things like matching parentheses, including commas in the right places, and spelling functions, arguments, and object names correctly. When you encounter errors -- and you will do so often -- always look for these types of mistakes first!</span>
 
 You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later but unless you are running the tutorials on a local installation of R Studio, your progress will not be saved. 
 
