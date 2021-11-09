@@ -134,7 +134,7 @@ question("Which of the following statements are true?",
   )
 ```
 
-**Step 3. Calculate the test statistis** and **Step 4. Translate the test statistic to a p-value**.
+**Step 3. Calculate the test statistic** and **Step 4. Translate the test statistic to a p-value**.
 
 The test statistic and the associated p-value for our hypothesis are given in the logistic regression output. Rather than the t-value, logistic regression reports the z-value.  If the absolute value of  z is greater than 1.96, it is highly unlikely that the observed result differs from zero by chance and we can reject the null hypothesis with 95% confidence. If it is less than 1.96, the evidence is consistent with the null hypothesis and we fail to reject it. 
 
@@ -207,7 +207,7 @@ $X$ | Predicted
 32 | 0.97
 35 | 1.00
 
-Notice that the predicted probabilities increase in a nonlinear fashion. Small increases in the percent of Republicans have little effect at lower values and higher values: For all values of percent Republican below 18, the predicted probability a state has open carry is zero and for all values 35 and over it is 1.0. But a one percentage point increase has a large effect on the predicted probability a state allows open carry with values of **republican** in the 20s: The predicted probability a state allows open if there are 25% Republicans is 0.29 and but with 30% Republicans it is 0.91. That's a (very large) 0.47 difference!
+Notice that the predicted probabilities increase in a nonlinear fashion. Small increases in the percent of Republicans have little effect at lower values and higher values: For all values of percent Republican below 18, the predicted probability a state has open carry is zero and for all values 35 and over it is 1.0. But a one percentage point increase has a large effect on the predicted probability a state allows open carry with values of **republican** in the 20s: The predicted probability a state allows open if there are 25% Republicans is 0.29 but with 30% Republicans it is 0.91. That's a (very large) 0.47 difference!
 
 Below is a plot that illustrates the predicted values from the model. We will learn to create plots like these in the tutorial "Presenting Logistic Regression Results."
 
@@ -285,9 +285,9 @@ For this example we will use data from the 2016 American National Election Study
 
 You likely have some hypotheses about who was most likely to vote for Trump, including hypotheses related to variables not included in this example. Consider the following:
 
-<span style="color:Chocolate">In a comparison on individuals, we expect those who feel cooler toward Blacks wil have a higher likelihood of voting for Donald Trump than those who feel warmer toward Blacks.</span> (Because the Democratic Party tends to be more supportive of programs to benefit minorities.)
+<span style="color:Chocolate">In a comparison of individuals, we expect those who feel cooler toward Blacks wil have a higher likelihood of voting for Donald Trump than those who feel warmer toward Blacks.</span> (Because the Democratic Party tends to be more supportive of programs to benefit minorities.)
 
-<span style="color:Chocolate">In a comparison on individuals, we expect those who feel cooler toward illegal immigrants will have a higher likelihood of voting for Donald Trump than those who feel warmer toward illegal immigrants.</span> (Because the Democratic Party has tended to be more supportive of immigrant rights.)
+<span style="color:Chocolate">In a comparison of individuals, we expect those who feel cooler toward illegal immigrants will have a higher likelihood of voting for Donald Trump than those who feel warmer toward illegal immigrants.</span> (Because the Democratic Party has tended to be more supportive of immigrant rights.)
 
 <span style="color:Chocolate">In a comparison of individuals, we expect Republicans will have a higher likelihood of voting for Donald Trump than either Democrats or those who identify with neither party.</span> (Because Donald Trump is a Republican.)
 
@@ -422,7 +422,7 @@ grade_code()
 ```{r letter-c, echo=FALSE}
 question("Look at the output above. Which of the following statements is true?",
   answer("All variables in the model are positively and significantly related to whether or not someone turned out to vote in 2016", correct=FALSE, message="Sex does not have a significant impact on whether or not an individual turned out to vote as z<1.96 and $p>.05$. "),
-  answer("For every additional level of education completed, an indivudal is about 25% more likely to vote", correct=FALSE, message="We cannot interpret the slope in a logistic regression as the effect of a unit change in $X$ on the probability. "),
+  answer("For every additional level of education completed, an individual is about 25% more likely to vote", correct=FALSE, message="We cannot interpret the slope in a logistic regression as the effect of a unit change in $X$ on the probability. "),
   answer("Stong partisans are more likely to vote than are those individuals who are not strong partisans ",  correct=TRUE),
   allow_retry = TRUE
   )
