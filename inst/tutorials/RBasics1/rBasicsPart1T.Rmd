@@ -570,7 +570,7 @@ library(ggplot2)
 ggplot()
 ```
 
-To get help with a package type the `help()` function and pass it the `package` argument. Set the argument equal to the name of the package in quotes. Yyou don't need to read the output below):
+To get help with a package type the `help()` function and pass it the `package` argument. Set the argument equal to the name of the package in quotes. You don't need to read the output below):
 
 ```{r help1, exercise=TRUE}
 help(package = "ggplot2")
