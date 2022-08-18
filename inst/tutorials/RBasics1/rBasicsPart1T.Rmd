@@ -13,9 +13,9 @@ description: >
 
 ## Introduction
 
-This is the first of a series of tutorials you will work through over the course of the semester.  This tutorial is designed to familiarize you with some of the basic principles of using the statistical software package R and provide background knowledge that will underlie the code, the instructions the software uses to extract some information from the data, we write later in the semester.
+This is the first in a series of tutorials you will work through over the course of the semester. The tutorials are designed to teach you the ins and outs of data analysis in R. This tutorial is designed to familiarize you with some of the basic principles of using the statistical software package R and provide background knowledge that will underlie the code -- the instructions the software uses to extract some information from the data -- we write later in the semester.
 
-The tutorials will typically introduce code with examples that you will run -- using the "Run Code" button -- or submit your code to be checked -- using the "Submit Answer" button.  Then you will be asked to edit the code or complete partial code to perform related tasks and run that code.  Finally, you will be asked to reproduce code from scratch.  A "Hint" or "Solution" button will appear to help you if you are stuck, as well as the "Run Code" button.  Don't be afraid to try out code before you look at hints.
+The tutorials will typically begin by introducing code with examples that you will run (using the "Run Code" button). This will be followed by additional examples in which you complete or edit code and submit your work to be checked (using the "Submit Answer" button).  Finally, you will be asked to produce code from scratch.  A "Hint" or "Solution" button will appear to help you if you are stuck.  Don't be afraid to try out code before you look at hints. 
 
 <span style="color:blue">You will make mistakes. R, like any coding language, requires meticulous attention to things like matching parentheses, including commas in the right places, and spelling functions, arguments, and object names correctly. When you encounter errors -- and you will do so often -- always look for these types of mistakes first!</span>
 
@@ -570,7 +570,7 @@ library(ggplot2)
 ggplot()
 ```
 
-To get help with a package type the `help()` function and pass it the `package` argument. Set the argument equal to the name of the package in quotes. Yyou don't need to read the output below):
+To get help with a package type the `help()` function and pass it the `package` argument. Set the argument equal to the name of the package in quotes. You don't need to read the output below):
 
 ```{r help1, exercise=TRUE}
 help(package = "ggplot2")
