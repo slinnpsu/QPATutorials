@@ -57,7 +57,7 @@ R has its own file format, denoted with .RData, .rdata, or .rda. We use the `loa
 
 **Also, note that when the file has loaded, the objects it contains will already exist. This means you do not assign the result of `load()` to a new object. If you do so, it will have no effect. To learn the name of any objects in the .RData file, use the `verbose` argument inside `load()`, and set it equal to TRUE.**
 
-When naming the file containing the data, you will need to tell the function where the file is located. If the data file is in the same directory as the file containing your code, no path is required. But if you are working on a local machine or if the data is not in your working directory, you will need to specify a full path.  
+When naming the file containing the data, you will need to tell the function where the file is located. If the data file is in the same directory as the file containing your code, no path is required. But if the data is not in your working directory, you will need to specify a full path.  
 
 
 ```{r loadr-setup}
@@ -69,7 +69,7 @@ save(counties, file = "counties2016.RData")
 load("counties2016.RData", verbose = TRUE)
 ```
 
-Now that we know the name of the object the file contains, we can examine **counties**
+Now that we know the name of the object the file contains, we can examine **counties** by entering the name of the object and running the code.
 
 ```{r viewr, exercise=TRUE}
 counties
@@ -196,7 +196,9 @@ class(unFBposts)
 ```
 
 
-Each data set you read into R will have the class `data.frame`.  
+Each data set you read into R this semester will have the class `data.frame`. A data frame is a table or a two-dimensional array-like structure in which each column contains values of one variable and each row contains one set of values from each column. In other words, it looks like the Excel sheet at the beginning of this tutorial.
+
+  
 
 ### Viewing the contents of a data frame
 
@@ -261,7 +263,7 @@ grade_code("")
 
 We've learned **unFBposts**  contains 1643 Facebook posts (rows) and 8 variables (columns). 
 
-We can see the names of the variables in our data.frame using the `names()` function we introduced in the R Basics tutorial Part 1.
+We can see the names of the variables in our data.frame using the `names()` function we introduced in the R Basics tutorial Part 1. Just pass this function **unFBposts**.
 
 
 ```{r names, exercise=TRUE}
@@ -295,7 +297,7 @@ message | Text of post, NA if no text
 
 ### The `head()` and `str()` functions
 
-We can examine the first few rows of the data frame using the `head()` function. By default, it prints the first 6 rows. To look at more or less, specify the `n` argument.
+We can examine the first few rows of the data frame using the `head()` function. By default, it prints the first 6 rows. To look at more or fewer rows, specify the `n` argument.
 
 ```{r str, exercise=TRUE}
 head(unFBposts, n = 5)
@@ -320,7 +322,7 @@ Look carefully at the output to see what you can learn about the data before con
 
 ### The `summary()` function
 
-The `summary()` function can be used to obtain some basic descriptive information about the contents of a data frame object. What information is displayed will depend on the class of the variable. For numeric variables, it will report the minimum value, the value at the 1st quartile, the median, the value at the third quartile, and the maximum value.
+The `summary()` function can be used to obtain some basic descriptive information about the contents of a data frame object. What information is displayed will depend on the class of the variable. For numeric variables, it will report the minimum value, the value at the 1st quartile (the value associated with the 25th percentile), the median, the value at the third quartile (the value associated with the 75th percentile), and the maximum value.
 
 ```{r summar, exercise=TRUE}
 summary(unFBposts)
@@ -442,7 +444,9 @@ If we want to list all values of a particular variable, say **type**, we leave t
 unFBposts[10:15, "type"]
 ```
 
-We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it. This code can be helpful for identifying values of a variable when you don't know the indiex value. Here there is only one message with the maximum number of likes so it returns just one message.
+We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it. This code can be helpful for identifying values of a variable when you don't know the index value. Here there is only one message with the maximum number of likes so it returns just one message.
+
+Look carefully at this code, we will be using the `which()` function frequently this semester.
 
 ```{r index3, exercise=TRUE}
 unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
@@ -640,11 +644,12 @@ grade_code()
 ```
 
 ```{r max-hint}
-The max function will provide this information.
+The max function will provide this information. 
+It is good practice to set na.rm = TRUE when using this function.
 ```
 
 ```{r max-solution}
-max(unFBposts$shares_count)
+max(unFBposts$shares_count, na.rm = TRUE)
 ```
 
 ```{r max-check}
@@ -660,10 +665,11 @@ grade_code()
 ```{r min-hint}
 Use the min function to find the smallest number of likes
 associated with a post.
+It is good practice to set na.rm = TRUE when using this function
 ```
 
 ```{r min-solution}
-min(unFBposts$likes_count)
+min(unFBposts$likes_count, na.rm = TRUE)
 ```
 
 ```{r min-check}
@@ -678,10 +684,11 @@ grade_code()
 
 ```{r range-hint}
 The range function will provide this information.
+It is good practice to set na.rm = TRUE when using this function.
 ```
 
 ```{r range-solution}
-range(unFBposts$shares_count)
+range(unFBposts$shares_count, na.rm = TRUE)
 ```
 
 ```{r range-check}
