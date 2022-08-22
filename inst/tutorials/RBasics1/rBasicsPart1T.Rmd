@@ -21,7 +21,7 @@ The tutorials will typically begin by introducing code with examples that you wi
 
 You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later. If you are running the tutorials on a local installation of R Studio, your progress will be saved when you return.
 
-I encourage you to resist the temptation to view the solution and copy it. Typing out the code will help you to understand what each exercise is doing and to recall code in you own work. Take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for labs, or for your final project.
+I encourage you to resist the temptation to view the solution and copy it. Typing out the code will help you to understand what each exercise is doing and to recall code in you own work. Take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for problem sets, or for your final project.
 
 
 ## Learning Objectives
@@ -166,7 +166,7 @@ sqrt(4)
 grade_code("Not so hard.")
 ```
 
-To learn the arguments accepted by a function, call the `args()` function and pass it the name of the function (without parentheses). Below I've passed `args()` the function for standard deviation: `sd`. Run the code below to see how many arguments this function has and what they are.
+To learn the arguments accepted by a function, call the `args()` function and pass it the name of the function. Below I've passed `args()` the function for standard deviation: `sd`. Run the code below to see how many arguments this function has and what they are.
 
 ```{r args, exercise=TRUE}
 args(sd)
@@ -477,7 +477,7 @@ Some functions you will use a lot include:
 * `mean()`: provides the mean of the object values.
 * `sum()`: provides the sum of the values in the object.
 
-Each of these functions takes only one input object (argument). 
+Each of these functions has two arguments: `x`, the name of the object for which the function is to be applied and `na.rm`, which stands for remove missing values and takes a default value of FALSE. If the object contains missing values, these functions will return an error unless you specify `na.rm = TRUE`. This tells R to ignore the missing values before applying the function. None of the vectors we created have missing values, so the default option is fine.
 
 Below I've applied each function to some (numeric!) vector we created with our vote data:
 
@@ -656,7 +656,7 @@ rep.names
 grade_code(" ")
 ```
 
-Find the mean share of the vote going to the Republican candidate.
+Find the mean share of the vote going to the Republican candidate (there are no missing values, so you do not need to specify the `na.rm` argument).
 
 ```{r meanrep, exercise=TRUE, exercise.setup="Repshare-me"}
 
@@ -695,6 +695,8 @@ range(rep.pres.vote.share)
 ```{r rangerep-check}
 grade_code(" ")
 ```
+
+<span style="color:blue">Way to go! You've finished the first tutorial. Congratulations!</span>
 
 
 
