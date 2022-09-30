@@ -323,7 +323,7 @@ wrapping it inside the c() function.
 
 
 ```{r ideology-solution}
-prop.test(x = c(85, 58), n = c(85 + 2882 + 202 + 469 + 221 + 320 + 76, 58 + 211 + 173 + 415 + 282 + 374 + 90))
+prop.test(x = c(85, 58), n = c(85 + 288 + 202 + 469 + 221 + 320 + 76, 58 + 211 + 173 + 415 + 282 + 374 + 90))
 ```
 
 ```{r ideology-check}
@@ -337,8 +337,8 @@ grade_code()
 question("Look at the prop.test output. Which of the following is true?",
   answer("0.036 is the proportion of females who were very liberal",  message="Because **male** takes character values, the prop 1 in the output refers to the first value alphabetically, female. Thus prop 2 is the proportion for males. "),
   answer("We can reject the null hypothesis that the proportion of males and females who say they are very liberal is the same with 95% confidence", correct=TRUE),
-  answer("We can be 95% confident the true difference in proportions in the population is between about -0.027 and -0.006", correct=TRUE),
-  answer("Males are more likely to say they are very liberal than females", correct=TRUE),
+  answer("We can be 95% confident the true difference in proportions in the population is between about 0.0004 and 0.0296", correct=TRUE),
+  answer("Males are more likely to say they are very liberal than females", message = "Because the proportion of females who are very liberal is about 0.051 and the proportion of males is about 0.036, females are more likely to say they are very liberal"),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -349,10 +349,10 @@ question("Look at the prop.test output. Which of the following is true?",
 We will use the **counties** data frame, which contains data on counties in the United States in 2016, to test whether the proportion of majority white counties Donald Trump won was different from the proportion of non-majority white counties he won. The two variables of interest are **White**, which takes the values "Majority White" and "Non-Majority White", and **TrumpMajority**, which takes the value 1 if Donald Trump won the county and 0 if Hillary Clinton won the county.
 
 
-**Step 1. Formulate the null hypothesis**. $$H_0: \pi_w=\pi_{NW}$$ 
+**Step 1. Formulate the null hypothesis**. The proportion of majority white counties Trump won is equal to the proportion of non-majority white counties Trump won: $$H_0: \pi_w=\pi_{NW}$$ 
 
 
-**Step 2. Formulate the alternative hypothesis**. $$H_A:\pi_w \ne \pi_{NW}$$.
+**Step 2. Formulate the alternative hypothesis**. The proportion of majority white counties Trump won is **not** equal to the proportion of non-majority white counties Trump won: $$H_A:\pi_w \ne \pi_{NW}$$
 
 
 
@@ -440,7 +440,7 @@ The **aNES** data frame contains the variable **pid_strength**, a 7-point scale 
 
 ```{r cross, exercise = TRUE}
 library(descr)
-CrossTable(aNES$pid_strength,aNES$male,  prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE, chisq = TRUE)
+CrossTable(aNES$pid_strength, aNES$male,  prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE, chisq = TRUE)
 ```
 
 **Step 4. Determine the p-value** and **Step 5. Draw a conclusion.**
