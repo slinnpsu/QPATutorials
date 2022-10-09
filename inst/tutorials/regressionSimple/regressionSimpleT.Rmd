@@ -111,11 +111,6 @@ Now that you've found the estimated coefficients let's determine what the model 
   
   $$\hat{\textbf{dem2p_percent}} = \hat{\alpha}+ \hat{\beta}\textbf{wage_growth} = 31.3521+ 0.45582\times(4.3)=35.27218.$$
 
-
-
-  
- 
-    
  
 ```{r letter-a, echo=FALSE}
 question("What is the vote for Hillary Clinton in a county with wage growth at the 75th percentile, which was 6.5?",
@@ -125,7 +120,6 @@ question("What is the vote for Hillary Clinton in a county with wage growth at t
   allow_retry = TRUE
   )
 ```
-  
   
   
 ### Conduct Hypothesis Tests
@@ -345,7 +339,8 @@ equal to the results of the lm() function
 ```{r third-hint-2}
 You need to specify the formula for the regression inside lm().
 Remember that you specify the dependent variable first, followed by 
-the tilde and the independent variable.
+the tilde and the independent variable. Because White is coded 0, 1,
+we should wrap it in the factor() function.
 Don't forget to specify the data argument.
 ```
 
@@ -354,7 +349,7 @@ The last step is to use the summary() function, passing it My.third.model
 ```
 
 ```{r third-solution}
-My.third.model <- lm(dem2p_percent ~ White, data = counties)
+My.third.model <- lm(dem2p_percent ~ factor(White), data = counties)
 summary(My.third.model)
 ```
 
