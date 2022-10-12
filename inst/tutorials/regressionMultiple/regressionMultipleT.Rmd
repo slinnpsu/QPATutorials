@@ -239,7 +239,7 @@ The proportion of the variance explained by this model is a little bigger in thi
 
 ## A Second Example: The Quality of Government
 
-As a second example, we will work with data from the Quality of Government basic data set from The Quality of Government Institute, \url(http://www.qog.pol.gu.s). The data frame is call **qog** and contains data from the year 2016 for a number of countries around the world. We will attempt to explain a country's overall governance score, **iiag_gov**. This variable aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development. This is an interval level variable that ranges between 11. and 80.1 with a standard deviation of 13.8. Our independent variables include:
+As a second example, we will work with data from the Quality of Government basic data set from The Quality of Government Institute, \url(http://www.qog.pol.gu.s). The data frame is called **qog** and contains data from the year 2016 for a number of countries around the world. We will attempt to explain a country's overall governance score, **iiag_gov**. This variable aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development. This is an interval level variable that ranges between 11. and 80.1 with a standard deviation of 13.8. Our independent variables include:
 
 + **wdi_fertility**: the fertility rate in the country
 + **bti_eo**: a measure of equal opportunity on a scale from 1 to 10 where 10 is more equal
@@ -417,7 +417,7 @@ question("Which of the following statements are true?",
 ```{r letter-y, echo=FALSE}
 question("Which of the following statements are true?",
   answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we can expect a one-dollar change in X to increase Y by 10 units, all else equal.", correct=TRUE),
-  answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we expect a one-unit change in X to increase Y by 10 dollars, all else equal. ", correct=FALSE, message="Remember, the slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
+  answer("A slope coefficient of 10 associated with a variable measured in dollars tells us that we expect a one-unit change in Y to increase X by 10 dollars, all else equal. ", correct=FALSE, message="Remember, the slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal. "),
   answer("If the p-value associated with a coefficient estimate is greater than 0.05, we can reject the null hypothesis that it has an effect on Y with 95% confidence. ", correct=FALSE, message = "The p-value tells us the probability the null hypothesis is true, therefore we want a low p-value in order to reject the null hypothesis. Specifically, it should be less than 0.05 to be - at least - 95% confident that the null hypothesis is not true. "),
   answer("The intercept value tells us the expected value of Y when all independent variables take the value zero", correct=TRUE),
   allow_retry = TRUE,
@@ -429,7 +429,7 @@ question("Which of the following statements are true?",
 ```{r letter-x, echo=FALSE}
 question("Which of the following statements is FALSE?",
   answer("The residual standard error is measured in units of the dependent variable. ", correct=FALSE, message = "If our dependent variable is measured in dollars and is 1200, that tells us that more than half the prediction errors from the model are within 1200 dollars. "),
-  answer("A residual standard error of 12.5 tells us that 68% of the residuals fall within 12.5 units from the regression line", correct=FALSE, message = "The Empirical Rule tells us that 68% of the values fall within one standard deviation of the mean. The residuals have a mean of zero, so it tells us the value of the residuals that mark the amount of error that falls within 68% of the regression line. "),
+  answer("A residual standard error of 12.5 tells us that about half of the residuals fall within 12.5 units from the regression line", correct=FALSE, message = "The Empirical Rule tells us that 68% of the values fall within one standard deviation of the mean. The residuals have a mean of zero, so it tells us the value of the residuals that mark the amount of error that falls within 68% of the regression line. "),
   answer("The coefficient on a binary independent variable tells us the expected value of Y when that variable takes a value of 1", correct=TRUE, message="It tells us the **difference** between the expected value of Y when X=1 compared to when X=0. "),
   answer("If a nominal variable takes the values east, west, north, and south, we include dummy variables for three categories in the regression model.", correct=FALSE, message="We always include one less dummy variable than there are categories of the nominal independent variable. "),
   allow_retry = TRUE,
