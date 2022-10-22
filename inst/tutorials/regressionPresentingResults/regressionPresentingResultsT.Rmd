@@ -16,8 +16,8 @@ description: >
 In this tutorial, you will learn how present results from regression analysis in R. Specifically we will cover:
 
 * How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
-* How to produce a plot of the coefficient estimates as an alternative to a table using the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
-* How to use the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a regression analysis.
+* How to produce a plot of the coefficient estimates as an alternative to a table using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
+* How to use the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a regression analysis.
 
 
 ```{r setup, include=FALSE}
@@ -89,9 +89,9 @@ summary(model1)
 
 ### A basic table
 
-Now that we have a model object, **model1**, which contains the regression results from the `lm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type=text` so that the output is readable. That's all we need to do to create a basic table.
+Now that we have a model object, **model1**, which contains the regression results from the `lm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type="text"` so that the output is readable. That's all we need to do to create a basic table.
 
-Note that we need to load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
+Note that we need to (install and) load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
 
 ```{r star, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -105,7 +105,7 @@ Look at the table and confirm that the results match the summary output from the
 
 This looks pretty good, but we can make it better. Let's make this more informative by adding a title with the `title` argument; a label for the dependent variable with the `dep.var.labels` argument, and labels for the rows of the table with the `covariate.labels` argument. Afterall, we can't expect our reader to know what the names of our variables stand for. In this example, they might be able to guess, but often it is helpful to give more substantive names in our tables. Each of the values for these arguments must be set in quotes, and anytime we have more than a single label to pass the argument, we must put them inside the `c()` function and separate them by commas.  Don't forget to separate each argument in the `stargazer()` function with a comma!
 
-<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
+<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order, beginning with the first variable listed in the `lm()' function and ending with the intercept. For categorical variables with more than two categories each of the included categories must get a separate label. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
 
 ```{r star2, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -148,7 +148,7 @@ stargazer(model2,
 grade_code()
 ```
 
-Now add a title and the dependent and covariate labels.
+Now add a title and the dependent and covariate labels.Be careful with the variable **UrbanCat**, which takes three values. You will need to determine the included categories and list them in the order matching the `summary()` output.
 
 ```{r star4, warning=FALSE, message=FALSE, exercise=TRUE}
 stargazer(My.second.model,
@@ -322,7 +322,7 @@ Here we will use the `plot_model()` function we used to produce the coefficient 
 
 We must tell the function the name of the independent variable whose effects we wish to isolate. We do this using the `term` argument, setting it equal to the variable name (in quotes). All other variables are automatically held at their mean values, if they are interval or ordinal, and at their base levels if they are categorical. 
 
-The `show.data` argument controls whether the raw data points (the bivariate scatte rplot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
+The `show.data` argument controls whether the raw data points (the bivariate scatter plot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
 
 
 The remaining options replace the default labels in the plot. <span style="color:Red">Note: The label arguments are different in `plot_model()` than when using `ggplot()`.</span>
@@ -348,7 +348,7 @@ This plot shows us the line representing the predicted percent of the vote cast 
 
 
 
-For nominal variables (or ordinal variables treated as nominal variables), the predicted values give the mean vale of the dependent variable for each category when all other interval-level variables are held at their means and any other categorical variables are set to their base value.
+For nominal variables (or ordinal variables treated as nominal variables), the predicted values give the mean value of the dependent variable for each category when all other interval-level variables are held at their means and any other categorical variables are set to their base value.
 
 Let's plot the predicted percent of the vote for Hillary Clinton for our three category nominal variable **UrbanCat** included in **model2** 
  
