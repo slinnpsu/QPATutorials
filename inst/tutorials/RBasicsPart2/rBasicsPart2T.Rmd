@@ -49,7 +49,7 @@ Each row of the data set below contains an observation for a single county in th
 
 ![](images/DataEx.png){width=70%}
 
-R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester.
+R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
 
 ## Loading R data files (extension .RData)
 
@@ -90,7 +90,7 @@ Because the functions in the package <span style="color:DarkGreen">rio</span> ar
 
 ### Comma-separated files
 
-Let's import the comma-separated (.csv) file, unitednations.csv, and examine its contents. Here, I've assigned the file to the object **unFBposts**. But you could name it anything you like, as long as it does not start with a number of use reserved characters like $ and #.
+Let's import the comma-separated (.csv) file, unitednations.csv, and examine its contents. Here, I've assigned the file to the object **unFBposts**. But you could name it anything you like, as long as it does not start with a number or include reserved characters like $ and #.
 
 ```{r df-setup}
 tmp.df <- read.csv("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/unitednations.csv")
@@ -488,7 +488,7 @@ We can examine the first few values of this new variable using the `head()` func
 head(unFBposts$like.or.share)
 ```
 
-Try creating a variable called **attention** that is the sum of all types of attention paid to a post: likes, shares, and comments. Store the new variable in the data frame **unFBposts** and list the first few values.
+Try creating a variable called **attention** that is the sum of all types of attention paid to a post: likes (likes_count), shares (shares_count), and comments (comments_count). Store the new variable in the data frame **unFBposts** and list the first few values.
 
 
 ```{r newvar, exercise=TRUE}
@@ -539,7 +539,7 @@ If we had created new objects separate from those in **unFBposts**, saving **unF
 Using the functions we've covered so far, do your best to answer the following questions. 
 
 
-1. How many posts were published in 2015?
+1. How many posts were published in 2015? Recall that each row of the data frame contains a post.
 
 ```{r howmany2, exercise=TRUE}
 
@@ -578,7 +578,7 @@ unFBposts$message[1]
 grade_code()
 ```
 
-3. How many likes did posts receive on average?
+3. How many likes ("likes_count") did posts receive on average?
 
 ```{r likes, exercise=TRUE}
 
@@ -598,7 +598,7 @@ mean(unFBposts$likes_count, na.rm = TRUE)
 grade_code()
 ```
 
-4. How many comments did posts receive on average?
+4. How many comments ("comments_count") did posts receive on average?
 
 ```{r mean, exercise=TRUE}
 
@@ -618,7 +618,7 @@ mean(unFBposts$comments_count, na.rm = TRUE)
 grade_code()
 ```
 
-5. How many shares did posts receive on average?
+5. How many shares ("shares_count") did posts receive on average?
 
 ```{r shares, exercise=TRUE}
 
@@ -637,7 +637,7 @@ mean(unFBposts$shares_count, na.rm = TRUE)
 grade_code()
 ```
 
-6. What was the largest number of shares a post received? 
+6. What was the largest number of shares ("shares_count") a post received? 
 
 ```{r max, exercise=TRUE}
 
@@ -656,7 +656,7 @@ max(unFBposts$shares_count, na.rm = TRUE)
 grade_code()
 ```
 
-7. What was the smallest number of likes a post received?
+7. What was the smallest number of likes ("likes_count") a post received?
 
 ```{r min, exercise=TRUE}
 
@@ -676,7 +676,7 @@ min(unFBposts$likes_count, na.rm = TRUE)
 grade_code()
 ```
 
-8. What was the range of the number of shares a post received?
+8. What was the range of the number of shares ("Shares_count") a post received?
 
 ```{r range, exercise=TRUE}
 
