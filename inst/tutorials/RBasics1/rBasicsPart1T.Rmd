@@ -197,7 +197,8 @@ R Studio will open a help window providing details on the function.
 (If you don't know the name of the R function, google it.) 
 
 
-
+Note: If you receive an error message like the following, then the function is likely located in a package you have not loaded: "No documentation for ‘funcname’ in specified packages and libraries:
+you could try ‘??funcname’.  Typing ??funcname will cause R Studio to look more broadly for the function and indicate which packages contain that function You can try this option or you can install the relevant package (if you have not), load it with library(packag_name), and then type ?funcname in the console window.
 
 ## Classes of objects
 
@@ -238,7 +239,7 @@ There are many other classes of objects in R. We will encounter more in future l
 
 Next, we will enter some data into R as a *numeric vector object*. A *vector* is just a collection of information stored in a specific order. We use the function `c()`, which stands for `concatenate,' to enter a data vector containing multiple values with commas separating different elements of the vector we are creating. **Any time you wish to refer to more than one element, you must use the concatenate function!**
 
-Create a vector called **my.first.vector** that contains any 5 numbers you wish and check the contents of the vector to see your handiwork:
+Create a vector called **my.first.vector** that contains any 5 numbers you wish and check the contents of the vector (by listing the name of the vector on a new line) to see your handiwork:
 
 
 ```{r firstvec, exercise=TRUE}
@@ -558,7 +559,7 @@ dem.pres.vote.share
 
 Base R contains many functions to accomplish a variety of tasks. But many of the functions we will use are contained in packages that have been contributed to the Comprehensive R Archive Network (CRAN).  A package bundles together code, data, and help files. There are over 10,000 packages written for R, and more are contributed all the time. R does not automatically install or load packages in order to save memory.
 
-You will need to install packages using the `install.packages()` function by passing the function the name of the package in quotes. Once installed, you load the package using the `library()` function. For example, we will use the `ggplot()` function in the  <span style="color:DarkGreen">ggplot2</span> package. You must load a package each time you start R before you can use the functions it contains (but only install it once). If you don't first load the package, you will get an error:
+You will need to install packages using the `install.packages()` function by passing the function the name of the package in quotes. Once installed, you load the package using the `library()` function. For example, we will use the `ggplot()` function in the  <span style="color:DarkGreen">ggplot2</span> package. You must load a package each time you start R before you can use the functions it contains (but only install it once). If you don't first load the package, you will get an error message:
 
 ```{r errorlib, exercise=TRUE}
 ggplot()
