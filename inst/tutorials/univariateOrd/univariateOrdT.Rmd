@@ -349,6 +349,41 @@ ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
 grade_code()
 ```
 
+
+Let's recreate this plot to display the y-axis in proportions. You only have to change two lines: the `geom_bar()` line needs a y aesthetic and the y axis title needs to change to "Proportion".
+
+
+```{r FHplot2_prop, exercise=TRUE}
+ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
+         geom_bar(XXXX(XXXX = XXXX(XXXX/XXXX(XXXX)))) +
+         labs(title = "Freedom House Ranking of Countries", 
+              x = NULL,  
+              y = "XXXX") +
+         scale_x_discrete(na.translate = FALSE, labels = c("Not Free", "Partly Free", "Free"))
+```
+
+```{r FHplot2_prop-hint-1}
+To add the y aesthetic to geom_bar() obtain proportions specify aes(y = after_stat(count/sum(count)))).
+Be careful to match parentheses.
+```
+
+
+
+```{r FHplot2_prop-solution}
+ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
+         geom_bar(aes(y = after_stat(count/sum(count)))) +
+         labs(title = "Freedom House Ranking of Countries", 
+              x = NULL,  
+              y = "Proportion") +
+         scale_x_discrete(na.translate = FALSE, labels = c("Not Free", "Partly Free", "Free"))
+```
+
+```{r FHplot2_prop-check}
+grade_code()
+```
+
+
+
 ## The Takeaways
 
 Describing ordinal variables looks very much like describing a nominal variable. The only addition to our arsenal of descriptive tools is the median.  To summarize what we've learned:
