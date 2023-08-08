@@ -33,7 +33,7 @@ knitr::opts_chunk$set(error = TRUE)
 
 The purpose of data analysis is to find meaning in data and use it to solve problems. In this class, we take data as given. Although there is an unbelievable amount of data at our disposal, how we make use of data depends on how well it measures the concepts we care about. Much effort in the research enterprise is devoted to creating measures of concepts and to gathering data to operationalize those measures. The results of those efforts are the data sets we will analyze in class.  The variables in these and other data sets are the building blocks for all analyses.
 
-What is a variable? A variable is an empirical measure of the characteristics central to our concepts. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
+What is a variable? A variable is an empirical measure of the characteristics central to a concept. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
 
 
 ## Levels of Measurement
@@ -95,7 +95,7 @@ Note that both nominal and ordinal level variables are considered <span style="c
 
 A special type of interval variable, often given its own level of measurement, is a <span style="color:blue">**ratio variable**</span>. A ratio variable is a type of interval variable that has a natural zero point. Almost all the interval variables we work with in the social sciences are also ratio variables. For simplicity, we will simply refer to these variables as interval-level.
 
-Interval variables may be <span style="color:blue">**discrete**</span> or <span style="color:blue">**continuous**</span>. A variable measure in whole numbers is discrete. One measured in decimals is continuous. R refers to the variable type as int (for integer) if a variable is discrete and num (for numeric) if it is continuous.
+Interval variables may be <span style="color:blue">**discrete**</span> or <span style="color:blue">**continuous**</span>. A variable measured in whole numbers is discrete. One measured in decimals is continuous. R refers to the variable type as int (for integer) if a variable is discrete and num (for numeric) if it is continuous.
 
 ```{r letter-c, echo=FALSE}
 question("Which of the following variables are interval (or ratio) level measures?",
@@ -165,7 +165,7 @@ question("What level of measurement would ideology be if the variable was coded 
 
 ### Ordinal variables are sometimes treated as interval variables
 
-To make matters confusing, analysts may treat an ordinal variable as if it was measured at the interval level.  Consider the level of education coded as to whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond. Often analysts "pretend" or "assume" that the differences between categories can be treated *as if* they are the same. This is particularly common when the number of ranked values a variable takes is large. In some cases, such treatment may be justified, but it is important to recognize that in treating an ordinal variable as an interval-level variable, an analyst is assuming that the differences between values are equal.
+To make matters confusing, analysts may treat an ordinal variable as if it was measured at the interval level.  Consider the level of education coded as whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond. Often analysts "pretend" or "assume" that the differences between categories can be treated *as if* they are the same. This is particularly common when the number of ranked values a variable takes is large. In some cases, such treatment may be justified, but it is important to recognize that in treating an ordinal variable as an interval-level variable, an analyst is assuming that the differences between values are equal.
 
 
 ## The Takeaway
