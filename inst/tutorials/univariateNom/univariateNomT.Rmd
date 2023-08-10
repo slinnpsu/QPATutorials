@@ -60,7 +60,7 @@ Univariate description involves the examination of a single variable at a time. 
 
 1. <span style="color:blue">**Central tendency**</span>. Central tendency refers to the "typical value" a variable takes.
 2. <span style="color:blue">**Dispersion**</span>. Dispersion refers to the spread or variation in the values a variable takes. When assessing dispersion, we want to know how similar or different the values taken by the variable are.
-3. <span style="color:blue">**The shape of the distribution**</span>. The distribution of a variable is a summary of the frequency of individual values or ranges of values for a variable.
+3. <span style="color:blue">**The shape of the distribution**</span>. The distribution of a variable is a summary of the frequency of individual values or ranges of values for a variable. When plotted, we can desribe the shape of the distribution.
 
 In most situations, we use statistical summaries as well as visualizations -- plots or figures -- to describe all three of these characteristics for each of the variables in our study.
 
@@ -132,6 +132,8 @@ counties %>%
   summarise(freq = n())
 ```
 
+The first row of the output lists the first value of **TrumpMajority** in the first column and the count of cases taking that value (**freq**) in the second column. The second row lists the second (and final) value of **TrumpMajority** in the second column and the count of cases taking that value in the second column.
+
 What does this frequency table tell us is the modal value of **TrumpMajority**? The most frequently occurring outcome is 1, thus, the mode is one. But "1" is not substantively meaningful. Instead, we say, "The modal county cast a majority of its vote for Donald Trump." (Recall that's the meaning of the value "1" for this variable.) This is useful information because it tells us Donald Trump won more counties than he lost. 
 
 ### The mutate() function
@@ -197,7 +199,7 @@ Unsurprisingly, most counties are majority white. "Majority white" is the modal 
 
 As a final example, consider the variable **region** in the data frame **df**. The variable assigns each US state to a region of the country as defined by the US Census Bureau. The variable takes the character values "South", "Northeast", "Midwest", and "West".
 
-Complete the code below to generate the frequency and proportion distribution of this variable. Name you count variable **freq** and your proportion variable **prop**.
+Complete the code below to generate the frequency and proportion distribution of this variable. Name your count variable **freq** and your proportion variable **prop**.
 
 
 
@@ -239,7 +241,7 @@ Finally, we found that, according to the US Census Bureau, 16 US States are in t
 
 ## The shape of the distribution
 
-The last summary information concerns the shape of the distribution. 
+The last piece of summary information concerns the shape of the distribution. 
 Because the frequency and proportion tables completely characterize the distribution of a nominal variable, we simply need a way to describe its shape.   The relevant question is whether the cases are equally dispersed or whether one or more categories dominates the distribution. We refer to the shape of the distribution of a categorical variable as either:
 
 1. <span style="color:blue">Unimodal</span>: It has only one peak, one category has many more cases than the others
@@ -275,7 +277,7 @@ We have an empty plot! At this stage, ggplot knows the data to use but not what 
 
 ### ggplot step two
 
-Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the values of **TrumpMajority** on the x-axis. Since the variable is coded as a numeric variable, we need to tell R that it is categorical (that it cannot take values other than 0 and 1). We will do this by passing the variable name to the `factor()` function before assigning it to `x`.
+Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. The `aes()` function stands for aesthetics, so it tells how the data are mapped to visual features of the plot. The arguments we pass this function depend on what type of plot we want to produce. We are going to create a bar plot, which requires us to tell `ggplot()` which variable to place on the x-axis (only). We want to plot the values of **TrumpMajority** on the x-axis. Thus we specify `x = TrumpMajority`. However, since the variable is coded as a numeric variable, we need to tell R that it is categorical (that it cannot take values other than 0 and 1). We will do this by passing the variable name to the `factor()` function before assigning it to `x`.
 
 Run the code below.
 
@@ -294,6 +296,7 @@ We tell `ggplot()` how to plot the data by adding a *geom* layer. There are many
 ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
   geom_bar()
 ```
+
 ### ggplot step four
 
 At this point, we have an ugly plot that is not very informative. We can change the default labels of the plot by adding another layer to our plot using the `labs()` function. We can pass the function a `title`, `subtitle`, `x` axis title, `y` axis title, and a `caption` argument. To add this information, we need to add a plus sign to the end of the previous code as follows. I've added \\n in the middle of the main title. This tells ggplot to insert a line break in the title and thus to spread it over two lines.
@@ -375,17 +378,19 @@ Here again the plot illustrates the <span style="color:blue">**mode(s)**</span>,
 
 The last thing we will do is plot proportions rather than the frequency distribution.
 
-To plot proportions, we give the `geom_bar()` function  its own aesthetic, which formats the y-axis. This aesthetic takes two arguments: `y=..prop..`, which transforms the y-axis to a proportion, and `group=1`, which tells the function to calculate proportions out of all cases: `geom_bar(aes(y=..prop.., group=1))`.
+To plot proportions, we give the `geom_bar()` function its own aesthetic, which formats the y-axis. Specifically, we include ``aes(y = after_stat(prop), group = 1)` inside the `geom_bar()` function. This transforms the y-axis to a proportion calculated out of all cases (`group = 1`): `geom_bar(aes(y = after_stat(prop), group = 1))`.
 
 Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
 
 ```{r propmajority, exercise=TRUE}
 ggplot(data = df, mapping = aes(x = factor(region))) +
-         geom_bar(aes(y = ..prop.., group = 1), fill = "blue") +
+         geom_bar(aes(y = after_stat(prop), group  = 1), fill = "blue") +
          labs(title = "Proportion of US States in Each Census Region", 
               x = NULL,  
               y = "Proportion")
 ```
+
+
 What does the plot illustrates about the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span> of this variable?
 
 While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states)  is in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
@@ -401,20 +406,20 @@ Replace the XXXX in the code below. Fill in the bars with the color "red". Be ca
 
 ```{r plotraceprop, exercise = TRUE, exercise.eval = FALSE}
 ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
-  geom_bar(XXXX(XXXX = XXXX, XXXX = XXXX), XXXX) +
+  geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +
   labs(title = "Regime Type",
        subtitle = "The Economist",
        x = NULL,
        y = "XXXX") +
-  XXXX((na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
+  XXXX(na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
 
 ```{r plotraceprop-hint-1}
 1. Have you named the data set world?
 2. Remember you need to specify the aes() function inside geom_bar().
-3. Have you specified y=..prop.. inside the geom_bar aes() function?
-4. Have you specified group=1?
+3. Have you specified y= after_stat(prop) inside the geom_bar aes() function?
+4. Have you specified group = 1 inside the aes() function?
 5. Have you specified fill="red" outside aes() in geom_bar?
 6. Did you set the y label to "Proportion"?
 7. Did you specify the scale_x_discrete function to edit the x axis?
@@ -422,7 +427,7 @@ ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
 
 ```{r plotraceprop-solution}
 ggplot(data = world, mapping = aes(x = factor(dem_level4))) +
-  geom_bar(aes(y = ..prop.., group = 1), fill = "red") +
+  geom_bar(aes(y = after_stat(prop), group = 1), fill = "red") +
   labs(title = "Regime Type",
        subtitle = "The Economist",
        x = NULL,
