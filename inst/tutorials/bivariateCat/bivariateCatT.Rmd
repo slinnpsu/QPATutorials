@@ -29,6 +29,7 @@ library(poliscidata)
 library(descr)
 library(ggplot2)
 library(gradethis)
+library(sjPlot)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
@@ -105,6 +106,11 @@ CrossTable(x = counties$TrumpMajority, y = counties$rural,
            prop.chisq = FALSE)
 ```
 
+```{r}
+library(sjPlot)
+tab_xtab(counties$TrumpMajority, counties$rural, show.col.prc =TRUE) 
+```
+
 Let's test your interpretation of the cell entries in this table:
 
 ```{r letter-a, echo=FALSE}
@@ -136,7 +142,7 @@ Now that we've interpreted individual cell entries, let's see what we can learn 
 
 Does the evidence support this hypothesis? If more rural counties are more likely to have cast a majority of their votes for Trump, what should we see? 
 
-By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column prportion, we **interpret a cross-tab by comparing proportions across columns at the same value of the dependent variable (in the same row)**. How does the proportion (or, if we multiple them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
+By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column proportions, we can **interpret the cross-tab by comparing proportions across columns at the same value of the dependent variable (in the same row)**. How does the proportion (or, if we multiply them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
 
 We know that the value 0 for **rural** denotes that a county is urban, 1, that it is neither urban nor rural, and 2 that it is rural. Thus, we expect the proportion of counties among those casting a majority of votes for Trump (**MajorityTrump**=1) in row 2 to increase as we move across the columns from the left to the right. We would also expect the reverse to be true for counties that cast a majority of votes for Clinton (**MajorityTrump**=0) in row 1.
 
@@ -227,7 +233,7 @@ grade_code()
 
 ```{r letter-z, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of countries is low at 0.625", correct=TRUE),
+  answer("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion is "low"" (0.625)", correct=TRUE),
   answer("Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", message = "While 21 countries have the highest level of gender equality, 0.062 is a column proportion calculated out of the total number of countries that are dictatorships"),
   answer("Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", correct = TRUE),
   allow_retry = TRUE,
@@ -281,12 +287,13 @@ Before we make this plot more informative, let's consider how to plot proportion
 
 ### Plotting Proportions
 
-To plot proportions, we set an aesthetic inside the `geom_bar()` layer. Specifically, we set `y = ..prop..` to represent the y axis as a proportion, and we set `group` equal to the `fill` variable. This tells `ggplot()` to calculate the proportions based on the number of cases in each value of that variable. 
+To plot proportions, we set an aesthetic inside the `geom_bar()` layer. Specifically, we set `y = after_stat(prop)` to represent the y axis as a proportion. We add `group = factor(rural)` so that `ggplot()` will calculate the proportions based on the number of cases in each value of the `fill` variable. 
 
 ```{r proptab, exercise=TRUE}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
-  geom_bar(position = "dodge", mapping = aes(y = ..prop.., group = factor(rural))) 
+  geom_bar(position = "dodge", mapping = aes(y = after_stat(prop), group = factor(rural))) 
 ```
+
 As we can see, the sum of the height of the red bars is equal to one, the sum of the height of the green bars is equal to one, and the sum of height of the blue bars is equal to one. This makes it easy to compare the relative proportions within a category of the fill variable across the categories of the x-axis variable. Thus we see here that Trump won more counties, regardless how urban or rural a county, and that he won relatively more "rural" counties than either "neither urban nor rural" or "urban" counties.
 
 ### Making the plot more informative
@@ -297,7 +304,7 @@ Before you execute the code below, read through it carefully. You will have to e
 
 ```{r inform, exercise=TRUE}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
-  geom_bar(position = "dodge", aes(y = ..prop.., group = factor(rural))) +
+  geom_bar(position = "dodge", aes(y = after_stat(prop), group = factor(rural))) +
   labs(title = "Proportion of Counties Casting \na Majority of Votes for Clinton and Trump", 
        x = NULL, 
        y = "Proportion",
@@ -315,7 +322,7 @@ Replace the XXX in the following code to produce the desired plot. Place the bar
 
 ```{r raceplot, exercise=TRUE}
 ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +
-  geom_bar(XXX = XXX, aes(y = ..prop.., group = XXX)) +
+  geom_bar(XXX = XXX, aes(y = after_stat(prop), group = XXX)) +
   labs(title = "Proportion of Counties Casting \na Majority of Votes for Clinton and Trump", 
        x = NULL, 
        y = "Proportion",
@@ -326,7 +333,7 @@ ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +
 ```
 
 ```{r raceplot-hint-1}
-Did you replace the first XXX with aes?
+Did you replace the first XXX aes?
 ```
 
 ```{r raceplot-hint-2}
@@ -350,7 +357,7 @@ specified with the fill argument.
 
 ```{r raceplot-solution}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = racial_majority)) +
-  geom_bar(position = "dodge", aes(y = ..prop.., group = racial_majority)) +
+  geom_bar(position = "dodge", aes(y = after_stat(prop), group = racial_majority)) +
   labs(title = "Proportion of Counties Casting \na Majority of Votes for Clinton and Trump", 
        x = NULL, 
        y = "Proportion",
@@ -369,7 +376,7 @@ This is a super informative and professional visualization. It produces the same
 
 ### Regime Type and Gender Equality
 
-Try to present the relationship between **gender_equal3** and **regime_type3** in the data frame **world** in a proportions bar plot. Start by building a basic side-by-side proportion plot, without worrying about the labels. Remember that you need to call the `ggplot()` function, specify the `data` and `mapping` arguments and that you need to specify both the variable to map to the x-axis (`x`) and to group by (`fill`) inside the `aes()` function.  To plot proportions, remember that you need to specify another `aes()` inside `geom_bar()` by setting `y = ..prop..` and `group` equal to the `fill` variable.
+Try to present the relationship between **gender_equal3** and **regime_type3** in the data frame **world** in a proportions bar plot. Start by building a basic side-by-side proportion plot, without worrying about the labels. Remember that you need to call the `ggplot()` function, specify the `data` and `mapping` arguments and that you need to specify both the variable to map to the x-axis (`x`) and to group by (`fill`) inside the `aes()` function.  To plot proportions, remember that you need to specify another `aes()` inside `geom_bar()` by setting `y = after_stat(prop)` and setting `group`  equal to the `fill` variable.
 
 
 ```{r genderplot, exercise=TRUE}
@@ -397,13 +404,14 @@ geom_bar function. To get a side-by-side plot we need to specify position="dodge
 
 ```{r genderplot-hint-4}
 To get proportions we need to specify the aes function 
-inside geom_bar, setting y = ..prop.. and group equal to 
-the fill variable above, regime_type3.
+inside geom_bar, setting y = after_stat(prop). Also inside the aes function,
+set group equal to the fill variable above, regime_type3.
+(Check your commas)
 ```
 
 ```{r genderplot-solution}
 ggplot(data = world, mapping = aes(x = gender_equal3, fill = regime_type3)) +
-  geom_bar(position = "dodge", aes(y = ..prop.., group = regime_type3)) 
+  geom_bar(position = "dodge", aes(y = after_stat(prop), group = regime_type3)) 
 ```
 
 
@@ -419,7 +427,7 @@ library(dplyr)
 world %>%
 filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%
 ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
-  geom_bar(position = "dodge", aes(y = ..prop.., group = regime_type3))
+  geom_bar(position = "dodge", aes(y = after_stat(prop), group = regime_type3))
 ```
 To complete the plot, let's fix labels.
 
