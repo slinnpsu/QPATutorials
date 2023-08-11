@@ -355,7 +355,7 @@ Let's recreate this plot to display the y-axis in proportions. You only have to 
 
 ```{r FHplot2_prop, exercise=TRUE}
 ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
-         geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX))) +
+         geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX)) +
          labs(title = "Freedom House Ranking of Countries", 
               x = NULL,  
               y = "XXXX") +
@@ -363,7 +363,7 @@ ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
 ```
 
 ```{r FHplot2_prop-hint-1}
-To add the y aesthetic to geom_bar() to obtain proportions specify aes(y = after_stat(prop), group = 1)).
+To obtain proportions specify aes(y = after_stat(prop), group = 1)) inside geom_bar().
 Be careful to match parentheses.
 ```
 
