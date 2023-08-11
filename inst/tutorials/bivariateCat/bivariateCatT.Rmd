@@ -106,10 +106,6 @@ CrossTable(x = counties$TrumpMajority, y = counties$rural,
            prop.chisq = FALSE)
 ```
 
-```{r}
-library(sjPlot)
-tab_xtab(counties$TrumpMajority, counties$rural, show.col.prc =TRUE) 
-```
 
 Let's test your interpretation of the cell entries in this table:
 
