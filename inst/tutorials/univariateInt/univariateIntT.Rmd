@@ -432,11 +432,11 @@ ggplot(data = counties,  mapping = aes(x = wage_growth)) +
 grade_code()
 ```
 
-Alternatively, you can control the width of the bin. This sets the range of values covered by a bin. If a variable takes values that range from, for example, 0 to 100, we might want each bin to cover 10 units. We could specify `bins = 10` (100/10=10) or set `bindwidth = 10`. Let's set the binwidth for wage growth to 0.1 or one-tenth of a percentage point.
+Alternatively, you can control the width of the bin. This sets the range of values covered by a bin. If a variable takes values that range from, for example, 0 to 100, we might want each bin to cover 10 units. We could specify `bins = 10` (100/10=10) or set `bindwidth = 10`. Let's set the binwidth for wage growth to 0.8 or eight-tenths of a percentage point.
 
 ```{r wagehist2b, exercise=TRUE}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
-         geom_histogram(color = "white", binwidth = .01) +
+         geom_histogram(color = "white", binwidth = .8) +
          labs(title = "Wage Growth in US Counties in 2016", 
               x = NULL, 
               y = "Frequency", 
