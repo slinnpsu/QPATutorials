@@ -112,11 +112,11 @@ R reports the two-tailed p-value associated with the t-statistic in scientific n
 
 ```{r letter-c, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence",  message="Remember if p is low the null must go!"),
-  answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("Because the confidence interval does not include the null value, we can reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("There is less than a one percent probability the null hypothesis is true", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (here 48.2). Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true."),
+  answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence and therefore conclude the mean Democratic share of the vote in counties is different from 48.2", correct=TRUE),
+  answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence and conclude the mean Democratic share of the vote in counties is not different from 48.2",  message="Remember if p is low the null must go!"),
+  answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence and conclude the mean Democratic share of the vote in counties is different from 48.2", correct=TRUE),
+  answer("Because the confidence interval does not include the null value, we can reject the null hypothesis with 95% confidence and conclude the mean Democratic share of the vote in counties is different from 48.2", correct=TRUE),
+  answer("There is less than a one percent probability the null hypothesis is true so we conclude that the mean Democratic share of the vote in counties is different from 48.2", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (here 48.2). Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true."),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -124,7 +124,7 @@ question("Which of the following statements are true?",
 
 ### Example 2: Proportion of white residents in US counties
 
-We might also be interested to know whether, in the average county in the US in 2016, the proportion of whites was the same as the country as a whole, 0.763. The variable **prop_white** in the data frame **counties** contains the proportion of blacks in a given county. 
+We might also be interested to know whether, in the average county in the US in 2016, the proportion of whites was the same as the country as a whole, 0.763. The variable **prop_white** in the data frame **counties** contains the proportion of Blacks in a given county. 
 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
@@ -171,10 +171,10 @@ We see that the p-value is "< 2.2e-16."
 
 ```{r letter-d, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("Because the confidence interval does not include the null value, we can reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("There is less than a one percent probability the null hypothesis is true", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (here 0.763). Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true. "),
+  answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence and conclude that the mean proportion of whites in counties is different from 0.763", correct=TRUE),
+  answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence and conclude that the mean proportion of whites in counties is different from 0.763", correct=TRUE),
+  answer("Because the confidence interval does not include the null value, we can reject the null hypothesis with 95% confidence and conclude that the mean proportion of whites in counties is different from 0.763", correct=TRUE),
+  answer("There is less than a one percent probability the null hypothesis is true so we conclude that the mean proportion of whites in counties is different from 0.763", correct=TRUE, message="If the p-value is less than 0.05, the t-statistic will be greater than 1.96 (for a two-tailed test), and the confidence interval will not include the value under the null (here 0.763). Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if in fact the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true. Thus, we conclude that the mean proportion of whites in counties is different from 0.763"),
   answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis",  message="Remember if p is low the null must go!"),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
@@ -187,9 +187,9 @@ question("Which of the following statements are true?",
 
 A <span style="color:blue">difference of means test</span> involves a comparison of the means in two groups. We focus here on the difference of means in two independent samples. This means that there is no overlap in the membership of cases in each sample. We use the difference of means test to test whether the means in two groups are the same in the population based on the sample data.
 
-### Example 1: Proportion of black residents in US counties won by Hillary Clinton and Donald Trump
+### Example 1: Proportion of Black residents in US counties won by Hillary Clinton and Donald Trump
 
-We might wish to test whether the proportion of blacks in a county was higher in counties that Hillary Clinton won than in those counties Donald Trump won.
+We might wish to test whether the proportion of Blacks in a county was higher in counties that Hillary Clinton won than in those counties Donald Trump won.
 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
@@ -197,8 +197,8 @@ We might wish to test whether the proportion of blacks in a county was higher in
 question("Which of the following correctly states the null and alternative hypothesis?",
   answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C\\ne\\mu_T$", message="The alternative hypothesis specified above is a one-tailed test"),
   answer("$H_0: \\bar{Y}_C=\\bar{Y}_T$ and $H_A: \\bar{Y}_C>\\bar{Y}_T$", message="The null and alternative hypothesis do not apply to the sample statistic but to the population parameter."),
-  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C>\\mu_T$", correct=TRUE, message="Our alternative hypothesis is that counties Clinton won were **more** likely to have a higher proportion of blacks than those Trump won so the alternative hypothesis is one-tailed with  $\\mu_C>\\mu_T$."),
-  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C<\\mu_T$",  message="The hypothesis stated above is one-tailed, but we expect the proportion of blacks to be larger in counties Hillary Clinton won"),
+  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C>\\mu_T$", correct=TRUE, message="Our alternative hypothesis is that counties Clinton won were **more** likely to have a higher proportion of Blacks than those Trump won so the alternative hypothesis is one-tailed with  $\\mu_C>\\mu_T$."),
+  answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C<\\mu_T$",  message="The hypothesis stated above is one-tailed, but we expect the proportion of Blacks to be larger in counties Hillary Clinton won"),
   allow_retry = TRUE
 )
 ```
@@ -217,27 +217,51 @@ where 1 and 2 denote the two groups, here Trump majority of Clinton majority. We
 
 To test whether the mean value of a single variable, $Y$, in R is the same in two different populations (in two groups) against the alternative that it is different, we need to use what R calls a formula. We list the name of the (interval level) variable for which we want to calculate the mean, then we type a tilde (~) and then the name of the variable that defines the two groups: `t.test(X ~ GroupVariable)`. If the variable resides in two different data objects use: `t.test(DF1$variable, DF2$variable)`.
 
-If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower in one of the two groups -- we add the `alternative` argument, setting it to `"greater"` if the mean in group one is hypothesized to be greater  than in group two and `"less"` if the mean in group one is hypothesized to be smaller than in group two. The default is a two-tailed alternative hypothesis, so you don't need to specify this argument if the alternative hypothesis is two-tailed.
+If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower in one of the two groups -- we add the `alternative` argument, setting it to `"greater"` if the mean in group zero is hypothesized to be greater  than in group one and `"less"` if the mean in group zero is hypothesized to be smaller than in group one The default is a two-tailed alternative hypothesis, so you don't need to specify this argument if the alternative hypothesis is two-tailed.
 
-The variables **TrumpMajority** (coded 0 if Hillary Clinton won a majority of the county's vote and 1 if Donald Trump won a majority) and **prop_black** (the proportion of the county residents who are Black) in the **counties** data frame contain the information needed to test this hypothesis.
+The variables **TrumpMajority** (coded 0 if Hillary Clinton won a majority of the county's vote and 1 if Donald Trump won a majority) and **prop_black** (the proportion of the county residents who are Black) in the **counties** data frame contain the information needed to test the hypothesis that the mean proportion of Black's in counties won by Hillary Clinton is higher than that in counties won by Donald Trump.
 
-Note that we specify `alternative = "greater"` because the first group mean computed is for the smallest value of **TrumpMajority**, 0, which denotes counties Clinton won. Anytime you use a one-tailed test, take care to ensure you choose the appropriate alternative given the coding of the variables!
+Note that we specify `alternative = "greater"` to test this hypothesis because we expect the mean in group zero to be higher than the mean in group one. Anytime you use a one-tailed test, take care to ensure you choose the appropriate alternative given the coding of the variables!
 
 ```{r twosample1, exercise = TRUE}
 t.test(counties$prop_black ~ counties$TrumpMajority, alternative = "greater")
 ```
+
+```{r letter-fa, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("The mean proportion of Blacks in counties Clinton won was 0.23", correct = TRUE, message="Group 0 refers to the first response option for TrumpMajority, which corresponds to a Clinton majority."),
+  answer("The mean proportion of Blacks in counties Trump won was 0.23", message="Group 0 refers to the first response option for TrumpMajority, which corresponds to a Clinton majority. The average proportion of Blacks in counties Trump won is about 0.075. "),
+  answer("The counties that Clinton won had, on average, a 0.23 - 0.07 = 0.16 greater proportion that were Black than did counties Trump won.", correct = TRUE,  message="0.23 - 0.07 = 0.16 is the difference in the mean proportion black in counties Clinton won, group 0, and counties Trump won, group 1."),
+  answer("", message=""),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
 **Step 4. Translate the test statistic into a p-value.** 
 
 We see that the p-value is "< 2.2e-16."
 
 **Step 5. Draw a conclusion.**
 
+
+
+
 ```{r letter-f, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence", message="Remember p is low the null must go"),
   answer("Because the confidence interval does not include the null value, we cannot reject the null hypothesis", message="If a confidence interval does not include the value under the null hypothesis, we can reject the null hypothesis. "),
-  answer("The mean proportion of the vote won by counties that were majority black was 0.23", message="0.23 is the proportion black in counties won by Hillary Clinton. "),
-  answer("There is less than a 1% chance that we would observe a difference in the group means this large (and positive) if, in fact, the  means were equal or the proportion black was higher in counties Trump won. ", correct=TRUE, message="If the p-value is less than 0.05, the 95% confidence interval will not include the value under the null. Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if, in fact, the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true. "),
+answer("There is less than a 1% chance that we would observe a difference in the group means this large (and positive) if, in fact, the  means were equal or the proportion Black was higher in counties Trump won. ", correct=TRUE, message="If the p-value is less than 0.05, the 95% confidence interval will not include the value under the null. Each of these facts means we can reject the null hypothesis with 95% confidence. The p-value gives the probability we observe the mean this far from the hypothesized value if, in fact, the null is true. Since the p-value is less than 0.01, there is less than a one percent probability the null is true. "),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
+```{r letter-fz, echo=FALSE}
+question("What substantive conclusion can we draw from this hypothesis test?",
+  answer("The proportion of Blacks in counties won by Hillary Clinton is significantly lower than that in counties Donald Trump won", message="Group 0 is comprised of counties Clinton won, therefore the proportion is significantly higher in counties won by Hillary Clinton than in counties won by Donald Trump."),
+    answer("The proportion of Blacks in counties won by Hillary Clinton is higher than that in counties Donald Trump won.", correct=TRUE, message=""),
+    answer("The mean proportion Black in counties Clinton won is not greater than the proportion Black in counties won by Donald Trump for an alpha level of .05.", message = "This would be our concludsion if we failed to reject the null hypothesis."),
   allow_retry = TRUE,
   try_again = " "
   )
@@ -288,6 +312,17 @@ grade_code("You got this!")
 ```
 
 
+```{r letter-ha, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("The mean value of DGP in 2008 among democracies is 585.5484", correct = TRUE, message="Group Yes refers to democracies, group no to nondemocracies. 585.5484 is the mean for group yes."),
+  answer("Democracies had a higher mean GDP in 2008 than did non democracies", correct = TRUE, message="The difference in the mean of GDP in 2008 among democracies (group yes) is greater than the mean among nondecmoracies (group no)."),
+  answer("The mean value of DGP in 2008 among democracies is 226.0468",  message="Group Yes refers to democracies, group no to nondemocracies. 226.0468 is the mean for group no."),
+  answer("", message=""),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
 **Step 4. Translate the test statistic into a p-value** and **Step 5. Draw a conclusion.**
 
 ```{r letter-h, echo=FALSE}
@@ -301,6 +336,14 @@ question("Which of the following statements are true?",
   )
 ```
 
+```{r letter-hz, echo=FALSE}
+question("What substantive conclusion can we draw from this hypothesis test?",
+  answer("On average, democracies have a significantly higher GDP in 2008 than nondemocracies", message = "Although the estimated means show that democracies have a higher average GDP in 2008 than nondemocracies, we cannot be 95% confident that this is true in the population."),
+  answer("On average, democracies and nondemocracies do not have significantly different GDP values in 2008", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = ""
+  )
+```
 
 ## Paired t-test: one-sample means test, two variables 
  
@@ -363,6 +406,17 @@ t.test(world$gini10, world$gini08, paired = TRUE, alternative = "greater")
 grade_code("You are getting the hang of this")
 ```
 
+```{r letter-ia, echo=FALSE}
+question("Which of the following statements are true?",
+  answer("The average difference in countries' Gini coefficients in 2010 and 2008 of about -0.54 indicates that on average inequality grew from 2008 to 2010 by 0.54.", message="The mean difference is calculated as the mean of gini10 minus gini08, this implies that the 2008 value is higher (there is more inequality in 2008) than the 2010 value."),
+  answer("The average difference in countries' Gini coefficients in 2010 and 2008 of about -0.54 indicates that on average inequality fell from 2008 to 2010 by 0.54.", correct=TRUE, message="The mean difference is calculated as the mean of gini10 minus gini08, this implies that the 2008 value is higher (there is more inequality in 2008) than the 2010 value."),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
+
+**Step 4. Translate the test statistic into a p-value** and **Step 5. Draw a conclusion.**
+
 ```{r letter-i, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Because the p-value is greater than 0.05, we can reject the null hypothesis with 95% confidence", message="The p-value is not greater than 0.05"),
@@ -373,6 +427,16 @@ question("Which of the following statements are true?",
   )
 ```
 
+```{r letter-iz, echo=FALSE}
+question("What substantive conclusion can we draw from this hypothesis test?",
+  answer("There is no statistical evidence that the levels of inequality changed significantly, on average, from 2008 to 2010",  message="We did not test this hypothesis. Instead, we tested whether the average difference in GINI coefficients (gini10 - gini08) was greater than zero"),
+  answer("There is statistical evidence that the levels of inequality were significantly higher, on average, in 2010 than 2008",  message="Because we fail to reject the null hypothesis that the mean difference in the GINI coefficient (gini10 - gini08) is greater than zero, this statement is false"),
+    answer("There is no statistical evidence that the levels of inequality were significantly higher, on average, in 2010 than 2008",  correct = TRUE, message="Because we fail to reject the null hypothesis that the mean difference in the GINI coefficient (gini10 - gini08) is greater than zero, this statement is true"),
+      answer("We can be 95% confident that the levels of inequality were significantly higher, on average, in 2008 than 2010",   message="Even though levels of inequality were, on average, higher in 2008, because we fail to reject the null hypothesis that the mean difference in the GINI coefficient (gini10 - gini08) is greater than zero, this statement is false"),
+  allow_retry = TRUE,
+  try_again = " "
+  )
+```
 
 ## Plotting means
 
