@@ -393,7 +393,7 @@ ggplot(data = df, mapping = aes(x = factor(region))) +
 
 What does the plot illustrates about the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span> of this variable?
 
-While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states)  is in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
+While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states) in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
 
 
 ### Dispersion and the distribution of regime type around the world
