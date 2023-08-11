@@ -122,7 +122,7 @@ While R knows the data is grouped, the output here is the full data frame becaus
 
 The `summarise()` function collapses a data frame into a single row (if we do not group) or into a single row for each group (if we do group) of summary information. You get to choose which and how many summaries appear in the row and how they are computed. We can summarize the data without grouping, but usually, we will be calculating summary statistics on data we have grouped. In other words, we will produce summary statistics for each category of the grouping variable or variables. We can take the grouped data "and then" (using the pipe operator, %>%) within the `summarise()` function we provide the name(s) of any new summary information and the R expression to generate it (or them).
 
-We wish to calculate a single summary statistic: the frequency or count. The function `n()` (with no arguments) will count the number of cases for each category of the variable we have grouped by.  We want to assign the value of this function to a new variable we will call **freq**, but you can assign any name to the new variable that is permissible in R.
+We wish to calculate a single summary statistic: the frequency or count. The function `n()` (with no arguments) will count the number of cases. Because this follows `group_by()`, it will count the number of cases in each category of the variable we have grouped by.  We want to assign the value of this function to a new variable we will call **freq**, but you can assign any name to the new variable that is permissible in R.
 
 Run the code. (Note: A warning message may appear.)
 
@@ -132,7 +132,7 @@ counties %>%
   summarise(freq = n())
 ```
 
-The first row of the output lists the first value of **TrumpMajority** in the first column and the count of cases taking that value (**freq**) in the second column. The second row lists the second (and final) value of **TrumpMajority** in the second column and the count of cases taking that value in the second column.
+The first row of the output lists the first value of **TrumpMajority** in the first column and the count of cases taking that value (**freq**) in the second column. The second row lists the second (and final) value of **TrumpMajority** in the first column and the count of cases taking that value in the second column.
 
 What does this frequency table tell us is the modal value of **TrumpMajority**? The most frequently occurring outcome is 1, thus, the mode is one. But "1" is not substantively meaningful. Instead, we say, "The modal county cast a majority of its vote for Donald Trump." (Recall that's the meaning of the value "1" for this variable.) This is useful information because it tells us Donald Trump won more counties than he lost. 
 
