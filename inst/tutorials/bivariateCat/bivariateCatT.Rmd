@@ -215,7 +215,7 @@ Write the code to generate the cross-tab and run it. Assume we hypothesize that:
 ```
 
 ```{r samplecrosstb3-hint-1}
-Did you use the Crosstab function? Remember that you need to list 
+Did you use the CrossTable function? Remember that you need to list 
 the outcome variable first (gender equality) by assigning it to the x  
 argument. Then set the y argument to the variable you want in the columns 
 of the table. Finally, specify which information you do and do 
@@ -231,9 +231,20 @@ CrossTable(x = world$gender_equal3, y = world$regime_type3, prop.r = FALSE, prop
 grade_code()
 ```
 
+
+```{r letter-aa, echo=FALSE}
+question("How many counties in the sample are rural?",
+  answer("2622", message = "2622 is a row total: 2622 counties have a value of 1 for the variable TrumpMajority, which denotes they cast a majority of votes for Donald Trump"),
+  answer("1162", message = "1162 is a column total, but the wrong column: a value of 0 for the column variable rural, denotes a county is urban."),
+  answer("627", message = "627 is a column total giving the number of counties that have a value of 2 for the variable rural, which denotes a county is rural", correct = TRUE),
+  allow_retry = TRUE,
+  try_again = " "
+)
+```
+
 ```{r letter-z, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion is "low"" (0.625)", correct=TRUE),
+  answer("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of cases is `low' (0.625)", correct=TRUE),
   answer("Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", message = "While 21 countries have the highest level of gender equality, 0.062 is a column proportion calculated out of the total number of countries that are dictatorships"),
   answer("Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", correct = TRUE),
   allow_retry = TRUE,
@@ -287,7 +298,7 @@ Before we make this plot more informative, let's consider how to plot proportion
 
 ### Plotting Proportions
 
-To plot proportions, we set an aesthetic inside the `geom_bar()` layer. Specifically, we set `y = after_stat(prop)` to represent the y axis as a proportion. We add `group = factor(rural)` so that `ggplot()` will calculate the proportions based on the number of cases in each value of the `fill` variable. 
+To plot proportions, we proceed in parallel fashion to the the bar plot for a single categorical variable. We set an aesthetic inside the `geom_bar()` layer. Specifically, we set `y = after_stat(prop)` to represent the y axis as a proportion. What is new here is that we need to add `group = factor(rural)` so that `ggplot()` will calculate the proportions based on the number of cases in each value of the `fill` variable. 
 
 ```{r proptab, exercise=TRUE}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
@@ -429,13 +440,14 @@ filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%
 ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
   geom_bar(position = "dodge", aes(y = after_stat(prop), group = regime_type3))
 ```
+
 To complete the plot, let's fix labels.
 
 ```{r genderplot3, exercise=TRUE}
 world %>%
 filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%
 ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
-  geom_bar(position = "dodge", aes(y = ..prop.., group = regime_type3)) +
+  geom_bar(position = "dodge", aes(y = after_stat(prop), group = regime_type3)) +
   labs(title = "Gender Equality",
        x = "",
        y = "Proportion") +
