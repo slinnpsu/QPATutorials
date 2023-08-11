@@ -13,7 +13,7 @@ description: >
 
 ## Learning Objectives
 
-In this tutorial, you will learn how conduct hypothesis tests about means. Specifically, we will cover:
+In this tutorial, you will learn how to conduct hypothesis tests about means. Specifically, we will cover:
 
 * How to use the `t.test()` function to conduct (1) one-sample means tests, (2) difference of means tests involving two independent samples and one variable, and (3) paired t-tests involving a single sample and two variables. 
 * Practice walking through the steps for hypothesis testing.
@@ -367,7 +367,7 @@ grade_code("You are getting the hang of this")
 question("Which of the following statements are true?",
   answer("Because the p-value is greater than 0.05, we can reject the null hypothesis with 95% confidence", message="The p-value is not greater than 0.05"),
   answer("Because the confidence interval includes zero, we cannot reject the null hypothesis with 95% confidence", correct=TRUE, message="When the 95% confidence interval includes the value under the null (here 0), we cannot reject the null hypothesis at the 0.05 level."),
-  answer("There is a 66.97 percent chance the mean of the difference  between the two Gini coefficients is 40.64754-40.12941=0.51813", message="It is not true that the p-value tells us the probability that the estimated mean difference is true. Instead, it tells us that there is a 66.97 percent chance we'd observe the mean of the difference between the two Gini coefficients as great as we observe if the null hypothesis is true."),
+  answer("There is a 93.12 percent chance the mean of the difference between the two Gini coefficients is 0.5396694", message="It is not true that the p-value tells us the probability that the estimated mean difference is true. Instead, it tells us that there is a 93.12 percent chance we'd observe the mean of the difference between the two Gini coefficients as great as we observe if the null hypothesis is true."),
   allow_retry = TRUE,
   try_again = " "
   )
@@ -428,7 +428,7 @@ ggplot(mapping=aes(y = mean, x = democ_regime)) +
 
 We can easily see the means and that the confidence intervals overlap. Thus we can conclude, as with the results of the difference of means test above, that the means are not significantly different from each other.
 
-Let's add labels and clean up our plot. Below I've added the `title`, `y`, and `x` labels using the `labs()`function. I've also removed the (duplicative) legend with `theme(legend.position = "none")` and changed the labels for the x-axis tick marks using `scale_x_discrete(labels=c("Non Democracies","Democracies"))
+Let's add labels and clean up our plot. Below I've added the `title`, `y`, and `x` labels using the `labs()` function. I've also removed the (duplicative) legend with `theme(legend.position = "none")` and changed the labels for the x-axis tick marks using `scale_x_discrete(labels=c("Non Democracies","Democracies"))`
 
 ```{r prettyplot, exercise=TRUE, message=FALSE}
 world%>%
@@ -448,7 +448,7 @@ ggplot(mapping = aes(y = mean, x = democ_regime)) +
 
 Let's plot the mean percent of the vote Hillary Clinton won (**dem2p_percent**) in each of the nine categories of the variable **rural_urban**.  The variables are located in the **counties** data frame. 
 
-Replace the XXX in the following code to produce the plot. Note that because **rural_urban** is a nominal variable coded with numeric values, we need to use the `factor()` function when using `group_by()`. In addition, I'm naming the grouping variable `rural` so that we can refer to this variable in `ggplot()` without using `factor()`.  (Remember, you cannot copy and paste code to produce a ggplot from the clipboard in these tutorials.)
+Replace the XXX in the following code to produce the plot. Note that because **rural_urban** is a nominal variable coded with numeric values, we need to use the `factor()` function when using `group_by()`. In addition, I'm naming the grouping variable `rural` so that we can refer to this variable in `ggplot()` without using `factor()`. 
 
 ```{r plotrural, exercise=TRUE, message=FALSE}
 library(ggplot2)
