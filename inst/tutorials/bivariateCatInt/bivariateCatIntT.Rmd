@@ -189,6 +189,7 @@ in the ggplot function.
 ```
 
 ```{r meanwageplot-solution}
+library(ggplot2)
 counties %>%
   group_by(TrumpMajority)%>%
   summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE)) %>%
@@ -235,7 +236,7 @@ ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
   scale_y_continuous(limits = c(0, 10)) 
 ```
 
-Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won by completing the code. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title. Set the y-axis limits to -10 to 10.
+Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title. Set the y-axis limits to -10 to 10.
 
 ```{r meanrisk2, exercise=TRUE}
 counties %>%
@@ -298,7 +299,7 @@ ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
 grade_code()
 ```
 
-Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Set the title for the plot to "Mean GDP by Level of Democracy" and label the y-axis "Mean GDP".  When generating means name the counts `freq` and the means `mean`. You do not need to adjust the y-axis limits. Label the x-axis tick marks (in order) "Full Democracy", "Partial Democracy", "Hybrid", and "Authoritarian". Omit the x-axis title.
+Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Since **dem_level4** is character class, you don't need to wrap it in the `factor()` function. Set the title for the plot to "Mean GDP by Level of Democracy", label the y-axis "Mean GDP", and do not use a label for the x-axis (set it to NULL).  When generating means name the counts `freq` and the means `mean`. You do not need to adjust the y-axis limits. Label the x-axis tick marks (in order) "Full Democracy", "Partial Democracy", "Hybrid", and "Authoritarian". Omit the x-axis title.
 
 ```{r meangdp2, exercise=TRUE}
 
