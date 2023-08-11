@@ -469,6 +469,6 @@ The key things to remember about examining the relationship between two categori
 
     + The outcome or dependent variable goes on the x-axis
     + The explanatory or independent variable is specified using the `fill` argument.
-    + Proportions should be used if you want to draw meaningful comparisons to test hypotheses because the number of cases in each category of the dependent variable will not, in general, be the same. We generate proportions by specifying `aes()` inside the `geom_bar()` function where `y = ..prop..` and we set `group` equal to the `fill` variable.  
+    + Proportions should be used if you want to draw meaningful comparisons to test hypotheses because the number of cases in each category of the dependent variable will not, in general, be the same. We generate proportions by specifying `aes()` inside the `geom_bar()` function where `y = after_stat(prop)` and we set `group` equal to the `fill` variable.  
     + If the variable's values are numeric, you need to enclose them inside `factor()` so that `ggplot()` knows the variable's values must be discrete (whole numbers).
 
