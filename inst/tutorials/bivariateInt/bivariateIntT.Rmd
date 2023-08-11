@@ -332,6 +332,8 @@ cor(x = counties$wage_growth, y = counties$dem2p_vote_share, use = "pairwise.com
 grade_code()
 ```
 
+The correlation is small and positive indicating that there is a weak, positive correlation between wage growth and the share of the vote for Hillary Clinton.
+
 ## The Takeaways
 
 The key things to remember about examining the relationship between variables measured at the interval level are:
