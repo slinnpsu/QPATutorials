@@ -101,7 +101,7 @@ Creating a factor class variable will allow you to change the base category (the
 
 ## Dealing with Factors in R
 
-We will walk through the steps to create, label, and change the reference category of a factor variable with several examples using three variables in the data frame **aNES**. The data frame contains a subset of variables from the 2016 American National Election Study (ANES). The ANES is a nationally representative sample of adults surveyed before and after the presidential election. 
+We will walk through the steps to create, label, and change the reference category of a factor variable with several examples using variables in the data frame **aNES**. The data frame contains a subset of variables from the 2016 American National Election Study (ANES). The ANES is a nationally representative sample of adults surveyed before and after the presidential election. 
 
 
 The variable **female** is a binary categorical variable that is coded 0 for males and 1 for females. We will first create a new variable that is a factor called **femalef**, where the "f" reminds us it is a factor, and add labels to the factor. To do so we use the `factor()` function. The first argument inside the `factor()` function is the name of the variable that we want to recode as a factor, here **female**. Note that we have to include the name of the data frame and the dollar sign so that R knows where to find the variable. The second argument is the `labels` argument. We set this equal to a vector of names using the `c()` function. The names we give for the labels can be anything we want that is informative but they must be given in order from the least to the greatest numeric value. This means we need to list "Male" first, followed by "Female". We assign the results to our new variable. (Remember to use aNES followed by the dollar sign). To check our work, I've included `levels(aNES$femaleF)`. This will print the levels we've assigned.
@@ -191,7 +191,7 @@ Finally, specify the levels() function and place our new variable name inside it
 
 
 ```{r partygovf-solution}
-aNES$strongf <- factor(aNES$strong, labels = c("Not a Strong Partisan","Strong Partisan"))
+aNES$strongf <- factor(aNES$strong, labels = c("Strong Partisan", "Not a Strong Partisan"))
 levels(aNES$strongf)
 ```
 
@@ -228,6 +228,9 @@ grade_code()
 ```
 
 One of the advantages of creating and labeling factor variables is that plots we generate using these variables will show descriptive names rather than values. This can save you and your reader from confusion when looking at figures.
+
+
+
 
 ## The Takeaways
 
