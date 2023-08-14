@@ -341,7 +341,7 @@ question("Which of the following statements are true?",
 
 ### Generate Predictions from the Model
 
-We can generate predictions from our model using the `predict()` function. Below is the code to predict the probability an individual who sits at the middle of the feeling thermometer scale for Blacks and illegal immigrants, who is a female Democrat, and has a college degree. Run the code and then change the values of the independent variables and rerun the code to examine the predicted probabilities for other types of voters. Try to find a voter profile that results in a prediction of near 50%.
+We can generate predictions from our model using the `predict()` function. Because we have multiple independent variables and because predictions from the model depend on the values all variables in the model take, we need to specify values of each variable inside the `data.frame()` function. Below is the code to predict the probability an individual who sits at the middle of the feeling thermometer scale for Blacks and illegal immigrants, who is a female Democrat, and has a college degree. Run the code and then change the values of the independent variables and rerun the code to examine the predicted probabilities for other types of voters. Try to find a voter profile that results in a prediction of near 50%.
 
 
 ```{r predfun2, exercise=TRUE}
