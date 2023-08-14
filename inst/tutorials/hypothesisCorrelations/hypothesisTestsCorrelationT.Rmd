@@ -13,7 +13,7 @@ description: >
 
 ## Learning Objectives
 
-In this tutorial, you will learn how to conduct a hypothesis test to determine whether a correlation is different from zero. Specifically we will cover:
+In this tutorial, you will learn how to conduct a hypothesis test to determine whether two interval variables are related by testing whether a correlation is different from zero. Specifically we will cover:
 
 * How to use the `corr.test()` function to estimate and test the significance of Pearson's correlation coefficient.
 * Practice walking through the steps for hypothesis testing.
@@ -157,7 +157,7 @@ Make sure to separate the arguments with a comma.
 ```
 
 ```{r hdigdp-solution}
-cor.test(world$hdi,world$gdppcap08, method = "pearons", use = "pairwise.complete.obs")
+cor.test(world$hdi,world$gdppcap08, method = "pearson", use = "pairwise.complete.obs")
 ```
 
 ```{r hdigdp-check}
