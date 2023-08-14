@@ -314,9 +314,9 @@ grade_code("You got this!")
 
 ```{r letter-ha, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("The mean value of DGP in 2008 among democracies is 585.5484", correct = TRUE, message="Group Yes refers to democracies, group no to nondemocracies. 585.5484 is the mean for group yes."),
+  answer("The mean value of GDP in 2008 among democracies is 585.5484", correct = TRUE, message="Group Yes refers to democracies, group no to nondemocracies. 585.5484 is the mean for group yes."),
   answer("Democracies had a higher mean GDP in 2008 than did non democracies", correct = TRUE, message="The difference in the mean of GDP in 2008 among democracies (group yes) is greater than the mean among nondecmoracies (group no)."),
-  answer("The mean value of DGP in 2008 among democracies is 226.0468",  message="Group Yes refers to democracies, group no to nondemocracies. 226.0468 is the mean for group no."),
+  answer("The mean value of GDP in 2008 among democracies is 226.0468",  message="Group Yes refers to democracies, group no to nondemocracies. 226.0468 is the mean for group no."),
   answer("", message=""),
   allow_retry = TRUE,
   try_again = " "
@@ -339,7 +339,7 @@ question("Which of the following statements are true?",
 ```{r letter-hz, echo=FALSE}
 question("What substantive conclusion can we draw from this hypothesis test?",
   answer("On average, democracies have a significantly higher GDP in 2008 than nondemocracies", message = "Although the estimated means show that democracies have a higher average GDP in 2008 than nondemocracies, we cannot be 95% confident that this is true in the population."),
-  answer("On average, democracies and nondemocracies do not have significantly different GDP values in 2008", correct=TRUE),
+  answer("On average, democracies and nondemocracies do not have significantly different GDP values in 2008", correct=TRUE, message = "Although the estimated means show that democracies have a higher average GDP in 2008 than nondemocracies, we cannot be 95% confident that this is true in the population."),
   allow_retry = TRUE,
   try_again = ""
   )
