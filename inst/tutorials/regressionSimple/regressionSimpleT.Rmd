@@ -53,7 +53,7 @@ The `lm()` function in base R will estimate a linear regression model. We will i
 
 ## Example 1: Vote for Hillary Clinton and Wage Growth
 
-Let's say that we have posed the following question: Did wage growth in a county affect the share of the vote won by Hillary Clinton? We might make the argument that higher wage growth would lead voters to support the incumbent party candidate, Hillary Clinton, as voters would reward the Democratic president for improvements in their financial situation. By the same token, we might expect that lower wage growth (or declining wages) might lead them to support the challenger, Donald Trump. Thus we hypothesize:
+Let's say that we have posed the following question: Did wage growth in a county affect the share of the vote won by Hillary Clinton in the 2016 presidential election? We might make the argument that higher wage growth would lead voters to support the incumbent party candidate, Hillary Clinton, as voters would reward the Democratic president for improvements in their financial situation. By the same token, we might expect that lower wage growth (or declining wages) might lead them to support the challenger, Donald Trump. Thus we hypothesize:
 
  <span style="color:Chocolate">In a comparison of counties, those with higher wage growth will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower wage growth.</span>
 
@@ -63,7 +63,7 @@ The **counties** data frame contains the variables **wage_growth**, which is the
 
  Running a regression in R is really quite simple! The function to run a regression is `lm()`. This stands for "linear model." The function requires two arguments: a `formula` and `data`. 
 
-What is a `formula`? R's `formula` specifies a relationship. It begins with the dependent variable and is followed by the tilde (~). The tilde in layman's terms can be read as "depends on." The formula ends with the explanatory variable (or variables, more in the next tutorial). So we specify `y~x`, where `y` is the dependent variable and `x` is the explanatory variable. This can be read as "*y* depends on *x*." 
+What is a `formula`? R's `formula` specifies a relationship. It begins with the dependent variable and is followed by the tilde (~). The tilde in layman's terms can be read as "depends on." The formula ends with the explanatory variable (or variables, more in the next tutorial). So we specify `y ~ x`, where `y` is the dependent variable and `x` is the explanatory variable. This can be read as "*y* depends on *x*." 
 
 Notice we don't need `counties$` before the variable names, because we are using the `data` argument to tell R where the data is coming from. We are going to save the results as the object *My.first.model* and then use the `summary()` function to present the output.
 
@@ -109,13 +109,13 @@ Now that you've found the estimated coefficients let's determine what the model 
   
   We can calculate the predicted vote share for Hillary Clinton in a county with the average value of wage_growth, which is 4.3 based on this regression as:
   
-  $$\hat{\textbf{dem2p_percent}} = \hat{\alpha}+ \hat{\beta}\textbf{wage_growth} = 31.3521+ 0.45582\times(4.3)=35.27218.$$
+  $$\hat{\textbf{dem2p_percent}} = \hat{\alpha}+ \hat{\beta}\textbf{wage_growth} = 31.3521+ 0.45582\times(4.3)=33.31213.$$
 
  
 ```{r letter-a, echo=FALSE}
 question("What is the vote for Hillary Clinton in a county with wage growth at the 75th percentile, which was 6.5?",
   answer("29.6283"),
-  answer("36.27498", correct=TRUE, message="$\\hat{\\textbf{dem2p_percent}} = \\hat{\\alpha}+ \\hat{\\beta}\\textbf{wage_growth}\\times 6.5=33.31215+0.45582*6.5=36.27498$"),
+  answer("34.31493", correct=TRUE, message="$\\hat{\\textbf{dem2p_percent}} = \\hat{\\alpha}+ \\hat{\\beta}\\textbf{wage_growth}\\times 6.5=33.31215+0.45582*6.5=34.31493."),
     answer("42.5"),
   allow_retry = TRUE
   )
@@ -214,7 +214,7 @@ question("Look at the output above. True or False, the value of the residual sta
 
 The Democratic Party has consistently garnered more support from black voters than the Republican Party, considerably more. This leads to the following hypothesis:
 
- <span style="color:Chocolate">In a comparison of counties, those with higher percentages of blacks will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower percentages of blacks</span>
+ <span style="color:Chocolate">In a comparison of counties, those with higher percentages of Blacks will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower percentages of Blacks</span>
  
 
 
@@ -252,7 +252,7 @@ Look at the output above and answer the following question.
 ```{r letter-b, echo=FALSE}
 question("Which of the following statements are true?",
   answer("For every one percentage point increase in the percent of the vote won by Hillary Clinton, there were 0.52584 percentage points more black residents in the county", message="The slope coefficient tells us the expected increase in the dependent variable with each unit increase in the independent variable"),
-  answer("When there were no blacks living in a county, on average 28.14355 percent of the vote was won by Hillary Clinton", correct=TRUE),
+  answer("When there were no Blacks living in a county, on average 28.14355 percent of the vote was won by Hillary Clinton", correct=TRUE),
   answer("For every one percentage point increase in the percent of black residents in a county, there was an average increase of 0.52584 percentage points in the vote won by Hillary Clinton",  correct=TRUE, message="The intercept tells us the average vote share for Hillary Clinton when the independent variable equals zero, 28.14355. When the independent variable changes by one unit, the dependent variable increases by the slope, so a one-point increase in the percent black leads to an average increase in Hillary Clinton's share of the vote of about half a point."),
   allow_retry = TRUE,
   try_again = "Hint: There is more than one correct answer"
@@ -268,8 +268,8 @@ For this example, we will test the null hypothesis that the slope is zero in the
 
 ```{r letter-c, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("To test the hypothesis that the percent of blacks in a county had no effect on vote for Hillary Clinton, the null and alternative hypothesis are given by $H_0: \\beta_{B}=0$; $H_A: \\beta_{B}\\ne0$", correct=TRUE),
-  answer("To test the hypothesis that the percent of blacks in a county had no effect on vote for Hillary Clinton, the null and alternative hypothesis are given by $H_0: \\alpha=0$; $H_A: \\alpha\\ne0$", message="$H_0: \\alpha=0$; $H_A: \\alpha\\ne0$ refer to the intercept and not the slope coefficient"),
+  answer("To test the hypothesis that the percent of Blacks in a county had no effect on vote for Hillary Clinton, the null and alternative hypothesis are given by $H_0: \\beta_{B}=0$; $H_A: \\beta_{B}\\ne0$", correct=TRUE),
+  answer("To test the hypothesis that the percent of Blacks in a county had no effect on vote for Hillary Clinton, the null and alternative hypothesis are given by $H_0: \\alpha=0$; $H_A: \\alpha\\ne0$", message="$H_0: \\alpha=0$; $H_A: \\alpha\\ne0$ refer to the intercept and not the slope coefficient"),
   allow_retry = TRUE
   )
 ```
