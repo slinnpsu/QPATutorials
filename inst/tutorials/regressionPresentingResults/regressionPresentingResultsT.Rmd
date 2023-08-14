@@ -15,7 +15,7 @@ description: >
 
 In this tutorial, you will learn how present results from regression analysis in R. Specifically we will cover:
 
-* How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
+* How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables.
 * How to produce a plot of the coefficient estimates as an alternative to a table using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
 * How to use the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a regression analysis.
 
@@ -218,9 +218,9 @@ We can make this plot more informative and visually pleasing. There are several 
 * The `show.intercept` argument controls whether or not the intercept is plotted. Generally you want to set it to `FALSE` (the default).
 * Regardless of the options you choose, you want to add an informative title to the plot and replace the variable names with meaning words or phrases just as we did when creating a table. The argument names are not all the same as with the `stargazer()` function, so be sure to note the differences.
 
-* The `title`, use something informative
-* `axis.labels` refer to the variable names. Run the function once without axis.labels to see the order they are listed. Then replace with a list of informative names. *We list variable names starting with the variable at the bottom of the plot and working up*. Names must be placed inside the `c()` function, in quotations, and separated by commas. 
-* `axis.title`, this refers to the x-axis for coefficient plots. The default is "Estimates", which may be fine. If you like that, omit this argument.
+* The `title` argument is used to add a title to the plot. Use something informative
+* The `axis.labels` argument refers to the variable names. Run the function once without axis.labels to see the order they are listed. Then replace with a list of informative names. *We list variable names starting with the variable at the bottom of the plot and working up*. Names must be placed inside the `c()` function, in quotations, and separated by commas. 
+* The `axis.title`, argument refers to the x-axis title for coefficient plots. The default is "Estimates", which may be fine. If you like that, omit this argument.
     
     
 Let's clean up our first coefficient plot.
