@@ -14,6 +14,9 @@ description: >
 
 ## Learning Objectives
 
+In this tutorial, you will learn how to conduct multiple regression analysis in R. Multiple regression analysis extends simple regression models to the case with multiple explanatory variables. Specifically we will cover how to:
+
+
 * Conduct multiple regression analysis in R.
 * Interpret results from multiple regression analysis with interval and categorical independent variables.
 
@@ -32,7 +35,7 @@ knitr::opts_chunk$set(error = TRUE)
 counties <- qpaTutorials::counties
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
-counties$black_percent <- counties$prop_black*100
+counties$Black_percent <- counties$prop_Black*100
 counties$white_percent <- counties$prop_white*100
 counties$hispanic_percent <- counties$prop_hispanic*100
 counties$college_grad_percent <- counties$prop_college_grad*100
@@ -70,11 +73,11 @@ We will first consider multiple regression models involving interval level varia
 
 ## Regression with Multiple Interval Level Independent Variables
 
-As an illustration of multiple regression, we will consider county-level election outcomes in the 2016 presidential election. Previously we've estimated simple regression models that looked at the effect of wage growth and percent of blacks in the county population as potential explanations for the percent of the two-party vote cast for Hillary Clinton.
+As an illustration of multiple regression, we will consider county-level election outcomes in the 2016 presidential election. Previously we've estimated simple regression models that looked at the effect of wage growth and percent of Blacks in the county population as potential explanations for the percent of the two-party vote cast for Hillary Clinton.
 
-We know many factors influence how counties cast their votes, and many of these are likely to be correlated with wage growth and with the percentage of blacks in the county. We will consider the health of the residents of the county, which may be poorer in counties where wages are lower; the percent of a county's residents with a college degree, which is likely to be positively correlated with wage growth; the percent of a county's residents that are white, black, and Hispanic, which are also likely to be correlated with wage growth.
+We know many factors influence how counties cast their votes, and many of these are likely to be correlated with wage growth and with the percentage of Blacks in the county. We will consider the health of the residents of the county, which may be poorer in counties where wages are lower; the percent of a county's residents with a college degree, which is likely to be positively correlated with wage growth; the percent of a county's residents that are white, Black, and Hispanic, which are also likely to be correlated with wage growth.
 
-We will use the data frame **counties** and our dependent variable will be **dem2p_percent**, the percent of the two-party vote for Hillary Clinton.  Our explanatory variables are: **wage_growth**, the percent by which wages grew or fell over the last four years; **mortality_risk_25_45**, which gives the probability of dying between the ages of 25 and 45 given that someone was in this age range (as a percent); **black_percent**, **white_percent**,  **hispanic_percent**, and **percent_college_grad**, which are each the percent of the county's residents in that demographic.
+We will use the data frame **counties** and our dependent variable will be **dem2p_percent**, the percent of the two-party vote for Hillary Clinton.  Our explanatory variables are: **wage_growth**, the percent by which wages grew or fell over the last four years; **mortality_risk_25_45**, which gives the probability of dying between the ages of 25 and 45 given that someone was in this age range (as a percent); **Black_percent**, **white_percent**,  **hispanic_percent**, and **percent_college_grad**, which are each the percent of the county's residents in that demographic.
 
 
 
@@ -87,7 +90,7 @@ The code below illustrates the code to estimate our model and saves the result t
 
 
 ```{r lm1, exercise = TRUE}
-model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent, data = counties)
+model1 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + Black_percent, data = counties)
 summary(model1)
 ```
 
@@ -105,7 +108,7 @@ All other variables are positively signed, again, as we would expect. The greate
 
 What can we say about the specific effects of **wage_growth** in this model? Recall that <span style="color:blue">we interpret the slope as the expected change in the outcome variable associated with a one-unit increase in the explanatory variable, *controlling for all other variables in the model*.</span>.
 
-The coefficient estimate for the effect of **wage_growth** is 0.31406. Thus we interpret this to mean "For every percentage point increase in wages, the percent of the vote for Hillary Clinton increased by about one-third of a percentage point, controlling for the effect of mortality risk and the percent of the county's residents that were white, black, Hispanic, and college-educated.
+The coefficient estimate for the effect of **wage_growth** is 0.31406. Thus we interpret this to mean "For every percentage point increase in wages, the percent of the vote for Hillary Clinton increased by about one-third of a percentage point, controlling for the effect of mortality risk and the percent of the county's residents that were white, Black, Hispanic, and college-educated.
 
 Look at the output above and answer the following questions.
 
@@ -124,7 +127,7 @@ question("Which of the following statements is true?",
   answer("For every one-point increase in the percent of a county's residents who were white, the percent of the vote cast for Hillary Clinton increased on average by 0.56750  percentage points, all else equal", message="The coefficient on **percent_white** is negatively signed, so a one-point increase in the percent of whites in the county was associated with a drop in the vote for Hillary Clinton. "),
     answer("For every one point increase in the percent of a county's residents who were white, the percent of the vote cast for Hillary Clinton decreased on average by 0.56750  percentage points, all else equal", correct=TRUE),
   answer("For every one percentage point increase in mortality risk, on average the percent of the vote Hillary Clinton received fell 3.11711 percentage points, all else equal", correct=TRUE, message="The slope coefficient tells us how much we expect the *dependent* variable, **dem2p_percent**, to change when the *independent* variable increases by one point, all else equal. Therefore, each one-point increase in **white_percent** is expected to increase **dem2p_percent** by the slope, -0.56750 (in other words, to decrease) and each one-point increase in mortality risk is like to increase it by -3.1171 (to decrease it)."),
-    answer("For every one percentage point increase in the vote for Hillary Clinton, the percent of a county's residents who are black increased by 0.12942 percentage points", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal."),
+    answer("For every one percentage point increase in the vote for Hillary Clinton, the percent of a county's residents who are Black increased by 0.12942 percentage points", message="The slope coefficient tells us how much we expect the *dependent* variable to change when the *independent* variable increases by one point, all else equal."),
   allow_retry = TRUE
   )
 ```
@@ -139,9 +142,9 @@ Note that we never see a one percentage point increase (or decrease) in mortalit
 We conduct hypothesis tests in the same manner as in simple regression. Here we only test the null hypothesis that the slope for **wage_growth** is equal to zero, but you can do the same for all other variables in the model and for the intercept.
 
 
-**Step 1: State the null hypothesis**. $H_0:\beta=0$
+**Step 1: State the null hypothesis**. $H_0:\beta_{W}=0$
 
-**Step 2: State the alternative hypothesis**. $H_A: \beta\ne0$
+**Step 2: State the alternative hypothesis**. $H_A: \beta_{W}\ne0$
 
 **Step 3: Compute the test statistic** and **Step 4: Determine the p-value**.
 
@@ -188,7 +191,7 @@ question("Which of the following statements are true?",
 
 Often we will want to include nominal variables in our regression models. Nominal variables are treated differently than interval variables in regression analysis. Each category of a nominal variable must be entered in the regression as its own dichotomous indicator, and we must omit one category. This category is then represented by the intercept. All slope coefficients on the indicator variables are interpreted in comparison to the intercept value.
 
-You are likely familiar with post-election commentary on the 2016 presidential election. Much was made of a rural/urban divide in the electorate.  If how rural or urban a county is influenced vote for Hillary Clinton, we want to include it in our model. Further, if how rural or urban a county is correlated with the variables already in our model we must include it to get unbiased estimates of the effects of those variables.
+Much public commentary on the 2016 presidential election made a big deal about a rural/urban divide in the electorate.  If how rural or urban a county is influenced vote for Hillary Clinton, we want to include it in our model. Further, if how rural or urban a county is correlated with the variables already in our model we must include it to get unbiased estimates of the effects of those variables.
 
 The data frame **counties** contains a variable called **UrbanCat** that takes a value of 0 if the county is rural, 1 if the county is urban, and -1 if it is neither rural nor urban.
 
@@ -201,7 +204,7 @@ Now we are ready to estimate the regression from above, adding the nominal varia
 
 
 ```{r lm2, exercise = TRUE}
-model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + black_percent + factor(UrbanCat), data = counties)
+model2 <- lm(dem2p_percent ~ mortality_risk_25_45 + wage_growth + college_grad_percent + hispanic_percent + white_percent + Black_percent + factor(UrbanCat), data = counties)
 summary(model2)
 ```
 
