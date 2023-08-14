@@ -52,7 +52,7 @@ aNES$educ[aNES$educ == 9] <-NA
 ## Tests Involving Proportions 
 
 
-Hypothesis tests involving categorical (nominal or ordinal) data involve proportions. For example, we might ask whether the proportion of men in a sample is equal to some population proportion value or whether the proportion of men in the two samples is the same. We might also be interested in knowing whether two categorical variables are independent of one another or whether there is some relationship between them. For example, we might want to know if responses to a survey question in which respondents rate the economy as "better", "the same", or "worse" than a year ago predict whether they "strongly approve", "approve", "disapprove", or "strongly disapprove" of the president. 
+Hypothesis tests involving categorical (nominal or ordinal) data involve proportions. For example, we might ask whether the proportion of men in a sample is equal to some population proportion value or whether the proportion of men in two different samples is the same. We might also be interested in knowing whether two categorical variables are independent of one another or whether there is some relationship between them. For example, we might want to know if responses to a survey question in which respondents rate the economy as "better", "the same", or "worse" than a year ago predict whether they "strongly approve", "approve", "disapprove", or "strongly disapprove" of the president. 
 
 Each of these tests can be conducted using a $\chi^2$ test. How we formulate the test will depend on which of these types of questions we wish to answer. 
 
@@ -215,7 +215,7 @@ question("Which of the following statements are true?",
 
 ## Difference of Two Proportions Test
 
-A <span style="color:blue">**difference of proportions test** tests whether a proportion is the same in the two (independent) groups (or samples).</span> Like the one-sample proportion test, we can use the `prop.test()` function to conduct this test.
+A <span style="color:blue">**difference of proportions test** tests whether a proportion is the same in two (independent) groups (or samples).</span> Like the one-sample proportion test, we can use the `prop.test()` function to conduct this test.
 
 
 ### Example 1: Proportion of men and women voting for Donald Trump
@@ -346,7 +346,7 @@ question("Look at the prop.test output. Which of the following is true?",
 
 ### Example 3: The proportion of majority and not majority white counties voting for Donald Trump
 
-We will use the **counties** data frame, which contains data on counties in the United States in 2016, to test whether the proportion of majority white counties Donald Trump won was different from the proportion of non-majority white counties he won. The two variables of interest are **White**, which takes the values "Majority White" and "Non-Majority White", and **TrumpMajority**, which takes the value 1 if Donald Trump won the county and 0 if Hillary Clinton won the county.
+We will use the **counties** data frame, which contains data on counties in the United States in 2016, to test whether the proportion of majority white counties Donald Trump won was different from the proportion of non-majority white counties he won. The two variables of interest are **White**, which takes the values "Majority White" and "Non-Majority White", and **TrumpMajority**, which takes the value 0 if Hillary Clinton won the county and 1 if Donald Trump won the county.
 
 
 **Step 1. Formulate the null hypothesis**. The proportion of majority white counties Trump won is equal to the proportion of non-majority white counties Trump won: $$H_0: \pi_w=\pi_{NW}$$ 
@@ -450,7 +450,7 @@ The p-value is very small, 2.06e-11, much smaller than .05, so we reject the nul
 
 ### Example 2: Is watching Modern Family related to vote choice?
 
-For our final exercise, we will investigate whether there is a relationship between a person's decision to watching Modern Family and their vote choice in the sample of respondents in the American National Election Study.  
+For our final exercise, we will investigate whether there is a relationship between a person's decision to watch Modern Family and their vote choice in the sample of respondents in the American National Election Study.  
 
 **Step 1. Formulate the null hypothesis**. Under the null hypothesis there is no relationship between whether a person watches Modern Family and for whom they voted for president in the population. This implies that knowing whether or not someone watched Modern Family will not help us predict their vote choice.
 
