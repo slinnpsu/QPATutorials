@@ -21,7 +21,7 @@ The tutorials will typically begin by introducing code with examples that you wi
 
 You should work through the tutorials beginning to end, completing each exercise. If you run out of time, you can exit and return to the tutorial later. If you are running the tutorials on a local installation of R Studio, your progress will be saved when you return.
 
-I encourage you to resist the temptation to view the solution and copy it. Typing out the code will help you to understand what each exercise is doing and to recall code in you own work. Take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for problem sets, or for your final project.
+I encourage you to resist the temptation to view the solution and copy it. Typing out the code will help you to understand what each exercise is doing and to recall code in your own work. Take notes as you work through the tutorials. A good strategy would be to create a list of the functions introduced, note the name of the tutorial that introduced them, and write a short description. This will provide a help sheet to reference when you need to write your own code from scratch in class, for problem sets, or for your final project.
 
 
 ## Learning Objectives
@@ -198,7 +198,7 @@ R Studio will open a help window providing details on the function.
 
 
 Note: If you receive an error message like the following, then the function is likely located in a package you have not loaded: "No documentation for ‘funcname’ in specified packages and libraries:
-you could try ‘??funcname’.  Typing ??funcname will cause R Studio to look more broadly for the function and indicate which packages contain that function You can try this option or you can install the relevant package (if you have not), load it with library(packag_name), and then type ?funcname in the console window.
+you could try ‘??funcname’.  Typing ??funcname will cause R Studio to look more broadly for the function and indicate which packages contain that function. You can try this option or you can install the relevant package (if you have not), load it with library(package_name), and then type ?funcname in the console window.
 
 ## Classes of objects
 
@@ -298,7 +298,7 @@ grade_code(" ")
 
 The `c()` function can be used to combine multiple vectors. 
 
-Let's create two string vectors, one with the Democratic candidate last names for the first 5 elections (call it **first.5.candidates**) and the other with candidate last names for the second 6 elections (call it **last.6.candidates**) and then combine them into a vector called **dem.candidates**. Check your work by printing the final vector. (Hint: candidates' names are strings. You will need to use quotation marks around each name.)
+Let's create two string vectors, one with the Democratic candidate last names for the first 5 elections (call it **first.5.candidates**) and the other with candidate last names for the next 6 elections (call it **last.6.candidates**) and then combine them into a vector called **dem.candidates**. Check your work by printing the final vector. (Hint: candidates' names are strings. You will need to use quotation marks around each name.)
 
 ```{r candnames, exercise=TRUE}
 
@@ -327,7 +327,7 @@ grade_code("")
 
 ### Accessing Elements of a Vector
 
-**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] behind the vector name. Inside the brackets, place the number of the element that you’d like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
+**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] after the vector name. Inside the brackets, place the number of the element that you’d like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
 
 ```{r access, exercise=TRUE}
 dem.pres.vote.share[1]
