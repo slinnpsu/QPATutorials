@@ -35,7 +35,7 @@ knitr::opts_chunk$set(error = TRUE)
 counties <- qpaTutorials::counties
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
-counties$Black_percent <- counties$prop_Black*100
+counties$Black_percent <- counties$prop_black*100
 counties$white_percent <- counties$prop_white*100
 counties$hispanic_percent <- counties$prop_hispanic*100
 counties$college_grad_percent <- counties$prop_college_grad*100
