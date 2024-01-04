@@ -20,6 +20,7 @@ This tutorial is designed to familiarize you with some of the basics of using R.
 * How to get to know the structure of your data with the `class()`, `View()`, `nrow()`, `ncol()`, `names()`, `head()`, `str()`, `is.na()`, `sum()` functions
 * How to access variables in a data frame using $
 * How to execute simple functions on variables: `mean()`, `min()`, `max()`, and `range()`
+* How to identify the value of a variable associated with the minimum or maximum value of another variable
 * How to create a new variable and store it in a data frame
 * How to use the `save()` function to save objects as a .RData file
 
@@ -429,7 +430,7 @@ Let's calculate the mean number of shares for UN Facebook posts, allowing for mi
 mean(unFBposts$shares, na.rm = TRUE)
 ```
 
-### Indexing in a data frame
+## Indexing in a data frame
 
 We can use indexing to select rows and columns in a data frame, but unlike with a vector, we have two dimensions, so we specify the row and column index of interest.
 
@@ -444,13 +445,21 @@ If we want to list all values of a particular variable, say **type**, we leave t
 unFBposts[10:15, "type"]
 ```
 
-We are likely to use indexing with a single variable in a data frame object. For example, we might want to know which message had the most likes. Here we name the variable and in square brackets use the `which()` function applied to the variable **likes_count**, setting it equal (with two equal signs) to the same variable and removing missing values. This tells R to find the index value or values for which **likes_count** is largest and use that value to identify the **message** associated with it. This code can be helpful for identifying values of a variable when you don't know the index value. Here there is only one message with the maximum number of likes so it returns just one message.
+### Identifying the value(s) of a variable associated with the maximum/minimum values of another variable
 
-Look carefully at this code, we will be using the `which()` function frequently this semester.
+You will often want to use indexing to identify the case(s) associated with an outlier or maximum or minimum value of a given variable.  For example, you might want to know which message had the most likes in this data set. To do so, you specify the variable of interest, **likes_count**, within the data frame unFBposts. By using the `which()` function combined with a conditional statement, `unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE)`, you instruct R to pinpoint the index or indices where **likes_count** achieves its largest value after accounting for any missing data (`na.rm = TRUE`). Once these indices are identified, they are used to fetch the corresponding message associated with the most likes.  In this specific instance, since only one message has the highest count of likes, the code returns that singular message."
+
+Look carefully at this code, we will be using the `which()` function frequently this semester to identify cases (e.g., states or countries) that have the maximum value of a given variable!
 
 ```{r index3, exercise=TRUE}
 unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
 ```
+
+Let's disect this code further.
+
++ `max(unFBposts$likes_count, na.rm = TRUE)`: This part of the code calculates the maximum value within the likes_count column of the unFBposts data frame. The `na.rm = TRUE` argument ensures that any missing or NA values within this column are ignored during the calculation. Essentially, this determines the highest number of likes any message has received.
++ `unFBposts$likes_count == max_value`: Here **max_value** refers to the results of previous bullet point. After determining the maximum value, the code checks every entry in the **likes_count** column to see which ones match this highest value. When you compare the entire column against this maximum value, you get a logical vector (i.e., a series of TRUE and FALSE values). Each TRUE indicates an entry where the number of likes matches the maximum value.
++ `which(...)`: Finally, the `which()` function is applied to this logical vector. Its role is to extract the indices where the condition `(unFBposts$likes_count == max_value)` is TRUE. This gives you the row or rows in the data frame where the message received the maximum number of likes.
 
 You may want to find the message with the minimum value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **shares_count**.
 
@@ -472,7 +481,6 @@ max(unFBposts$shares_count). Set the na.rm argument to TRUE
 grade_code()
 ```
 
-We will show later in the course how to use indexing to recode variables.
 
 ## Creating a new variable in a data frame
 
