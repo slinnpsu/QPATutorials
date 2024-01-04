@@ -73,7 +73,7 @@ question("Which of the following is the appropriate null hypothesis?",
 ```{r letter-b, echo=FALSE}
 question("Which of the following statements about the alternative hypothesis are true?",
   answer("$H_A: \\mu_Y=48.2$", message="$H_A: \\mu_Y=48.2$ is the null hypothesis"),
-  answer("The alternative hypothesis is two-tailed", correct=TRUE),
+  answer("The alternative hypothesis is two-tailed", correct=TRUE, message="A two-tailed alternative hypothesis specifies that the true population value is $\\ne$ to the hypothesized value given by the null hypothesis."),
   answer("$H_A: \\mu_Y\\ne48.2$", correct=TRUE, message="Because we want to test whether the mean percent of the vote is different from that in the population, the alternative hypothesis is two-tailed and thus $\\ne$ to 48.2."),
   answer("The alternative hypothesis is one-tailed", message="A one-tailed alternative hypothesis would specify that the true population mean is either > or < 48.2, rathan $\\ne$ as we specified above"),
   allow_retry = TRUE,
@@ -163,7 +163,27 @@ grade_code("You got it!")
 
 **Step 4. Translate the test statistic into a p-value.** 
 
-We see that the p-value is "< 2.2e-16."
+
+```{r text_box, echo = FALSE}
+question_text(
+  "Enter the p-value you would report from the test output. Begin your answer with p (not p-value) and include no spaces in your answer:",
+  answer("p<2.23-16", message = "Do not report scientific notation or more than three decimals."),
+  answer("p<.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
+  answer("p<0.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
+   allow_retry = TRUE,
+  try_again = "Try again."
+)
+```
+
+```{r letter-c2write, echo=FALSE}
+question("",
+  answer("$H_0: \\bar{Y}=0.763, H_A: \\bar{Y}\\ne0.763$", message="The null and alternative hypothesis refer to the population parameter, not the sample statistic"),
+  answer("$H_0: \\mu_{Y}\\ne0.763, H_A: \\mu_{Y}=0.763$", message="The null hypothesis is set equal to the value under the hypothesis to be tested and the alternative is not equal"),
+  answer("$H_0: \\mu_{Y}=0.763, H_A: \\mu_{Y}\\ne0.763$", correct=TRUE),
+  allow_retry = TRUE,
+  try_again = "Try again."
+  )
+```
 
 **Step 5. Draw a conclusion.**
 
@@ -240,8 +260,17 @@ question("Which of the following statements are true?",
 
 **Step 4. Translate the test statistic into a p-value.** 
 
-We see that the p-value is "< 2.2e-16."
 
+```{r text_box2, echo = FALSE}
+question_text(
+  "Enter the p-value you would report from the test output. Begin your answer with p (not p-value) and include no spaces in your answer:",
+  answer("p<2.23-16", message = "Do not report scientific notation or more than three decimals."),
+  answer("p<.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
+  answer("p<0.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
+   allow_retry = TRUE,
+  try_again = "Try again."
+)
+```
 **Step 5. Draw a conclusion.**
 
 
@@ -442,36 +471,16 @@ question("What substantive conclusion can we draw from this hypothesis test?",
 
 It can be useful to plot the means to visualize the differences in the means across groups. If we include confidence intervals, we can visualize the difference in means test results. **If the confidence intervals for the means overlap, the means are not significantly different from each other.**  This visualization is particularly useful when comparing means across multiple groups as the t-test only compares two means at once.  To plot the means with confidence intervals we use the functions in the  <span style="color:DarkGreen">dplyr</span> package to generate the means and their confidence intervals and then we use the `ggplot()` function in the <span style="color:DarkGreen">ggplot2</span> package to plot them.
 
-### Create a data frame containing the information to be plotted
+  geom_point(stat='summary', fill = "firebrick") + 
+  geom_errorbar(stat='summary', width=.2)
 
-We first produce a new data frame that contains the information to plot.
-
-+ Use the `filter()` function to drop any missing values for each of our two variables.
-+ Use the `group_by()` function to group the variables by the variable that denotes our categories.
-+ Use the `summarise()` function to calculate the mean in each group using `mean=mean()`. We also need to calculate the number of cases in each group using `n=n()`; and the standard deviation for each group using `sd=sd()`. This information is needed to calculate the margin of error in the formula for the confidence interval: $\bar{Y} \pm 1.96*se$.
-+ Use the `mutate()` function to calculate the 95% margin of error ($1.96*se$) using  `margin=1.96*(sd/sqrt(n))`. 
-
-    
-Let's create the new data frame we need to plot the means and confidence intervals for **gdp08** in democratic and non-democratic regimes. Look carefully at each line of code to ensure you understand what it is doing.
-
-    
-```{r newdf, exercise = TRUE}
-library(dplyr)
-world%>%
-  filter(!is.na(democ_regime) & !is.na(gdp08))%>%
-  group_by(democ_regime)%>% 
-  summarize(mean = mean(gdp08), n = n(), sd = sd(gdp08))%>%
-  mutate(margin = 1.96 *sd / sqrt(n))
-```
-
-The first column contains the values of **democ_regime** that form the groups for which we wish to calculate means. The data frame containing two rows, one for non-democratic regimes ("No") and one for democratic regimes ("Yes").  Columns 2-4 contain the values of the other variables we created, calculated for each value of the grouping variable.
 
 ### Plot the means
 
 We specify the same steps for plotting as before:
 
-1.  Tell `ggplot()` the name of the data set that contains the variable(s) to plot. This time we will pass our new data frame to the `data` argument in `ggplot()` by piping the result above to `ggplot()`.
-2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the means (**mean**) to the y-axis, and we want the x-axis values to denote the grouping variable (here **democ_regime**).
+1.  Tell `ggplot()` the name of the data set that contains the variable(s) to plot. 
+2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. We want to plot the means associated  plot the means (**mean**) to the y-axis, and we want the x-axis values to denote the grouping variable (here **democ_regime**).
 3.  Tell `ggplot()` how to plot the data by adding a **geom** layer.  We will plot two **geom** layers. First, we will add `geom_point()` to plot a point for each mean. This function needs no arguments, although we could add color, and we could change the size and shape of the points that represent the means. Second, we will add a `geom_errorbar()` layer to plot the confidence intervals We need to pass `geom_errorbar()` its own aesthetic and set the lower and upper limits of the confidence interval. We do this by specifying `ymin = mean-margin` and `ymax = mean + margin`. This will add 1.96 times the standard error around the mean value, creating the confidence interval.  I've also added the `width` argument to `geom_errorbar()` to control the width of the bars marking the confidence limit. This is optional.
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
