@@ -78,7 +78,7 @@ Most of the time, an ordinal variable will be coded with numeric rather than cha
 question("Which of the following variables are ordinal level measures?",
   answer("Whether Freedom House labels a country as free, partly free, or not free", correct = TRUE),
   answer("Whether a county's population is majority of white, Black, Hispanic or some other race", message = "Racial majority is a nominal variable, the categories cannot be rank-ordered."),
-  answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with Donald Trump's response to the COVID-19 pandemic", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categorie so this is therefore ordinal-level. The Likert scale assessing satisfaction with the COVID-19 pandemic similarly denotes responses that can be ranked in order and is therefore measured at the ordinal level."),
+  answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with the direction the country is headed", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categorie so this is therefore ordinal-level. The Likert scale assessing satisfaction with the direction the country is headed similarly denotes responses that can be ranked in order and is therefore measured at the ordinal level."),
   answer("A nation's level of inflation", message = "Inflation is not an ordinal variable because difference between the values of the variable are meaningful."),
   allow_retry = TRUE,
   try_again = "Hint: There are two ordinal variables in this list."
@@ -124,7 +124,7 @@ Consider support for Donald Trump in US counties in 2016:
 
 ```{r letter-d, echo=FALSE}
 question("What level of measurement would a variable be that was coded as whether or not a majority of the county vote was cast for Donald Trump?",
-  answer("Nominal", correct=TRUE, message="The values of the variable consitute unordered categories."),
+  answer("Nominal", correct=TRUE, message="The values of the variable consitute unordered categories (yes or no)."),
   answer("Ordinal", message="The values of the variable are not rank-ordered so this is not an ordinal variable."),
   answer("Interval", message="The values of the variable are not ordered and equally distant so this is not an interval variable."),
   allow_retry = TRUE
