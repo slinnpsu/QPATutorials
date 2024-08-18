@@ -50,7 +50,7 @@ Each row of the data set below contains an observation for a single county in th
 
 ![](images/DataEx.png){width=70%}
 
-R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
+R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data (.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx), Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
 
 ## Loading R data files (extension .RData)
 
