@@ -16,7 +16,7 @@ description: >
 In this tutorial, you will learn how to present results from logistic regression analysis in R. Specifically we will cover:
 
 * How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
-* How to use the `plot_odel()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a logistic regression analysis. Specifically, we will cover how to plot the effects of one or more variables and how to set the values of independent variables not being plotted.
+* How to use the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a logistic regression analysis. Specifically, we will cover how to plot the effects of one or more variables and how to set the values of independent variables not being plotted.
 
 
 ```{r setup, include=FALSE}
@@ -140,7 +140,7 @@ Look at the table and confirm that the results match the summary output from the
 
 This looks pretty good, but we can make it better. Let's make this more informative by adding a title with the `title` argument; a label for the dependent variable with the `dep.var.labels` argument, and labels for the rows of the table with the `covariate.labels` argument. Afterall, we can't expect our reader to know what the names of our variables stand for. Each of the values for these arguments must be set in quotes, and anytime we have more than a single label to pass the argument, we must put them inside the `c()` function and separate them by commas.  Don't forget to separate each argument in the `stargazer()` function with a comma!
 
-<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
+<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order, starting with the first explanatory variable listed in the `glm()` function. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
 
 ```{r star2, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -601,9 +601,9 @@ grade_code()
 
 
 ```{r letter-d, echo=FALSE}
-question("Looking at the figure above is the following TRUE or FALSE? At all levels of education, an individual is more likely to turn out that not turn out ",
-  answer("FALSE", correct=FALSE, message="The predicted values in the plot only apply to someone who has  an average income, who is not a strong partisan, and who evaluates the candidates 50 degrees differently"),
-  answer("TRUE", correct=TRUE),
+question("Looking at the figure above is the following TRUE or FALSE? At all levels of education, an individual who has  an average income, who is not a strong partisan, and who evaluates the candidates 50 degrees differently is more likely to turn out that not turn out ",
+  answer("TRUE", correct=FALSE, message="Among those with the lowest levels of eduction who have an average income, who are not a strong partisans, and who evaluate the candidates 50 degrees differently the probability they turn out to vote is less than 50%."),
+  answer("FALSE", correct=TRUE),
   allow_retry = TRUE
   )
 ```

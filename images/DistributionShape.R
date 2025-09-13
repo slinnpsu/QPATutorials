@@ -1,6 +1,7 @@
 library(simstudy)
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 library(gridExtra)
 library(grid)
 def <- defData(varname = "nr", dist = "nonrandom", formula = 7, id = "idnum")
@@ -39,7 +40,7 @@ p2<-ggplot(dt, aes(x=factor(xCatB))) +
 
 p3<-ggplot(dt, aes(x=factor(xCatU))) +
   geom_bar(fill="darkblue") +
-  labs(title="Uniforml Distribution",
+  labs(title="Uniform Distribution",
        x="Category",
        y="Frequency") +
   scale_y_continuous(limits=c(0,500))
@@ -57,5 +58,5 @@ shape <- grid.arrange(p1, p2, p3, p4, as.table=TRUE, top = textGrob("Distributio
                                                   just = "left",
                                                   gp = gpar(fontsize = 14,col="blue")))
 
-ggsave(plot=shape, "/Users/sld8/Dropbox/PLSC309/FA2020/RTutorials/images/DistributionShape.png",  width=5, height=5, units="in")
+ggsave(plot=shape, "/Users/sld8/Dropbox/QPATutorials/images/DistributionShape.png",  width=5, height=5, units="in")
 
