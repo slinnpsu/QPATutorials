@@ -50,7 +50,9 @@ Each row of the data set below contains an observation for a single county in th
 
 ![](images/DataEx.png){width=70%}
 
+
 R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
+
 
 ## Loading R data files (extension .RData)
 
@@ -449,38 +451,65 @@ unFBposts[10:15, "type"]
 
 You will often want to use indexing to identify the case(s) associated with an outlier or maximum or minimum value of a given variable.  For example, you might want to know which message had the most likes in this data set. To do so, you specify the variable of interest, **likes_count**, within the data frame unFBposts. By using the `which()` function combined with a conditional statement, `unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE)`, you instruct R to pinpoint the index or indices where **likes_count** achieves its largest value after accounting for any missing data (`na.rm = TRUE`). Once these indices are identified, they are used to fetch the corresponding message associated with the most likes.  In this specific instance, since only one message has the highest count of likes, the code returns that singular message."
 
+
 Look carefully at this code, we will be using the `which()` function frequently this semester to identify cases (e.g., states or countries) that have the maximum value of a given variable!
+
 
 ```{r index3, exercise=TRUE}
 unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
 ```
 
-Let's disect this code further.
+Let's dissect this code further.
 
 + `max(unFBposts$likes_count, na.rm = TRUE)`: This part of the code calculates the maximum value within the likes_count column of the unFBposts data frame. The `na.rm = TRUE` argument ensures that any missing or NA values within this column are ignored during the calculation. Essentially, this determines the highest number of likes any message has received.
 + `unFBposts$likes_count == max_value`: Here **max_value** refers to the results of previous bullet point. After determining the maximum value, the code checks every entry in the **likes_count** column to see which ones match this highest value. When you compare the entire column against this maximum value, you get a logical vector (i.e., a series of TRUE and FALSE values). Each TRUE indicates an entry where the number of likes matches the maximum value.
 + `which(...)`: Finally, the `which()` function is applied to this logical vector. Its role is to extract the indices where the condition `(unFBposts$likes_count == max_value)` is TRUE. This gives you the row or rows in the data frame where the message received the maximum number of likes.
+You may want also to find the **message** with the minimum (or maximum) value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **shares_count**.
 
-You may want to find the message with the minimum value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **shares_count**.
-
-```{r index4, exercise=TRUE}
+```{r index4_1, exercise=TRUE}
 
 ```
 
-```{r index4-solution}
+```{r index4_1-hint}
+1. Start with unFBposts$message[]
+2. Inside the square brackets, use the which() function
+3. Inside which(), compare unFBposts$shares_count to its maximum value -- make sure to use two equal signs for comparison
+4. Use max() to find the maximum value of shares_count
+5. Don't forget to handle NA values with na.rm = TRUE
+```
+
+```{r index4_1-solution}
 unFBposts$message[which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE))]
 ```
 
-```{r index4-hint}
-Specify unFBposts$message[] and inside the [] use the which()
-function and inside it set unFBposts$shares_count == to
-max(unFBposts$shares_count). Set the na.rm argument to TRUE
+
+Often you will want to know not only the case with the maximum (or minimum value), but also the value it takes. To find the number of shares associated with the **message** with the most shares we pass the same condition, but now as an index condition after **shares_counts**:
+
+```{r index4_2, exercise=TRUE}
+unFBposts$shares_count[which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE))]
 ```
 
-```{r index4-check}
+Try finding the number of likes (**likes_count**) for that message:
+
+
+```{r index4_3, exercise=TRUE}
+```
+
+```{r index4_3-hint}
+Pass which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE)) as an index to unFBposts$likes_count.
+```
+
+```{r index4_3-solution}
+unFBposts$likes_count[which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE))]
+```
+
+
+```{r index4_3-check}
 grade_code()
 ```
 
+
+This message was shared 2513 times and liked 2249 times!
 
 ## Creating a new variable in a data frame
 

@@ -39,7 +39,7 @@ library(poliscidata)
 
 ## Descriptive Statistics
 
-<span style="color:blue">*Descriptive statistics are numerical and graphical methods used to summarize and present the key characteristics of a dataset. These statistics provide concise, meaningful descriptions of both samples and entire populations, forming the cornerstone of quantitative data analysis.*</span>
+<span style="color:blue">*Descriptive statistics provide simple summaries about the sample and the measures. Together with simple graphical analysis, they form the basis of virtually every quantitative analysis of data.*</span>
 
 
 The first step in any analysis is to describe the variables that are the focus of our research question in order to convey how they behave, what they look like, and, therefore, what features of the data our explanation needs to account for. For example:
@@ -96,9 +96,9 @@ Central tendency refers to the "typical value" a variable takes. It is the cente
 
  <span style="color:blue">**The mode is the most frequently occurring category in the data.**</span>  Specifically, the mode is the *name* of the category that occurs most often. We can determine the mode from a frequency table. A <span style="color:blue">**frequency table lists each value a variable can take and the number of cases in the data that have each value.**</span> Sometimes it is useful to present the proportion of cases in each category, as well as the frequencies. 
 
-### Central tendency and vote for Donald Trump in US counties in the 2016 presidential election
+### Central tendency and vote for Donald Trump in US counties
 
-To illustrate how to identify the mode and how to produce a frequency table and its cousin a table of proportions, we will examine the variable  **TrumpMajority** in the data frame **counties**, which contains a number of variables measured in US counties in the 2016 presidential election. This variable assigns a value of 0 to the county if Clinton won a majority of the vote and 1 if Trump won a majority. 
+To illustrate how to identify the mode and how to produce a frequency table and its cousin a table of proportions, we will examine the variable  **TrumpMajority** in the data frame **counties**. This variable assigns a value of 0 to the county if Clinton won a majority of the vote and 1 if Trump won a majority. 
 
 We will introduce the functions `group_by()`, `summarize()` and `mutate()` from the R package <span style="color:DarkGreen">dplyr</span> in conjunction with **%>%**, called the pipe operator, to produce a frequency table. The pipe operator allows us to perform a sequence of operations to turn the object we start with into another object containing the information we want. Whenever you encounter the pipe operator, you can read the code as saying, "then do this."
 
@@ -122,7 +122,7 @@ While R knows the data is grouped, the output here is the full data frame becaus
 
 The `summarise()` function collapses a data frame into a single row (if we do not group) or into a single row for each group (if we do group) of summary information. You get to choose which and how many summaries appear in the row and how they are computed. We can summarize the data without grouping, but usually, we will be calculating summary statistics on data we have grouped. In other words, we will produce summary statistics for each category of the grouping variable or variables. We can take the grouped data "and then" (using the pipe operator, %>%) within the `summarise()` function we provide the name(s) of any new summary information and the R expression to generate it (or them).
 
-We wish to calculate a single summary statistic: the frequency or count. The function `n()` (with no arguments) will count the number of cases. Because this follows `group_by()`, it will count the number of cases in each category of the variable we have grouped by.  We want to assign the value of this function to a new variable we will call **freq**, but you can assign any name to the new variable that is permissible in R.
+We wish to calculate a single summary statistic: the frequency or count. The function `n()` (with no arguments) will count the number of cases for each category of the variable we have grouped by.  We want to assign the value of this function to a new variable we will call **freq**, but you can assign any name to the new variable that is permissible in R.
 
 Run the code. (Note: A warning message may appear.)
 
@@ -132,11 +132,9 @@ counties %>%
   summarise(freq = n())
 ```
 
-The first row of the output lists the first value of **TrumpMajority** in the first column and the count of cases taking that value (**freq**) in the second column. The second row lists the second (and final) value of **TrumpMajority** in the first column and the count of cases taking that value in the second column.
-
+The first row of the output lists the first value of **TrumpMajority** in the first column and the count of cases taking that value (**freq**) in the second column. The second row lists the second (and final) value of **TrumpMajority** in the second column and the count of cases taking that value in the second column.
 
 What does this frequency table tell us is the modal value of **TrumpMajority**? The most frequently occurring outcome is 1, thus, the mode is one. But "1" is not substantively meaningful. Instead, we say, "The modal county cast a majority of its vote for Donald Trump." (Recall that's the meaning of the value "1" for this variable.) This is useful information because it tells us Donald Trump won more counties than he lost. 
-
 
 ### The mutate() function
 
@@ -157,7 +155,7 @@ The addition of the proportions to our table confirms the modal category is "Tru
 
 ### Central tendency and racial majorities in US counties
 
-Let's ook at another nominal variable, **racial_majority**, in the **counties** data frame. The variable takes the (character) values "Black Majority", "Hispanic Majority", "Other Majority", and "White Majority" depending on which racial/ethnic group comprised 50% or more of the county population.  There are two counties where data is not available and are therefore assigned the missing value NA. What can we say about the central tendency of this variable?
+Let’s look at another nominal variable, **racial_majority**, in the **counties** data frame. The variable takes the (character) values "Black Majority", "Hispanic Majority", "Other Majority", and "White Majority" depending on which racial/ethnic group comprised 50% or more of the county population.  There are two counties where data is not available and are therefore assigned the missing value NA. What can we say about the central tendency of this variable?
 
 We will use the <span style="color:DarkGreen">dplyr</span> functions again to generate a frequency and proportion table. First, we need to group_by **racial_majority**, then we will use `summarise()` to generate the counts, and finally, we will use `mutate()` to create proportions. 
 
@@ -253,65 +251,8 @@ Because the frequency and proportion tables completely characterize the distribu
 
 It is often easier to describe the shape of a distribution from a plot. The figure below presents examples of each of these shapes of distributions.
 
-```{r distribution-plots, echo=FALSE, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
-library(simstudy)
-library(ggplot2)
-library(dplyr)
-library(gridExtra)
-library(grid)
-library(tidyr)
 
-# Define data
-def <- defData(varname = "nr", dist = "nonrandom", formula = 7, id = "idnum")
-def <- defData(def, varname = "xCat1", formula = "20;20;50;10", dist = "categorical")
-def <- defData(def, varname = "xCatB", formula = "40;7;50;3", dist = "categorical")
-def <- defData(def, varname = "xCatU", formula = "21;25;14;17;23", dist = "categorical")
-def <- defData(def, varname = "xCatM", formula = "30;10;5;5;25;5;20", dist = "categorical")
-
-# Generate data
-dt <- genData(10000, def)
-
-# Ensure all categories are represented in the factor levels
-dt$xCat1 <- factor(dt$xCat1, levels = 1:4)
-dt$xCatB <- factor(dt$xCatB, levels = 1:4)
-dt$xCatU <- factor(dt$xCatU, levels = 1:5)
-dt$xCatM <- factor(dt$xCatM, levels = 1:7)
-
-# Function to create plot with dynamic y-axis limit
-create_plot <- function(data, x_var, title) {
-  max_count <- max(table(data[[x_var]]))
-  ggplot(data, aes(x = .data[[x_var]])) +
-    geom_bar(fill = "darkblue") +
-    labs(title = title,
-         x = "Category",
-         y = "Frequency") +
-    scale_y_continuous(limits = c(0, max_count * 1.1), 
-                       expand = expansion(mult = c(0, 0.1))) +
-    theme_minimal() +
-    theme(plot.title = element_text(size = 10),
-          axis.title = element_text(size = 8),
-          axis.text = element_text(size = 6))
-}
-
-# Create individual plots
-p1 <- create_plot(dt, "xCat1", "Unimodal Distribution")
-p2 <- create_plot(dt, "xCatB", "Bimodal Distribution")
-p3 <- create_plot(dt, "xCatU", "Uniform Distribution")
-p4 <- create_plot(dt, "xCatM", "Multi-Modal Distribution")
-
-# Arrange plots without printing the output
-shape <- arrangeGrob(p1, p2, p3, p4, 
-                     ncol = 2, 
-                     top = textGrob("Distribution Shapes",
-                                    x = 0.5, 
-                                    y = 1,
-                                    just = "top",
-                                    gp = gpar(fontsize = 12, fontface = "bold")))
-
-# Display the arranged plot
-grid.draw(shape)
-```
-
+![](images/DistributionShape.png){ width=50% }
 
 
 We will learn how to produce plots of the distribution or our nominal variables in the next section.
@@ -358,15 +299,9 @@ ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
 
 ### ggplot step four
 
-At this point, we have an ugly plot that is not very informative. We can change the default labels of the plot by adding another layer to our plot using the `labs()` function. This function allows us to add a `title`, `subtitle`, `x` axis title, `y` axis title, and a `caption` argument. Here's how to use it correctly:
+At this point, we have an ugly plot that is not very informative. We can change the default labels of the plot by adding another layer to our plot using the `labs()` function. We can pass the function a `title`, `subtitle`, `x` axis title, `y` axis title, and a `caption` argument. To add this information, we need to add a plus sign to the end of the previous code as follows. I've added \\n in the middle of the main title. This tells ggplot to insert a line break in the title and thus to spread it over two lines.
 
-* Each label (title, subtitle, axis labels, caption) must be enclosed in quotation marks. This tells R that these are text strings.
-* For each label you want to add, specify the type of label followed by an equal sign and then your text in quotation marks.
-* Separate different labels with commas.
-* You can use <span style="color:blue">**\\n**</span> inside a label to create a line break. This is particularly useful for long titles or labels.
-* If you want to omit a label entirely, you can set it to NULL (without quotation marks).
-
-Look carefully at the code before you run it and make sure you understand what each line is doing.
+Look carefully at the code before you run it and make sure you understand what each line is doing. Notice that I specified NULL for the `x` axis title. This omits the x-axis label.
 
 ```{r stepfour, exercise=TRUE}
 ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
@@ -378,26 +313,9 @@ ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
               caption = "Source: Linn, Nagler, Zilinsky")
 ```
 
-This plot is much more informative and professional. But the x-axis labels of 0 and 1 are not informative. We need to change them. We will want to do this any time the values of the variables are not substantively informative. To change the labels on the x-axis of our bar chart, we use the `scale_x_discrete()` function with the labels argument. Here's how it works:
+We can also change the x-axis value labels. We will want to do this any time the values of the variables are not substantively informative. To do so we add (again with a plus at the end of the last line of the current code) the function `scale_x_discrete()`, passing it labels. Note that this is only a sensible layer to add to a plot if the x-axis measures a discrete variable, i.e., it is categorical. Later we will introduce the `scale_x_continuous()` function.
 
-* Function: `scale_x_discrete()` is used because our x-axis represents discrete categories (in this case, binary outcomes).
-* Labels Argument: Inside this function, we use the labels argument to specify our custom labels.
-* Creating a Vector of Labels: The labels argument expects a vector of new label names. We create this vector using the `c()` function. Each label must be listed in quotations.
-* Order Matters: The order of labels in the `c()` function must match the order of the levels in your data.
-Matching Data to Labels: In this case:
-
-    * '0' in the data represents counties where Clinton won a majority
-    * '1' in the data represents counties where Trump won a majority
-
-
-Syntax: The full syntax looks like this: `scale_x_discrete(labels = c("Clinton", "Trump"))`
-
-Why This Order: "Clinton" comes first because it corresponds to the lower value (0) in the original data, while "Trump" corresponds to the higher value (1).
-
-Remember: Always ensure that the number and order of your custom labels match the levels in your factor variable. If they don't match, your plot may be misleading or produce an error.
-This approach allows you to replace the default numeric labels with more meaningful text labels, making your plot easier to interpret at a glance.
-
-
+Look carefully at the last line of code below. To change the labels we have to specify the `label` argument. Because we want to change multiple values, we assign the new labels using the `c()` function. Inside the `c()` function, we list the new value we want for the labels, separated by commas. Make sure to list them in the correct order,
 
 ```{r stepfourb, exercise=TRUE}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +
@@ -460,13 +378,13 @@ Here again the plot illustrates the <span style="color:blue">**mode(s)**</span>,
 
 The last thing we will do is plot proportions rather than the frequency distribution.
 
-To plot proportions, we give the `geom_bar()` function its own aesthetic, which formats the y-axis. Specifically, we include ``aes(y = after_stat(prop), group = 1)` inside the `geom_bar()` function. This transforms the y-axis to a proportion calculated out of all cases (`group = 1`): `geom_bar(aes(y = after_stat(prop), group = 1))`.
+To plot proportions, we give the `geom_bar()` function its own aesthetic, which formats the y-axis. Specifically, we include ``aes(y = after_stat(count/sum(count)))` inside the `geom_bar()` function. This transforms the y-axis to a proportion: `geom_bar(aes(y = after_stat(count/sum(count))))`.
 
 Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
 
 ```{r propmajority, exercise=TRUE}
 ggplot(data = df, mapping = aes(x = factor(region))) +
-         geom_bar(aes(y = after_stat(prop), group  = 1), fill = "blue") +
+         geom_bar(aes(y = after_stat(count/sum(count))), fill = "blue") +
          labs(title = "Proportion of US States in Each Census Region", 
               x = NULL,  
               y = "Proportion")
@@ -475,7 +393,7 @@ ggplot(data = df, mapping = aes(x = factor(region))) +
 
 What does the plot illustrates about the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span> of this variable?
 
-While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states) in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
+While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states)  is in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
 
 
 ### Dispersion and the distribution of regime type around the world
@@ -488,28 +406,27 @@ Replace the XXXX in the code below. Fill in the bars with the color "red". Be ca
 
 ```{r plotraceprop, exercise = TRUE, exercise.eval = FALSE}
 ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
-  geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +
+  geom_bar(XXXX(XXXX = XXXX(XXXX/XXXX())), XXXX) +
   labs(title = "Regime Type",
        subtitle = "The Economist",
        x = NULL,
        y = "XXXX") +
-  XXXX(na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
+  XXXX((na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
 
 ```{r plotraceprop-hint-1}
 1. Have you named the data set world?
 2. Remember you need to specify the aes() function inside geom_bar().
-3. Have you specified y= after_stat(prop) inside the geom_bar aes() function?
-4. Have you specified group = 1 inside the aes() function?
-5. Have you specified fill="red" outside aes() in geom_bar?
-6. Did you set the y label to "Proportion"?
-7. Did you specify the scale_x_discrete function to edit the x axis?
+3. Have you specified y= after_stat(count/sum(count)) inside the geom_bar aes() function?
+4. Have you specified fill="red" outside aes() in geom_bar?
+5. Did you set the y label to "Proportion"?
+6. Did you specify the scale_x_discrete function to edit the x axis?
 ```
 
 ```{r plotraceprop-solution}
 ggplot(data = world, mapping = aes(x = factor(dem_level4))) +
-  geom_bar(aes(y = after_stat(prop), group = 1), fill = "red") +
+  geom_bar(aes(y = after_stat(count/sum(count))), fill = "red") +
   labs(title = "Regime Type",
        subtitle = "The Economist",
        x = NULL,

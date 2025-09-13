@@ -124,7 +124,9 @@ question("Which of the following statements are true?",
 
 ### Example 2: Proportion of white residents in US counties
 
+
 We might also be interested to know whether, in the average county in the US in 2016, the proportion of whites was the same as the country as a whole, 0.763. The variable **prop_white** in the data frame **counties** contains the proportion of Blacks in a given county. Note that the variable is measured as a proportion, it is not a categorical variable.
+
 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
@@ -176,6 +178,7 @@ question_text(
 ```
 
 
+
 **Step 5. Draw a conclusion.**
 
 
@@ -200,7 +203,9 @@ A <span style="color:blue">difference of means test</span> involves a comparison
 
 ### Example 1: Proportion of Black residents in US counties won by Hillary Clinton and Donald Trump
 
+
 We might wish to test whether the proportion of Blacks in a county was **higher** in counties that Hillary Clinton won than in those counties Donald Trump won.
+
 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
@@ -230,9 +235,11 @@ There are two ways to test whether the mean value of a single variable, $Y$, in 
 
 If we wish to test the null hypothesis against a one-tailed alternative -- that the mean is higher or lower in one of the two groups -- we add the `alternative` argument, setting it to `"greater"` if the mean in group zero is hypothesized to be greater  than in group one and `"less"` if the mean in group zero is hypothesized to be smaller than in group one The default is a two-tailed alternative hypothesis, so you don't need to specify this argument if the alternative hypothesis is two-tailed.
 
+
 The variable **TrumpMajority** (coded 0 if Hillary Clinton won a majority of the county's vote and 1 if Donald Trump won a majority) and **prop_black** (the proportion of the county residents who are Black) in the **counties** data frame contain the information needed to test the hypothesis that the mean proportion of Black's in counties won by Hillary Clinton is higher than that in counties won by Donald Trump.
 
 Note that we specify `alternative = "greater"` to test this hypothesis because we expect the mean in group zero to be higher than the mean in group one. Anytime you use a one-tailed test, take care to ensure you choose the appropriate alternative given the coding of the variables! I've computed this test using both formulations of the test.
+
 
 ```{r twosample1, exercise = TRUE}
 t.test(counties$prop_black ~ counties$TrumpMajority, alternative = "greater")
@@ -241,9 +248,6 @@ t.test(counties$prop_black ~ counties$TrumpMajority, alternative = "greater")
 ```{r twosample1a, exercise = TRUE}
 t.test(counties$prop_black[counties$TrumpMajority == 0], counties$prop_black[counties$TrumpMajority == 1], alternative = "greater")
 ```
-
-
-
 ```{r letter-fa, echo=FALSE}
 question("Which of the following statements are true?",
   answer("The mean proportion of Blacks in counties Clinton won was 0.23", correct = TRUE, message="Group 0 refers to the first response option for TrumpMajority, which corresponds to a Clinton majority."),
@@ -254,8 +258,8 @@ question("Which of the following statements are true?",
   try_again = "Hint: Make sure to select all true statements."
   )
 ```
+**Step 4. Translate the test statistic into a p-value.**
 
-**Step 4. Translate the test statistic into a p-value.** 
 
 
 ```{r text_box2, echo = FALSE}
@@ -268,7 +272,6 @@ question_text(
   try_again = "Try again."
 )
 ```
-
 **Step 5. Draw a conclusion.**
 
 
@@ -350,27 +353,7 @@ question("Which of the following statements are true?",
   )
 ```
 
-**Step 4. Translate the test statistic into a p-value** and **Step 5. Draw a conclusion.**
 
-```{r letter-h, echo=FALSE}
-question("Which of the following statements are true?",
-  answer("Because the p-value is greater than 0.05, we cannot reject the null hypothesis with 95% confidence", correct=TRUE),
-  answer("Because the confidence interval includes zero, we can reject the null hypothesis", message = "If the confidence interval includes the null hypothesis value, we cannot reject the null"),
-  answer("The difference in the mean GDP in democratic and non-democratic regimes is about 360", correct=TRUE),
-  answer("There is a 9.579 percent chance we'd observe a mean difference between democratic and non-democratic regimes as great as we observe if the null hypothesis is true", correct=TRUE, message="The p-value is greater than 0.05, and the 95% confidence interval includes zero, both of which indicate we cannot reject the null hypothesis with 95% confidence. The p-value of 0.09579 indicates the probability we observe a mean difference this large if the null is true is 9.579."),
-  allow_retry = TRUE,
-  try_again = "Hint: Make sure to select all true statements."
-  )
-```
-
-```{r letter-hz, echo=FALSE}
-question("What substantive conclusion can we draw from this hypothesis test?",
-  answer("On average, democracies have a significantly higher GDP in 2008 than nondemocracies", message = "Although the estimated means show that democracies have a higher average GDP in 2008 than nondemocracies, we cannot be 95% confident that this is true in the population."),
-  answer("On average, democracies and nondemocracies do not have significantly different GDP values in 2008", correct=TRUE, message = "Although the estimated means show that democracies have a higher average GDP in 2008 than nondemocracies, we cannot be 95% confident that this is true in the population."),
-  allow_retry = TRUE,
-  try_again = ""
-  )
-```
 
 ## Paired t-test: one-sample means test, two variables 
  
@@ -442,6 +425,8 @@ question("Which of the following statements are true?",
   )
 ```
 
+
+
 **Step 4. Translate the test statistic into a p-value** and **Step 5. Draw a conclusion.**
 
 ```{r letter-i, echo=FALSE}
@@ -464,7 +449,6 @@ question("What substantive conclusion can we draw from this hypothesis test?",
   try_again = " "
   )
 ```
-
 
 
 ## The Takeaways
