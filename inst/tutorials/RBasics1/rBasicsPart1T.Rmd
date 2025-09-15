@@ -334,7 +334,6 @@ There are many other classes of objects in R. We will encounter more in future l
 
 Next, we will enter some data into R as a *numeric vector object*. A *vector* is just a collection of information stored in a specific order. We use the function `c()`, which stands for `concatenate,' to enter a data vector containing multiple values with commas separating different elements of the vector we are creating. **Any time you wish to refer to more than one element, you must use the concatenate function!**
 
-
 **Practice: Create your first vector**
 Create a vector called **my.first.vector** that contains any 5 numbers you wish and check the contents of the vector (by listing the name of the vector on a new line) to see your handiwork:
 
@@ -395,7 +394,6 @@ grade_code(" ")
 
 The `c()` function can be used to combine multiple vectors.
 
-
 **Practice: Combine vectors**
 Let's create two string vectors, one with the Democratic candidate last names for the first 5 elections (call it **first.5.candidates**) and the other with candidate last names for the next 6 elections (call it **last.6.candidates**) and then combine them into a vector called **dem.candidates**. Check your work by printing the final vector. (Hint: candidates' names are strings. You will need to use quotation marks around each name.)
 
@@ -424,8 +422,7 @@ grade_code("")
 
 ### Accessing Elements of a Vector
 
-
-**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] after the vector name. Inside the brackets, place the number of the element that you’d like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
+**To select a specific element in a vector, we use square brackets [ ].** We insert the *index* associated with the element of the vector we want to select. The *index* value 1 refers to the first element in the vector. The *index* value 2 refers to the second element in the vector, and so on. You can extract any element of a vector by placing a pair of brackets [ ] after the vector name. Inside the brackets, place the number of the element that you'd like to extract. Here is an example that returns the first value in **dem.pres.vote.share** Change it to extract Hillary Clinton's vote share.
 
 **Practice: Access a single vector element**
 Modify this code to extract Hillary Clinton's vote share (the 10th element):
@@ -800,8 +797,6 @@ range(rep.pres.vote.share)
 grade_code(" ")
 ```
 
-
 <div class="success-note">
 <strong>Congratulations!</strong> Way to go! You've finished the first tutorial.
 </div>
-
