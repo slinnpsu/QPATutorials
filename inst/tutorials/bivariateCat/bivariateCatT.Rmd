@@ -202,7 +202,7 @@ Does this table support the hypothesis? Yes, because a much larger proportion of
 
 ### Gender Equality and Regime Type
 
-For a final illustration, we will examine the relationship between the nominal variable **regime_type3**, which takes the values "Dictatorship," "Parliamentary democ," or "Presidential democ" and the ordinal variable **gender_equal13**, which may be "Low," "Medium," or "High." The variables are in the data frame **world**.
+For a final illustration, we will examine the relationship between the nominal variable **regime_type3**, which takes the values "Dictatorship," "Parliamentary democ," or "Presidential democ" and the ordinal variable **gender_equal3**, which may be "Low," "Medium," or "High." The variables are in the data frame **world**.
 
 Write the code to generate the cross-tab and run it. Assume we hypothesize that: <span style="color:chocolate"> In a comparison of [countries], those that are [dictatorships] will be less likely to [have a high degree of gender equality] than will those that are [not dictatorships].</span>
 
@@ -229,10 +229,10 @@ grade_code()
 
 
 ```{r letter-aa, echo=FALSE}
-question("How many counties in the sample are rural?",
-  answer("2622", message = "2622 is a row total: 2622 counties have a value of 1 for the variable TrumpMajority, which denotes they cast a majority of votes for Donald Trump"),
-  answer("1162", message = "1162 is a column total, but the wrong column: a value of 0 for the column variable rural, denotes a county is urban."),
-  answer("627", message = "627 is a column total giving the number of counties that have a value of 2 for the variable rural, which denotes a county is rural", correct = TRUE),
+question("How many countries in the sample have medium levels of gender equality?",
+  answer("21", message = "21 is a row total, but the wrong row: 21 countries have high levels of gender equality"),
+  answer("29", message = "29 is a column total denoting the number of countries that have parliamentary democracies."),
+  answer("22", message = "22 is a row total giving the number of countries that have a value of medium for the gender equality variable", correct = TRUE),
   allow_retry = TRUE,
   try_again = " "
 )

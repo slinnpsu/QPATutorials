@@ -51,7 +51,7 @@ Each row of the data set below contains an observation for a single county in th
 ![](images/DataEx.png){width=70%}
 
 
-R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data(.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
+R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data (.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
 
 
 ## Loading R data files (extension .RData)
@@ -264,7 +264,7 @@ grade_code("")
 
 ### Determining variable names 
 
-We've learned **unFBposts**  contains 1643 Facebook posts (rows) and 8 variables (columns). 
+We've learned **unFBposts**  contains 1643 Facebook posts (rows) and 9 variables (columns). 
 
 We can see the names of the variables in our data.frame using the `names()` function we introduced in the R Basics tutorial Part 1. Just pass this function **unFBposts**.
 
@@ -464,6 +464,7 @@ Let's dissect this code further.
 + `max(unFBposts$likes_count, na.rm = TRUE)`: This part of the code calculates the maximum value within the likes_count column of the unFBposts data frame. The `na.rm = TRUE` argument ensures that any missing or NA values within this column are ignored during the calculation. Essentially, this determines the highest number of likes any message has received.
 + `unFBposts$likes_count == max_value`: Here **max_value** refers to the results of previous bullet point. After determining the maximum value, the code checks every entry in the **likes_count** column to see which ones match this highest value. When you compare the entire column against this maximum value, you get a logical vector (i.e., a series of TRUE and FALSE values). Each TRUE indicates an entry where the number of likes matches the maximum value.
 + `which(...)`: Finally, the `which()` function is applied to this logical vector. Its role is to extract the indices where the condition `(unFBposts$likes_count == max_value)` is TRUE. This gives you the row or rows in the data frame where the message received the maximum number of likes.
+
 You may want also to find the **message** with the minimum (or maximum) value. It turns out in this data set there are many messages with zero shares and likes. To avoid printing many, many messages, let's try finding the message with the maximum number of shares using **shares_count**.
 
 ```{r index4_1, exercise=TRUE}
@@ -713,7 +714,7 @@ min(unFBposts$likes_count, na.rm = TRUE)
 grade_code()
 ```
 
-8. What was the range of the number of shares ("Shares_count") a post received?
+8. What was the range of the number of shares ("shares_count") a post received?
 
 ```{r range, exercise=TRUE}
 

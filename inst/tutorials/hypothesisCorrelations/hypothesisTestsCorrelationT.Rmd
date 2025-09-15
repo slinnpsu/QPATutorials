@@ -15,7 +15,7 @@ description: >
 
 In this tutorial, you will learn how to conduct a hypothesis test to determine whether two interval variables are related by testing whether a correlation is different from zero. Specifically we will cover:
 
-* How to use the `corr.test()` function to estimate and test the significance of Pearson's correlation coefficient.
+* How to use the `cor.test()` function to estimate and test the significance of Pearson's correlation coefficient.
 * Practice walking through the steps for hypothesis testing.
 
 This tutorial assumes that you already familiar with the logic of hypothesis testing and Pearson's correlation coefficient.  See the tutorial "Bivariate Description: Two Interval Variables" to review the correlation coefficient and how to make scatter plots to illustrate the relationship.
@@ -90,7 +90,7 @@ We can see that the bivariate relationship is negative (about -0.07) -- as morta
 ### Example 2:  The correlation between governance score and freedom of the press around the world
 
 
-As a second example, we will work with data from the Quality of Government basic data set from The Quality of Government Institute, (http://www.qog.pol.gu.s). The data frame is call **qog** and contains data from the year 2016 for a number of countries around the world. We will test whether a country's overall governance score, **iiag_gov**, and  Freedom House's measure of freedom of the press, **fh_score5**, are significantly (linearly) related. **iiag_gov** aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development to produce an interval level variable that ranges between 11 and 80.1 with a standard deviation of 13.8. **fh_score5** ranges from 0 to 100 where higher numbers signify **less** press freedom. 
+As a second example, we will work with data from the Quality of Government basic data set from The Quality of Government Institute, (http://www.qog.pol.gu.s). The data frame is call **qog** and contains data from the year 2016 for a number of countries around the world. We will test whether a country's overall governance score, **iiag_gov**, and  Freedom House's measure of freedom of the press, **fhp_score5**, are significantly (linearly) related. **iiag_gov** aggregates data on the rule of law, participation, human rights, sustainable economic opportunity, and human development to produce an interval level variable that ranges between 11 and 80.1 with a standard deviation of 13.8. **fhp_score5** ranges from 0 to 100 where higher numbers signify **less** press freedom. 
 
 **Step 1. Formulate a null hypothesis**. $H_0: \rho=0$.
 
@@ -123,7 +123,7 @@ grade_code()
 
 ```{r letter-b, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("The correlation coefficient indicates that as government effectiveness increases freedom of the press increases", correct=TRUE, message="Because higher values of **fh_score5** signify less press freedom, a negative correlation indicates greater press freedom is associated with greater government effectiveness. "),
+  answer("The correlation coefficient indicates that as government effectiveness increases freedom of the press increases", correct=TRUE, message="Because higher values of **fhp_score5** signify less press freedom, a negative correlation indicates greater press freedom is associated with greater government effectiveness. "),
   answer("We can reject the null hypothesis that the correlation is zero", correct=TRUE, message="Because the p-value is less than 0.05, we can reject the null hypothesis the correlation is zero with 95% confidence. "),
   answer("There is less than a 1% probability that the null hypothesis is true", correct=TRUE, message="The p-value tells us the probability the null hypothesis is true. Because it is less than 0.01, where is less than a 1% probability that the null hypothesis is true. "),
   allow_retry = TRUE,
@@ -180,7 +180,7 @@ question("Which of the following statements are true?",
 
 ## The Takeaways
 
-We use  <span style="color:blue">**Pearson's correlation coefficient, $\rho$**</span>, to estimate the strength and direction of any linear relationship between two interval-level variables. We may wish to test whether this correlation is significantly different from zero. We do so with a correlation test. We use the R function `corr.test()` to conduct this hypothesis test. The function also reports $\rho$.
+We use  <span style="color:blue">**Pearson's correlation coefficient, $\rho$**</span>, to estimate the strength and direction of any linear relationship between two interval-level variables. We may wish to test whether this correlation is significantly different from zero. We do so with a correlation test. We use the R function `cor.test()` to conduct this hypothesis test. The function also reports $\rho$.
 
 
 

@@ -281,7 +281,7 @@ The difference between the <span style="color:blue">**percent correctly predicte
 
 We will seldom estimate a logistic regression with a single explanatory variable. It is important to control for competing explanations in any regression model if we hope to draw valid inferences. Extending logistic regression to the case with multiple independent variables is straightforward.
 
-For this example we will use data from the 2016 American National Election Study in the data frame **aNES**. We are going to specify a model of vote for Donald Trump (**Trump2016**, coded 1 if an individual voted for Donald Trump and 0 otherwise) as a function of how warmly they feel toward Blacks on a feeling thermometer score coded from 0 to 100 where 0 is very cool and 100 is very warm (**Black.FT**) and illegal immigrants (**Illegals.FT**), which party they identify with (**partyf**, coded "Democrat", "Republican" and "Neither"), whether they are female (**femalef**, coded "Female" and "Male") and their level of education (**educ**, where 1 denotes a respondent did not complete high school, 2 denotes they have a high school diploma, 3 denotes they attended some college, trade, or business school, 4 denotes they have a college degree, and 5 denotes post graduate work). Note that we will treat **educ** as an interval level variable for the purposes of this illustration.
+For this example we will use data from the 2016 American National Election Study in the data frame **aNES**. We are going to specify a model of vote for Donald Trump (**Trump2016**, coded 1 if an individual voted for Donald Trump and 0 otherwise) as a function of how warmly they feel toward Blacks on a feeling thermometer score coded from 0 to 100 where 0 is very cool and 100 is very warm (**Blacks.FT**) and illegal immigrants (**Illegals.FT**), which party they identify with (**partyf**, coded "Democrat", "Republican" and "Neither"), whether they are female (**femalef**, coded "Female" and "Male") and their level of education (**educ**, where 1 denotes a respondent did not complete high school, 2 denotes they have a high school diploma, 3 denotes they attended some college, trade, or business school, 4 denotes they have a college degree, and 5 denotes post graduate work). Note that we will treat **educ** as an interval level variable for the purposes of this illustration.
 
 You likely have some hypotheses about who was most likely to vote for Trump, including hypotheses related to variables not included in this example. Consider the following:
 
@@ -446,7 +446,7 @@ Finally, add a comma and specify type="response".
 ```
 
 ```{r predfun3-solution}
-predict(model3, newdata = data.frame(strong = 1, income = 5, educ = 4, femalef = "Female"), type = "response")
+predict(model3, newdata = data.frame(strong = 0, income = 5, educ = 4, femalef = "Female"), type = "response")
 ```
 
 ```{r predfun3-check}

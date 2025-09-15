@@ -89,7 +89,7 @@ The data we will use for this test are from the 2016 American National Election 
 
 The first step is to identify the numerator (number of votes for Donald Trump in the sample) and denominator (number of votes for Donald Trump + Hillary Clinton) counts for the proportion of interest so that we can specify the `x` and `n` arguments in the `prop.test()` function. We need to create a frequency table of Vote for Trump (versus Clinton) using our variable **TrumpClintonVote**. The table will tell us the number of voters who voted for Trump  and the sample size to use in the `prop.test()` function. 
 
-We will use the `group_by()` and `summarise()` functions in the <span style="color:DarkGreen">dplyr</span> package to generate the frequency table. Recall that to use these <span style="color:DarkGreen">dplyr</span> functions we must load the package with the `library()` function first. Complete the code below to produce the frequency table.  Name your new variable **counts**.
+We will use the `group_by()` and `summarisz()` functions in the <span style="color:DarkGreen">dplyr</span> package to generate the frequency table. Recall that to use these <span style="color:DarkGreen">dplyr</span> functions we must load the package with the `library()` function first. Complete the code below to produce the frequency table.  Name your new variable **counts**.
 
 ```{r onesample, exercise = TRUE}
 library(dplyr)
@@ -483,7 +483,7 @@ CrossTable(aNES$TrumpClintonVote ,aNES$modern.family,  prop.r = FALSE, prop.c = 
 grade_code()
 ```
 
-**Step 5. Draw a conclusion.**
+**Step 4. Determine the p-value and Step 5. Draw a conclusion.**
 
 
 ```{r letter-d, echo=FALSE}

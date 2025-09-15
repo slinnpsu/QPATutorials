@@ -169,7 +169,7 @@ grade_code("You got it!")
 ```{r text_box, echo = FALSE}
 question_text(
   "Enter the p-value you would report from the test output. Begin your answer with p (not p-value) and include no spaces in your answer:",
-  answer("p<2.23-16", message = "Do not report scientific notation or more than three decimals."),
+  answer("p<2.2e-16", message = "Do not report scientific notation or more than three decimals."),
   answer("p<.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
   answer("p<0.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
    allow_retry = TRUE,
@@ -248,12 +248,13 @@ t.test(counties$prop_black ~ counties$TrumpMajority, alternative = "greater")
 ```{r twosample1a, exercise = TRUE}
 t.test(counties$prop_black[counties$TrumpMajority == 0], counties$prop_black[counties$TrumpMajority == 1], alternative = "greater")
 ```
+
+
 ```{r letter-fa, echo=FALSE}
 question("Which of the following statements are true?",
   answer("The mean proportion of Blacks in counties Clinton won was 0.23", correct = TRUE, message="Group 0 refers to the first response option for TrumpMajority, which corresponds to a Clinton majority."),
-  answer("The mean proportion of Blacks in counties Trump won was 0.23", correct = FALSE, message="Group 1 refers to the second response option for TrumpMajority, which corresponds to a Trump majority. The average proportion of Blacks in counties Trump won is about 0.08."),
-  answer("The counties that Clinton won had, on average, a 0.23 - 0.07 = 0.16 greater proportion that were Black than did counties Trump won.", correct = TRUE,  message="0.23 - 0.08 = 0.15 is the difference in the mean proportion black in counties Clinton won, group 0, and counties Trump won, group 1."),
-  answer("", message=""),
+  answer("The mean proportion of Blacks in counties Trump won was 0.23", correct = FALSE, message="Group 1 refers to the second response option for TrumpMajority, which corresponds to a Trump majority. The average proportion of Blacks in counties Trump won is about 0.075."),
+  answer("The counties that Clinton won had, on average, about  0.23 - 0.07 = 0.16 greater proportion that were Black than did counties Trump won.", correct = TRUE,  message="0.23 - 0.07 = 0.16 is approximately the difference in the mean proportion black in counties Clinton won, group 0, and counties Trump won, group 1."),
   allow_retry = TRUE,
   try_again = "Hint: Make sure to select all true statements."
   )
@@ -265,7 +266,7 @@ question("Which of the following statements are true?",
 ```{r text_box2, echo = FALSE}
 question_text(
   "Enter the p-value you would report from the test output. Begin your answer with p (not p-value) and include no spaces in your answer:",
-  answer("p<2.23-16", message = "Do not report scientific notation or more than three decimals."),
+  answer("p<2.2e-16", message = "Do not report scientific notation or more than three decimals."),
   answer("p<.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
   answer("p<0.001", correct = TRUE, message="Never report more than three decimal points. A zero before the decimal point is not necessary."),
    allow_retry = TRUE,
@@ -344,10 +345,9 @@ grade_code("You got this!")
 
 ```{r letter-ha, echo=FALSE}
 question("Which of the following statements are true?",
-  answer("The mean value of GDP in 2008 among democracies is 585.5484", correct = TRUE, message="Group Yes refers to democracies, group no to nondemocracies. 585.5484 is the mean for group yes."),
-  answer("Democracies had a higher mean GDP in 2008 than did non democracies", correct = TRUE, message="The difference in the mean of GDP in 2008 among democracies (group yes) is greater than the mean among nondecmoracies (group no)."),
+  answer("The mean value of GDP in 2008 among democracies is 585.5484", correct = TRUE, message="Group Yes refers to democracies, group No to nondemocracies. 585.5484 is the mean for group Yes."),
+  answer("Democracies had a higher mean GDP in 2008 than did non democracies", correct = TRUE, message="The difference in the mean of GDP in 2008 among democracies (group Yes) is greater than the mean among nondecmoracies (group No)."),
   answer("The mean value of GDP in 2008 among democracies is 226.0468",  message="Group Yes refers to democracies, group no to nondemocracies. 226.0468 is the mean for group no."),
-  answer("", message=""),
   allow_retry = TRUE,
   try_again = " "
   )
