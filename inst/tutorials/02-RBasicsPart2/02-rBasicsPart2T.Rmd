@@ -11,12 +11,328 @@ description: >
   Learn how to read in data and execute simple functions on variables in a data frame.
 --- 
 
+<style> /* Only show focus indicators when actually focused */
+button:focus-visible, .btn:focus-visible {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Remove default focus styles that might conflict but preserve cursor */
+button:focus, .btn:focus {
+  outline: none;
+}
+/* Ensure proper cursor states for buttons */
+button, .btn {
+  cursor: pointer;
+}
+button:disabled, .btn:disabled {
+  cursor: not-allowed;
+}
+/* Ensure keyboard users can see focus on code editors */
+.ace_editor.ace_focus {
+  border: 2px solid #6c757d !important;
+}
+/* Better contrast for exercise areas */
+.tutorial-exercise {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 20px 0;
+}
+/* Improved font and readability */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+/* Accessible replacement for blue text */
+.important-note {
+  background-color: #e3f2fd;
+  border-left: 4px solid #1976d2;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Success/completion messages */
+.success-note {
+  background-color: #e8f5e8;
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Fix for Run Code button hover states - more specific targeting */
+.tutorial-exercise-actions .btn {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:hover {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:disabled {
+  cursor: not-allowed !important;
+}
+/* Override any conflicting learnr cursor rules */ [data-label] .btn,
+.tutorial-exercise .btn,
+button[data-label] {
+  cursor: pointer !important;
+}
+/* Accessible table styling */
+.table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+caption {
+  padding: 10px;
+  text-align: left;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+/* Focus styles for table cells */
+th:focus, td:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Skip navigation for keyboard users */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.skip-nav:focus {
+  top: 6px;
+  outline: 2px solid #fff;
+}
+/* Enhanced focus visibility for tutorial navigation */
+.tutorial-panel-name:focus,
+.tutorial-panel-name:focus-visible {
+  outline: 1px solid #6c757d !important;
+  outline-offset: 1px !important;
+  background-color: rgba(108, 117, 125, 0.1) !important;
+}
+/* Better focus for exercise containers */
+.tutorial-exercise:focus-within {
+  outline: 1px solid #6c757d;
+  outline-offset: 1px;
+  background-color: rgba(108, 117, 125, 0.05);
+}
+/*New*/ /* Enhanced error message accessibility */
+.alert-danger, .error, .tutorial-exercise-error {
+  border-left: 4px solid #d32f2f;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+.alert-success, .tutorial-exercise-success {
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #e8f5e8;
+  border-radius: 4px;
+}
+/* Ensure error messages are visible and well-contrasted */
+.tutorial-exercise-error {
+  color: #d32f2f;
+  font-weight: bold;
+}
+.tutorial-exercise-success {
+  color: #2e7d32;
+  font-weight: bold;
+}
+/* Focus styles for elements with error associations */
+.ace_editor[aria-describedby]:focus {
+  border-color: #d32f2f !important;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2) !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Simple, reliable keyboard shortcut help
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === '?') {
+      e.preventDefault();
+      alert(`R Tutorial Navigation Help:
+
+KEYBOARD LIMITATIONS:
+- Tab only moves between headings (not buttons or code boxes)
+- Enter after Tab will jump to that heading
+- Interactive exercises require mouse/trackpad clicks
+- Code editing requires clicking in code boxes first
+
+WHAT WORKS WITH KEYBOARD:
+- Ctrl+F to search within the tutorial
+- Tab to navigate between section headings
+- Screen readers can access all text content
+
+IMPORTANT: This tutorial platform has limited keyboard accessibility.
+Interactive elements like "Run Code" and "Submit Answer" buttons
+require mouse/trackpad interaction.`);
+    }
+  });
+  
+  // Screen Reader Instructions - Collapsible accessibility guidance
+  function addScreenReaderInstructions() {
+    const instructionsDiv = document.createElement('div');
+    instructionsDiv.setAttribute('role', 'region');
+    instructionsDiv.setAttribute('aria-label', 'Accessibility Instructions');
+    instructionsDiv.innerHTML = `
+      <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; margin: 15px 0;">
+        <button id="accessibility-toggle" style="width: 100%; padding: 12px; background: none; border: none; text-align: left; cursor: pointer; font-weight: bold; color: #495057;" 
+                aria-expanded="false" aria-controls="accessibility-content">
+          ▶ Accessibility & Navigation Guide (Click to expand)
+        </button>
+        
+        <div id="accessibility-content" style="display: none; padding: 0 15px 15px 15px;">
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Keyboard Navigation:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li><strong>Press Ctrl+Shift+?</strong> for detailed keyboard help dialog</li>
+              <li>Tab moves between section headings only</li>
+              <li>Enter after Tab jumps to that heading</li>
+              <li>Ctrl+F to search within tutorial</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">For Screen Reader Users:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>All text content is accessible to screen readers</li>
+              <li>Interactive code exercises require mouse interaction</li>
+              <li>Success messages will be announced as they appear</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Platform Limitations:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Exercise buttons require mouse clicks</li>
+              <li>Code editing needs mouse interaction</li>
+              <li>Interactive elements cannot be reached via Tab</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Recommended Approach:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Read content using screen reader navigation</li>
+              <li>Use heading navigation between sections</li>
+              <li>Consider working with assistance for interactive exercises</li>
+            </ul>
+          </div>
+          
+          <p style="margin: 0; font-size: 13px; color: #6c757d; font-style: italic;">
+            This platform has inherent accessibility limitations. We've enhanced what's possible while being transparent about constraints.
+          </p>
+        </div>
+      </div>
+    `;
+    
+    // Add click handler for toggle
+    setTimeout(function() {
+      const toggleBtn = document.getElementById('accessibility-toggle');
+      const content = document.getElementById('accessibility-content');
+      
+      if (toggleBtn && content) {
+        toggleBtn.addEventListener('click', function() {
+          const isExpanded = content.style.display !== 'none';
+          content.style.display = isExpanded ? 'none' : 'block';
+          toggleBtn.setAttribute('aria-expanded', !isExpanded);
+          toggleBtn.innerHTML = (isExpanded ? '▶' : '▼') + ' Accessibility & Navigation Guide (Click to ' + (isExpanded ? 'expand' : 'collapse') + ')';
+        });
+      }
+    }, 500);
+    
+    // Try multiple ways to find the right insertion point
+    let insertLocation = null;
+    
+    // Try 1: Look for the h2 with "Introduction" text 
+    const headings = document.querySelectorAll('h2');
+    for (let i = 0; i < headings.length; i++) {
+      if (headings[i].textContent.includes('Introduction')) {
+        insertLocation = headings[i];
+        break;
+      }
+    }
+    
+    // Try 2: Just use the first h2 if Introduction not found
+    if (!insertLocation) {
+      insertLocation = document.querySelector('h2');
+    }
+    
+    // Insert the accessibility guide immediately after the heading
+    if (insertLocation) {
+      insertLocation.parentNode.insertBefore(instructionsDiv, insertLocation.nextSibling);
+      console.log('Accessibility guide added successfully');
+    } else {
+      console.log('Could not find insertion point for accessibility guide');
+    }
+  }
+  
+  // Enhance success messages with exercise context
+  setInterval(function() {
+    const successMessages = document.querySelectorAll('.alert-success:not([data-enhanced])');
+    successMessages.forEach(function(msg) {
+      msg.setAttribute('data-enhanced', 'true');
+      msg.setAttribute('role', 'status');
+      msg.setAttribute('aria-live', 'polite');
+      
+      // Add exercise context to success messages
+      const exerciseContainer = msg.closest('.tutorial-exercise');
+      if (exerciseContainer) {
+        const originalText = msg.textContent;
+        if (!originalText.includes('Exercise completed')) {
+          msg.textContent = 'Exercise completed successfully: ' + originalText;
+        }
+      }
+    });
+  }, 2000);
+  
+  // Enhance error messages for screen readers
+setInterval(function() {
+  const errorMessages = document.querySelectorAll('.alert-danger:not([data-enhanced]), .tutorial-exercise-error:not([data-enhanced])');
+  errorMessages.forEach(function(msg) {
+    msg.setAttribute('data-enhanced', 'true');
+    msg.setAttribute('role', 'alert');
+    msg.setAttribute('aria-live', 'assertive');
+  });
+}, 2000);
+
+  // Run the accessibility guide function
+  setTimeout(addScreenReaderInstructions, 1000);
+  
+});
+</script>
+
+
 ## Learning Objectives
 
 This tutorial is designed to familiarize you with some of the basics of using R. Specifically, you will learn:
 
 * How to read in R data or .RData files with the `load()` function
-* How to read in comma separated or .csv files, tab delimited or .txt files, and Stata data or .dta files using the `import()` function from the <span style="color:DarkGreen">rio</span> package
+* How to read in comma separated or .csv files, tab delimited or .txt files, and Stata data or .dta files using the `import()` function from the <span class="ggplot2">ggplot2</span> package
 * How to get to know the structure of your data with the `class()`, `View()`, `nrow()`, `ncol()`, `names()`, `head()`, `str()`, `is.na()`, `sum()` functions
 * How to access variables in a data frame using $
 * How to execute simple functions on variables: `mean()`, `min()`, `max()`, and `range()`
@@ -48,10 +364,10 @@ The data we looked at in Part 1 was manually entered. More likely, we will work 
 Each row of the data set below contains an observation for a single county in the US. Each column records values of variables measured for each county in the 2016 presidential election.
 
 
-![](images/DataEx.png){width=70%}
+![Screenshot of a data spreadsheet showing county-level election data with rows representing individual counties and columns showing variables like county name, state, population, and vote counts for the 2016 presidential election.](images/DataEx.png){width=70%}
 
 
-R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data (.RData) files and the `import()` function in the R package <span style="color:DarkGreen">rio</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
+R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data (.RData) files and the `import()` function in the R package <span class="ggplot2">ggplot2</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
 
 
 ## Loading R data files (extension .RData)
@@ -83,13 +399,13 @@ You can navigate around this file. To see more variables click on the black tria
 ## Importing other file types
 
 
-You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package <span style="color:DarkGreen">rio</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so that you don't have to learn the functions for each file type. 
+You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package <span class="ggplot2">ggplot2</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so that you don't have to learn the functions for each file type. 
 
 **Unlike .RData files, you need to assign the file to an object.** Commit this fact to memory. Students often forget to assign the results of the `import()` function to a named data frame or they try to assign the results of the `load()` function to a named data frame. 
 
 Here again, if the file is not in the same directory as your code file, you will need to specify the path to tell `import()` where to find the data file.
 
-Because the functions in the package <span style="color:DarkGreen">rio</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function. (I have already installed this package for use in the tutorial.)
+Because the functions in the package <span class="ggplot2">ggplot2</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function. (I have already installed this package for use in the tutorial.)
 
 ### Comma-separated files
 
