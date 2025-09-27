@@ -61,6 +61,14 @@ body {
   font-weight: bold;
   border-radius: 4px;
 }
+/* Package name styling */
+.package-name {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
 /* Fix for Run Code button hover states - more specific targeting */
 .tutorial-exercise-actions .btn {
   cursor: pointer !important;
@@ -332,7 +340,7 @@ setInterval(function() {
 This tutorial is designed to familiarize you with some of the basics of using R. Specifically, you will learn:
 
 * How to read in R data or .RData files with the `load()` function
-* How to read in comma separated or .csv files, tab delimited or .txt files, and Stata data or .dta files using the `import()` function from the <span class="ggplot2">ggplot2</span> package
+* How to read in comma separated or .csv files, tab delimited or .txt files, and Stata data or .dta files using the `import()` function from the  <span class="package-name">ggplot2</span> package
 * How to get to know the structure of your data with the `class()`, `View()`, `nrow()`, `ncol()`, `names()`, `head()`, `str()`, `is.na()`, `sum()` functions
 * How to access variables in a data frame using $
 * How to execute simple functions on variables: `mean()`, `min()`, `max()`, and `range()`
@@ -367,7 +375,7 @@ Each row of the data set below contains an observation for a single county in th
 ![Screenshot of a data spreadsheet showing county-level election data with rows representing individual counties and columns showing variables like county name, state, population, and vote counts for the 2016 presidential election.](images/DataEx.png){width=70%}
 
 
-R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data (.RData) files and the `import()` function in the R package <span class="ggplot2">ggplot2</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
+R will read in virtually any type of data file you might wish. We will introduce the `load()` function for reading in R data (.RData) files and the `import()` function in the R package  <span class="package-name">ggplot2</span> for reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data (.dta) files, and tab-delimited (.txt) files. Other types of files can be read with `import()`, but this covers all the types of files we will use this semester. (Note: There are also separate functions in R that can be used to read in .csv, .xls, .xlsx, and dta files. You are welcome to use these, but they are not introduced here.)
 
 
 ## Loading R data files (extension .RData)
@@ -399,13 +407,13 @@ You can navigate around this file. To see more variables click on the black tria
 ## Importing other file types
 
 
-You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package <span class="ggplot2">ggplot2</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so that you don't have to learn the functions for each file type. 
+You can import all files in all kinds of data formats in R using various packages. To simplify, we will use the `import()` function in the R package  <span class="package-name">ggplot2</span>. The function uses the file extension to determine the file type and then runs the appropriate functions behind the scenes so that you don't have to learn the functions for each file type. 
 
 **Unlike .RData files, you need to assign the file to an object.** Commit this fact to memory. Students often forget to assign the results of the `import()` function to a named data frame or they try to assign the results of the `load()` function to a named data frame. 
 
 Here again, if the file is not in the same directory as your code file, you will need to specify the path to tell `import()` where to find the data file.
 
-Because the functions in the package <span class="ggplot2">ggplot2</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function. (I have already installed this package for use in the tutorial.)
+Because the functions in the package  <span class="package-name">ggplot2</span> are not a part of base R, we need to load the package with the `library()` function before we can use the `import()` function. (I have already installed this package for use in the tutorial.)
 
 ### Comma-separated files
 

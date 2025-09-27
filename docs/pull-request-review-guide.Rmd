@@ -1,0 +1,182 @@
+---
+title: "pull-request-review-guide"
+output: html_document
+---
+
+# Pull Request Review & Approval Template
+
+## Overview
+This template guides you through reviewing and approving your RA's work using GitHub pull requests and RStudio's Git pane.
+
+---
+
+## Step 1: Fetch and Switch to RA's Branch
+
+### In RStudio Terminal:
+```bash
+git fetch origin
+git checkout -b [BRANCH-NAME] origin/[BRANCH-NAME]
+```
+
+### Success Indicators:
+- **Good:** See message "Switched to a new branch '[BRANCH-NAME]'"
+- **Good:** See "branch '[BRANCH-NAME]' set up to track 'origin/[BRANCH-NAME]'"
+- **Problem:** Error about branch not existing - check branch name spelling
+
+---
+
+## Step 2: Test the Tutorial
+
+### Actions:
+1. Open the modified `.Rmd` file in RStudio
+2. Click **"Run Document"** button
+3. Test tutorial functionality:
+   - Accessibility guide appears at top
+   - Exercises work without errors
+   - Styling looks consistent
+   - Images display properly
+
+### Success Indicators:
+- **Good:** Tutorial launches without errors
+- **Good:** All interactive elements function
+- **Good:** Visual consistency with reference tutorial
+- **Problem:** Error messages during knitting
+- **Problem:** Broken exercises or missing elements
+
+---
+
+## Step 3: Handle Generated Files
+
+### In RStudio Terminal:
+```bash
+git stash
+git checkout master
+```
+
+### Success Indicators:
+- **Good:** See "Saved working directory and index state..."
+- **Good:** See "Switched to branch 'master'"
+- **Good:** See "Your branch is up to date with 'origin/master'"
+- **Problem:** Errors about conflicting changes - contact for help
+
+---
+
+## Step 4: Review on GitHub
+
+### Actions:
+1. Navigate to pull request URL (from email notification)
+2. Click **"Files changed"** tab
+3. Review the diff for:
+   - CSS and JavaScript additions
+   - Colored text replacements
+   - Image alt-text updates
+   - No unexpected changes
+
+### Success Indicators:
+- **Good:** See expected file modifications only
+- **Good:** Green lines show additions, red lines show deletions
+- **Good:** Changes match task requirements
+- **Problem:** Unexpected files modified
+- **Problem:** Missing required changes
+
+---
+
+## Step 5: Approve the Pull Request
+
+### Actions:
+1. Click **"Review changes"** button
+2. Select **"Approve"** radio button
+3. Add comment:
+   ```
+   [Phase X] accessibility improvements completed successfully. 
+   Tutorial functions properly and all required changes implemented. 
+   Ready to merge.
+   ```
+4. Click **"Submit review"**
+
+### Success Indicators:
+- **Good:** Review submitted successfully
+- **Good:** Green checkmark appears next to your name
+- **Problem:** Unable to submit review - check permissions
+
+---
+
+## Step 6: Merge the Pull Request
+
+### Actions:
+1. Click green **"Merge pull request"** button
+2. Click **"Confirm merge"**
+
+### Success Indicators:
+- **Good:** See "Pull request successfully merged and closed"
+- **Good:** Purple "Merged" badge appears
+- **Good:** Option to delete branch appears
+- **Problem:** Merge conflicts - contact for assistance
+
+---
+
+## Step 7: Update Local Repository
+
+### In RStudio Git Pane:
+1. Click the blue **"Pull"** button (downward arrow)
+
+### Alternative (Terminal):
+```bash
+git pull origin master
+```
+
+### Success Indicators:
+- **Good:** See "Fast-forward" in output
+- **Good:** File change summary shows expected modifications
+- **Good:** No error messages
+- **Problem:** Merge conflicts or errors - contact for help
+
+### Example Success Output:
+```
+From https://github.com/username/repo
+   777d91d..14a2ac9  master     -> origin/master
+Updating 777d91d..14a2ac9
+Fast-forward
+ inst/tutorials/XX/file.Rmd |  326 +-
+ 1 file changed, 326 insertions(+), 5 deletions(-)
+```
+
+---
+
+## Step 8: Verify Final State
+
+### Verification Checklist:
+- [ ] Local master branch is up to date
+- [ ] Modified tutorial file contains RA's changes
+- [ ] No uncommitted changes in Git pane
+- [ ] Pull request shows "Merged" status on GitHub
+
+### Success Indicators:
+- **Good:** Git pane shows clean working directory
+- **Good:** File timestamps reflect recent changes
+- **Good:** Tutorial runs properly with new changes
+
+---
+
+## Common Problems and Solutions
+
+### Problem: "Your local changes would be overwritten"
+**Solution:** Run `git stash` before switching branches
+
+### Problem: Can't find Git pane in RStudio
+**Solution:** Go to Tools > Project Options > Git/SVN and enable version control
+
+### Problem: Pull request shows conflicts
+**Solution:** Contact for assistance - don't attempt to resolve complex conflicts
+
+### Problem: Tutorial won't knit after changes
+**Solution:** Check for syntax errors in added CSS/JavaScript code
+
+---
+
+## Next Steps After Successful Merge
+
+1. Create next task issue for RA
+2. Address any minor style feedback in future instructions
+3. Repeat process for next tutorial
+4. Update master guide if needed based on lessons learned
