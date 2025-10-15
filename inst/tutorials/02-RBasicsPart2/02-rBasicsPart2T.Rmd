@@ -349,7 +349,7 @@ using R. Specifically, you will learn:
 -   How to read in R data or .RData files with the `load()` function
 -   How to read in comma separated or .csv files, tab delimited or .txt
     files, and Stata data or .dta files using the `import()` function
-    from the [ggplot2]{.package-name} package
+    from the [rio]{.package-name} package
 -   How to get to know the structure of your data with the `class()`,
     `View()`, `nrow()`, `ncol()`, `names()`, `head()`, `str()`,
     `is.na()`, `sum()` functions
@@ -391,14 +391,12 @@ Each row of the data set below contains an observation for a single
 county in the US. Each column records values of variables measured for
 each county in the 2016 presidential election.
 
-![Screenshot of a data spreadsheet showing county-level election data
-with rows representing individual counties and columns showing variables
-like county name, state, population, and vote counts for the 2016
-presidential election.](images/DataEx.png){width="70%"}
+![](images/DataEx.png){width="70%" fig.alt="Screenshot of a data spreadsheet showing county-level election data with rows representing individual counties and columns showing variables like county name, state, population, and vote counts for the 2016 presidential election."}
+
 
 R will read in virtually any type of data file you might wish. We will
 introduce the `load()` function for reading in R data (.RData) files and
-the `import()` function in the R package [ggplot2]{.package-name} for
+the `import()` function in the R package [rio]{.package-name} for
 reading in comma-delimited (.csv), Excel (.xls and .xlsx) Stata data
 (.dta) files, and tab-delimited (.txt) files. Other types of files can
 be read with `import()`, but this covers all the types of files we will
@@ -409,14 +407,15 @@ to use these, but they are not introduced here.)
 ## Loading R data files (extension .RData)
 
 R has its own file format, denoted with .RData, .rdata, or .rda. We use
-the `load()` function to read in these files. Note that we do not need
-to specify any arguments other than the file name.
+the `load()` function to read in these files. 
 
-**Also, note that when the file has loaded, the objects it contains will
+<div class="important-note"> <strong>Important:</strong> Note that when the file has loaded, the objects it contains will
 already exist. This means you do not assign the result of `load()` to a
 new object. If you do so, it will have no effect. To learn the name of
-any objects in the .RData file, use the `verbose` argument inside
-`load()`, and set it equal to TRUE.**
+any objects in the .RData file, we use the `verbose` argument inside
+`load()`, and set it equal to TRUE. If you do not include `verbose = TRUE` you will not know the name of the objects in the file.
+</div>
+
 
 When naming the file containing the data, you will need to tell the
 function where the file is located. If the data file is in the same
@@ -429,7 +428,7 @@ save(counties, file = "counties2016.RData")
 #rm(list=ls())
 ```
 
-**Try it: load the data**
+**Try it: Load the data and view the contents**
 ```{r data-loading, exercise=TRUE, exercise.setup="data-loading-setup"}
 load("counties2016.RData", verbose = TRUE)
 ```
@@ -438,7 +437,7 @@ Now that we know the name of the object the file contains, we can
 examine **counties** by entering the name of the object and running the
 code.
 
-**Try it: view the data**
+**Try it: View the data**
 ```{r data-viewing, exercise=TRUE}
 counties
 ```
@@ -451,21 +450,23 @@ blue numbers on the bottom of the output.
 
 You can import all files in all kinds of data formats in R using various
 packages. To simplify, we will use the `import()` function in the R
-package [ggplot2]{.package-name}. The function uses the file extension
+package [rio]{.package-name}. The function uses the file extension
 to determine the file type and then runs the appropriate functions
 behind the scenes so that you don't have to learn the functions for each
 file type.
 
-**Unlike .RData files, you need to assign the file to an object.**
+<div class="important-note"> <strong>Important:</strong> Unlike .RData files, you need to assign the file to an object.
 Commit this fact to memory. Students often forget to assign the results
 of the `import()` function to a named data frame or they try to assign
 the results of the `load()` function to a named data frame.
+</div>
+
 
 Here again, if the file is not in the same directory as your code file,
 you will need to specify the path to tell `import()` where to find the
 data file.
 
-Because the functions in the package [ggplot2]{.package-name} are not a
+Because the functions in the package [rio]{.package-name} are not a
 part of base R, we need to load the package with the `library()`
 function before we can use the `import()` function. (I have already
 installed this package for use in the tutorial.)
@@ -479,12 +480,10 @@ does not start with a number or include reserved characters like \$ and
 #.
 
 ```{r data-import-csv-setup}
-tmp.df <- read.csv("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/unitednations.csv")
-write.csv(tmp.df, "unitednations.csv", row.names = F)
-rm(list=ls())
+write.csv(unFBposts, "unitednations.csv", row.names = FALSE)
 ```
 
-**Try it: load the data**
+**Try it: Load the data and view the contents**
 ```{r data-import-csv, exercise=TRUE, exercise.setup="data-import-csv-setup"}
 library(rio)
 unFBposts <- import("unitednations.csv")
@@ -501,13 +500,18 @@ to replace the name in both places.
 
 ```{r data2-import-csv-setup}
 library(writexl)
-tmp.df2 <- import("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/example_data.xlsx")
+# Create sample data
+tmp.df2 <- data.frame(
+  name = c("John", "Jane", "Bob"),
+  age = c(25, 30, 35),
+  score = c(85, 92, 78)
+)
 write_xlsx(tmp.df2, "example_data.xlsx")
-rm(list=ls())
-#https://github.com/nsm5230/testRdata/raw/master/example.data.xls
 ```
 
-**Try it: load the data**
+
+
+**Try it: Load the data and view the contents**
 ```{r data2-import-csv, exercise=TRUE, exercise.setup="data2-import-csv-setup"}
 df <- import("example_data.xlsx")
 df
@@ -520,17 +524,44 @@ will have a .dta extension. See if you can write the code to import
 "oilwomen.dta" without looking. Name your new object **oil** and then
 print it.
 
+
 ```{r data3-import-csv-setup}
 library(haven)
-tmp.df3 <- import("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/oilwomen.dta")
+# Oil production and women's political representation data
+tmp.df3 <- data.frame(
+  country = c("Algeria", "Angola", "Bahrain", "Ecuador", "Gabon", "Indonesia", 
+              "Iran", "Iraq", "Kuwait", "Libya", "Mexico", "Nigeria", "Norway", 
+              "Oman", "Qatar", "Russia", "Saudi Arabia", "UAE", "Venezuela"),
+  oil_rents_gdp = c(30.5, 45.2, 20.1, 23.4, 42.8, 8.9, 25.6, 38.7, 48.3, 52.1,
+                    7.8, 35.4, 12.3, 40.2, 28.9, 15.7, 43.2, 25.8, 31.4),
+  women_parl = c(7.7, 15.5, 2.5, 27.7, 12.5, 17.3, 3.1, 25.2, 1.5, 7.7, 
+                 22.6, 5.6, 39.6, 1.2, 0, 13.6, 0, 22.5, 17.5)
+)
 write_dta(tmp.df3, "oilwomen.dta")
-rm(list=ls())
-#https://github.com/nsm5230/testRdata/raw/master/example.data.xls
 ```
 
-**Practice: load the data**
+
+
+**Practice: Load the data**
 ```{r data3-import-csv, exercise=TRUE, exercise.setup="data3-import-csv-setup"}
 
+```
+
+```{r data3-import-csv-hint-1}
+# Hint 1 of 3: Similar to previous examples
+This follows the same pattern as importing the CSV and Excel files. Use the import() function 
+from the rio package with the filename.
+```
+
+```{r data3-import-csv-hint-2}
+# Hint 2 of 3: Assignment and filename
+Assign the result to a new object called oil using the assignment operator. The filename is 
+"oilwomen.dta" and should be in quotes.
+```
+
+```{r data3-import-csv-hint-3}
+# Hint 3 of 3: Display the data
+After importing and assigning to oil, type the object name on a second line to print it and see the data.
 ```
 
 ```{r data3-import-csv-solution}
@@ -548,15 +579,45 @@ Surprise, if we have a tab-delimited data file, we do the same thing!
 Read in "turnout2.txt," assign it to the object **TO** and print it.
 
 ```{r data4-import-csv-setup}
-tmp.df4 <- import("https://raw.githubusercontent.com/slinnpsu/PLSC309/master/turnout2.txt")
-write.table(tmp.df4, "turnout2.txt", row.names = FALSE)
-rm(list=ls())
-#https://github.com/nsm5230/testRdata/raw/master/example.data.xls
+txt_data <- 'year\tVEP\tVAP\ttotal\tANES\tfelons\tnoncit\toverseas\tosvoters
+1980\t159635\t164445\t86515\t71\t802\t5756\t1803\tNA
+1982\t160467\t166028\t67616\t60\t960\t6641\t1982\tNA
+1984\t167702\t173995\t92653\t74\t1165\t7482\t2361\tNA
+1986\t170396\t177922\t64991\t53\t1367\t8362\t2216\tNA
+1988\t173579\t181955\t91595\t70\t1594\t9280\t2257\tNA
+1990\t176629\t186159\t67859\t47\t1901\t10239\t2659\tNA
+1992\t179656\t190778\t104405\t75\t2183\t11447\t2418\tNA
+1994\t182623\t195258\t75106\t56\t2441\t12497\t2229\tNA
+1996\t186347\t200016\t96263\t73\t2586\t13601\t2499\tNA
+1998\t190420\t205313\t72537\t52\t2920\t14988\t2937\tNA
+2000\t194331\t210623\t105375\t73\t3083\t16218\t2937\tNA
+2002\t198382\t215462\t78382\t62\t3168\t17237\t3308\tNA
+2004\t203483\t220336\t122295\t77\t3158\t18068\t3862\tNA
+2008\t213314\t230872\t131304\t78\t3145\t19392\t4972\t263'
+writeLines(txt_data, "turnout2.txt")
 ```
 
-**Practice: load the data**
+
+**Practice: Load the data**
 ```{r data4-import-csv, exercise=TRUE, exercise.setup="data4-import-csv-setup"}
 
+```
+
+```{r data4-import-csv-hint-1}
+# Hint 1 of 3: Same import process
+The import() function works the same way for tab-delimited .txt files as it does for CSV, Excel, 
+and Stata files. Use the same approach you've been practicing.
+```
+
+```{r data4-import-csv-hint-2}
+# Hint 2 of 3: Object name and filename
+Assign the imported data to an object called TO (all uppercase). The filename to import is 
+"turnout2.txt" in quotes.
+```
+
+```{r data4-import-csv-hint-3}
+# Hint 3 of 3: Print the result
+After the import and assignment, type TO on a second line to display the data frame contents.
 ```
 
 ```{r data4-import-csv-solution}
@@ -576,12 +637,14 @@ the object **unFBposts**. The data contains information related to the
 social media posts published on the United Nations Facebook page during
 2015. Write the code below to determine the class of this object.
 
-**Practice: learn about the data**
+**Practice: Identify the class of unFBposts**
+
 ```{r data-explore-class, exercise=TRUE}
 
 ```
 
 ```{r data-explore-class-hint}
+# Hint 1 of 1: class
 Place the name of the object inside the class function.
 ```
 
@@ -609,10 +672,9 @@ This will open the data in a new window, which can make it easier to
 examine in full. No matter how you do so, it's a good idea to view your
 data frame to make sure you have loaded the data you intended. Note,
 however, that you cannot execute this function from within the tutorial.
-We will not run this function.
+**We will not run this function.**
 
 
-**Try it: view the data**
 ```{r data-structure-view, exercise=FALSE, eval=FALSE}
 View(unFBposts)
 ```
@@ -624,20 +686,21 @@ Facebook post. The `nrow()` function returns the number of rows in the
 data frame. Simply pass the `nrow()` function the name of the data frame
 object. How many posts are in the data frame?
 
-**Try it: Observe the data**
+**Try it: Observe the number of rows in the data**
 ```{r data-structure-rows, exercise=TRUE}
 nrow(unFBposts)
 ```
 
 Can you determine how many posts were published, on average, per day in
-2015?
+2015 (assume 365 days in the year)?
 
-**Practice: Observe the data**
+**Practice: Compute the average number of posts**
 ```{r data-howmanyposts, exercise=TRUE}
 
 ```
 
 ```{r data-howmanyposts-hint}
+# Hint 1 of 1: Average number of posts
 There are 365 days in this year and the number of
 rows in the data is given by nrows(unFBposts),
 so divide the latter by the former.
@@ -656,12 +719,13 @@ Each column of a data frame contains a single variable. We use the
 we used the `nrow()` function to learn the number of rows. How many
 variables are in **unFBposts**?
 
-**Pracice: Observe the data**
+**Pracice: Observe the number of columns in the data**
 ```{r data-structure-columns, exercise=TRUE}
 
 ```
 
 ```{r data-structure-columns-hint-1}
+# Hint 1 of 2: Number of columns
 Recall each row of the data set contains data for one observation and 
 each column of the data set contains values of a single variable. 
 
@@ -671,6 +735,7 @@ serve to determine the number of columns?
 ```
 
 ```{r data-structure-columns-hint-2}
+# Hint 2 of 2: Number of columns
 Place the data object inside the ncol function.
 ```
 
@@ -696,15 +761,10 @@ pass this function **unFBposts**.
 
 ```
 
+
+
 ```{r data-explore-names-hint-1}
-What would be the best approach to determine "names" for the variables names? 
-```
-
-```{r data-explore-names-hint-2}
-Do not forget to add 's' to the function! 
-```
-
-```{r data-explore-names-hint-3}
+# Hint 1 of 1: Names
 Place the name of the data object inside the names function.
 ```
 
@@ -735,7 +795,7 @@ We can examine the first few rows of the data frame using the `head()`
 function. By default, it prints the first 6 rows. To look at more or
 fewer rows, specify the `n` argument.
 
-**Try it: Observe the data**
+**Try it: Observe the first few rows of the data**
 ```{r data-explore-head1, exercise=TRUE}
 head(unFBposts, n = 5)
 ```
@@ -745,7 +805,7 @@ Specifically, it provides the number of observations and variables and
 then lists each variable along with its type and the values of the first
 few observations.
 
-**Try it: Observe the data**
+**Try it: Observe the strcture of the data**
 ```{r data-explore-head2, exercise=TRUE}
 str(unFBposts)
 ```
@@ -773,7 +833,7 @@ quartile (the value associated with the 25th percentile), the median,
 the value at the third quartile (the value associated with the 75th
 percentile), and the maximum value.
 
-**Try it: Observe the data**
+**Try it: Observe summary information about the data**
 ```{r data-explore-summary, exercise=TRUE}
 summary(unFBposts)
 ```
@@ -823,9 +883,17 @@ See if you can write the code without looking at the hints.
 
 ```
 
-```{r data-handle-summation-hint}
-Did you specify is.na(unFBposts$message) inside the sum()
-function?  Make sure your parentheses match! 
+```{r data-handle-summation-hint-1}
+# Hint 1 of 2: Understanding the approach
+You need to combine two functions: one to identify missing values
+and another to count how many TRUE values result from that check.
+Think about which function identifies missing data.
+```
+
+```{r data-handle-summation-hint-2}
+# Hint 2 of 2: Building the inner function
+Place is.na(unFBposts$message) inside the sum() function. Make sure
+you have matching parentheses - two opening and two closing.
 ```
 
 ```{r data-handle-summation-solution}
@@ -844,6 +912,7 @@ How many missing values are there for the variable **likes_count**?
 ```
 
 ```{r data-handle-summation2-hint}
+# Hint 1 of 1: Count NA values
 Wrap the sum function around the is.na function
 applied to likes_count. Don't forget to name the
 data object$ before listing the variable name.
@@ -868,6 +937,7 @@ missing. The only difference is that you put an `!` in front of the
 ```
 
 ```{r data-handle-summation3-hint}
+# Hint 1 of 1: Count NA values
 Wrap the sum function around the !is.na function
 applied to likes_count. Don't forget to name the
 data object$ before listing the variable name.
@@ -898,7 +968,7 @@ allowing for missing values (there are not any so we would get the same
 value if we did not use this option but we would get an error if we omit
 the option when there are missing values).
 
-**Try it: Remove NA value**
+**Try it: Calculate the mean dropping NA values**
 ```{r data-handle-NAvalue, exercise=TRUE}
 mean(unFBposts$shares, na.rm = TRUE)
 ```
@@ -949,7 +1019,7 @@ Look carefully at this code, we will be using the `which()` function
 frequently this semester to identify cases (e.g., states or countries)
 that have the maximum value of a given variable!
 
-**Try it: Observe observation and column**
+**Try it: Observe the entry with the maximum value of likes_count**
 ```{r data-explore-index3, exercise=TRUE}
 unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
 ```
@@ -981,17 +1051,33 @@ shares and likes. To avoid printing many, many messages, let's try
 finding the message with the maximum number of shares using
 **shares_count**.
 
-**Practice: Observe observation and column**
+**Practice: Observe the message with the most shares_counts**
 ```{r data-explore-index4_1, exercise=TRUE}
 
 ```
 
-```{r data-explore-index4_1-hint}
-1. Start with unFBposts$message[]
-2. Inside the square brackets, use the which() function
-3. Inside which(), compare unFBposts$shares_count to its maximum value -- make sure to use two equal signs for comparison
-4. Use max() to find the maximum value of shares_count
-5. Don't forget to handle NA values with na.rm = TRUE
+```{r data-explore-index4_1-hint-1}
+# Hint 1 of 4: Overall structure
+You need to index the message variable using square brackets. Inside those brackets, use which() 
+to find the row(s) where shares_count is at its maximum.
+```
+
+```{r data-explore-index4_1-hint-2}
+# Hint 2 of 4: Finding the maximum
+Use max(unFBposts$shares_count, na.rm = TRUE) to find the highest value of shares. 
+The na.rm = TRUE ensures missing values don't cause problems.
+```
+
+```{r data-explore-index4_1-hint-3}
+# Hint 3 of 4: Creating the condition
+Compare unFBposts$shares_count to its maximum value using two equal signs (==). 
+This creates a logical condition that's TRUE where shares equals the maximum.
+```
+
+```{r data-explore-index4_1-hint-4}
+# Hint 4 of 4: Putting it together
+Use which() around your comparison to find row numbers, then use those to index
+unFBposts$message[]. The structure is: variable[which(condition)].
 ```
 
 ```{r data-explore-index4_1-solution}
@@ -1003,18 +1089,33 @@ minimum value), but also the value it takes. To find the number of
 shares associated with the **message** with the most shares we pass the
 same condition, but now as an index condition after **shares_counts**:
 
-**Try it: Observe observation and column**
+**Try it: Identify the number of shares associated with the message with the maximum number of shares_count**
 ```{r data-explore-index4_2, exercise=TRUE}
 unFBposts$shares_count[which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE))]
 ```
 
 Try finding the number of likes (**likes_count**) for that message:
+
 **Practice: Observe specific observation and column**
 ```{r data-explore-index4_3, exercise=TRUE}
 ```
 
-```{r data-explore-index4_3-hint}
-Pass which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE)) as an index to unFBposts$likes_count.
+```{r data-explore-index4_3-hint-1}
+# Hint 1 of 3: Same row, different variable
+You want the likes_count for the same message that had the most shares. Use the same which() condition 
+you saw in the example above, but apply it to likes_count instead of shares_count.
+```
+
+```{r data-explore-index4_3-hint-2}
+# Hint 2 of 3: Structure
+Use unFBposts$likes_count followed by square brackets. Inside the brackets, place the which() condition 
+that identifies the row with maximum shares.
+```
+
+```{r data-explore-index4_3-hint-3}
+# Hint 3 of 3: The condition
+The condition inside which() should still compare shares_count to its maximum value. You're using that 
+to find the right row, then getting the likes_count value from that row.
 ```
 
 ```{r data-explore-index4_3-solution}
@@ -1041,7 +1142,7 @@ most also be prefaced with **unFBposts\$** so that R knows to find them
 in the data frame **unFBposts**. This code will not produce any output
 on your screen.
 
-**Try it: Create new observation**
+**Try it: Create a new variable in unFBposts**
 ```{r data-create-variable1, exercise=TRUE}
 unFBposts$like.or.share <- unFBposts$likes_count + unFBposts$shares_count
 ```
@@ -1049,7 +1150,7 @@ unFBposts$like.or.share <- unFBposts$likes_count + unFBposts$shares_count
 We can examine the first few values of this new variable using the
 `head()` function.
 
-**Try it: Observe new observation**
+**Try it: Observe first few values of like.or.share**
 ```{r data-create-variable2, exercise=TRUE}
 head(unFBposts$like.or.share)
 ```
@@ -1059,9 +1160,27 @@ types of attention paid to a post: likes (likes_count), shares
 (shares_count), and comments (comments_count). Store the new variable in
 the data frame **unFBposts** and list the first few values.
 
-**Practice: Create new observation**
+**Practice: Create a new variable called attention in unFBposts**
 ```{r data-create-variable, exercise=TRUE}
 
+```
+
+```{r data-create-variable-hint-1}
+# Hint 1 of 3: Creating the new variable
+Create a new variable called attention in the unFBposts data frame using the assignment operator. 
+The structure is: unFBposts$attention <- expression
+```
+
+```{r data-create-variable-hint-2}
+# Hint 2 of 3: Calculating the sum
+Add together three variables using the plus sign: likes_count, shares_count, and comments_count. 
+Each variable needs to be preceded by unFBposts$ so R knows where to find them.
+```
+
+```{r data-create-variable-hint-3}
+# Hint 3 of 3: Viewing the results
+After creating the variable, use the head() function to display the first few values of
+unFBposts$attention. This should be on a separate line.
 ```
 
 ```{r data-create-variable-solution}
@@ -1069,19 +1188,7 @@ unFBposts$attention <- unFBposts$likes_count + unFBposts$shares_count + unFBpost
 head(unFBposts$attention)
 ```
 
-```{r data-create-variable-hint-1}
-Specify unFBposts$attention and the assignment operator <-
-```
 
-```{r data-create-variable-hint-2}
-To the right of the assignment operator, type the data frame name followed
-by the dollar sign and likes_count. Then include a plus sign and
-similarly add unFBposts$shares_count and unFBposts$comments_count
-```
-
-```{r data-create-variable-hint-3}
-On a new line, wrap the new variable inside the head() function
-```
 
 ```{r data-create-variable-check}
 grade_code()
@@ -1092,7 +1199,7 @@ grade_code()
 Objects we create in an R session will be temporarily saved in the
 *workspace*, which is just the current working environment. If we want
 to save them permanently, we *could* save the workspace. R will ask us
-if we want to save the workspace every time we exit. **say no**!
+if we want to save the workspace every time we exit. **Say no**!
 Instead, if you want to save the objects (or some subset of the objects)
 you've created in your R session, use the `save()` function, which takes
 as arguments the names of the objects you wish to save and the name of
@@ -1114,19 +1221,25 @@ saving **unFBposts** will not save them.
 Using the functions we've covered so far, do your best to answer the
 following questions.
 
-**Practice: Determine the number of rows** 
+**Practice: Determine the number of posts** 
 
 1. How many posts were
-published in 2015? Recall that each row of the data frame contains a
+published in 2015? Recall that each row of the data frame **unFBposts** contains a
 post.
 
 ```{r data-howmanyposts2, exercise=TRUE}
 
 ```
 
-```{r data-howmanyposts2-hint}
-Since each row of the data contains one post, we can use the nrow() 
-function to get the answer.
+```{r data-howmanyposts2-hint-1}
+# Hint 1 of 2: Counting rows
+Each row represents one post, so counting the total number of rows tells you how many posts were published. 
+Think about which function returns the number of rows in a data frame.
+```
+
+```{r data-howmanyposts2-hint-2}
+# Hint 2 of 2: The function
+Use the nrow() function with the name of the data frame (unFBposts) inside the parentheses.
 ```
 
 ```{r data-howmanyposts2-solution}
@@ -1137,18 +1250,24 @@ nrow(unFBposts)
 grade_code()
 ```
 
-**Practice: Check the first row (observation)** 
+**Practice: Determine the text of the first post** 
 
 2. What was the text of
-the first post ("message") in the data set?
+the first post ("message") in the data frame **unFBposts**?
 
 ```{r text, exercise=TRUE}
 
 ```
 
-```{r text-hint}
-Use the indexing function -- [ ] -- and specify the first 
-row.
+```{r text-hint-1}
+# Hint 1 of 2: Accessing a specific row
+You need to access the message variable and use indexing with square brackets to select the first observation. 
+The structure is: variable[row_number]
+```
+
+```{r text-hint-2}
+# Hint 2 of 2: Specifying the first row
+Use unFBposts$message followed by square brackets. Inside the brackets, put the number 1 to get the first row.
 ```
 
 ```{r text-solution}
@@ -1162,15 +1281,22 @@ grade_code()
 **Practice: Calculate the mean of likes** 
 
 3. How many likes
-("likes_count") did posts receive on average?
+("likes_count") did posts in the data frame **unFBposts** receive on average?
 
 ```{r likes, exercise=TRUE}
 
 ```
 
-```{r likes-hint}
-The mean function will return the average numbers of likes.
-Include the na.rm argument. It's always good practice.
+```{r likes-hint-1}
+# Hint 1 of 2: Calculating averages
+Use the mean() function with the likes_count variable from the unFBposts data frame. Remember
+to specify the variable using the dollar sign notation.
+```
+
+```{r likes-hint-2}
+# Hint 2 of 2: Handling missing values
+Include the argument na.rm = TRUE inside the mean() function to ensure any missing values are
+excluded from the calculation.
 ```
 
 ```{r likes-solution}
@@ -1184,16 +1310,24 @@ grade_code()
 **Practice: Calculate the mean of comments** 
 
 4. How many comments
-("comments_count") did posts receive on average?
+("comments_count") did posts in the data frame **unFBposts** receive on average?
 
 ```{r mean, exercise=TRUE}
 
 ```
 
-```{r mean-hint}
-The mean function will return the average  number of posts. 
-Include the na.rm argument. It's always good practice.
+```{r mean-hint-1}
+# Hint 1 of 2: Calculating averages
+Use the mean() function with the comments_count variable from the unFBposts data frame. 
+Access the variable using the dollar sign notation.
 ```
+
+```{r mean-hint-2}
+# Hint 2 of 2: Handling missing values
+Add na.rm = TRUE as an argument inside the mean() function to exclude any missing values from the calculation.
+```
+
+
 
 ```{r mean-solution}
 mean(unFBposts$comments_count, na.rm = TRUE)
@@ -1206,15 +1340,25 @@ grade_code()
 **Practice: Calculate the mean of shares** 
 
 5. How many shares
-("shares_count") did posts receive on average?
+("shares_count") did posts in the data frame **unFBposts** receive on average?
 
 ```{r shares, exercise=TRUE}
 
 ```
 
-```{r shares-hint}
-Use the mean function with the na.rm argument sent to TRUE.
+
+
+```{r shares-hint-1}
+# Hint 1 of 2: Finding the average
+Apply the mean() function to the shares_count variable in the unFBposts data frame using dollar
+sign notation to access the variable.
 ```
+
+```{r shares-hint-2}
+# Hint 2 of 2: Missing value argument
+Include na.rm = TRUE inside the mean() function to properly handle any missing values in the data.
+```
+
 
 ```{r shares-solution}
 mean(unFBposts$shares_count, na.rm = TRUE)
@@ -1227,16 +1371,23 @@ grade_code()
 **Practice: Check the maximum of comments** 
 
 6. What was the largest
-number of shares ("shares_count") a post received?
+number of shares ("shares_count") a post in the data frame **unFBposts** received?
 
 ```{r max, exercise=TRUE}
 
 ```
 
-```{r max-hint}
-The max function will provide this information. 
-It is good practice to set na.rm = TRUE when using this function.
+```{r max-hint-1}
+# Hint 1 of 2: Finding maximum values
+Use the max() function to find the largest value in the shares_count variable from the unFBposts data frame.
 ```
+
+```{r max-hint-2}
+# Hint 2 of 2: Handling missing values
+Add na.rm = TRUE as an argument inside the max() function to ensure missing values don't interfere 
+with finding the maximum.
+```
+
 
 ```{r max-solution}
 max(unFBposts$shares_count, na.rm = TRUE)
@@ -1249,17 +1400,23 @@ grade_code()
 **Practice: Check the minimum of likes** 
 
 7. What was the smallest number
-of likes ("likes_count") a post received?
+of likes ("likes_count") a post in the data frame **unFBposts** received?
 
 ```{r min, exercise=TRUE}
 
 ```
 
-```{r min-hint}
-Use the min function to find the smallest number of likes
-associated with a post.
-It is good practice to set na.rm = TRUE when using this function
+```{r min-hint-1}
+# Hint 1 of 2: Finding minimum values
+Use the min() function to find the smallest value in the likes_count variable from the unFBposts data frame.
 ```
+
+```{r min-hint-2}
+# Hint 2 of 2: Missing value handling
+Include na.rm = TRUE as an argument inside the min() function to properly exclude any missing values.
+```
+
+
 
 ```{r min-solution}
 min(unFBposts$likes_count, na.rm = TRUE)
@@ -1272,16 +1429,23 @@ grade_code()
 **Practice: Check the range of shares** 
 
 8. What was the range of the
-number of shares ("shares_count") a post received?
+number of shares ("shares_count") a post in the data frame **unFBposts** received?
 
 ```{r range, exercise=TRUE}
 
 ```
 
-```{r range-hint}
-The range function will provide this information.
-It is good practice to set na.rm = TRUE when using this function.
+```{r range-hint-1}
+# Hint 1 of 2: Finding the range
+Use the range() function to find both the minimum and maximum values of shares_count in the
+unFBposts data frame.
 ```
+
+```{r range-hint-2}
+# Hint 2 of 2: Handling missing values
+Add na.rm = TRUE inside the range() function to ensure missing values are excluded when calculating the range.
+```
+
 
 ```{r range-solution}
 range(unFBposts$shares_count, na.rm = TRUE)
@@ -1305,9 +1469,9 @@ projects you'll encounter throughout the semester. We've learned:
         assign to an object - the objects are automatically created with
         their original names.
     b.  **Other formats (.csv, .xlsx, .dta, .txt)**: Use `import()` from
-        the rio package and always assign the result to a named data
+        the [rio]{.package-name} package and always assign the result to a named data
         frame object.
-    c.  **Package loading**: Remember to load the rio package with
+    c.  **Package loading**: Remember to load the [rio]{.package-name} package with
         `library(rio)` before using the `import()` function.
 
 2.  **Data exploration is the critical first step**: Before analyzing
@@ -1363,4 +1527,8 @@ throughout the course. Master these fundamentals, as they form the
 building blocks for more sophisticated analytical techniques in upcoming
 tutorials.
 
-## Good Work!
+<p style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
+🎉 You've mastered the basics! 🎉
+</p>
+
+

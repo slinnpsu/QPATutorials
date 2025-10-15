@@ -175,4 +175,6 @@ The level of measurement of a variable determines how we describe its central fe
 ![](images/LevelsMeasurement.png)
 
 
-
+<p style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
+🎉 Good Work! 🎉
+</p>
