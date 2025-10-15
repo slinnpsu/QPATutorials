@@ -61,6 +61,28 @@ git checkout master
 
 ---
 
+
+## Step 3.5: Review Changes Locally in Detail
+
+### Actions:
+1. Open the modified `.Rmd` file(s) in RStudio
+2. Review changes carefully against task requirements:
+   - Check package name formatting is correct
+   - Verify hint structure (numbering, conceptual guidance, line length)
+   - Check exercise labels are specific and accurate
+   - Verify alt-text uses correct syntax
+   - Ensure no unnecessary prose rewrites
+   - Check line lengths in hints don't require horizontal scrolling
+
+
+### Notes:
+- This detailed review catches issues before the GitHub review
+- Make notes of any corrections needed
+- If corrections are minor, you can make them yourself
+- If corrections are major, request changes via GitHub
+
+---
+
 ## Step 4: Review on GitHub
 
 ### Actions:
