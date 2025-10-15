@@ -756,7 +756,7 @@ We can see the names of the variables in our data.frame using the
 `names()` function we introduced in the R Basics tutorial Part 1. Just
 pass this function **unFBposts**.
 
-**Practice: Observe the data**
+**Practice: Display variable names**
 ```{r data-explore-names, exercise=TRUE}
 
 ```
