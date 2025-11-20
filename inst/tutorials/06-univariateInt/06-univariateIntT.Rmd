@@ -11,6 +11,334 @@ description: >
   Learn how to derscribe an interval variable: central tendency, dispersion, histogram and box plot.
 ---
 
+```{=html}
+<style> /* Only show focus indicators when actually focused */
+button:focus-visible, .btn:focus-visible {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Remove default focus styles that might conflict but preserve cursor */
+button:focus, .btn:focus {
+  outline: none;
+}
+/* Ensure proper cursor states for buttons */
+button, .btn {
+  cursor: pointer;
+}
+button:disabled, .btn:disabled {
+  cursor: not-allowed;
+}
+/* Ensure keyboard users can see focus on code editors */
+.ace_editor.ace_focus {
+  border: 2px solid #6c757d !important;
+}
+/* Better contrast for exercise areas */
+.tutorial-exercise {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 20px 0;
+}
+/* Improved font and readability */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+/* Accessible replacement for blue text */
+.important-note {
+  background-color: #e3f2fd;
+  border-left: 4px solid #1976d2;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Success/completion messages */
+.success-note {
+  background-color: #e8f5e8;
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Package name styling */
+.package-name {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.important-text { background-color: #e8f0ff; /* soft blue background (optional) */ color: #1565c0; /* blue text */ padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+/* Fix for Run Code button hover states - more specific targeting */
+.tutorial-exercise-actions .btn {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:hover {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:disabled {
+  cursor: not-allowed !important;
+}
+/* Override any conflicting learnr cursor rules */ [data-label] .btn,
+.tutorial-exercise .btn,
+button[data-label] {
+  cursor: pointer !important;
+}
+/* Accessible table styling */
+.table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+caption {
+  padding: 10px;
+  text-align: left;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+/* Focus styles for table cells */
+th:focus, td:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Skip navigation for keyboard users */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.skip-nav:focus {
+  top: 6px;
+  outline: 2px solid #fff;
+}
+/* Enhanced focus visibility for tutorial navigation */
+.tutorial-panel-name:focus,
+.tutorial-panel-name:focus-visible {
+  outline: 1px solid #6c757d !important;
+  outline-offset: 1px !important;
+  background-color: rgba(108, 117, 125, 0.1) !important;
+}
+/* Better focus for exercise containers */
+.tutorial-exercise:focus-within {
+  outline: 1px solid #6c757d;
+  outline-offset: 1px;
+  background-color: rgba(108, 117, 125, 0.05);
+}
+/*New*/ /* Enhanced error message accessibility */
+.alert-danger, .error, .tutorial-exercise-error {
+  border-left: 4px solid #d32f2f;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+.alert-success, .tutorial-exercise-success {
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #e8f5e8;
+  border-radius: 4px;
+}
+/* Ensure error messages are visible and well-contrasted */
+.tutorial-exercise-error {
+  color: #d32f2f;
+  font-weight: bold;
+}
+.tutorial-exercise-success {
+  color: #2e7d32;
+  font-weight: bold;
+}
+/* Focus styles for elements with error associations */
+.ace_editor[aria-describedby]:focus {
+  border-color: #d32f2f !important;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2) !important;
+}
+</style>
+```
+
+```{=html}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Simple, reliable keyboard shortcut help
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === '?') {
+      e.preventDefault();
+      alert(`R Tutorial Navigation Help:
+
+KEYBOARD LIMITATIONS:
+- Tab only moves between headings (not buttons or code boxes)
+- Enter after Tab will jump to that heading
+- Interactive exercises require mouse/trackpad clicks
+- Code editing requires clicking in code boxes first
+
+WHAT WORKS WITH KEYBOARD:
+- Ctrl+F to search within the tutorial
+- Tab to navigate between section headings
+- Screen readers can access all text content
+
+IMPORTANT: This tutorial platform has limited keyboard accessibility.
+Interactive elements like "Run Code" and "Submit Answer" buttons
+require mouse/trackpad interaction.`);
+    }
+  });
+  
+  // Screen Reader Instructions - Collapsible accessibility guidance
+  function addScreenReaderInstructions() {
+    const instructionsDiv = document.createElement('div');
+    instructionsDiv.setAttribute('role', 'region');
+    instructionsDiv.setAttribute('aria-label', 'Accessibility Instructions');
+    instructionsDiv.innerHTML = `
+      <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; margin: 15px 0;">
+        <button id="accessibility-toggle" style="width: 100%; padding: 12px; background: none; border: none; text-align: left; cursor: pointer; font-weight: bold; color: #495057;" 
+                aria-expanded="false" aria-controls="accessibility-content">
+          ▶ Accessibility & Navigation Guide (Click to expand)
+        </button>
+        
+        <div id="accessibility-content" style="display: none; padding: 0 15px 15px 15px;">
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Keyboard Navigation:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li><strong>Press Ctrl+Shift+?</strong> for detailed keyboard help dialog</li>
+              <li>Tab moves between section headings only</li>
+              <li>Enter after Tab jumps to that heading</li>
+              <li>Ctrl+F to search within tutorial</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">For Screen Reader Users:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>All text content is accessible to screen readers</li>
+              <li>Interactive code exercises require mouse interaction</li>
+              <li>Success messages will be announced as they appear</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Platform Limitations:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Exercise buttons require mouse clicks</li>
+              <li>Code editing needs mouse interaction</li>
+              <li>Interactive elements cannot be reached via Tab</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Recommended Approach:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Read content using screen reader navigation</li>
+              <li>Use heading navigation between sections</li>
+              <li>Consider working with assistance for interactive exercises</li>
+            </ul>
+          </div>
+          
+          <p style="margin: 0; font-size: 13px; color: #6c757d; font-style: italic;">
+            This platform has inherent accessibility limitations. We've enhanced what's possible while being transparent about constraints.
+          </p>
+        </div>
+      </div>
+    `;
+    
+    // Add click handler for toggle
+    setTimeout(function() {
+      const toggleBtn = document.getElementById('accessibility-toggle');
+      const content = document.getElementById('accessibility-content');
+      
+      if (toggleBtn && content) {
+        toggleBtn.addEventListener('click', function() {
+          const isExpanded = content.style.display !== 'none';
+          content.style.display = isExpanded ? 'none' : 'block';
+          toggleBtn.setAttribute('aria-expanded', !isExpanded);
+          toggleBtn.innerHTML = (isExpanded ? '▶' : '▼') + ' Accessibility & Navigation Guide (Click to ' + (isExpanded ? 'expand' : 'collapse') + ')';
+        });
+      }
+    }, 500);
+    
+    // Try multiple ways to find the right insertion point
+    let insertLocation = null;
+    
+    // Try 1: Look for the h2 with "Introduction" text 
+    const headings = document.querySelectorAll('h2');
+    for (let i = 0; i < headings.length; i++) {
+      if (headings[i].textContent.includes('Introduction')) {
+        insertLocation = headings[i];
+        break;
+      }
+    }
+    
+    // Try 2: Just use the first h2 if Introduction not found
+    if (!insertLocation) {
+      insertLocation = document.querySelector('h2');
+    }
+    
+    // Insert the accessibility guide immediately after the heading
+    if (insertLocation) {
+      insertLocation.parentNode.insertBefore(instructionsDiv, insertLocation.nextSibling);
+      console.log('Accessibility guide added successfully');
+    } else {
+      console.log('Could not find insertion point for accessibility guide');
+    }
+  }
+  
+  // Enhance success messages with exercise context
+  setInterval(function() {
+    const successMessages = document.querySelectorAll('.alert-success:not([data-enhanced])');
+    successMessages.forEach(function(msg) {
+      msg.setAttribute('data-enhanced', 'true');
+      msg.setAttribute('role', 'status');
+      msg.setAttribute('aria-live', 'polite');
+      
+      // Add exercise context to success messages
+      const exerciseContainer = msg.closest('.tutorial-exercise');
+      if (exerciseContainer) {
+        const originalText = msg.textContent;
+        if (!originalText.includes('Exercise completed')) {
+          msg.textContent = 'Exercise completed successfully: ' + originalText;
+        }
+      }
+    });
+  }, 2000);
+  
+  // Enhance error messages for screen readers
+setInterval(function() {
+  const errorMessages = document.querySelectorAll('.alert-danger:not([data-enhanced]), .tutorial-exercise-error:not([data-enhanced])');
+  errorMessages.forEach(function(msg) {
+    msg.setAttribute('data-enhanced', 'true');
+    msg.setAttribute('role', 'alert');
+    msg.setAttribute('aria-live', 'assertive');
+  });
+}, 2000);
+
+  // Run the accessibility guide function
+  setTimeout(addScreenReaderInstructions, 1000);
+  
+});
+</script>
+```
+
 ## Learning Objectives
 
 In this tutorial, you will learn how to describe an interval level variable using summary statistics and plots. Specifically, we will cover:
@@ -42,8 +370,8 @@ You are now getting familiar with the tools we use to describe the variables in 
 
  
 
-
-```{r letter-a, echo=FALSE}
+**Practice: Concept of Interval-level Variables**
+```{r concepts-quiz-interval-level, echo=FALSE}
 question("Which of the following variables are interval level measures?",
   answer("The number of terrorist acts in the Middle East in a given year", correct = TRUE),
   answer("The poverty rate in a country", correct = TRUE),
@@ -62,7 +390,7 @@ We can calculate the central tendency of an interval variable using the mode, me
 We've already discussed the median. The median is the value in the middle when we list all values in rank order for all cases. Thus it is the value at the 50th percentile: half the cases have values at or below the median, and half have values at or above the median. 
 
 
-You are likely very familiar with the mean, or average, value. We compute the arithmetic <span style="color:blue">**mean**</span> by summing the values taken by the individual cases and divide by the total number of cases:
+You are likely very familiar with the mean, or average, value. We compute the arithmetic [**mean**]{.important-text} by summing the values taken by the individual cases and divide by the total number of cases:
 
 $$\bar{Y} = \frac{Y_1 + Y_2  + ... + Y_n}{n} = \frac{1}{n} \Sigma_{i=1}^n Y_i$$
 
@@ -76,35 +404,35 @@ We calculated the mode of nominal and ordinal variables by examining the frequen
 
 
 
-Don't forget to load the <span style="color:DarkGreen">dplyr</span> package with the `library()` function. Name your frequency variable `freq` and your proportion variable `prop`. Try not to look at the hints!
+Don't forget to load the [dplyr]{.package-name} package with the `library()` function. Name your frequency variable `freq` and your proportion variable `prop`. Try not to look at the hints!
 
-
-```{r wagetable, exercise = TRUE, exercise.lines=4}
+**Practice: Build a frequency & proportion table for wage_growth**
+```{r Freq_Prop_table_for_wage_growth, exercise = TRUE, exercise.cap="Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results."}
 
 ```
 
-```{r wagetable-hint-1}
+```{r Freq_Prop_table_for_wage_growth-hint-1}
 Remember we start with the data frame name 'and then' use
 group_by, summarise, and mutate in conjunction with the pipe
 operator.
 ```
 
-```{r wagetable-hint-2}
+```{r Freq_Prop_table_for_wage_growth-hint-2}
 Have you passed the variable wage_growth to group_by?
 ```
 
-```{r wagetable-hint-3}
+```{r Freq_Prop_table_for_wage_growth-hint-3}
 Have you calculated the frequencies using the summarise
 function and n()?
 ```
 
-```{r wagetable-hint-4}
+```{r Freq_Prop_table_for_wage_growth-hint-4}
 Have you calculated the proportions using the mutate function
 to generate a new variable equal to the frequency variable
 divided by the sum of that variable?
 ```
 
-```{r wagetable-solution}
+```{r Freq_Prop_table_for_wage_growth-solution}
 library(dplyr)
 counties %>%
   group_by(wage_growth) %>%
@@ -112,7 +440,7 @@ counties %>%
   mutate(prop = freq / sum(freq))
 ```
 
-```{r wagetable-check}
+```{r Freq_Prop_table_for_wage_growth-check}
 grade_code()
 ```
 
@@ -124,19 +452,20 @@ Recall that we can calculate the median -- the value in the middle when we list 
 
 Calculate the median  **wage_growth**:
 
-```{r median, exercise = TRUE}
+**Practice: Compute the median of wage_growth **
+```{r compute_median_wage_growth, exercise = TRUE,exercise.cap="Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE."}
 
 ```
 
-```{r median-hint}
+```{r compute_median_wage_growth-hint}
 Don't forget the na.rm argument
 ```
 
-```{r median-solution}
+```{r compute_median_wage_growth-solution}
 median(counties$wage_growth, na.rm = TRUE)
 ```
 
-```{r median-check}
+```{r compute_median_wage_growth-check}
 grade_code()
 ```
 
@@ -148,15 +477,16 @@ We can calculate the mean using the `mean()` function. We pass the variable name
 
 Calculate the mean of **wage_growth**:
 
-```{r mean, exercise = TRUE}
+**Practice: Calculate the mean of wage_growth**
+```{r compute_mean_wage_growth, exercise = TRUE,exercise.cap="Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE."}
 
 ```
 
-```{r mean-solution}
+```{r compute_mean_wage_growth-solution}
 mean(counties$wage_growth, na.rm = TRUE)
 ```
 
-```{r mean-check}
+```{r compute_mean_wage_growth-check}
 grade_code()
 ```
 
@@ -168,20 +498,23 @@ Let’s look at another interval variable. We will examine the variable **dem2p_
 
 Calculate the median and mean of this variable.
 
-```{r demcentral, exercise = TRUE, exercise.lines=4}
+
+**Practice: Compute the median and mean of dem2p_percent **
+```{r compute_mean_median_dem2p_percent, exercise = TRUE, exercise.lines=4,exercise.cap="Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE."}
 
 ```
 
-```{r demcentral-hint-1}
+```{r compute_mean_median_dem2p_percent-hint}
 Don't forget to use na.rm inside your functions
 ```
 
-```{r demcentral-solution}
+
+```{r compute_mean_median_dem2p_percent-solution}
 median(counties$dem2p_percent, na.rm = TRUE)
 mean(counties$dem2p_percent, na.rm = TRUE)
 ```
 
-```{r demcentral-check}
+```{r compute_mean_median_dem2p_percent-check}
 grade_code()
 ```
 
@@ -191,14 +524,14 @@ The median percent of the vote cast by counties for Hillary Clinton was just und
 
 There are many statistics available to describe the dispersion of an interval level variable. We will consider:
 
-1. <span style="color:blue">**Range**</span>
-2. <span style="color:blue">**Percentiles**</span>, especially the <span style="color:blue">**interquartile range**</span>
-3. <span style="color:blue">**Variance**<span> and <span style="color:blue">**standard deviation**</span>
+1. [**Range**]{.important-text}
+2. [**Percentiles**]{.important-text}, especially the [**interquartile range**]{.important-text}
+3. [**Variance**]{.important-text} and [**standard deviation**]{.important-text}
 
 
 ## Range 
 
-The <span style="color:blue">**range**</span> of values a variable takes is given by the smallest (minimum) value and the largest (maximum)  value. As such, it provides book ends on the spread of the values of the variable across cases. It is useful to report the range  of the data in the sample because the sample range may be different from the theoretical range of the data. It can also help us to identify the presence of outliers.
+The [**range**]{.important-text} of values a variable takes is given by the smallest (minimum) value and the largest (maximum)  value. As such, it provides book ends on the spread of the values of the variable across cases. It is useful to report the range  of the data in the sample because the sample range may be different from the theoretical range of the data. It can also help us to identify the presence of outliers.
 
 
 
@@ -209,18 +542,18 @@ The R function `range()` directly calculates both the minimum and maximum values
 
 Let's calculate the range of the values of **wage_growth** to determine just how poor wage growth was in the least prosperous county and how strong wage growth was in the most prosperous county.  (Since wages can fall, wage growth need not be *growth* at all.) Enter code to calculate the range using the `range()` function and the `min()` and `max()` functions.
 
-
-```{r minmax, exercise = TRUE}
+**Compute the range, min, and max of wage_growth**
+```{r compute_range_min_max_wage_growth, exercise = TRUE,exercise.cap="Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE."}
 
 ```
 
-```{r minmax-solution}
+```{r compute_range_min_max_wage_growth-solution}
 range(counties$wage_growth, na.rm = TRUE)
 min(counties$wage_growth, na.rm = TRUE)
 max(counties$wage_growth, na.rm = TRUE)
 ```
 
-```{r minmax-check}
+```{r compute_range_min_max_wage_growth-check}
 grade_code()
 ```
 
@@ -229,7 +562,7 @@ Wow! We see that the least prosperous county saw a drop of nearly $70\%$ in wage
 
 ## Percentiles
 
-A <span style="color:blue">**percentile**</span> is the value of the variable that has a certain percentage of the data points below it.   In other words, the nth percentile of a data set is the value that cuts off the first n percent of the data values when all of the values are sorted from least to greatest. We've already worked with the 50th percentile -- it's the median value! The 90th percentile of a variable is the value that cuts off the bottom $90\%$ of the data values from the top $10\%$ of data values.
+A [**percentile**]{.important-text} is the value of the variable that has a certain percentage of the data points below it.   In other words, the nth percentile of a data set is the value that cuts off the first n percent of the data values when all of the values are sorted from least to greatest. We've already worked with the 50th percentile -- it's the median value! The 90th percentile of a variable is the value that cuts off the bottom $90\%$ of the data values from the top $10\%$ of data values.
 
 Percentiles can be used to answer questions such as:
 
@@ -242,14 +575,15 @@ To answer this question, we'd find the 25th percentile of life expectancy across
 To answer this question, we would find the 75th percentile of the proportion of working-age adults who are employed and the 25th percentile. These are the two values that determine the upper and lower bounds for the middle $50\%$ of the data.
 
 
-The 25th and 75th percentiles comprise what is known as the <span style="color:blue"> inter-quartile range</span> or <span style="color:blue">IQR</span>. The IQR, splits the variable's values into four equal segments, or quartiles.  The advantage of the IQR as a measure of spread over the range is that any extreme values do not effect the IQR.
+The 25th and 75th percentiles comprise what is known as the [inter-quartile range]{.important-text} or [IQR]. The IQR, splits the variable's values into four equal segments, or quartiles.  The advantage of the IQR as a measure of spread over the range is that any extreme values do not effect the IQR.
 
 
 ### The quantile() function
 
 We can calculate percentiles with the `quantile()` function. By default, passing the variable name to the function will return the 0th, 25th, 50th,  75th, and 100th percentiles. (Be sure to include `na.rm = TRUE` if there are missing values for any case.) 
 
-```{r percent, exercise=TRUE}
+**Try it: Calculate the percentiles for wage_growth **
+```{r calculate_percentile_wage_growth, exercise=TRUE,exercise.cap="Interactive exercise: List the default quantiles for wage_growth. Use the Run Code button to execute and see results."}
 quantile(counties$wage_growth, na.rm = TRUE)
 ```
 
@@ -259,7 +593,8 @@ Let's focus on the interquartile range, the values at the 25th and 75th percenti
 
 We can use the `quantile()` function to list additional percentiles by adding the `probs` argument inside the function. To list a specific set of percentiles set `probs = c(0.05, .1, .25, .5, .75, .9, .95)`.
 
-```{r percent2, exercise=TRUE}
+**Try it: Calculate the additional percentiles for wage_growth**
+```{r calculate_additional_percentile_wage_growth, exercise=TRUE,exercise.cap="Interactive exercise: List custom percentiles for wage_growth using probs = c(0.05, .1, .25, .5, .75, .9, .95)."}
 quantile(counties$wage_growth, na.rm = TRUE, 
          probs = c(0.05, .1, .25, .5, .75, .9, .95))
 ```
@@ -271,19 +606,25 @@ The result shows that 90% of the cases fall between -2.60% and 9.92%. In other w
 
 Let's look at the 0, 25th, 50th, 75th, and 100th quantiles of the percent of working-age adults. This variable is named **employ_pop_ratio_25_64**, and it is located in the data frame **counties**.  Enter the code using the `quantile()` function:
 
-```{r percentepr, exercise=TRUE}
+**Practice: Calculate the percentiles for employ_pop_ratio_25_64 **
+```{r calculate_percentile_employ_pop_ratio_25_64, exercise=TRUE,exercise.cap="Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results."}
 
 ```
 
-```{r percentepr-hint}
+```{r calculate_percentile_employ_pop_ratio_25_64-hint-1}
+Make sure whether you want the default settings or additional settings. 
+```
+
+
+```{r calculate_percentile_employ_pop_ratio_25_64-hint-2}
 Did you remember to include na.rm = TRUE?
 ```
 
-```{r percentepr-solution}
+```{r calculate_percentile_employ_pop_ratio_25_64-solution}
 quantile(counties$employ_pop_ratio_25_64, na.rm = TRUE)
 ```
 
-```{r percentepr-check}
+```{r calculate_percentile_employ_pop_ratio_25_64-check}
 grade_code()
 ```
 
@@ -295,7 +636,7 @@ We can also extract the median from the output. The middle value in the data is 
 
 ## Standard deviation (and variance)
 
-The <span style="color:blue">**standard deviation**</span> tells us the average spread of values of a variable around (difference from) the mean value of the variable.  The <span style="color:blue">**variance**</span> is the squared standard deviation.
+The [**standard deviation**]{.important-text} tells us the average spread of values of a variable around (difference from) the mean value of the variable.  The [**variance**]</span> is the squared standard deviation.
  
 The formula for the standard deviation, denoted byt $s$, is
  
@@ -304,19 +645,7 @@ $$s=\sqrt{\frac{\Sigma_{i=1}^n({Y_i-\bar{Y}})^2}{n-1}}$$
  Let's pick this apart by considering an example where the variable of interest is the height of recent presidents. Below is a table listing the heights (in centimeters) of the 10 presidents from Johnson through Trump. In addition, the table presents the deviations in column three and deviations squared in column four that are given in the formula numerator above.  The last row of the table sums the values in the column. Thus we have the building blocks to calculate the standard deviation.
  
 
-President | $Y_i$ | Deviation $(Y_i-\bar{Y})$ | Deviation$^2$ $(Y_i-\bar{Y})^2$
-------- | ------- | ------- | -------
-Trump | 188 | 188-184.7 = 3.3 |10.89 
-Obama | 185 | 185-184.7 = 0.3 | 0.09 
-Bush II | 182 | 182-184.7 = -2.7 | 7.29 
-Clinton | 188 | 188-184.7 = 3.3 |10.89 
-Bush I | 188 | 188-184.7 = 3.3 |10.89  
-Reagan | 185 | 185-184.7 = 0.3 | 0.09 
-Carter | 177 | 177-184.7 = -7.7 | 59.29 
-Ford | 183 | 183-184.7 = -1.7 | 2.89 
-Nixon | 180 | 180-184.7 = -4.7 | 22.09 
-Johnson | 191 | 191-184.7 = 6.3 | 36.69
-...  | $\bar{Y}=1/n \Sigma_{i=1}^n Y_i=184.7$ | $\Sigma_{i=1}^n({Y_i-\bar{Y}})= 0$ | $\Sigma_{i=1}^n({Y_i-\bar{Y}}) ^2=164.1$
+<table id="pres-stats-table" aria-labelledby="pres-stats-caption"> <caption id="pres-stats-caption">  </caption> <thead> <tr> <th scope="col">President</th> <th scope="col">\(Y_i\)</th> <th scope="col">Deviation \((Y_i - \bar{Y})\)</th> <th scope="col">Deviation\(^2\) \((Y_i - \bar{Y})^2\)</th> </tr> </thead> <tbody> <tr><th scope="row">Trump</th><td>188</td><td>188 − 184.7 = 3.3</td><td>10.89</td></tr> <tr><th scope="row">Obama</th><td>185</td><td>185 − 184.7 = 0.3</td><td>0.09</td></tr> <tr><th scope="row">Bush II</th><td>182</td><td>182 − 184.7 = −2.7</td><td>7.29</td></tr> <tr><th scope="row">Clinton</th><td>188</td><td>188 − 184.7 = 3.3</td><td>10.89</td></tr> <tr><th scope="row">Bush I</th><td>188</td><td>188 − 184.7 = 3.3</td><td>10.89</td></tr> <tr><th scope="row">Reagan</th><td>185</td><td>185 − 184.7 = 0.3</td><td>0.09</td></tr> <tr><th scope="row">Carter</th><td>177</td><td>177 − 184.7 = −7.7</td><td>59.29</td></tr> <tr><th scope="row">Ford</th><td>183</td><td>183 − 184.7 = −1.7</td><td>2.89</td></tr> <tr><th scope="row">Nixon</th><td>180</td><td>180 − 184.7 = −4.7</td><td>22.09</td></tr> <tr><th scope="row">Johnson</th><td>191</td><td>191 − 184.7 = 6.3</td><td>36.69</td></tr> </tbody> <tfoot> <tr> <th scope="row">Summary</th> <td>\(\bar{Y}=\frac{1}{n}\sum_{i=1}^n Y_i=184.7\)</td> <td>\(\sum_{i=1}^n (Y_i-\bar{Y})=0\)</td> <td>\(\sum_{i=1}^n (Y_i-\bar{Y})^2=164.1\)</td> </tr> </tfoot> </table>
  
 Steps to calculate the standard deviation:
 
@@ -336,7 +665,7 @@ Given the standard deviation of a variable, it may be hard to tell whether it is
 ## The Empirical Rule
 
 
-The <span style="color:blue">**Empirical Rule**</span> tells us that if the distribution of observations is approximately bell-shaped (it is normal and symmetric, more later) then:
+The [**Empirical Rule**]{.important-text} tells us that if the distribution of observations is approximately bell-shaped (it is normal and symmetric, more later) then:
 
 1. Approximately $68\%$ of observations fall between $\bar{Y}-s$ and $\bar{Y}+s$: over half of all of the observations will fall within one standard deviation of the mean.
 2. About $95\%$ of observations fall within two standard deviations of the mean, between $\bar{Y}-2s$ and $\bar{Y}+2s$
@@ -346,13 +675,14 @@ The <span style="color:blue">**Empirical Rule**</span> tells us that if the dist
 Below is a picture of two distributions. The red portion is shaded to denote $\bar{Y}-s$ and $\bar{Y}+s$; the green and red parts together illustrate $\bar{Y}-2s$ and $\bar{Y}+2s$; and the blue part extends to $\bar{Y}-3s$ and $\bar{Y}+3s$. The distribution on the left illustrates a smaller standard deviation while that on the left has a larger standard deviation. As you can see, the observations are clustered closer to the mean in the left-hand plot and further from the mean in the right-hand plot.
 
 
-![](images/standard-deviation-examples1.png)
+![](images/standard-deviation-examples1.png){width="70%" fig.alt="Two bell curves shown side-by-side on a white background. The left curve, labeled ‘Small standard deviation,’ is tall and narrow with a central vertical mean line; red center, green mid-bands, and light-blue tails suggest $\pm 1 \sigma / \pm 2 \sigma$ regions. The right curve, labeled ‘Large standard deviation,’ is shorter and wider with the same mean line and color bands spread farther from the center."}
 
 ### The sd() function
 
 To calculate the standard deviation, $s$, of a variable we use the `sd()` function, again including `na.rm = TRUE` to remove any observations with missing values for the variable.
 
-```{r sd, exercise=TRUE}
+**Try it: calculate SD (standard deviation) for wage_growth**
+```{r calculate_sd, exercise=TRUE, exercise.cap="Interactive exercise:  Calculate standard deviation for wage_growth, Use the Run Code button to execute and see results."}
 sd(counties$wage_growth, na.rm = TRUE)
 ```
 
@@ -360,14 +690,14 @@ The standard deviation tells us the most of the observations are within $4.68$ p
 
 ## The shape of the distribution
 
-Assessing the <span style="color:blue">**shape of the distribution**</span> of an interval variable is most easily done after visualizing the distribution in a plot. Let's do that and then discuss how we might describe the shape of the distribution.
+Assessing the [**shape of the distribution**]{.important-text} of an interval variable is most easily done after visualizing the distribution in a plot. Let's do that and then discuss how we might describe the shape of the distribution.
 
 . 
 
 ## Visualizing the distribution of an interval variable
 
 
-For the same reason a frequency table is not a useful way to describe an interval variable, a bar plot is inappropriate for visualizing an interval variable. So what do we do with interval level variables? We can generalize the bar chart to illustrate the shape of the distribution of an interval level variable using a <span style="color:blue">**histogram**</span>. A histogram is a very common method for presenting the distribution of interval level data. Histograms collect observed values and put them in *bins* that cover *ranges* of values. Once in bins, the height of the bar is given by the number of values in that bin. We can also present a histogram using proportions. In this case, the height of the bar is calculated as the proportion of observations in the bin divided by the width of the bin (number of values covered by the bin). The total area in the bars sums to 1.0.  We can control the number of bins -- or their width -- or let R pick.
+For the same reason a frequency table is not a useful way to describe an interval variable, a bar plot is inappropriate for visualizing an interval variable. So what do we do with interval level variables? We can generalize the bar chart to illustrate the shape of the distribution of an interval level variable using a [**histogram**]{.important-text}. A histogram is a very common method for presenting the distribution of interval level data. Histograms collect observed values and put them in *bins* that cover *ranges* of values. Once in bins, the height of the bar is given by the number of values in that bin. We can also present a histogram using proportions. In this case, the height of the bar is calculated as the proportion of observations in the bin divided by the width of the bin (number of values covered by the bin). The total area in the bars sums to 1.0.  We can control the number of bins -- or their width -- or let R pick.
 
 Histograms illustrate the central tendency of the variable and its dispersion, as well as the shape of the distribution.
 
@@ -377,8 +707,8 @@ Histograms illustrate the central tendency of the variable and its dispersion, a
 
 Generating a histogram with `ggplot()` requires a simple change to the basic code for a bar plot.  Because we want a different visual, or geometric, representation, we replace `geom_bar()` with `geom_histogram()`. That's it! (Note that we do not need to enclose **wage_growth** inside `factor()` because the variable can take on any value in its range.) 
 
-
-```{r wagehist, exercise=TRUE}
+**Try it: Generate the histogram for wage_growth in counties data**
+```{r generate_histogram_wage_growth, exercise=TRUE, exercise.cap="Interactive exercise: Generate a histogram of wage_growth."}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram() +
          labs(title = "Wage Growth in US Counties in 2016", 
@@ -391,8 +721,8 @@ Ignore the warning for now (the warning is telling us there are some missing val
 
 
 
-
-```{r wagehist2a, exercise=TRUE}
+**Try it: Generate the histogram for wage_growth with white bin borders**
+```{r generate_histogram_wage_growth_white, exercise=TRUE,exercise.cap="Interactive exercise: Generate a histogram of wage_growth with white bin borders."}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white") +
          labs(title = "Wage Growth in US Counties in 2016", 
@@ -405,8 +735,8 @@ ggplot(data = counties,  mapping = aes(x = wage_growth)) +
 Notice that there is a warning message associated with the plot. "Pick better value with `binwidth`." `ggplot()` will choose 30 and give us a warning that we might wish to consider alternatives. To do so, we have two options. We can set the number of bins by adding the `bins` argument to `geom_histogram()` and setting it equal to some number. Try changing the number of bins in our plot to 50.
 
 
-
-```{r wagehist2, exercise=TRUE}
+**Practice: Generate the histogram for wage_growth with different bins number**
+```{r generate_histogram_wage_growth_custom_bin, exercise=TRUE,exercise.cap="Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders."}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white", XXXX = XXXX) +
          labs(title = "Wage Growth in US Counties in 2016", 
@@ -415,11 +745,16 @@ ggplot(data = counties,  mapping = aes(x = wage_growth)) +
               caption = "Linn, Nagler, and Zilinsky")
 ```
 
-```{r wagehist2-hint-1}
+
+```{r generate_histogram_wage_growth_custom_bin-hint-1}
+To set a custom bin width, we use bins = (numbers you want). 
+```
+
+```{r generate_histogram_wage_growth_custom_bin-hint-2}
 Did you enter bins = 50 inside geom_histogram()?
 ```
 
-```{r wagehist2-solution}
+```{r generate_histogram_wage_growth_custom_bin-solution}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white", bins = 50) +
          labs(title = "Wage Growth in US Counties in 2016", 
@@ -428,13 +763,14 @@ ggplot(data = counties,  mapping = aes(x = wage_growth)) +
               caption = "Linn, Nagler, and Zilinsky")
 ```
 
-```{r wagehist2-check}
+```{r generate_histogram_wage_growth_custom_bin-check}
 grade_code()
 ```
 
 Alternatively, you can control the width of the bin. This sets the range of values covered by a bin. If a variable takes values that range from, for example, 0 to 100, we might want each bin to cover 10 units. We could specify `bins = 10` (100/10=10) or set `bindwidth = 10`. Let's set the binwidth for wage growth to 0.8 or eight-tenths of a percentage point.
 
-```{r wagehist2b, exercise=TRUE}
+**Practice: Generate the histogram for wage_growth with different bins width**
+```{r generate_histogram_wage_growth_custom_bin-witdh, exercise=TRUE,exercise.cap="Interactive exercise: Generate a histogram of wage_growth with 0.8 binswidth and white borders."}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white", binwidth = .8) +
          labs(title = "Wage Growth in US Counties in 2016", 
@@ -449,14 +785,14 @@ Let's interpret the plot. What can we say about the shape of the distribution?
 
 1. The distribution looks tightly clustered. The x-axis has such a broad range because there is a county with very large declines in wages (remember the range of the values from above) and a county with very large wage growth (although you cannot see these in the plot). If we ignored these two counties, the distribution would look much less tight as, in effect, we would zoom in on the remaining counties.
 2. The distribution looks bell-shaped or similar to a normal distribution.
-3. The distribution is fairly <span style="color:blue">**symmetric**</span>. This simply means the pattern to the left of the mean looks like that to the right. 
+3. The distribution is fairly [**symmetric**]{.important-text}. This simply means the pattern to the left of the mean looks like that to the right. 
 
 
 ### Skew
 
-Not all variables will have symmetric distributions. Instead, they may be <span style="color:blue">**skewed**</span>. Histograms are said to be skewed to the side of the long tail. The two histograms below are clearly not symmetric. The image on the left is skewed to the right. The image on the right is skewed to the left.
+Not all variables will have symmetric distributions. Instead, they may be [**skewed**]{.important-text}. Histograms are said to be skewed to the side of the long tail. The two histograms below are clearly not symmetric. The image on the left is skewed to the right. The image on the right is skewed to the left.
 
-![](images/SkewIllustration.png)
+![](images/SkewIllustration.png){width="70%" fig.alt="Two histograms shown side-by-side. Left panel: positively skewed (right-skew), with many low values near 0–3 and a long sparse tail extending right toward ~10. Right panel: negatively skewed (left-skew), with many high values near 15–20 and a long sparse tail extending left toward 0. Both use equal-width bins with semi-transparent blue bars."}
 
 
 
@@ -465,7 +801,8 @@ Not all variables will have symmetric distributions. Instead, they may be <span 
 
 Often it is useful to add a vertical line to a histogram to represent the median and/or the mean value. To do so, we add another layer to our plot.  We want to add a vertical line, so we will use the `geom_vline()` function. We need to tell R where to place the line and specifically where it crosses the x-axis. We do so by specifying an aesthetic inside `geom_vline()` and setting the `xintercept` argument equal to the value we wish. Let's add the median to our plot. We'll make the `linetype` `"dashed"` and `color` it `"red"` to make it stand out. I've also set `bins = 60` in `geom_histogram()`. This means that the width of the bins will be the maximum value of wage growth minus the minimum value and this quantity will be divided by 60.
 
-```{r vline, exercise=TRUE}
+**Explore: Add and label the median line**
+```{r explore_label_median_line, exercise=TRUE,exercise.cap="Interactive exercise: Add a dashed red median line and label it on the histogram."}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white", bins = 60) +
          geom_vline(aes(xintercept = median(wage_growth, na.rm = TRUE)), color = "red", linetype = "dashed") +
@@ -487,8 +824,8 @@ It's easy to have mismatched parentheses, so be careful when coding.
 Try plotting the mean rather than the median and playing around with the x and y locations in the code below until you find coordinates that look good by replacing XXXX. Notice that I've changed the `linetype` to `"dotted"`.
 
 
-
-```{r vlinelabel, exercise=TRUE}
+**Practice: plot the vertical line and add additional text**
+```{r plot_vertical_and_text, exercise=TRUE,exercise.cap="Interactive exercise: Add a dotted red median line and text on the histogram."}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white", bins = 60) +
          geom_vline(aes(xintercept = XXXX(XXXX)), color = "red", linetype = "dotted") +
@@ -501,7 +838,7 @@ ggplot(data = counties,  mapping = aes(x = wage_growth)) +
               caption = "Linn, Nagler, and Zilinsky")
 ```
 
-```{r vlinelabel-solution}
+```{r plot_vertical_and_text-solution}
 ggplot(data = counties,  mapping = aes(x = wage_growth)) +
          geom_histogram(color = "white", bins = 60) +
          geom_vline(aes(xintercept = mean(wage_growth, na.rm = TRUE)), color = "red", linetype = "dotted") +
@@ -520,14 +857,15 @@ ggplot(data = counties,  mapping = aes(x = wage_growth)) +
 ### The box plot
 
 
-A <span style="color:blue">**box plot**</span> is an alternative way to visualize the distributions of an interval level variable. It is particularly useful when we want to compare the distribution of one variable broken down by categories of another variable. A box plot visualizes the median, the IQR, and outlying observations together in a single object.
+A [**box plot**]{.important-text} is an alternative way to visualize the distributions of an interval level variable. It is particularly useful when we want to compare the distribution of one variable broken down by categories of another variable. A box plot visualizes the median, the IQR, and outlying observations together in a single object.
 
 
 We generate a box plot by changing the basic histogram plot in two ways. First, we map the variable we want to plot to the y-axis rather than the x-axis. Use `x = ""` for a cleaner plot. Second, we use `geom_boxplot()` rather than `geom_histogram()`.
 
 Let's plot the percent of working-age adults. Recall this variable is named **employ_pop_ratio_25_64**. 
 
-```{r honeypot, exercise=TRUE}
+**Try it: plot tge distribution of the employment to population ratio using boxplot**
+```{r boxplot_employment_ratio, exercise=TRUE,exercise.cap="Interactive exercise: Plot a box plot of employ_pop_ratio_25_64."}
 ggplot(data = counties, aes(x = "", y = employ_pop_ratio_25_64)) +
   geom_boxplot() +
   labs(title = "Distribution of the Employment to Population Ratio \n Adults Aged 25-64", 
@@ -551,43 +889,43 @@ Plot the variable **dem2p_percent** in the data frame **counties** and describe 
 
 Try to produce a histogram without looking at the hints!  Outline the bars in blue If you are feeling like a challenge, add a red dashed line for the median and red dotted line for the mean value to the plot and label them.
 
-
-```{r dem2phist, exercise=TRUE}
+**Practice: Histogram Plot for dem2p_percent (blue outlines, optional mean/median lines)**
+```{r histogram_dem2p_percent, exercise=TRUE,exercise.cap="Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels."}
 
 ```
 
-```{r dem2phist-hint-1}
+```{r histogram_dem2p_percent-hint-1}
 Begin by calling ggplot, identifying the data, and mapping dem2p_percent
 to the x axis using the aes function.
 ```
 
-```{r dem2phist-hint-2}
+```{r histogram_dem2p_percent-hint-2}
 Add a geom layer using the plus sign
 ```
 
-```{r dem2phist-hint-3}
+```{r histogram_dem2p_percent-hint-3}
 Did you add labels?
 ```
 
-```{r dem2phist-hint-4}
+```{r histogram_dem2p_percent-hint-4}
 Add geom_vline and use the aes() function to specify xintercept.
 Specify the mean and don't forget na.rm = TRUE. If you want to make
 the line red, set color = "red" outside the aes() function. If you want
 to make the line dashed, set linetype = "dashed".
 ```
 
-```{r dem2phist-hint-5}
+```{r histogram_dem2p_percent-hint-5}
 To annote the line, add the annotate() function, specify "text", x = some x-axis value
 and y = some y-axis value. End with label = paste0("Mean=" the mean function.)
 I've rounded in the solution using the round() function.
 ```
 
-```{r dem2phist-hint-6}
+```{r histogram_dem2p_percent-hint-6}
 Repeat for the median.
 ```
 
 
-```{r dem2phist-solution}
+```{r histogram_dem2p_percent-solution}
 ggplot(data = counties,  mapping = aes(x = dem2p_percent)) +
          geom_histogram(color = "blue") +
          geom_vline(aes(xintercept = mean(dem2p_percent, na.rm = TRUE)), color = "red", linetype = "dashed") +
@@ -612,12 +950,12 @@ The shape of this distribution is right-skewed. Fewer counties cast large percen
 
 Describing interval variables is more involved than describing either nominal or ordinal level variables. We have more tools at our disposal because the level of granularity of the data is finer.  To summarize what we've learned:
 
-1. There are 3 types of descriptive information to help you convey the main features of a single variable: <span style="color:blue">**central tendency**</span>, <span style="color:blue">**dispersion**</span>, and the <span style="color:blue">**shape of the distribution**</span>. Each piece of information complements the others.
+1. There are 3 types of descriptive information to help you convey the main features of a single variable: [**central tendency**]{.important-text}, [**dispersion**]{.important-text}, and the [**shape of the distribution**]{.important-text}. Each piece of information complements the others.
 2. The appropriate tools for description depend on the level of measurement of the variable you wish to describe. The information here describes what is appropriate for interval variables.
 
-    a. The <span style="color:blue">**mode**</span> is not typically a useful measure of **central tendency** for an interval variable. Instead, we use the <span style="color:blue">**median**</span> and <span style="color:blue">**mean**</span>.  The median value marks the middle value or the value at the 50th percentile  of the distribution when all observations' values are rank-ordered. The mean gives the arithmetic average. The median is not influenced by outliers, while the mean can be pulled from the center of the distribution in the presence of outliers. For this reason, the median is said to be a robust statistic. The median and mean will be similar when the distribution is symmetric.
-    b. We summarize the <span style="color:blue">**dispersion**</span> in the data with the <span style="color:blue">**range**</span>, <span style="color:blue">**percentiles**</span> (especially the <span style="color:blue">**interquartile range**</span>, which bookends the middle half of the data), the <span style="color:blue">**variance**</span>, and the <span style="color:blue">**standard deviation**</span>. 
-    c. A <span style="color:blue">**histogram**</span> illustrates the dispersion of interval level data and the shape of the distribution. In assessing the shape of the distribution, we are interested in whether it is symmetric or skewed, as well as whether it is unimodal, bimodal, multi-modal, or uniform and its approximation to a normal distribution.  <span style="color:blue">Box plots</span> represent an alternative data visualization for the distribution of interval level data.
+    a. The [**mode**]{.important-text} is not typically a useful measure of **central tendency** for an interval variable. Instead, we use the [**median**]{.important-text} and [**mean**]{.important-text}.  The median value marks the middle value or the value at the 50th percentile  of the distribution when all observations' values are rank-ordered. The mean gives the arithmetic average. The median is not influenced by outliers, while the mean can be pulled from the center of the distribution in the presence of outliers. For this reason, the median is said to be a robust statistic. The median and mean will be similar when the distribution is symmetric.
+    b. We summarize the [**dispersion**]{.important-text} in the data with the [**range**]{.important-text}, [**percentiles**]{.important-text} (especially the [**interquartile range**]{.important-text}, which bookends the middle half of the data), the [**variance**]{.important-text}, and the [**standard deviation**]{.important-text}. 
+    c. A [**histogram**]{.important-text} illustrates the dispersion of interval level data and the shape of the distribution. In assessing the shape of the distribution, we are interested in whether it is symmetric or skewed, as well as whether it is unimodal, bimodal, multi-modal, or uniform and its approximation to a normal distribution.  [Box plots]{.important-text} represent an alternative data visualization for the distribution of interval level data.
     
 
 Which of these pieces of information should you present when conducting descriptive analysis on an interval variable? Once again, the choice depends on the main feature or features of the data and what you wish to emphasize. If the variable plays a central role in your research question, more information is better. Often a plot, perhaps including the median/mean, accompanied by some text is all that is required.
@@ -625,17 +963,17 @@ Which of these pieces of information should you present when conducting descript
 
 
 
-![](images/UnivariateInterval.png)
+![](images/UnivariateInterval.png){width="70%" fig.alt="Infographic titled ‘Interval Level Variable’ with a left sidebar listing Central Tendency, Dispersion, Distribution Shape, and Visualization. The main panel shows four stacked blue boxes: Central Tendency—Mode, Median*, Mean**; Dispersion—Range, Percentiles (IQR), Standard Deviation, Variance; Distribution Shape—Unimodal, Bimodal, Multimodal, Uniform, Symmetric, Skewed, Normal; Visualization—Histogram, Box Plot."}
 
 ## Pulling what we've learned together, we have...
 
 
-![](images/UnivariateDescription.jpg) 
+![](images/UnivariateDescription.jpg){width="70%" fig.alt="Infographic titled ‘Univariate Description’ with a left sidebar listing Central Tendency, Dispersion, Distribution Shape, and Visualization. Three main panels show stacked blue boxes: Interval Level Variable—Central Tendency (Mode, Median*, Mean**), Dispersion (Range, Percentiles/IQR, Standard Deviation, Variance), Distribution Shape (Unimodal, Bimodal, Multimodal, Uniform, Symmetric, Skewed, Normal), Visualization (Histogram, Box Plot); Nominal Level Variable—Central Tendency (Mode), Dispersion (Frequency or Proportion Distribution), Distribution Shape (Unimodal, Bimodal, Multimodal, Uniform), Visualization (Bar Plot of Frequencies or Proportions); Ordinal Level Variable—Central Tendency (Mode, Median), Dispersion (Frequency or Proportion Distribution), Distribution Shape (Unimodal, Bimodal, Multimodal, Uniform), Visualization (Bar Plot of Frequencies or Proportions)."}
 
 ## Test your Knowledge
 
-
-```{r letter-z, echo=FALSE}
+**Practice: Identify false statements about measurement levels**
+```{r identify_measurment_levels, echo=FALSE}
 question("Which of the following statements are **NOT** true",
   answer("We can describe the central tendency of a nominal variable using the median", correct=TRUE, message = "Only the mode can be used to describe the central tendency of a nominal variable. "),
   answer("The mean and median can be used to describe an ordinal variable", correct=TRUE, message="The mean is a misleading measure of central tendency for an ordinal variable because the differences between values are not equal. "),
@@ -646,8 +984,8 @@ question("Which of the following statements are **NOT** true",
 ```
 
 
-
-```{r letter-y, echo=FALSE}
+**Practice: Identify Core distribution concepts**
+```{r identify_distribution_concepts, echo=FALSE}
 question("Which of the following statements are true",
   answer("The mean is a robust summary statistic", message = "The mean is sensitive to outliers and is thus not robust"),
   answer("A distribution whose shape is skewed right has a long tail on the right", correct = TRUE, message="The direction in which the tail of the distribution extends out is the direction a variable is skewed. "),
@@ -674,7 +1012,8 @@ ggplot(aes(x = spendeduc)) +
                                  round(sd(world$spendeduc, na.rm = TRUE), 2))) 
 ```
 
-```{r letter-x, echo=FALSE}
+**Practice: Interpret the education-spending histogram**
+```{r plot_interpretation, echo=FALSE}
 question("Which of the following statements are true",
   answer("The distribution is unimodal", correct = TRUE, message="The distribution is unimodal because there is a single peak in the distribution of the data. "),
   answer("The mean is likely a better measure of central tendency than the median", message = "The outliers are likely to pull the mean up but the median is a robust measure of central tendency"),

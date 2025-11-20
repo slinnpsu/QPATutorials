@@ -11,6 +11,334 @@ description: >
   Learn how to derscribe an ordinal variable: central tendency, dispersion, bar plot.
 ---
 
+```{=html}
+<style> /* Only show focus indicators when actually focused */
+button:focus-visible, .btn:focus-visible {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Remove default focus styles that might conflict but preserve cursor */
+button:focus, .btn:focus {
+  outline: none;
+}
+/* Ensure proper cursor states for buttons */
+button, .btn {
+  cursor: pointer;
+}
+button:disabled, .btn:disabled {
+  cursor: not-allowed;
+}
+/* Ensure keyboard users can see focus on code editors */
+.ace_editor.ace_focus {
+  border: 2px solid #6c757d !important;
+}
+/* Better contrast for exercise areas */
+.tutorial-exercise {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 20px 0;
+}
+/* Improved font and readability */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+/* Accessible replacement for blue text */
+.important-note {
+  background-color: #e3f2fd;
+  border-left: 4px solid #1976d2;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Success/completion messages */
+.success-note {
+  background-color: #e8f5e8;
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Package name styling */
+.package-name {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.important-text { background-color: #e8f0ff; /* soft blue background (optional) */ color: #1565c0; /* blue text */ padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+/* Fix for Run Code button hover states - more specific targeting */
+.tutorial-exercise-actions .btn {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:hover {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:disabled {
+  cursor: not-allowed !important;
+}
+/* Override any conflicting learnr cursor rules */ [data-label] .btn,
+.tutorial-exercise .btn,
+button[data-label] {
+  cursor: pointer !important;
+}
+/* Accessible table styling */
+.table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+caption {
+  padding: 10px;
+  text-align: left;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+/* Focus styles for table cells */
+th:focus, td:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Skip navigation for keyboard users */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.skip-nav:focus {
+  top: 6px;
+  outline: 2px solid #fff;
+}
+/* Enhanced focus visibility for tutorial navigation */
+.tutorial-panel-name:focus,
+.tutorial-panel-name:focus-visible {
+  outline: 1px solid #6c757d !important;
+  outline-offset: 1px !important;
+  background-color: rgba(108, 117, 125, 0.1) !important;
+}
+/* Better focus for exercise containers */
+.tutorial-exercise:focus-within {
+  outline: 1px solid #6c757d;
+  outline-offset: 1px;
+  background-color: rgba(108, 117, 125, 0.05);
+}
+/*New*/ /* Enhanced error message accessibility */
+.alert-danger, .error, .tutorial-exercise-error {
+  border-left: 4px solid #d32f2f;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+.alert-success, .tutorial-exercise-success {
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #e8f5e8;
+  border-radius: 4px;
+}
+/* Ensure error messages are visible and well-contrasted */
+.tutorial-exercise-error {
+  color: #d32f2f;
+  font-weight: bold;
+}
+.tutorial-exercise-success {
+  color: #2e7d32;
+  font-weight: bold;
+}
+/* Focus styles for elements with error associations */
+.ace_editor[aria-describedby]:focus {
+  border-color: #d32f2f !important;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2) !important;
+}
+</style>
+```
+
+```{=html}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Simple, reliable keyboard shortcut help
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === '?') {
+      e.preventDefault();
+      alert(`R Tutorial Navigation Help:
+
+KEYBOARD LIMITATIONS:
+- Tab only moves between headings (not buttons or code boxes)
+- Enter after Tab will jump to that heading
+- Interactive exercises require mouse/trackpad clicks
+- Code editing requires clicking in code boxes first
+
+WHAT WORKS WITH KEYBOARD:
+- Ctrl+F to search within the tutorial
+- Tab to navigate between section headings
+- Screen readers can access all text content
+
+IMPORTANT: This tutorial platform has limited keyboard accessibility.
+Interactive elements like "Run Code" and "Submit Answer" buttons
+require mouse/trackpad interaction.`);
+    }
+  });
+  
+  // Screen Reader Instructions - Collapsible accessibility guidance
+  function addScreenReaderInstructions() {
+    const instructionsDiv = document.createElement('div');
+    instructionsDiv.setAttribute('role', 'region');
+    instructionsDiv.setAttribute('aria-label', 'Accessibility Instructions');
+    instructionsDiv.innerHTML = `
+      <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; margin: 15px 0;">
+        <button id="accessibility-toggle" style="width: 100%; padding: 12px; background: none; border: none; text-align: left; cursor: pointer; font-weight: bold; color: #495057;" 
+                aria-expanded="false" aria-controls="accessibility-content">
+          ▶ Accessibility & Navigation Guide (Click to expand)
+        </button>
+        
+        <div id="accessibility-content" style="display: none; padding: 0 15px 15px 15px;">
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Keyboard Navigation:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li><strong>Press Ctrl+Shift+?</strong> for detailed keyboard help dialog</li>
+              <li>Tab moves between section headings only</li>
+              <li>Enter after Tab jumps to that heading</li>
+              <li>Ctrl+F to search within tutorial</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">For Screen Reader Users:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>All text content is accessible to screen readers</li>
+              <li>Interactive code exercises require mouse interaction</li>
+              <li>Success messages will be announced as they appear</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Platform Limitations:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Exercise buttons require mouse clicks</li>
+              <li>Code editing needs mouse interaction</li>
+              <li>Interactive elements cannot be reached via Tab</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Recommended Approach:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Read content using screen reader navigation</li>
+              <li>Use heading navigation between sections</li>
+              <li>Consider working with assistance for interactive exercises</li>
+            </ul>
+          </div>
+          
+          <p style="margin: 0; font-size: 13px; color: #6c757d; font-style: italic;">
+            This platform has inherent accessibility limitations. We've enhanced what's possible while being transparent about constraints.
+          </p>
+        </div>
+      </div>
+    `;
+    
+    // Add click handler for toggle
+    setTimeout(function() {
+      const toggleBtn = document.getElementById('accessibility-toggle');
+      const content = document.getElementById('accessibility-content');
+      
+      if (toggleBtn && content) {
+        toggleBtn.addEventListener('click', function() {
+          const isExpanded = content.style.display !== 'none';
+          content.style.display = isExpanded ? 'none' : 'block';
+          toggleBtn.setAttribute('aria-expanded', !isExpanded);
+          toggleBtn.innerHTML = (isExpanded ? '▶' : '▼') + ' Accessibility & Navigation Guide (Click to ' + (isExpanded ? 'expand' : 'collapse') + ')';
+        });
+      }
+    }, 500);
+    
+    // Try multiple ways to find the right insertion point
+    let insertLocation = null;
+    
+    // Try 1: Look for the h2 with "Introduction" text 
+    const headings = document.querySelectorAll('h2');
+    for (let i = 0; i < headings.length; i++) {
+      if (headings[i].textContent.includes('Introduction')) {
+        insertLocation = headings[i];
+        break;
+      }
+    }
+    
+    // Try 2: Just use the first h2 if Introduction not found
+    if (!insertLocation) {
+      insertLocation = document.querySelector('h2');
+    }
+    
+    // Insert the accessibility guide immediately after the heading
+    if (insertLocation) {
+      insertLocation.parentNode.insertBefore(instructionsDiv, insertLocation.nextSibling);
+      console.log('Accessibility guide added successfully');
+    } else {
+      console.log('Could not find insertion point for accessibility guide');
+    }
+  }
+  
+  // Enhance success messages with exercise context
+  setInterval(function() {
+    const successMessages = document.querySelectorAll('.alert-success:not([data-enhanced])');
+    successMessages.forEach(function(msg) {
+      msg.setAttribute('data-enhanced', 'true');
+      msg.setAttribute('role', 'status');
+      msg.setAttribute('aria-live', 'polite');
+      
+      // Add exercise context to success messages
+      const exerciseContainer = msg.closest('.tutorial-exercise');
+      if (exerciseContainer) {
+        const originalText = msg.textContent;
+        if (!originalText.includes('Exercise completed')) {
+          msg.textContent = 'Exercise completed successfully: ' + originalText;
+        }
+      }
+    });
+  }, 2000);
+  
+  // Enhance error messages for screen readers
+setInterval(function() {
+  const errorMessages = document.querySelectorAll('.alert-danger:not([data-enhanced]), .tutorial-exercise-error:not([data-enhanced])');
+  errorMessages.forEach(function(msg) {
+    msg.setAttribute('data-enhanced', 'true');
+    msg.setAttribute('role', 'alert');
+    msg.setAttribute('aria-live', 'assertive');
+  });
+}, 2000);
+
+  // Run the accessibility guide function
+  setTimeout(addScreenReaderInstructions, 1000);
+  
+});
+</script>
+```
+
 ## Learning Objectives
 
 In this tutorial, you will learn how to describe an ordinal level variable, using summary statistics and plots. Specifically, we will cover:
@@ -19,7 +347,7 @@ In this tutorial, you will learn how to describe an ordinal level variable, usin
 * How to use the `median()` function
 * How to summarize the dispersion of an ordinal variable
 
-We will also practice the tools we used to generate frequency distributions and proportions for nominal variables using the functions in the package <span style="color:DarkGreen">dplyr</span>, and bar plots with the `ggplot()` function in the package <span style="color:DarkGreen">ggplot2</span>.
+We will also practice the tools we used to generate frequency distributions and proportions for nominal variables using the functions in the package [dplyr]{.package-name}, and bar plots with the `ggplot()` function in the package [ggplot2]{.package-name}.
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -46,8 +374,8 @@ fHouse$FHStatus<-fHouse$FHStatus2
 
 As we discussed in the previous lesson, the first step in any analysis is to describe the variables that are the focus of our research question in order to convey how they behave, what they look like, and, therefore, what features of the data our explanation needs to account for. We introduced central tendency, dispersion, and the shape of the distribution as ways to summarize the information in a variable in the context of nominal variables. In this tutorial, we look at the tools available for describing ordinal variables.
 
-
-```{r letter-a, echo=FALSE}
+**Practice: Identify ordinal level variables**
+```{r concepts-quiz-ordinal, echo=FALSE}
 question("Which of the following variables are ordinal level measures?",
   answer("The GDP measured in dollars of nations in the European Union", message="GDP is an interval (and ratio) measure where the differences between values are equal at all points."),
   answer("Freedom House measure of whether a country is free, partly free, or not free", correct = TRUE, message="The Freedom House measure is ordinal because the response options are ranked based on how free a country is. "),
@@ -81,35 +409,35 @@ The data set, **counties**, contains the ordinal variable **rural_urban**. It is
 
 We compute the mode of an ordinal variable in exactly the same fashion as for a nominal variable: we identify the most commonly occurring value from a frequency table or the table of proportions.  
 
-See if you can create a frequency and proportion table for the variable **rural_urban** in the data frame **counties** using the <span style="color:DarkGreen">dplyr</span> functions. Name your frequency variable `freq` and your proportion variable `prop`.  Don't forget to load the package with the `library()` function!
+See if you can create a frequency and proportion table for the variable **rural_urban** in the data frame **counties** using the [dplyr]{.package-name} functions. Name your frequency variable `freq` and your proportion variable `prop`.  Don't forget to load the package with the `library()` function!
 
-
-```{r ruraltable, exercise = TRUE, exercise.lines=4}
+**Practice: Create a frequency table for the rural variable**
+```{r analysis-practice-rural-table, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency table for the rural variable. Click Submit Answer to check correctness."}
 
 ```
 
-```{r ruraltable-hint-1}
+```{r analysis-practice-rural-table-hint-1}
 Remember we start with then dataframe name 'and then' use 
 group_by, summarise, and mutate in conjunction with the 
 pipe operator.
 ```
 
-```{r ruraltable-hint-2}
+```{r analysis-practice-rural-table-hint-2}
 Have you passed the variable rural_urban to group_by?
 ```
 
-```{r ruraltable-hint-3}
+```{r analysis-practice-rural-table-hint-3}
 Have you calculated the frequencies using the summarise 
 function and n()?
 ```
 
-```{r ruraltable-hint-4}
+```{r analysis-practice-rural-table-hint-4}
 Have you calculated the proportions using the mutate function to 
 generate a new variable equal to the frequency variable divided 
 by the sum of that variable?
 ```
 
-```{r ruraltable-solution}
+```{r analysis-practice-rural-table-solution}
 library(dplyr)
 counties %>%
   group_by(rural_urban) %>%
@@ -117,12 +445,12 @@ counties %>%
   mutate(prop = freq / sum(freq))
 ```
 
-```{r ruraltable-check}
+```{r analysis-practice-rural-table-check}
 grade_code()
 ```
 
-
-```{r letter-b, echo=FALSE}
+**Practice: Interpret the modal category**
+```{r concepts-quiz-mode-interpretation, echo=FALSE}
 question("Which of the following statements *best* describes the mode of the variable rural_urban?",
   answer("There is no meaningful modal category", message = "While many of the rural-urban categories are similarly represented in the data, one category has one third more observations than any other."),
   answer("The modal category is 6", message="It is better to provide substantive meaning than to list the numeric code."),
@@ -136,14 +464,15 @@ question("Which of the following statements *best* describes the mode of the var
 
 ### The median
 
-We can also use the <span style="color:blue">**median**</span> to calculate the central tendency of an ordinal variable.  The median value is the value in the middle when we list all values in rank order for all cases. Thus, it is the value at the 50th percentile: half the cases have values at or below the median and half have values at or above the median. If there are an even number of cases, we split the difference between the middle two values. 
+We can also use the [**median**]{.important-text} to calculate the central tendency of an ordinal variable.  The median value is the value in the middle when we list all values in rank order for all cases. Thus, it is the value at the 50th percentile: half the cases have values at or below the median and half have values at or above the median. If there are an even number of cases, we split the difference between the middle two values. 
 
 Can you tell why the median is not an appropriate measure of central tendency for a nominal variable? There is no inherent ordering to nominal variables, so we cannot rank them to find the middle value. We can't rank racial categories or regions of the country as they have no intrinsic numeric values.  If a nominal variable is coded numerically, however, it is  possible -- **but always inappropriate ** -- to identify a median.  Don't do it! 
 
 R comes with a simple to use function to calculate the median: `median()`!
 Note that if the variable has any missing values we need to specify  `na.rm=TRUE`. Doing so removes the observations with missing values before calculating the median. Failing to do so, if there are missing values, will generate a median equal to NA.
 
-```{r median, exercise = TRUE}
+**Try it: Calculate the median**
+```{r analysis-calculate-median, exercise = TRUE, exercise.cap="Interactive exercise: Calculate the median. Use the Run Code button to execute and see the result."}
 median(counties$rural_urban, na.rm = TRUE)
 ```
 
@@ -157,8 +486,8 @@ Like nominal level variables, we use the frequency distribution or the distribut
 
 Let's plot the frequency distribution and examine the dispersion from a bar plot.  Replace the XXXX in the following code to generate a bar plot with `ggplot()`.  Specify the title as "Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates". Remember that the \\n tells `ggplot()` to add a line break to split the title into two lines. You will need to include it in the code below. Set the title for the x-axis label to `NuLL`. This will omit the x-axis title. It's not needed here as having a title is redundant for this axis.
 
-
-```{r ruralplot, exercise=TRUE}
+**Practice: Create a bar chart for the rural_urban variable**
+```{r visual-practice-bar-rural, exercise=TRUE, exercise.cap="Interactive exercise: Create a bar chart for the rural_urban variable. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
 ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +
          XXXX +
          labs(title = "XXXX", 
@@ -169,24 +498,24 @@ ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +
 ```
 
 
-```{r ruralplot-hint-1}
+```{r visual-practice-bar-rural-hint-1}
 The first code that needs replacing tells ggplot() how to map 
 the variables to the x axis. Specify the mapping 
 argument and the aes() function
 ```
 
-```{r ruralplot-hint-2}
+```{r visual-practice-bar-rural-hint-2}
 Specify the geom type in the second line of code.
 ```
 
-```{r ruralplot-hint-3}
+```{r visual-practice-bar-rural-hint-3}
 The remaining XXXX refer to labels. Think about what
 information you want to appear for which labels and 
 supply the correct argument.
 ```
 
 
-```{r ruralplot-solution}
+```{r visual-practice-bar-rural-solution}
 ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
@@ -196,7 +525,7 @@ ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
               caption = "Source: Linn, Nagler, Zilinsky")
 ```
 
-```{r ruralplot-check}
+```{r visual-practice-bar-rural-check}
 grade_code()
 ```
 
@@ -204,7 +533,8 @@ Before we interpret the plot, let's make it more informative.
 
 We'd like to replace the variable values 1-9 on the x-axis with informative phrases, but each category label is quite long and would not fit below the bars. We can solve this problem by flipping the coordinates. This is easy to do by adding another layer to the `ggplot()`.  The code below illustrates the `coord_flip()` function and replaces 1-9 with labels from the codebook entry.  I've also filled the bars in the color `"green"` using the `fill` argument inside `geom_bar()`.
 
-```{r flippedplot, exercise=TRUE}
+**Explore: Flip coordinates and add custom labels**
+```{r visual-explore-flip-and-label, exercise=TRUE, exercise.cap="Interactive exercise: Flip coordinates and add custom labels. Run the code, then try removing coord_flip() or scale_x_discrete() to see what happens."}
 ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
   geom_bar(fill = "green") +
   labs(title = "USDA Urban/Rural Status", 
@@ -230,54 +560,54 @@ Let’s look at another ordinal variable. We will examine the variable **FHStatu
 
 First, we will generate a frequency and proportion table using the <span style="color:DarkGreen">dplyr</span> functions.  You do not need to load the package again because we've done so in an earlier exercise.  See if you can produce the table without looking at the hints. Name the counts variable **freq** and the proportion variable **prop**.
 
-
-```{r FHtable, exercise = TRUE, exercise.lines=4}
+**Practice: Create a frequency and proportion table for FHStatus**
+```{r analysis-practice-fhstatus-freq, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency and proportion table for the FHStatus variable. Name the new columns 'freq' and 'prop'. Click Submit Answer to check correctness."}
 
 ```
 
 
 
-```{r FHtable-hint-1}
+```{r analysis-practice-fhstatus-freq-hint-1}
 Remember to use group_by, summarise, and mutate in conjunction 
 with the pipe operator.
 ```
 
-```{r FHtable-hint-2}
+```{r analysis-practice-fhstatus-freq-hint-2}
 Did you start with the dataframe fHouse?
 ```
 
-```{r FHtable-hint-3}
+```{r analysis-practice-fhstatus-freq-hint-3}
 Have you passed the variable FHStatus to group_by?
 Have you calculated the frequencies using the summarise 
 function and n()?
 ```
 
 
-```{r FHtable-hint-4}
+```{r analysis-practice-fhstatus-freq-hint-4}
 Have you calculated the proportions using the mutate function 
 to generate a new variable equal to the frequency variable 
 divided by the sum of that variable?
 ```
 
-```{r FHtable-hint-5}
+```{r analysis-practice-fhstatus-freq-hint-5}
 Don't forget the pipe, %>%, needs to be used at the end
 of each line telling the code "and then" execute the function
 on the next line.
 ```
 
-```{r FHtable-solution}
+```{r analysis-practice-fhstatus-freq-solution}
 fHouse %>%
   group_by(FHStatus) %>%
   summarise(freq = n()) %>%
   mutate(prop = freq / sum(freq))
 ```
 
-```{r FHtable-check}
+```{r analysis-practice-fhstatus-freq-check}
 grade_code()
 ```
 
-
-```{r letter-3, echo=FALSE}
+**Practice: Interpret the mode of FHStatus**
+```{r concepts-quiz-fhstatus-mode, echo=FALSE}
 question("Which of the following statements *best* describes the mode of the variable FHStatus?",
   answer("The mode is 2", message = "Rather than refer to a value as 2, we refer to the modal category. "),
   answer("The modal category is 2", message="It is better to provide substantive meaning than to list the numeric code. "),
@@ -289,15 +619,16 @@ question("Which of the following statements *best* describes the mode of the var
 
 Calculate the median.
 
-```{r FHStatusMed, exercise=TRUE}
+**Practice: Calculate the median for FHStatus**
+```{r analysis-practice-fhstatus-median, exercise=TRUE, exercise.cap="Interactive exercise: Write the code to calculate the median for the FHStatus variable. Remember to handle missing values. Click Submit Answer to check correctness."}
 
 ```
 
-```{r FHStatusMed-solution}
+```{r analysis-practice-fhstatus-median-solution}
 median(fHouse$FHStatus, na.rm=TRUE)
 ```
 
-```{r FHStatusMed-check}
+```{r analysis-practice-fhstatus-median-check}
 grade_code()
 ```
 
@@ -308,35 +639,35 @@ Most nations are "Free" (coded 2) according to Freedom House, and a half or less
 
 Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate = FALSE` inside the `scale_x_discrete()` function. Do not include the `subtitle` or `caption` label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.
 
-
-```{r FHplot, exercise=TRUE}
+**Practice: Create a frequency bar plot for FHStatus**
+```{r visual-practice-fhstatus-freq-bar, exercise=TRUE, exercise.cap="Interactive exercise: Write ggplot code from scratch to plot FHStatus. See the text prompt for specific instructions on titles, labels, and axis scales. Click Submit Answer to check correctness."}
 
 ```
 
-```{r FHplot-hint-1}
+```{r visual-practice-fhstatus-freq-bar-hint-1}
 Did you call the ggplot() function and provide the data?
 ```
 
-```{r FHplot-hint-2}
+```{r visual-practice-fhstatus-freq-bar-hint-2}
 Did you use the mapping argument to specify the aesthetics?
 ```
 
-```{r FHplot-hint-3}
+```{r visual-practice-fhstatus-freq-bar-hint-3}
 Did you use a plus sign and add the geom_bar() layer?
 ```
 
-```{r FHplot-hint-4}
+```{r visual-practice-fhstatus-freq-bar-hint-4}
 Did you remember that to replace the labels you need to 
 put the new names in quotations and to separate
 them with commas and place them inside c()?
 ```
 
-```{r FHplot-hint-5}
+```{r visual-practice-fhstatus-freq-bar-hint-5}
 Are all your parentheses matched?
 Did you include a plus sign for each layer at the end of the line?
 ```
 
-```{r FHplot-solution}
+```{r visual-practice-fhstatus-freq-bar-solution}
 ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          geom_bar() +
          labs(title = "Freedom House Ranking of Countries", 
@@ -345,15 +676,15 @@ ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
         scale_x_discrete(na.translate = FALSE, labels = c("Not Free", "Partly Free", "Free"))
 ```
 
-```{r FHplot-check}
+```{r visual-practice-fhstatus-freq-bar-check}
 grade_code()
 ```
 
 
 Let's recreate this plot to display the y-axis in proportions. You only have to change two lines: the `geom_bar()` line needs a y aesthetic and the y axis title needs to change to "Proportion".
 
-
-```{r FHplot2_prop, exercise=TRUE}
+**Practice: Convert the plot to show proportions**
+```{r visual-practice-fhstatus-prop-bar, exercise=TRUE, exercise.cap="Interactive exercise: Modify the plot to show proportions instead of frequencies. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
 ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX)) +
          labs(title = "Freedom House Ranking of Countries", 
@@ -362,14 +693,14 @@ ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          scale_x_discrete(na.translate = FALSE, labels = c("Not Free", "Partly Free", "Free"))
 ```
 
-```{r FHplot2_prop-hint-1}
+```{r visual-practice-fhstatus-prop-bar-hint-1}
 To obtain proportions specify aes(y = after_stat(prop), group = 1)) inside geom_bar().
 Be careful to match parentheses.
 ```
 
 
 
-```{r FHplot2_prop-solution}
+```{r visual-practice-fhstatus-prop-bar-solution}
 ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          geom_bar(aes(y = after_stat(prop), group = 1)) +
          labs(title = "Freedom House Ranking of Countries", 
@@ -378,7 +709,7 @@ ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          scale_x_discrete(na.translate = FALSE, labels = c("Not Free", "Partly Free", "Free"))
 ```
 
-```{r FHplot2_prop-check}
+```{r visual-practice-fhstatus-prop-bar-check}
 grade_code()
 ```
 
@@ -388,18 +719,20 @@ grade_code()
 
 Describing ordinal variables looks very much like describing a nominal variable. The only addition to our arsenal of descriptive tools is the median.  To summarize what we've learned:
 
-1. There are 3 types of descriptive information to help you convey the main features of a single variable: <span style="color:blue">**central tendency**</span>, <span style="color:blue">**dispersion**</span>, and the <span style="color:blue">**shape of the distribution**</span>. Each piece of information complements the others.
+1. There are 3 types of descriptive information to help you convey the main features of a single variable: [**central tendency**]{.important-text}, [**dispersion**]{.important-text}, and the [**shape of the distribution**]{.important-text}. Each piece of information complements the others.
 2. The appropriate tools for description depend on the level of measurement of the variable you wish to describe. The information here describes what is appropriate for ordinal variables.
 
-    a. The <span style="color:blue">**mode**</span> is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It can also be used to describe the central tendency of an ordinal variable. In addition, we can use the <span style="color:blue">**median**</span>. The median value marks the middle value or the value at the 50th percentile when all observations' values are rank-ordered. Both the mode and median may be more or less useful descriptions of the center of the distribution depending on the nature of the dispersion in the data, so often we present the entire frequency distribution for ordinal variables, just as for nominal variables.
-    b. The frequency distribution, or the distribution of proportions, reveals the <span style="color:blue">**dispersion**</span> in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the <span style="color:blue">**distribution**</span>.
+    a. The [**mode**]{.important-text} is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It can also be used to describe the central tendency of an ordinal variable. In addition, we can use the [**median**]{.important-text}. The median value marks the middle value or the value at the 50th percentile when all observations' values are rank-ordered. Both the mode and median may be more or less useful descriptions of the center of the distribution depending on the nature of the dispersion in the data, so often we present the entire frequency distribution for ordinal variables, just as for nominal variables.
+    b. The frequency distribution, or the distribution of proportions, reveals the [**dispersion**]{.important-text} in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the [**distribution**]{.important-text}.
     c. Bar plots are often used to visualize the central tendency, dispersion, and shape of the distribution of ordinal variables in the same manner as nominal variables, particularly if the specific counts or proportions are not of central interest.
 
 Which of these pieces of information should you present when conducting descriptive analysis on an ordinal variable? The answer is the same as for a nominal variable. The choice depends on the main feature or features of the data and what you wish to emphasize. You may report the modal category or categories, the median, and the number or proportion of cases in the category, or you may choose to present the entire distribution, either in a table or a plot. 
 
 
 
-![](images/UnivariateOrdinal.png)
+![](images/UnivariateOrdinal.png){width="70%" fig.alt="Infographic titled ‘Ordinal Level Variable’ with four stacked blue boxes: Median (or Mode); Percentiles/IQR (dispersion of ranks); Ordered distribution (e.g., unimodal/bimodal and skew on ranks); Bar plot of ordered categories or cumulative proportions. A left sidebar lists Central Tendency, Dispersion, Distribution, and Visualization."}
+
+
 
 
 

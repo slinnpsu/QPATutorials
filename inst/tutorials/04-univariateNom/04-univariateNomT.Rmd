@@ -11,17 +11,345 @@ description: >
   Learn how to describe a nominal variable: central tendency, dispersion, bar plot.
 ---
 
+```{=html}
+<style> /* Only show focus indicators when actually focused */
+button:focus-visible, .btn:focus-visible {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Remove default focus styles that might conflict but preserve cursor */
+button:focus, .btn:focus {
+  outline: none;
+}
+/* Ensure proper cursor states for buttons */
+button, .btn {
+  cursor: pointer;
+}
+button:disabled, .btn:disabled {
+  cursor: not-allowed;
+}
+/* Ensure keyboard users can see focus on code editors */
+.ace_editor.ace_focus {
+  border: 2px solid #6c757d !important;
+}
+/* Better contrast for exercise areas */
+.tutorial-exercise {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 20px 0;
+}
+/* Improved font and readability */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+/* Accessible replacement for blue text */
+.important-note {
+  background-color: #e3f2fd;
+  border-left: 4px solid #1976d2;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Success/completion messages */
+.success-note {
+  background-color: #e8f5e8;
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 15px 0;
+  font-weight: bold;
+  border-radius: 4px;
+}
+/* Package name styling */
+.package-name {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.important-text { background-color: #e8f0ff; /* soft blue background (optional) */ color: #1565c0; /* blue text */ padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+/* Fix for Run Code button hover states - more specific targeting */
+.tutorial-exercise-actions .btn {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:hover {
+  cursor: pointer !important;
+}
+.tutorial-exercise-actions .btn:disabled {
+  cursor: not-allowed !important;
+}
+/* Override any conflicting learnr cursor rules */ [data-label] .btn,
+.tutorial-exercise .btn,
+button[data-label] {
+  cursor: pointer !important;
+}
+/* Accessible table styling */
+.table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+caption {
+  padding: 10px;
+  text-align: left;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+/* Focus styles for table cells */
+th:focus, td:focus {
+  outline: 2px solid #6c757d;
+  outline-offset: 1px;
+}
+/* Skip navigation for keyboard users */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.skip-nav:focus {
+  top: 6px;
+  outline: 2px solid #fff;
+}
+/* Enhanced focus visibility for tutorial navigation */
+.tutorial-panel-name:focus,
+.tutorial-panel-name:focus-visible {
+  outline: 1px solid #6c757d !important;
+  outline-offset: 1px !important;
+  background-color: rgba(108, 117, 125, 0.1) !important;
+}
+/* Better focus for exercise containers */
+.tutorial-exercise:focus-within {
+  outline: 1px solid #6c757d;
+  outline-offset: 1px;
+  background-color: rgba(108, 117, 125, 0.05);
+}
+/*New*/ /* Enhanced error message accessibility */
+.alert-danger, .error, .tutorial-exercise-error {
+  border-left: 4px solid #d32f2f;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+.alert-success, .tutorial-exercise-success {
+  border-left: 4px solid #4caf50;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #e8f5e8;
+  border-radius: 4px;
+}
+/* Ensure error messages are visible and well-contrasted */
+.tutorial-exercise-error {
+  color: #d32f2f;
+  font-weight: bold;
+}
+.tutorial-exercise-success {
+  color: #2e7d32;
+  font-weight: bold;
+}
+/* Focus styles for elements with error associations */
+.ace_editor[aria-describedby]:focus {
+  border-color: #d32f2f !important;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2) !important;
+}
+</style>
+```
+
+```{=html}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Simple, reliable keyboard shortcut help
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === '?') {
+      e.preventDefault();
+      alert(`R Tutorial Navigation Help:
+
+KEYBOARD LIMITATIONS:
+- Tab only moves between headings (not buttons or code boxes)
+- Enter after Tab will jump to that heading
+- Interactive exercises require mouse/trackpad clicks
+- Code editing requires clicking in code boxes first
+
+WHAT WORKS WITH KEYBOARD:
+- Ctrl+F to search within the tutorial
+- Tab to navigate between section headings
+- Screen readers can access all text content
+
+IMPORTANT: This tutorial platform has limited keyboard accessibility.
+Interactive elements like "Run Code" and "Submit Answer" buttons
+require mouse/trackpad interaction.`);
+    }
+  });
+  
+  // Screen Reader Instructions - Collapsible accessibility guidance
+  function addScreenReaderInstructions() {
+    const instructionsDiv = document.createElement('div');
+    instructionsDiv.setAttribute('role', 'region');
+    instructionsDiv.setAttribute('aria-label', 'Accessibility Instructions');
+    instructionsDiv.innerHTML = `
+      <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; margin: 15px 0;">
+        <button id="accessibility-toggle" style="width: 100%; padding: 12px; background: none; border: none; text-align: left; cursor: pointer; font-weight: bold; color: #495057;" 
+                aria-expanded="false" aria-controls="accessibility-content">
+          ▶ Accessibility & Navigation Guide (Click to expand)
+        </button>
+        
+        <div id="accessibility-content" style="display: none; padding: 0 15px 15px 15px;">
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Keyboard Navigation:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li><strong>Press Ctrl+Shift+?</strong> for detailed keyboard help dialog</li>
+              <li>Tab moves between section headings only</li>
+              <li>Enter after Tab jumps to that heading</li>
+              <li>Ctrl+F to search within tutorial</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">For Screen Reader Users:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>All text content is accessible to screen readers</li>
+              <li>Interactive code exercises require mouse interaction</li>
+              <li>Success messages will be announced as they appear</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Platform Limitations:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Exercise buttons require mouse clicks</li>
+              <li>Code editing needs mouse interaction</li>
+              <li>Interactive elements cannot be reached via Tab</li>
+            </ul>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Recommended Approach:</h4>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+              <li>Read content using screen reader navigation</li>
+              <li>Use heading navigation between sections</li>
+              <li>Consider working with assistance for interactive exercises</li>
+            </ul>
+          </div>
+          
+          <p style="margin: 0; font-size: 13px; color: #6c757d; font-style: italic;">
+            This platform has inherent accessibility limitations. We've enhanced what's possible while being transparent about constraints.
+          </p>
+        </div>
+      </div>
+    `;
+    
+    // Add click handler for toggle
+    setTimeout(function() {
+      const toggleBtn = document.getElementById('accessibility-toggle');
+      const content = document.getElementById('accessibility-content');
+      
+      if (toggleBtn && content) {
+        toggleBtn.addEventListener('click', function() {
+          const isExpanded = content.style.display !== 'none';
+          content.style.display = isExpanded ? 'none' : 'block';
+          toggleBtn.setAttribute('aria-expanded', !isExpanded);
+          toggleBtn.innerHTML = (isExpanded ? '▶' : '▼') + ' Accessibility & Navigation Guide (Click to ' + (isExpanded ? 'expand' : 'collapse') + ')';
+        });
+      }
+    }, 500);
+    
+    // Try multiple ways to find the right insertion point
+    let insertLocation = null;
+    
+    // Try 1: Look for the h2 with "Introduction" text 
+    const headings = document.querySelectorAll('h2');
+    for (let i = 0; i < headings.length; i++) {
+      if (headings[i].textContent.includes('Introduction')) {
+        insertLocation = headings[i];
+        break;
+      }
+    }
+    
+    // Try 2: Just use the first h2 if Introduction not found
+    if (!insertLocation) {
+      insertLocation = document.querySelector('h2');
+    }
+    
+    // Insert the accessibility guide immediately after the heading
+    if (insertLocation) {
+      insertLocation.parentNode.insertBefore(instructionsDiv, insertLocation.nextSibling);
+      console.log('Accessibility guide added successfully');
+    } else {
+      console.log('Could not find insertion point for accessibility guide');
+    }
+  }
+  
+  // Enhance success messages with exercise context
+  setInterval(function() {
+    const successMessages = document.querySelectorAll('.alert-success:not([data-enhanced])');
+    successMessages.forEach(function(msg) {
+      msg.setAttribute('data-enhanced', 'true');
+      msg.setAttribute('role', 'status');
+      msg.setAttribute('aria-live', 'polite');
+      
+      // Add exercise context to success messages
+      const exerciseContainer = msg.closest('.tutorial-exercise');
+      if (exerciseContainer) {
+        const originalText = msg.textContent;
+        if (!originalText.includes('Exercise completed')) {
+          msg.textContent = 'Exercise completed successfully: ' + originalText;
+        }
+      }
+    });
+  }, 2000);
+  
+  // Enhance error messages for screen readers
+setInterval(function() {
+  const errorMessages = document.querySelectorAll('.alert-danger:not([data-enhanced]), .tutorial-exercise-error:not([data-enhanced])');
+  errorMessages.forEach(function(msg) {
+    msg.setAttribute('data-enhanced', 'true');
+    msg.setAttribute('role', 'alert');
+    msg.setAttribute('aria-live', 'assertive');
+  });
+}, 2000);
+
+  // Run the accessibility guide function
+  setTimeout(addScreenReaderInstructions, 1000);
+  
+});
+</script>
+```
+
 ## Learning Objectives
 
 In this tutorial, you will learn how to describe a nominal level variable using summary statistics and plots. Specifically, we will cover:
 
 * How to determine and describe the central tendency of a nominal variable
 * How to summarize the dispersion of a nominal variable
-* How to combine multiple <span style="color:DarkGreen">dplyr</span> operations with the pipe, `%>%`
+* How to combine multiple [dplyr]{.package-name} operations with the pipe, `%>%`
   * How to compute counts of observations with `n()`
   * How to summarise groups of observations with `group_by()` and `summarise()` 
   * How to compute proportions using `mutate()`
-* How to generate a bar plot of counts and proportions using `ggplot()` and `geom_bar()` from the <span style="color:DarkGreen">ggplot2</span> package
+* How to generate a bar plot of counts and proportions using `ggplot()` and `geom_bar()` from the [ggplot2]{.package-name} package
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -39,7 +367,7 @@ library(poliscidata)
 
 ## Descriptive Statistics
 
-<span style="color:blue">*Descriptive statistics are numerical and graphical methods used to summarize and present the key characteristics of a dataset. These statistics provide concise, meaningful descriptions of both samples and entire populations, forming the cornerstone of quantitative data analysis.*</span>
+<div class="important-note"><strong>Important:</strong>*Descriptive statistics are numerical and graphical methods used to summarize and present the key characteristics of a dataset. These statistics provide concise, meaningful descriptions of both samples and entire populations, forming the cornerstone of quantitative data analysis.*</div>
 
 
 The first step in any analysis is to describe the variables that are the focus of our research question in order to convey how they behave, what they look like, and, therefore, what features of the data our explanation needs to account for. For example:
@@ -58,9 +386,9 @@ Typically our data sets contain observations on a large number of cases where it
 
 Univariate description involves the examination of a single variable at a time. There are three major characteristics of a single variable that comprise descriptive analysis:
 
-1. <span style="color:blue">**Central tendency**</span>. Central tendency refers to the "typical value" a variable takes.
-2. <span style="color:blue">**Dispersion**</span>. Dispersion refers to the spread or variation in the values a variable takes. When assessing dispersion, we want to know how similar or different the values taken by the variable are.
-3. <span style="color:blue">**The shape of the distribution**</span>. The distribution of a variable is a summary of the frequency of individual values or ranges of values for a variable. When plotted, we can desribe the shape of the distribution.
+1. [**Central tendency**]{.important-text}. Central tendency refers to the "typical value" a variable takes.
+2. [**Dispersion**]{.important-text}. Dispersion refers to the spread or variation in the values a variable takes. When assessing dispersion, we want to know how similar or different the values taken by the variable are.
+3. [**The shape of the distribution**]{.important-text}. The distribution of a variable is a summary of the frequency of individual values or ranges of values for a variable. When plotted, we can desribe the shape of the distribution.
 
 In most situations, we use statistical summaries as well as visualizations -- plots or figures -- to describe all three of these characteristics for each of the variables in our study.
 
@@ -75,8 +403,8 @@ In most situations, we use statistical summaries as well as visualizations -- pl
 Before we get started, see if you can pick out the nominal level measures below.
 
 
-
-```{r letter-a, echo=FALSE}
+**Practice: Identify nominal level variables**
+```{r concepts-quiz-nominal, echo=FALSE}
 question("Which of the following variables are nominal level measures?",
   answer("The race of a respondent in a survey", correct = TRUE, message="Race is nominal because the possible values of the variable are unranked categories. "),
   answer("The status of the death penalty (permitted or not) in a state", correct = TRUE, message="The status of the death penalty is nominal because permitted or not permitted are categories of responses. "),
@@ -94,23 +422,24 @@ Central tendency refers to the "typical value" a variable takes. It is the cente
 
 ### The mode
 
- <span style="color:blue">**The mode is the most frequently occurring category in the data.**</span>  Specifically, the mode is the *name* of the category that occurs most often. We can determine the mode from a frequency table. A <span style="color:blue">**frequency table lists each value a variable can take and the number of cases in the data that have each value.**</span> Sometimes it is useful to present the proportion of cases in each category, as well as the frequencies. 
+ [**The mode is the most frequently occurring category in the data.**]{.important-text}  Specifically, the mode is the *name* of the category that occurs most often. We can determine the mode from a frequency table. A [**frequency table lists each value a variable can take and the number of cases in the data that have each value.**]{.important-text} Sometimes it is useful to present the proportion of cases in each category, as well as the frequencies. 
 
 ### Central tendency and vote for Donald Trump in US counties in the 2016 presidential election
 
 To illustrate how to identify the mode and how to produce a frequency table and its cousin a table of proportions, we will examine the variable  **TrumpMajority** in the data frame **counties**, which contains a number of variables measured in US counties in the 2016 presidential election. This variable assigns a value of 0 to the county if Clinton won a majority of the vote and 1 if Trump won a majority. 
 
-We will introduce the functions `group_by()`, `summarize()` and `mutate()` from the R package <span style="color:DarkGreen">dplyr</span> in conjunction with **%>%**, called the pipe operator, to produce a frequency table. The pipe operator allows us to perform a sequence of operations to turn the object we start with into another object containing the information we want. Whenever you encounter the pipe operator, you can read the code as saying, "then do this."
+We will introduce the functions `group_by()`, `summarize()` and `mutate()` from the R package [dplyr]{.package-name} in conjunction with **%>%**, called the pipe operator, to produce a frequency table. The pipe operator allows us to perform a sequence of operations to turn the object we start with into another object containing the information we want. Whenever you encounter the pipe operator, you can read the code as saying, "then do this."
 
 ### The group_by() function
 
-The `group_by()` function assigns observations in the data frame to separate groups, and it instructs <span style="color:DarkGreen">dplyr</span> to apply functions separately to each group. `group_by()` assigns groups by grouping together observations that have the same combinations of values for the variables that you pass to `group_by()`.
+The `group_by()` function assigns observations in the data frame to separate groups, and it instructs [dplyr]{.package-name} to apply functions separately to each group. `group_by()` assigns groups by grouping together observations that have the same combinations of values for the variables that you pass to `group_by()`.
 
-To group by the values of **TrumpMajority** we first tell <span style="color:DarkGreen">dplyr</span> the name of the data frame that contains the variable "and then" using the pipe operator we pass the variable to the `group_by()` function as shown below. Note that we need to load the <span style="color:DarkGreen">dplyr</span> package with the `library()` function.
+To group by the values of **TrumpMajority** we first tell [dplyr]{.package-name} the name of the data frame that contains the variable "and then" using the pipe operator we pass the variable to the `group_by()` function as shown below. Note that we need to load the [dplyr]{.package-name} package with the `library()` function.
 
 We will not run this piece of code (it takes a while to produce the result from inside the tutorial).
 
-```{r groupby, exercise=FALSE, eval = FALSE}
+**Try it: Group the data by a variable**
+```{r analysis-group-data, exercise=FALSE, eval = FALSE, exercise.cap="Interactive exercise: Group the data. Use the Run Code button to see what a grouped data frame looks like."}
 library(dplyr)
 counties %>%
   group_by(TrumpMajority)
@@ -126,7 +455,8 @@ We wish to calculate a single summary statistic: the frequency or count. The fun
 
 Run the code. (Note: A warning message may appear.)
 
-```{r summarise, exercise=TRUE, warning=FALSE}
+**Try it: Use 'group_by()' and 'summarise()' to count observations**
+```{r analysis-summarise-majority, exercise=TRUE, warning=FALSE, exercise.cap="Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results."}
 counties %>%
   group_by(TrumpMajority) %>%
   summarise(freq = n())
@@ -146,7 +476,8 @@ The function we wish to calculate is the proportion. To calculate the proportion
 
 Let's pipe the result above to the `mutate()` function and create this variable:
 
-```{r mutate, exercise=TRUE, warning=FALSE}
+**Try it: Calculate proportions using 'mutate()'**
+```{r analysis-calculate-proportions, exercise=TRUE, warning=FALSE, exercise.cap="Interactive exercise: Calculate proportions using mutate(). Use the Run Code button to execute and see results."}
 counties %>%
   group_by(TrumpMajority) %>%
   summarize(freq = n()) %>%
@@ -159,12 +490,13 @@ The addition of the proportions to our table confirms the modal category is "Tru
 
 Let's ook at another nominal variable, **racial_majority**, in the **counties** data frame. The variable takes the (character) values "Black Majority", "Hispanic Majority", "Other Majority", and "White Majority" depending on which racial/ethnic group comprised 50% or more of the county population.  There are two counties where data is not available and are therefore assigned the missing value NA. What can we say about the central tendency of this variable?
 
-We will use the <span style="color:DarkGreen">dplyr</span> functions again to generate a frequency and proportion table. First, we need to group_by **racial_majority**, then we will use `summarise()` to generate the counts, and finally, we will use `mutate()` to create proportions. 
+We will use the [dplyr]{.package-name} functions again to generate a frequency and proportion table. First, we need to group_by **racial_majority**, then we will use `summarise()` to generate the counts, and finally, we will use `mutate()` to create proportions. 
 
 Try it!  Fill in the missing code marked with XXXX. You can look at the hints if you need to.
 
 
-```{r racetable, exercise = TRUE}
+**Practice: Create a proportion table**
+```{r analysis-practice-proportions, exercise = TRUE, exercise.cap="Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
 counties %>%
   group_by(XXXX) %>%
   XXXX(freq = n()) %>%
@@ -172,7 +504,7 @@ counties %>%
 ```
 
 
-```{r racetable-hint-1}
+```{r analysis-practice-proportions-hint-1}
 1. We want to group by racial_majority, so we pass this variable 
 name to the group_by function.
 2. The n() function is a summary function, calculating the number 
@@ -184,14 +516,14 @@ variable created in the summarise() function and the sum()
 function in the denominator and name the new variable prop.
 ```
 
-```{r racetable-solution}
+```{r analysis-practice-proportions-solution}
 counties %>%
   group_by(racial_majority) %>%
   summarise(freq = n()) %>%
   mutate(prop = freq/sum(freq))
 ```
 
-```{r racetable-check}
+```{r analysis-practice-proportions-check}
 grade_code("This is a lot to remember but is something we will do a lot, so make sure you understand each line of code.")
 ```
 
@@ -204,26 +536,26 @@ As a final example, consider the variable **region** in the data frame **df**. T
 Complete the code below to generate the frequency and proportion distribution of this variable. Name your count variable **freq** and your proportion variable **prop**.
 
 
-
-```{r freqregion, exercise=TRUE, exercise.lines=4}
+**Practice: Summarize the data by region**
+```{r analysis-practice-freq-by-region, exercise=TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness."}
 df %>%
   group_by(region) %>%
 ```
 
-```{r freqregion-hint}
+```{r analysis-practice-freq-by-region-hint}
 You need to generate frequency counts using the summarise() 
 function and proportions using the mutate() function.
 Don't forget the pipe operator!
 ```
 
-```{r freqregion-solution}
+```{r analysis-practice-freq-by-region-solution}
 df %>%
   group_by(region) %>%
   summarise(freq = n()) %>%
   mutate(prop = freq / sum(freq))
 ```
 
-```{r freqregion-check}
+```{r analysis-practice-freq-by-region-check}
 grade_code()
 ```
 
@@ -246,10 +578,10 @@ Finally, we found that, according to the US Census Bureau, 16 US States are in t
 The last piece of summary information concerns the shape of the distribution. 
 Because the frequency and proportion tables completely characterize the distribution of a nominal variable, we simply need a way to describe its shape.   The relevant question is whether the cases are equally dispersed or whether one or more categories dominates the distribution. We refer to the shape of the distribution of a categorical variable as either:
 
-1. <span style="color:blue">Unimodal</span>: It has only one peak, one category has many more cases than the others
-2. <span style="color:blue">Bimodal</span>: It has two peaks, two categories are much more prevalent in the data
-3. <span style="color:blue">Uniform</span>: All are distributed uniformly, there is an even spread of observations in each category
-4. <span style="color:blue">Multimodal</span>: It has many peaks, several categories have more cases than the others
+1. [Unimodal]{.important-text}: It has only one peak, one category has many more cases than the others
+2. [Bimodal]{.important-text}: It has two peaks, two categories are much more prevalent in the data
+3. [Uniform]{.important-text}: All are distributed uniformly, there is an even spread of observations in each category
+4. [Multimodal]{.important-text}: It has many peaks, several categories have more cases than the others
 
 It is often easier to describe the shape of a distribution from a plot. The figure below presents examples of each of these shapes of distributions.
 
@@ -320,15 +652,16 @@ We will learn how to produce plots of the distribution or our nominal variables 
 
 The distribution of a nominal variable is best represented in a bar plot. A bar plot presents the same information in a frequency/proportion table in graphical form. 
 
-We will use the `ggplot()` function in the <span style="color:DarkGreen">ggplot2</span> package. The  <span style="color:DarkGreen">ggplot2</span> package develops plots using the "Grammar of Graphics." We will build a plot in 4 steps, with each step identifying a *layer* of our plot.
+We will use the `ggplot()` function in the [ggplot2]{.package-name} package. The  [ggplot2]{.package-name} package develops plots using the "Grammar of Graphics." We will build a plot in 4 steps, with each step identifying a *layer* of our plot.
 
 ### ggplot step one
 
 The first step in plotting the data is to tell `ggplot()` the name of the data set that contains the variable(s) to plot. We will plot **TrumpMajority**, which is in the **counties** data set.
 
-Note that we need to load <span style="color:DarkGreen">ggplot2</span>  with the `library()` function before we can use the `ggplot()` function. Run the code below.
+Note that we need to load [ggplot2]{.package-name}  with the `library()` function before we can use the `ggplot()` function. Run the code below.
 
-```{r stepone, exercise=TRUE}
+**Try it: Initialize a ggplot object**
+```{r visual-initialize-plot, exercise=TRUE, exercise.cap="Interactive exercise: Initialize a ggplot object. Use the Run Code button to see the base plot canvas."}
 library(ggplot2)
 ggplot(data = counties)
 ```
@@ -340,7 +673,8 @@ Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this
 
 Run the code below.
 
-```{r steptwo, exercise=TRUE}
+**Try it: Add the aesthetic mapping**
+```{r visual-add-aes, exercise=TRUE, exercise.cap="Interactive exercise: Add the aesthetic mapping. Use the Run Code button to see the x-axis added."}
 ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority)))
 ```
 Now we have an x-axis, but still no data because we haven't yet told `ggplot()` *how* to plot the data.  
@@ -350,8 +684,8 @@ Now we have an x-axis, but still no data because we haven't yet told `ggplot()` 
 We tell `ggplot()` how to plot the data by adding a *geom* layer. There are many geometric representations that can be plotted. What is appropriate  will depend on the level of measurement and our goals for the visualization.  We want to generate a bar plot, so we will specify `geom_bar()` as the geometric representation. We do this by adding a plus sign at the end of the previous line of code. Then on the next line we write `geom_bar()`. We don't need to put anything inside the parentheses. See what happens now when you run the code.
 
 
-
-```{r stepthree, exercise=TRUE}
+**Try it: Add the geometry layer**
+```{r visual-add-geom-bar, exercise=TRUE, exercise.cap="Interactive exercise: Add the geometry layer. Use the Run Code button to render the bar chart."}
 ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
   geom_bar()
 ```
@@ -363,12 +697,13 @@ At this point, we have an ugly plot that is not very informative. We can change 
 * Each label (title, subtitle, axis labels, caption) must be enclosed in quotation marks. This tells R that these are text strings.
 * For each label you want to add, specify the type of label followed by an equal sign and then your text in quotation marks.
 * Separate different labels with commas.
-* You can use <span style="color:blue">**\\n**</span> inside a label to create a line break. This is particularly useful for long titles or labels.
+* You can use [**\\n**]{.important-text} inside a label to create a line break. This is particularly useful for long titles or labels.
 * If you want to omit a label entirely, you can set it to NULL (without quotation marks).
 
 Look carefully at the code before you run it and make sure you understand what each line is doing.
 
-```{r stepfour, exercise=TRUE}
+**Try it: Add labels to the plot**
+```{r visual-add-labs, exercise=TRUE, exercise.cap="Interactive exercise: Add labels to the plot. Use the Run Code button to see the titled plot."}
 ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
@@ -398,8 +733,8 @@ Remember: Always ensure that the number and order of your custom labels match th
 This approach allows you to replace the default numeric labels with more meaningful text labels, making your plot easier to interpret at a glance.
 
 
-
-```{r stepfourb, exercise=TRUE}
+**Try it: Customize the axis labels**
+```{r visual-customize-scale-x, exercise=TRUE, exercise.cap="Interactive exercise: Customize the axis labels. Use the Run Code button to see the final plot."}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
@@ -411,7 +746,7 @@ ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +
 ```
 
 
-This plot illustrates the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span>. 
+This plot illustrates the [**mode(s)**]{.important-text}, [**dispersion**]{.important-text}, and [**shape of the distribution**]{.important-text}. 
 
 We can see that Trump won most counties ("Trump Majority" is the mode) and that he won considerably more than did Hillary Clinton (illustrating dispersion) and that the distribution shape is unimodal. The plot presents an effective way to summarize the main features of the variable!
 
@@ -420,8 +755,8 @@ We can see that Trump won most counties ("Trump Majority" is the mode) and that 
 Can you generate a bar plot of the frequencies of the **racial_majority** distribution?  There is one additional complication with this variable because we do not have data for 2 counties. We can drop these NA cases from the plot by adding `na.translate = FALSE` to the `scale_x_discrete()` function.  I've done this for you in the code below. Before you run the code, replace the XXXX with the appropriate code. Replace the variable values ("Black Majority", "Hispanic Majority", "Other Majority", and "White Majority") with versions without the word "Majority".  Use "Frequency" for the y-axis label. (Note that the ordering of the categories of a character variable is alphabetical.)
 
 
-
-```{r plotrace, exercise = TRUE}
+**Practice: Create a bar chart for racial majority**
+```{r visual-practice-bar-race, exercise = TRUE, exercise.cap="Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
 ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +
   XXXX() +
   labs(title = "Number of US Counties by Racial Majority",
@@ -432,13 +767,13 @@ ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +
   scale_x_discrete(na.translate = FALSE, labels = c(XXXX))
 ```
 
-```{r plotrace-hint-1}
+```{r visual-practice-bar-race-hint-1}
 1. The mapping argument requires specifying the aesthetics and that you specify the axis to map the variable to.
 2. Have you specified the geom? Have you provided a meaningful y label?
 3. Have you set each value label alphabetically (in quotes, separated by commas)?
 ```
 
-```{r plotrace-solution}
+```{r visual-practice-bar-race-solution}
 ggplot(data = counties, mapping = aes(x = factor(racial_majority))) +
   geom_bar() +
   labs(title = "Number of US Counties by Racial Majority",
@@ -449,11 +784,11 @@ ggplot(data = counties, mapping = aes(x = factor(racial_majority))) +
   scale_x_discrete(na.translate = FALSE, labels = c("Black", "Hispanic", "Other", "White"))
 ```
 
-```{r plotrace-check}
+```{r visual-practice-bar-race-check}
 grade_code()
 ```
 
-Here again the plot illustrates the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span>.  The modal category "Majority White" is vastly more common than any other and the shape of the distribution is clearly unimodal. 
+Here again the plot illustrates the [**mode(s)**]{.important-text}, [**dispersion**]{.important-text}, and [**shape of the distribution**]{.important-text}.  The modal category "Majority White" is vastly more common than any other and the shape of the distribution is clearly unimodal. 
 
 
 ### Plotting proportions
@@ -464,7 +799,8 @@ To plot proportions, we give the `geom_bar()` function its own aesthetic, which 
 
 Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
 
-```{r propmajority, exercise=TRUE}
+**Try it: Create a bar chart of proportions**
+```{r visual-bar-proportion-region, exercise=TRUE, exercise.cap="Interactive exercise: Create a bar chart of proportions. Use the Run Code button to see the result."}
 ggplot(data = df, mapping = aes(x = factor(region))) +
          geom_bar(aes(y = after_stat(prop), group  = 1), fill = "blue") +
          labs(title = "Proportion of US States in Each Census Region", 
@@ -473,7 +809,7 @@ ggplot(data = df, mapping = aes(x = factor(region))) +
 ```
 
 
-What does the plot illustrates about the <span style="color:blue">**mode(s)**</span>, <span style="color:blue">**dispersion**</span>, and <span style="color:blue">**shape of the distribution**</span> of this variable?
+What does the plot illustrates about the [**mode(s)**]{.important-text}, [**dispersion**]{.important-text}, and [**shape of the distribution**]{.important-text} of this variable?
 
 While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states) in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
 
@@ -485,8 +821,8 @@ Let's create a plot of proportions of regime type of countries in the world in 2
 Replace the XXXX in the code below. Fill in the bars with the color "red". Be careful to use the y-axis label "Proportion."
 
 
-
-```{r plotraceprop, exercise = TRUE, exercise.eval = FALSE}
+**Practice: Create a proportion bar chart for regime type**
+```{r visual-practice-bar-proportion-regime, exercise = TRUE, exercise.eval = FALSE, exercise.cap="Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
 ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
   geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +
   labs(title = "Regime Type",
@@ -497,7 +833,7 @@ ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
 ```
 
 
-```{r plotraceprop-hint-1}
+```{r visual-practice-bar-proportion-regime-hint-1}
 1. Have you named the data set world?
 2. Remember you need to specify the aes() function inside geom_bar().
 3. Have you specified y= after_stat(prop) inside the geom_bar aes() function?
@@ -507,7 +843,7 @@ ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
 7. Did you specify the scale_x_discrete function to edit the x axis?
 ```
 
-```{r plotraceprop-solution}
+```{r visual-practice-bar-proportion-regime-solution}
 ggplot(data = world, mapping = aes(x = factor(dem_level4))) +
   geom_bar(aes(y = after_stat(prop), group = 1), fill = "red") +
   labs(title = "Regime Type",
@@ -517,7 +853,7 @@ ggplot(data = world, mapping = aes(x = factor(dem_level4))) +
   scale_x_discrete(na.translate = FALSE, labels = c("Full Democracy",  "Partial Democracy", "Hybrid", "Authoritarian"))
 ```
 
-```{r plotraceprop-check}
+```{r visual-practice-bar-proportion-regime-check}
 grade_code()
 ```
 
@@ -531,8 +867,8 @@ This short (less than 4 minute) video builds a bar plot and introduces two addit
 
 Below I've reproduced our plot of **racial_majority**,  reordering and flipping the coordinates of our previous plot.
 
-
-```{r fliprace, exercise = TRUE}
+**Explore: Reorder categories and flip coordinates**
+```{r visual-reorder-and-flip, exercise = TRUE, exercise.cap="Interactive exercise: Reorder categories and flip coordinates. Run the code, then try removing `coord_flip()` or the `reorder()` function to see what they do."}
 ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racial_majority, length))) +
   geom_bar() +
   labs(title = "Number of US Counties by Racial Majority",
@@ -548,14 +884,16 @@ ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racia
 
 Descriptive statistics provide simple summaries about the sample and the measures. Together with simple graphical analysis, they form the basis of virtually every quantitative analysis of data. We've learned:
 
-1. There are 3 types of descriptive information to help you convey the main features of a single variable: <span style="color:blue">**central tendency**</span>, <span style="color:blue">**dispersion**</span>, and the <span style="color:blue">**shape of the distribution**</span>. Each piece of information complements the others.
+1. There are 3 types of descriptive information to help you convey the main features of a single variable: [**central tendency**]{.important-text}, [**dispersion**]{.important-text}, and the [**shape of the distribution**]{.important-text}. Each piece of information complements the others.
 2. The appropriate tools for describing these features of our sample data depend on the level of measurement of the variable you wish to describe. The information here describes what is appropriate for nominal variables.
 
-   a. The <span style="color:blue">**mode**</span> is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It may be more or less useful depending on the dispersion in the data, so often, we present the entire frequency distribution or visualize the distribution in a bar plot.
-    b. The frequency distribution, or the distribution of proportions, reveals the <span style="color:blue">**dispersion**</span> in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the <span style="color:blue">**dispersion**</span>.
+   a. The [**mode**] is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It may be more or less useful depending on the dispersion in the data, so often, we present the entire frequency distribution or visualize the distribution in a bar plot.
+    b. The frequency distribution, or the distribution of proportions, reveals the [**dispersion**]{.important-text} in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the [**dispersion**]{.important-text}.
    c. Bar plots are often used to visualize the central tendency, dispersion, and shape of the distribution of a nominal variable, particularly if the specific counts or proportions are not of central interest.
 
 Should you present a table, should you report summary statistics in the text without a table or visualization, or should you present a figure when you describe a nominal variable?  The choice depends on the main feature or features of the data and what you wish to emphasize. You may report the modal category or categories and the number or proportion of cases in the category, or you may choose to present the entire distribution, either in a table or a plot. (Both would be redundant.)  The key is to describe the central tendency, dispersion, and distribution of the data so that your audience has a complete picture of the central features of the variable. And of course, if you present a table or figure, you need to describe its contents in the text.
 
 
-![](images/UnivariateNominal.png)
+![](images/UnivariateNominal.png){width="70%" fig.alt="Infographic titled ‘Nominal Level Variable’ with four stacked blue boxes: Mode; Frequency or Proportion Distribution; Unimodal, Bimodal, Multimodal, Uniform; Bar Plot of Frequencies or Proportions. A left sidebar lists Central Tendency, Dispersion, Distribution, and Visualization.
+"}
+
