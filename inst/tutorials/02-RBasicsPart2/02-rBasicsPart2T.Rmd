@@ -429,7 +429,7 @@ save(counties, file = "counties2016.RData")
 ```
 
 **Try it: Load the data and view the contents**
-```{r data-loading, exercise=TRUE, exercise.setup="data-loading-setup"}
+```{r data-loading, exercise=TRUE, exercise.setup="data-loading-setup",exercise.cap="Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results."}
 load("counties2016.RData", verbose = TRUE)
 ```
 
@@ -438,7 +438,7 @@ examine **counties** by entering the name of the object and running the
 code.
 
 **Try it: View the data**
-```{r data-viewing, exercise=TRUE}
+```{r data-viewing, exercise=TRUE, exercise.cap="Interactive exercise: View the data. Use the Run Code button to execute and see results."}
 counties
 ```
 
@@ -484,7 +484,7 @@ write.csv(unFBposts, "unitednations.csv", row.names = FALSE)
 ```
 
 **Try it: Load the data and view the contents**
-```{r data-import-csv, exercise=TRUE, exercise.setup="data-import-csv-setup"}
+```{r data-import-csv, exercise=TRUE, exercise.setup="data-import-csv-setup", exercise.cap="Interactive exercise: Learn to import CSV files using the rio package. Use the Run Code button to execute and see results."}
 library(rio)
 unFBposts <- import("unitednations.csv")
 unFBposts
@@ -512,7 +512,8 @@ write_xlsx(tmp.df2, "example_data.xlsx")
 
 
 **Try it: Load the data and view the contents**
-```{r data2-import-csv, exercise=TRUE, exercise.setup="data2-import-csv-setup"}
+```{r data2-import-csv, exercise=TRUE, exercise.setup="data2-import-csv-setup", exercise.cap="Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results."}
+library(rio)
 df <- import("example_data.xlsx")
 df
 ```
@@ -521,7 +522,7 @@ df
 
 A Stata data file can be imported in the same manner. Stata data files
 will have a .dta extension. See if you can write the code to import
-"oilwomen.dta" without looking. Name your new object **oil** and then
+"oilwomen.dta" without looking. (Don't forget to load the [rio]{.package-name}.) Name your new object **oil** and then
 print it.
 
 
@@ -543,14 +544,14 @@ write_dta(tmp.df3, "oilwomen.dta")
 
 
 **Practice: Load the data**
-```{r data3-import-csv, exercise=TRUE, exercise.setup="data3-import-csv-setup"}
+```{r data3-import-csv, exercise=TRUE, exercise.setup="data3-import-csv-setup", exercise.cap="Interactive exercise: Load the data. Enter your code and click Submit Answer to check correctness. Three hints available."}
 
 ```
 
 ```{r data3-import-csv-hint-1}
 # Hint 1 of 3: Similar to previous examples
 This follows the same pattern as importing the CSV and Excel files. Use the import() function 
-from the rio package with the filename.
+from the rio package with the filename. Don not forget to load rio wih the library() function!
 ```
 
 ```{r data3-import-csv-hint-2}
@@ -565,6 +566,7 @@ After importing and assigning to oil, type the object name on a second line to p
 ```
 
 ```{r data3-import-csv-solution}
+library(rio)
 oil <- import("oilwomen.dta")
 oil
 ```
@@ -576,7 +578,7 @@ grade_code()
 ### Tab-delimited files
 
 Surprise, if we have a tab-delimited data file, we do the same thing!
-Read in "turnout2.txt," assign it to the object **TO** and print it.
+Read in "turnout2.txt," assign it to the object **TO** and print it. You may assume the [rio]{.package-name} package is already loaded.
 
 ```{r data4-import-csv-setup}
 txt_data <- 'year\tVEP\tVAP\ttotal\tANES\tfelons\tnoncit\toverseas\tosvoters
@@ -599,7 +601,7 @@ writeLines(txt_data, "turnout2.txt")
 
 
 **Practice: Load the data**
-```{r data4-import-csv, exercise=TRUE, exercise.setup="data4-import-csv-setup"}
+```{r data4-import-csv, exercise=TRUE, exercise.setup="data4-import-csv-setup", exercise.cap="Interactive exercise: Load the data. Enter your code and click Submit Answer to check correctness. Three hints available."}
 
 ```
 
@@ -639,7 +641,7 @@ social media posts published on the United Nations Facebook page during
 
 **Practice: Identify the class of unFBposts**
 
-```{r data-explore-class, exercise=TRUE}
+```{r data-explore-class, exercise=TRUE, exercise.cap="Interactive exercise: Determine the class of a data object. Enter your code and click Submit Answer to check correctness. One hint available."}
 
 ```
 
@@ -672,7 +674,7 @@ This will open the data in a new window, which can make it easier to
 examine in full. No matter how you do so, it's a good idea to view your
 data frame to make sure you have loaded the data you intended. Note,
 however, that you cannot execute this function from within the tutorial.
-**We will not run this function.**
+**We will not run this function inside the tutorial.**
 
 
 ```{r data-structure-view, exercise=FALSE, eval=FALSE}
@@ -687,7 +689,7 @@ data frame. Simply pass the `nrow()` function the name of the data frame
 object. How many posts are in the data frame?
 
 **Try it: Observe the number of rows in the data**
-```{r data-structure-rows, exercise=TRUE}
+```{r data-structure-rows, exercise=TRUE, exercise.cap="Interactive exercise: Observe the number of rows in the data. Use the Run Code button to execute and see results."}
 nrow(unFBposts)
 ```
 
@@ -695,7 +697,7 @@ Can you determine how many posts were published, on average, per day in
 2015 (assume 365 days in the year)?
 
 **Practice: Compute the average number of posts**
-```{r data-howmanyposts, exercise=TRUE}
+```{r data-howmanyposts, exercise=TRUE, exercise.cap="Interactive exercise: Compute the average number of posts. Enter your code and click Submit Answer to check correctness. One hint available."}
 
 ```
 
@@ -719,8 +721,8 @@ Each column of a data frame contains a single variable. We use the
 we used the `nrow()` function to learn the number of rows. How many
 variables are in **unFBposts**?
 
-**Pracice: Observe the number of columns in the data**
-```{r data-structure-columns, exercise=TRUE}
+**Practice: Observe the number of columns in the data**
+```{r data-structure-columns, exercise=TRUE, exercise.cap="Interactive exercise: Observe the number of columns in the data. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -757,7 +759,7 @@ We can see the names of the variables in our data.frame using the
 pass this function **unFBposts**.
 
 **Practice: Display variable names**
-```{r data-explore-names, exercise=TRUE}
+```{r data-explore-names, exercise=TRUE, exercise.cap="Interactive exercise: Display variable names. Enter your code and click Submit Answer to check correctness. One hint available."}
 
 ```
 
@@ -776,18 +778,53 @@ names(unFBposts)
 grade_code()
 ```
 
-Here is a short description of each variable in the data set.
+Here is a short description of each variable in the data set. Read it carefully to help you with the next exercises!
 
-| Name           | Description                                 |
-|----------------|---------------------------------------------|
-| type           | Type of post (link, photo, video, ...)      |
-| date           | Date when the post was published            |
-| likes_count    | Total likes on post                         |
-| comments_count | Total comments on the post                  |
-| shares_count   | Total shares of the post                    |
-| month          | Month when the post was published (numeric) |
-| url            | Direct URL of post                          |
-| message        | Text of post, NA if no text                 |
+<table id="post-fields-table" aria-labelledby="post-fields-caption">
+  <caption id="post-fields-caption">
+    Dataset fields for social media posts: names and accessible descriptions.
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">type</th>
+      <td>Type of post (e.g., link, photo, video).</td>
+    </tr>
+    <tr>
+      <th scope="row">date</th>
+      <td>Date when the post was published.</td>
+    </tr>
+    <tr>
+      <th scope="row">likes_count</th>
+      <td>Total number of likes on the post.</td>
+    </tr>
+    <tr>
+      <th scope="row">comments_count</th>
+      <td>Total number of comments on the post.</td>
+    </tr>
+    <tr>
+      <th scope="row">shares_count</th>
+      <td>Total number of shares of the post.</td>
+    </tr>
+    <tr>
+      <th scope="row">month</th>
+      <td>Numeric month when the post was published (1–12).</td>
+    </tr>
+    <tr>
+      <th scope="row">url</th>
+      <td>Direct URL of the post.</td>
+    </tr>
+    <tr>
+      <th scope="row">message</th>
+      <td>Text content of the post; <code>NA</code> if no text.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### The `head()` and `str()` functions
 
@@ -796,7 +833,7 @@ function. By default, it prints the first 6 rows. To look at more or
 fewer rows, specify the `n` argument.
 
 **Try it: Observe the first few rows of the data**
-```{r data-explore-head1, exercise=TRUE}
+```{r data-explore-head1, exercise=TRUE, exercise.cap="Interactive exercise: Observe the first few rows of the data. Use the Run Code button to execute and see results."}
 head(unFBposts, n = 5)
 ```
 
@@ -806,12 +843,11 @@ then lists each variable along with its type and the values of the first
 few observations.
 
 **Try it: Observe the strcture of the data**
-```{r data-explore-head2, exercise=TRUE}
+```{r data-explore-head2, exercise=TRUE, exercise.cap="Interactive exercise: Observe the structure of the data. Use the Run Code button to execute and see results."}
 str(unFBposts)
 ```
 
-The letter abbreviations that appear to the right of the column names
-describe the type of data that is stored in each column of
+The letter abbreviations that appear to the right of the column names (after the colon) describe the type of data that is stored in each column of
 **unFBposts**. Possible types include:
 
 -   int: integers.
@@ -834,7 +870,7 @@ the value at the third quartile (the value associated with the 75th
 percentile), and the maximum value.
 
 **Try it: Observe summary information about the data**
-```{r data-explore-summary, exercise=TRUE}
+```{r data-explore-summary, exercise=TRUE, exercise.cap="Interactive exercise: Observe summary information about the data. Use the Run Code button to execute and see results."}
 summary(unFBposts)
 ```
 
@@ -850,7 +886,7 @@ the variable **type** in the data frame **unFBposts**, we would refer to
 it using **unFBposts\$type**.
 
 **Try it: Observe the specific column of the data**
-```{r data-explore-type, exercise=TRUE}
+```{r data-explore-type, exercise=TRUE, exercise.cap="Interactive exercise: Observe a specific column of the data. Use the Run Code button to execute and see results."}
 unFBposts$type
 ```
 
@@ -866,7 +902,7 @@ values we wish to evaluate. The function returns a TRUE if a value of
 the vector is missing and FALSE if a value is not missing.
 
 **Try it: Observe NA value in the column**
-```{r data-explore-NAvalue, exercise=TRUE}
+```{r data-explore-NAvalue, exercise=TRUE, exercise.cap="Interactive exercise: Observe NA values in a column. Use the Run Code button to execute and see results."}
 is.na(unFBposts$message)
 ```
 
@@ -879,7 +915,7 @@ of messages.
 See if you can write the code without looking at the hints.
 
 **Practice: Observe NA value in the column**
-```{r data-handle-summation, exercise=TRUE}
+```{r data-handle-summation, exercise=TRUE, exercise.cap="Interactive exercise: Observe NA values in a column. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -907,7 +943,7 @@ grade_code()
 How many missing values are there for the variable **likes_count**?
 
 **Practice: Count the NA value in the column**
-```{r data-handle-summation2, exercise=TRUE}
+```{r data-handle-summation2, exercise=TRUE, exercise.cap="Interactive exercise: Count the number of NA values in a column. Enter your code and click Submit Answer to check correctness. One hint available."}
 
 ```
 
@@ -932,7 +968,7 @@ missing. The only difference is that you put an `!` in front of the
 **likes_count** are not missing?
 
 **Practice: Count the NA value in the column**
-```{r data-handle-summation3, exercise=TRUE}
+```{r data-handle-summation3, exercise=TRUE, exercise.cap="Interactive exercise: Count the number of NA values in a column. Enter your code and click Submit Answer to check correctness. One hint available."}
 
 ```
 
@@ -960,16 +996,16 @@ often, we will encounter variables that are missing a value for at least
 one entry.
 
 If there are missing values in a vector, we include `na.rm = TRUE` (TRUE
-must be all caps) as an argument to many functions to tell R to drop the
-cases with missing values before executing the function.
+must be all caps) as an argument to many functions to tell R to ignore the
+cases with missing values when executing the function.
 
 Let's calculate the mean number of shares for UN Facebook posts,
 allowing for missing values (there are not any so we would get the same
 value if we did not use this option but we would get an error if we omit
 the option when there are missing values).
 
-**Try it: Calculate the mean dropping NA values**
-```{r data-handle-NAvalue, exercise=TRUE}
+**Try it: Calculate the mean ignoring NA values**
+```{r data-handle-NAvalue, exercise=TRUE, exercise.cap="Interactive exercise: Calculate the mean while dropping NA values. Use the Run Code button to execute and see results."}
 mean(unFBposts$shares, na.rm = TRUE)
 ```
 
@@ -980,10 +1016,10 @@ unlike with a vector, we have two dimensions, so we specify the row and
 column index of interest.
 
 For example, to see the 3rd row in the 2nd colum of **unFBposts** we use
-square brackets and list the row, followed by a comma, and the column:
+square brackets and list the row number, followed by a comma, and the column number:
 
 **Try it: Observe specific observation and column**
-```{r data-explore-index1, exercise=TRUE}
+```{r data-explore-index1, exercise=TRUE, exercise.cap="Interactive exercise: Observe a specific observation and column. Use the Run Code button to execute and see results."}
 unFBposts[3, 2]
 ```
 
@@ -995,7 +1031,7 @@ than the column number. The code below prints rows 10-15 of the variable
 **type**.
 
 **Try it: Observe observation and column**
-```{r data-explore-index2, exercise=TRUE}
+```{r data-explore-index2, exercise=TRUE, exercise.cap="Interactive exercise: Observe an observation and a column. Use the Run Code button to execute and see results."}
 unFBposts[10:15, "type"]
 ```
 
@@ -1020,7 +1056,7 @@ frequently this semester to identify cases (e.g., states or countries)
 that have the maximum value of a given variable!
 
 **Try it: Observe the entry with the maximum value of likes_count**
-```{r data-explore-index3, exercise=TRUE}
+```{r data-explore-index3, exercise=TRUE, exercise.cap="Interactive exercise: Observe the entry with the maximum value of likes_count. Use the Run Code button to execute and see results."}
 unFBposts$message[which(unFBposts$likes_count == max(unFBposts$likes_count, na.rm = TRUE))]
 ```
 
@@ -1035,7 +1071,7 @@ Let's dissect this code further.
 -   `unFBposts$likes_count == max_value`: Here **max_value** refers to
     the results of previous bullet point. After determining the maximum
     value, the code checks every entry in the **likes_count** column to
-    see which ones match this highest value. When you compare the entire
+    see which one(s) match this highest value. When you compare the entire
     column against this maximum value, you get a logical vector (i.e., a
     series of TRUE and FALSE values). Each TRUE indicates an entry where
     the number of likes matches the maximum value.
@@ -1052,7 +1088,7 @@ finding the message with the maximum number of shares using
 **shares_count**.
 
 **Practice: Observe the message with the most shares_counts**
-```{r data-explore-index4_1, exercise=TRUE}
+```{r data-explore-index4_1, exercise=TRUE, exercise.cap="Interactive exercise: Find the message with maximum shares using indexing. Enter your code and click Submit Answer. Four hints available."}
 
 ```
 
@@ -1065,13 +1101,13 @@ to find the row(s) where shares_count is at its maximum.
 ```{r data-explore-index4_1-hint-2}
 # Hint 2 of 4: Finding the maximum
 Use max(unFBposts$shares_count, na.rm = TRUE) to find the highest value of shares. 
-The na.rm = TRUE ensures missing values don't cause problems.
+The na.rm = TRUE ensures missing values do not cause problems.
 ```
 
 ```{r data-explore-index4_1-hint-3}
 # Hint 3 of 4: Creating the condition
 Compare unFBposts$shares_count to its maximum value using two equal signs (==). 
-This creates a logical condition that's TRUE where shares equals the maximum.
+This creates a logical condition that is TRUE where shares equals the maximum.
 ```
 
 ```{r data-explore-index4_1-hint-4}
@@ -1090,14 +1126,14 @@ shares associated with the **message** with the most shares we pass the
 same condition, but now as an index condition after **shares_counts**:
 
 **Try it: Identify the number of shares associated with the message with the maximum number of shares_count**
-```{r data-explore-index4_2, exercise=TRUE}
+```{r data-explore-index4_2, exercise=TRUE, exercise.cap="Interactive exercise: Identify the number of shares associated with the message with the maximum shares_count. Use the Run Code button to execute and see results."}
 unFBposts$shares_count[which(unFBposts$shares_count == max(unFBposts$shares_count, na.rm = TRUE))]
 ```
 
 Try finding the number of likes (**likes_count**) for that message:
 
 **Practice: Observe specific observation and column**
-```{r data-explore-index4_3, exercise=TRUE}
+```{r data-explore-index4_3, exercise=TRUE, exercise.cap="Interactive exercise: Observe a specific observation and column. Enter your code and click Submit Answer to check correctness. Three hints available."}
 ```
 
 ```{r data-explore-index4_3-hint-1}
@@ -1114,7 +1150,7 @@ that identifies the row with maximum shares.
 
 ```{r data-explore-index4_3-hint-3}
 # Hint 3 of 3: The condition
-The condition inside which() should still compare shares_count to its maximum value. You're using that 
+The condition inside which() should still compare shares_count to its maximum value. You are using that 
 to find the right row, then getting the likes_count value from that row.
 ```
 
@@ -1143,7 +1179,7 @@ in the data frame **unFBposts**. This code will not produce any output
 on your screen.
 
 **Try it: Create a new variable in unFBposts**
-```{r data-create-variable1, exercise=TRUE}
+```{r data-create-variable1, exercise=TRUE, exercise.cap="Interactive exercise: Create a new variable in unFBposts. Use the Run Code button to execute and see results."}
 unFBposts$like.or.share <- unFBposts$likes_count + unFBposts$shares_count
 ```
 
@@ -1151,7 +1187,7 @@ We can examine the first few values of this new variable using the
 `head()` function.
 
 **Try it: Observe first few values of like.or.share**
-```{r data-create-variable2, exercise=TRUE}
+```{r data-create-variable2, exercise=TRUE, exercise.cap="Interactive exercise: Observe the first few values of like.or.share. Use the Run Code button to execute and see results."}
 head(unFBposts$like.or.share)
 ```
 
@@ -1161,7 +1197,7 @@ types of attention paid to a post: likes (likes_count), shares
 the data frame **unFBposts** and list the first few values.
 
 **Practice: Create a new variable called attention in unFBposts**
-```{r data-create-variable, exercise=TRUE}
+```{r data-create-variable, exercise=TRUE, exercise.cap="Interactive exercise: Create a new variable called attention in unFBposts. Enter your code and click Submit Answer to check correctness. Three hints available."}
 
 ```
 
@@ -1209,7 +1245,7 @@ The following code saves **unFBposts** as an R data set, but it cannot
 be run from the tutorial.
 
 **Try it: Save the new data**
-```{r data-save, exercise=FALSE, eval=FALSE}
+```{r data-save, exercise=FALSE, eval=FALSE, exercise.cap="Interactive exercise: Save the new data. Use the Run Code button to execute and see results."}
 save(unFBposts, file = "/Users/sld8/Dropbox/PLSC309/MyDataFile.Rdata")
 ```
 
@@ -1227,7 +1263,7 @@ following questions.
 published in 2015? Recall that each row of the data frame **unFBposts** contains a
 post.
 
-```{r data-howmanyposts2, exercise=TRUE}
+```{r data-howmanyposts2, exercise=TRUE, exercise.cap="Interactive exercise: Determine the number of posts. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1255,7 +1291,7 @@ grade_code()
 2. What was the text of
 the first post ("message") in the data frame **unFBposts**?
 
-```{r text, exercise=TRUE}
+```{r text, exercise=TRUE, exercise.cap="Interactive exercise: Determine the text of the first post. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1283,7 +1319,7 @@ grade_code()
 3. How many likes
 ("likes_count") did posts in the data frame **unFBposts** receive on average?
 
-```{r likes, exercise=TRUE}
+```{r likes, exercise=TRUE, exercise.cap="Interactive exercise: Calculate the mean of likes. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1312,7 +1348,7 @@ grade_code()
 4. How many comments
 ("comments_count") did posts in the data frame **unFBposts** receive on average?
 
-```{r mean, exercise=TRUE}
+```{r mean, exercise=TRUE, exercise.cap="Interactive exercise: Calculate the mean of comments. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1342,7 +1378,7 @@ grade_code()
 5. How many shares
 ("shares_count") did posts in the data frame **unFBposts** receive on average?
 
-```{r shares, exercise=TRUE}
+```{r shares, exercise=TRUE, exercise.cap="Interactive exercise: Calculate the mean of shares. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1373,7 +1409,7 @@ grade_code()
 6. What was the largest
 number of shares ("shares_count") a post in the data frame **unFBposts** received?
 
-```{r max, exercise=TRUE}
+```{r max, exercise=TRUE, exercise.cap="Interactive exercise: Check the maximum of comments. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1402,7 +1438,7 @@ grade_code()
 7. What was the smallest number
 of likes ("likes_count") a post in the data frame **unFBposts** received?
 
-```{r min, exercise=TRUE}
+```{r min, exercise=TRUE, exercise.cap="Interactive exercise: Check the minimum of likes. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1431,7 +1467,7 @@ grade_code()
 8. What was the range of the
 number of shares ("shares_count") a post in the data frame **unFBposts** received?
 
-```{r range, exercise=TRUE}
+```{r range, exercise=TRUE, exercise.cap="Interactive exercise: Check the range of shares. Enter your code and click Submit Answer to check correctness. Two hints available."}
 
 ```
 
@@ -1527,8 +1563,15 @@ throughout the course. Master these fundamentals, as they form the
 building blocks for more sophisticated analytical techniques in upcoming
 tutorials.
 
-<p style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
-🎉 You've mastered the basics! 🎉
+<p role="status"
+   style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
+  <span aria-hidden="true">🎉</span>
+  <span
+    style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+           clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+    Success:
+  </span>
+  You've mastered the basics!
 </p>
 
 
