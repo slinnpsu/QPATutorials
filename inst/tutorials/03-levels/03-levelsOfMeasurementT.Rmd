@@ -361,7 +361,7 @@ knitr::opts_chunk$set(error = TRUE)
 
 The purpose of data analysis is to find meaning in data and use it to solve problems. In this class, we take data as given. Although there is an unbelievable amount of data at our disposal, how we make use of data depends on how well it measures the concepts we care about. Much effort in the research enterprise is devoted to creating measures of concepts and to gathering data to operationalize those measures. The results of those efforts are the data sets we will analyze in class.  The variables in these and other data sets are the building blocks for all analyses.
 
-What is a variable? A variable is an empirical measure of the characteristics central to a concept. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
+What is a variable? A [**variable**]{.important-text} is an empirical measure of the characteristics central to a concept. A variable has a name and must take multiple values (otherwise, it is a constant!). The values are typically numeric, even if those numbers stand-in for a label. Variables may be classified by their level of measurement.
 
 
 ## Levels of Measurement
@@ -390,7 +390,7 @@ question("Which of the following variables are nominal level measures?",
 )
 ```
 
-R has a special class of variable called a factor that may be used for nominal variables, but not all nominal variables will automatically be assigned this class.  When a nominal variable is a factor variable, R will know that the variable is nominal. This can come in handy when analyzing the data. 
+R has a special class of variable called a factor that may be used for nominal variables, but not all nominal variables will automatically be assigned this class.  When a nominal variable is a factor variable, R will know that the variable is nominal. This can come in handy when analyzing the data. (We will discuss factors more in a later tutorial.)
 
 ## Ordinal Variables
 
@@ -407,7 +407,7 @@ Most of the time, an ordinal variable will be coded with numeric rather than cha
 question("Which of the following variables are ordinal level measures?",
   answer("Whether Freedom House labels a country as free, partly free, or not free", correct = TRUE),
   answer("Whether a county's population is majority of white, Black, Hispanic or some other race", message = "Racial majority is a nominal variable, the categories cannot be rank-ordered."),
-  answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with the direction the country is headed", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categorie so this is therefore ordinal-level. The Likert scale assessing satisfaction with the direction the country is headed similarly denotes responses that can be ranked in order and is therefore measured at the ordinal level."),
+  answer("Whether an individual is very satisfied, somewhat satisfied, neither satistfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with the direction the country is headed", correct=TRUE, message="The values free, partly free, and not free constitute rank-ordered categories where the differences between categories are not equal, so this is therefore ordinal-level. The Likert scale assessing satisfaction with the direction the country is headed similarly denotes responses that can be ranked in order (but differences in rank order are not assumed to be equal) and is therefore measured at the ordinal level."),
   answer("A nation's level of inflation", message = "Inflation is not an ordinal variable because difference between the values of the variable are meaningful."),
   allow_retry = TRUE,
   try_again = "Hint: There are two ordinal variables in this list."
@@ -420,11 +420,11 @@ Note that both nominal and ordinal level variables are considered [**categorical
 
 ## Interval Variables
 
-[**An interval variable**]{.important-text} takes values that have a natural order [**and**]{.important-text} the differences between values are equal. Examples include anything measured in dollars, like GDP; percentages, like unemployment; or anything that you can count, like the number of terrorist acts.  
+An [**interval variable**]{.important-text} takes values that have a natural order **and** the differences between values are equal. Examples include anything measured in dollars, like GDP; percentages, like unemployment; or anything that you can count, like the number of terrorist acts.  
 
 A special type of interval variable, often given its own level of measurement, is a [**ratio variable**]{.important-text}. A ratio variable is a type of interval variable that has a natural zero point. Almost all the interval variables we work with in the social sciences are also ratio variables. For simplicity, we will simply refer to these variables as interval-level.
 
-Interval variables may be [**discrete**]{.important-text} or [**continuous**]{.important-text}. A variable measured in whole numbers is discrete. One measured in decimals is continuous. R refers to the variable type as int (for integer) if a variable is discrete and num (for numeric) if it is continuous.
+Interval variables may be [**discrete**]{.important-text} or [**continuous**]{.important-text}. A variable measured in whole numbers is discrete. One measured in decimals is continuous. R refers to the variable type as `int` (for integer) if a variable is discrete and `num` (for numeric) if it is continuous.
 
 **Try it: Identify the interval-level variables**
 ```{r interval-variable-question, echo=FALSE}

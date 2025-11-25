@@ -513,6 +513,7 @@ write_xlsx(tmp.df2, "example_data.xlsx")
 
 **Try it: Load the data and view the contents**
 ```{r data2-import-csv, exercise=TRUE, exercise.setup="data2-import-csv-setup", exercise.cap="Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results."}
+library(rio)
 df <- import("example_data.xlsx")
 df
 ```
@@ -521,7 +522,7 @@ df
 
 A Stata data file can be imported in the same manner. Stata data files
 will have a .dta extension. See if you can write the code to import
-"oilwomen.dta" without looking. Name your new object **oil** and then
+"oilwomen.dta" without looking. (Don't forget to load the [rio]{.package-name}.) Name your new object **oil** and then
 print it.
 
 
@@ -550,7 +551,7 @@ write_dta(tmp.df3, "oilwomen.dta")
 ```{r data3-import-csv-hint-1}
 # Hint 1 of 3: Similar to previous examples
 This follows the same pattern as importing the CSV and Excel files. Use the import() function 
-from the rio package with the filename.
+from the rio package with the filename. Don not forget to load rio wih the library() function!
 ```
 
 ```{r data3-import-csv-hint-2}
@@ -565,6 +566,7 @@ After importing and assigning to oil, type the object name on a second line to p
 ```
 
 ```{r data3-import-csv-solution}
+library(rio)
 oil <- import("oilwomen.dta")
 oil
 ```
@@ -576,7 +578,7 @@ grade_code()
 ### Tab-delimited files
 
 Surprise, if we have a tab-delimited data file, we do the same thing!
-Read in "turnout2.txt," assign it to the object **TO** and print it.
+Read in "turnout2.txt," assign it to the object **TO** and print it. You may assume the [rio]{.package-name} package is already loaded.
 
 ```{r data4-import-csv-setup}
 txt_data <- 'year\tVEP\tVAP\ttotal\tANES\tfelons\tnoncit\toverseas\tosvoters
@@ -672,7 +674,7 @@ This will open the data in a new window, which can make it easier to
 examine in full. No matter how you do so, it's a good idea to view your
 data frame to make sure you have loaded the data you intended. Note,
 however, that you cannot execute this function from within the tutorial.
-**We will not run this function.**
+**We will not run this function inside the tutorial.**
 
 
 ```{r data-structure-view, exercise=FALSE, eval=FALSE}
@@ -776,7 +778,7 @@ names(unFBposts)
 grade_code()
 ```
 
-Here is a short description of each variable in the data set.
+Here is a short description of each variable in the data set. Read it carefully to help you with the next exercises!
 
 <table id="post-fields-table" aria-labelledby="post-fields-caption">
   <caption id="post-fields-caption">
@@ -845,8 +847,7 @@ few observations.
 str(unFBposts)
 ```
 
-The letter abbreviations that appear to the right of the column names
-describe the type of data that is stored in each column of
+The letter abbreviations that appear to the right of the column names (after the colon) describe the type of data that is stored in each column of
 **unFBposts**. Possible types include:
 
 -   int: integers.
@@ -995,15 +996,15 @@ often, we will encounter variables that are missing a value for at least
 one entry.
 
 If there are missing values in a vector, we include `na.rm = TRUE` (TRUE
-must be all caps) as an argument to many functions to tell R to drop the
-cases with missing values before executing the function.
+must be all caps) as an argument to many functions to tell R to ignore the
+cases with missing values when executing the function.
 
 Let's calculate the mean number of shares for UN Facebook posts,
 allowing for missing values (there are not any so we would get the same
 value if we did not use this option but we would get an error if we omit
 the option when there are missing values).
 
-**Try it: Calculate the mean dropping NA values**
+**Try it: Calculate the mean ignoring NA values**
 ```{r data-handle-NAvalue, exercise=TRUE, exercise.cap="Interactive exercise: Calculate the mean while dropping NA values. Use the Run Code button to execute and see results."}
 mean(unFBposts$shares, na.rm = TRUE)
 ```
@@ -1015,7 +1016,7 @@ unlike with a vector, we have two dimensions, so we specify the row and
 column index of interest.
 
 For example, to see the 3rd row in the 2nd colum of **unFBposts** we use
-square brackets and list the row, followed by a comma, and the column:
+square brackets and list the row number, followed by a comma, and the column number:
 
 **Try it: Observe specific observation and column**
 ```{r data-explore-index1, exercise=TRUE, exercise.cap="Interactive exercise: Observe a specific observation and column. Use the Run Code button to execute and see results."}
@@ -1070,7 +1071,7 @@ Let's dissect this code further.
 -   `unFBposts$likes_count == max_value`: Here **max_value** refers to
     the results of previous bullet point. After determining the maximum
     value, the code checks every entry in the **likes_count** column to
-    see which ones match this highest value. When you compare the entire
+    see which one(s) match this highest value. When you compare the entire
     column against this maximum value, you get a logical vector (i.e., a
     series of TRUE and FALSE values). Each TRUE indicates an entry where
     the number of likes matches the maximum value.
@@ -1100,13 +1101,13 @@ to find the row(s) where shares_count is at its maximum.
 ```{r data-explore-index4_1-hint-2}
 # Hint 2 of 4: Finding the maximum
 Use max(unFBposts$shares_count, na.rm = TRUE) to find the highest value of shares. 
-The na.rm = TRUE ensures missing values don't cause problems.
+The na.rm = TRUE ensures missing values do not cause problems.
 ```
 
 ```{r data-explore-index4_1-hint-3}
 # Hint 3 of 4: Creating the condition
 Compare unFBposts$shares_count to its maximum value using two equal signs (==). 
-This creates a logical condition that's TRUE where shares equals the maximum.
+This creates a logical condition that is TRUE where shares equals the maximum.
 ```
 
 ```{r data-explore-index4_1-hint-4}
@@ -1149,7 +1150,7 @@ that identifies the row with maximum shares.
 
 ```{r data-explore-index4_3-hint-3}
 # Hint 3 of 3: The condition
-The condition inside which() should still compare shares_count to its maximum value. You're using that 
+The condition inside which() should still compare shares_count to its maximum value. You are using that 
 to find the right row, then getting the likes_count value from that row.
 ```
 
@@ -1562,8 +1563,15 @@ throughout the course. Master these fundamentals, as they form the
 building blocks for more sophisticated analytical techniques in upcoming
 tutorials.
 
-<p style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
-🎉 You've mastered the basics! 🎉
+<p role="status"
+   style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
+  <span aria-hidden="true">🎉</span>
+  <span
+    style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+           clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+    Success:
+  </span>
+  You've mastered the basics!
 </p>
 
 
