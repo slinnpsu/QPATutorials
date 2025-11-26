@@ -433,17 +433,23 @@ setInterval(function() {
 </script>
 <div id="section-learning-objectives" class="section level2">
 <h2>Learning Objectives</h2>
-<p>In this tutorial, you will learn how to describe an interval level
-variable using summary statistics and plots. Specifically, we will
-cover:</p>
+<p>In this tutorial, you will learn how to describe an <span
+class="important-text"><strong>interval level variable</strong></span>
+using summary statistics and plots. Specifically, we will cover:</p>
 <ul>
-<li>How to determine and describe the central tendency of an interval
-level variable</li>
+<li>How to determine and describe the <span
+class="important-text"><strong>central tendency</strong></span> of an
+interval level variable</li>
 <li>How to use the <code>mean()</code> function</li>
-<li>How to summarize the dispersion of an interval variable</li>
-<li>How to create histograms and box plots using <code>ggplot()</code>
-in the package <span style="color:DarkGreen">ggplot2</span> with
-<code>geom_histogram()</code> and <code>geom_boxplot()</code></li>
+<li>How to summarize the <span
+class="important-text"><strong>dispersion</strong></span> of an interval
+variable</li>
+<li>How to create <span
+class="important-text"><strong>histograms</strong></span> and
+[<strong>box plots</strong>}{.important-text} using
+<code>ggplot()</code> in the package <span
+class="package-name">ggplot2</span> with <code>geom_histogram()</code>
+and <code>geom_boxplot()</code></li>
 </ul>
 </div>
 <div id="section-univariate-description" class="section level2">
@@ -453,7 +459,8 @@ variables in our data, the first step in data analysis. We have covered
 methods for summarizing nominal and ordinal variables using the mode and
 median (for ordinal data but not nominal data), frequency and proportion
 distribution tables, and bar plots. In this lesson, we look at the tools
-available for describing interval variables.</p>
+available for describing <span class="important-text"><strong>interval
+variables</strong></span>.</p>
 <p><strong>Practice: Concept of Interval-level Variables</strong></p>
 <div class="panel panel-default tutorial-question-container">
 <div data-label="concepts-quiz-interval-level" class="tutorial-question panel-body">
@@ -466,11 +473,12 @@ available for describing interval variables.</p>
 </div>
 <div id="section-central-tendency" class="section level2">
 <h2>Central Tendency</h2>
-<p>We can calculate the central tendency of an interval variable using
-the mode, median, <em>and</em> mean. As we will see, the mode is
-typically not very informative, and the mean is highly sensitive to
-outliers (extreme values), but all three measures are appropriate for
-this level of measurement.</p>
+<p>We can calculate the [<strong>central
+tendency</strong>]{important-text} of an interval variable using the
+mode, median, <em>and</em> mean. As we will see, the mode is typically
+not very informative, and the mean is highly sensitive to outliers
+(extreme values), but all three measures are appropriate for this level
+of measurement.</p>
 <p>We’ve already discussed the median. The median is the value in the
 middle when we list all values in rank order for all cases. Thus it is
 the value at the 50th percentile: half the cases have values at or below
@@ -518,36 +526,48 @@ wage_growth</strong>
 data-label="Freq_Prop_table_for_wage_growth" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results. Five hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="Freq_Prop_table_for_wage_growth-hint-1" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Remember we start with the data frame name &#39;and then&#39; use
-group_by, summarise, and mutate in conjunction with the pipe
-operator.</code></pre>
+<pre class="text"><code># Hint 1 of 5
+Begin your pipeline by naming the counties data frame, and remember that each step should flow into 
+the next using the pipe operator to keep things organized and readable as you build the frequency 
+table.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="Freq_Prop_table_for_wage_growth-hint-2" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Have you passed the variable wage_growth to group_by?</code></pre>
+<pre class="text"><code># Hint 2 of 5
+Use group_by() to arrange the data by wage_growth so that all identical values are placed together   
+before you compute any summary measures for them.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="Freq_Prop_table_for_wage_growth-hint-3" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Have you calculated the frequencies using the summarise
-function and n()?</code></pre>
+<pre class="text"><code># Hint 3 of 5
+Within summarise(), create a new variable named freq that counts how many rows fall into each 
+wage_growth group, using n() to calculate those counts.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="Freq_Prop_table_for_wage_growth-hint-4" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Have you calculated the proportions using the mutate function
-to generate a new variable equal to the frequency variable
-divided by the sum of that variable?</code></pre>
+<pre class="text"><code># Hint 4 of 5
+After the frequency counts are established, apply mutate() to add a prop variable defined as freq 
+divided by the total sum of freq across all groups.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="Freq_Prop_table_for_wage_growth-hint-5" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 5 of 5
+Check that each operation -- group_by(), summarise(), and mutate() -- is linked with %&gt;% so the 
+code proceeds cleanly from the original data to the result.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="Freq_Prop_table_for_wage_growth-solution"
@@ -577,13 +597,31 @@ when we list all values in rank order for all cases – using the
 <div class="tutorial-exercise" data-label="compute_median_wage_growth"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE. Three hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
-data-label="compute_median_wage_growth-hint" data-completion="1"
+data-label="compute_median_wage_growth-hint-1" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Don&#39;t forget the na.rm argument</code></pre>
+<pre class="text"><code># Hint 1 of 3
+Begin by using the median() function, which identifies the middle value of a variable once all 
+observations have been sorted into rank order.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_median_wage_growth-hint-2" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+Inside median(), reference the wage_growth variable from the counties data frame using the $ notation 
+so the function knows which values to use.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_median_wage_growth-hint-3" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+Because the instructions specify handling missing values, include the na.rm = TRUE argument within 
+median() so any NA entries are ignored.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="compute_median_wage_growth-solution" data-completion="1"
@@ -610,7 +648,31 @@ function.</p>
 <div class="tutorial-exercise" data-label="compute_mean_wage_growth"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE. Three hints are available."}</script>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_mean_wage_growth-hint-1" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 1 of 3
+Begin by calling the mean() function, which computes the average value of a numeric variable by adding 
+all observations and dividing by the number of cases.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_mean_wage_growth-hint-2" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+Inside mean(), refer to the wage_growth variable from the counties data frame using the $ notation 
+so R knows exactly which values to include in the calculation.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_mean_wage_growth-hint-3" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+Because missing values must be excluded, include the na.rm = TRUE argument within mean() so that any 
+NA entries are ignored when the average is computed.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="compute_mean_wage_growth-solution" data-completion="1"
@@ -633,13 +695,31 @@ for the Democrat in a given county, in the data frame
 data-label="compute_mean_median_dem2p_percent" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="4"
 data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE. Three hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
-data-label="compute_mean_median_dem2p_percent-hint" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
-<pre class="text"><code>Don&#39;t forget to use na.rm inside your functions</code></pre>
+data-label="compute_mean_median_dem2p_percent-hint-1"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 1 of 3
+You will need to call both the median() and mean() functions, each on its own line, since the exercise 
+asks you to compute two different statistics for the dem2p_percent variable in the counties data frame.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_mean_median_dem2p_percent-hint-2"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+Inside each function, reference the dem2p_percent variable using the $ notation so that R knows to apply 
+the calculation to the correct set of values drawn from the counties data frame.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_mean_median_dem2p_percent-hint-3"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+Because missing values must be removed before either statistic is computed, include the na.rm = TRUE 
+argument within both median() and mean() so any NA entries are excluded from the calculations.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="compute_mean_median_dem2p_percent-solution"
@@ -688,7 +768,7 @@ calculates the minimum value of a variable, and the <code>max()</code>
 function calculates the maximum value. Each function is passed the name
 of the variable we are analyzing. If there are missing values, we need
 to include the <code>na.rm</code> argument and set it equal to
-<code>TRUE</code> so that R drops the values before computing the
+<code>TRUE</code> so that R ignores those values when computing the
 statistic.</p>
 <p>Let’s calculate the range of the values of
 <strong>wage_growth</strong> to determine just how poor wage growth was
@@ -702,7 +782,31 @@ most prosperous county. (Since wages can fall, wage growth need not be
 data-label="compute_range_min_max_wage_growth" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE. Three hints are available."}</script>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_range_min_max_wage_growth-hint-1"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 1 of 3
+You will need to call three different functions -- range(), min(), and max()—each on its own line so 
+that you clearly compute the overall spread, the lowest value, and the highest value of wage_growth.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_range_min_max_wage_growth-hint-2"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+Inside each function, reference the wage_growth variable from the counties data frame using the $ 
+notation so that R applies the calculations to the correct set of observations in the dataset.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="compute_range_min_max_wage_growth-hint-3"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+Because missing values must be excluded for accurate results, include the argument na.rm = TRUE in 
+all three function calls so that any NA entries are ignored during the computations.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="compute_range_min_max_wage_growth-solution"
@@ -747,10 +851,11 @@ percentile. These are the two values that determine the upper and lower
 bounds for the middle <span class="math inline">\(50\%\)</span> of the
 data.</p>
 <p>The 25th and 75th percentiles comprise what is known as the <span
-class="important-text">inter-quartile range</span> or [IQR]. The IQR,
-splits the variable’s values into four equal segments, or quartiles. The
-advantage of the IQR as a measure of spread over the range is that any
-extreme values do not effect the IQR.</p>
+class="important-text">inter-quartile range</span> or <span
+class="important-text"><strong>IQR</strong></span>. The IQR, splits the
+variable’s values into four equal segments, or quartiles. The advantage
+of the IQR as a measure of spread over the range is that any extreme
+values do not effect the IQR.</p>
 <div id="section-the-quantile-function" class="section level3">
 <h3>The quantile() function</h3>
 <p>We can calculate percentiles with the <code>quantile()</code>
@@ -808,19 +913,31 @@ frame <strong>counties</strong>. Enter the code using the
 data-label="calculate_percentile_employ_pop_ratio_25_64"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results. Three hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="calculate_percentile_employ_pop_ratio_25_64-hint-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Make sure whether you want the default settings or additional settings. </code></pre>
+<pre class="text"><code># Hint 1 of 3
+Begin by using the quantile() function, which returns the default set of percentiles when you 
+supply only the variable name without additional arguments such as probs for custom percentile values.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="calculate_percentile_employ_pop_ratio_25_64-hint-2"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Did you remember to include na.rm = TRUE?</code></pre>
+<pre class="text"><code># Hint 2 of 3
+Inside quantile(), reference the employ_pop_ratio_25_64 variable from the counties data frame 
+using the $ notation so that R applies the calculation to the correct values in this particular column.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="calculate_percentile_employ_pop_ratio_25_64-hint-3"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+Because missing values must be excluded before computing percentiles, be sure to include na.rm = TRUE 
+inside the quantile() call so that any NA entries are properly ignored in the calculation.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="calculate_percentile_employ_pop_ratio_25_64-solution"
@@ -864,10 +981,10 @@ class="math display">\[s=\sqrt{\frac{\Sigma_{i=1}^n({Y_i-\bar{Y}})^2}{n-1}}\]</s
 <p>Let’s pick this apart by considering an example where the variable of
 interest is the height of recent presidents. Below is a table listing
 the heights (in centimeters) of the 10 presidents from Johnson through
-Trump. In addition, the table presents the deviations in column three
-and deviations squared in column four that are given in the formula
-numerator above. The last row of the table sums the values in the
-column. Thus we have the building blocks to calculate the standard
+Trump’s first term. In addition, the table presents the deviations in
+column three and deviations squared in column four that are given in the
+formula numerator above. The last row of the table sums the values in
+the column. Thus we have the building blocks to calculate the standard
 deviation.</p>
 <table id="pres-stats-table" aria-labelledby="pres-stats-caption">
 <caption id="pres-stats-caption">
@@ -1051,8 +1168,8 @@ Y_i=184.7\)</span>
 </table>
 <p>Steps to calculate the standard deviation:</p>
 <ol style="list-style-type: decimal">
-<li>Calculate the deviation–how far above/below the mean: <span
-class="math inline">\((Y_i-\bar{Y})\)</span>– for each observation
+<li>Calculate the deviation — how far above/below the mean: <span
+class="math inline">\((Y_i-\bar{Y})\)</span> — for each observation
 (column three). Observations below the mean have negative deviations and
 above the mean have positive deviations. If the variable is not very
 dispersed, the deviations will be close to the mean. Bigger deviations
@@ -1107,7 +1224,7 @@ together illustrate <span class="math inline">\(\bar{Y}-2s\)</span> and
 <span class="math inline">\(\bar{Y}+2s\)</span>; and the blue part
 extends to <span class="math inline">\(\bar{Y}-3s\)</span> and <span
 class="math inline">\(\bar{Y}+3s\)</span>. The distribution on the left
-illustrates a smaller standard deviation while that on the left has a
+illustrates a smaller standard deviation while that on the right has a
 larger standard deviation. As you can see, the observations are
 clustered closer to the mean in the left-hand plot and further from the
 mean in the right-hand plot.</p>
@@ -1128,26 +1245,41 @@ data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>sd(counties$wage_growth, na.rm = TRUE)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise:  Calculate standard deviation for wage_growth, Use the Run Code button to execute and see results."}</script>
 </div>
-<p>The standard deviation tells us the most of the observations are
-within <span class="math inline">\(4.68\)</span> percentage points of
-the mean, which was <span class="math inline">\(4.33\)</span>. The
-empirical rule tells us that (if the data is normally distributed) more
-than half of the observations are between the mean minus the standard
-deviation and the mean plus the standard deviation: <span
-class="math inline">\(4.33-4.68=-0.35\)</span> and <span
-class="math inline">\(4.33+4.68=9.01\)</span>. Over <span
-class="math inline">\(95\%\)</span> ofthe observations are plus or minus
-two standard deviations of the mean or between <span
-class="math inline">\(4.33-4.68*2=-5.03\)</span> and <span
-class="math inline">\(4.33+4.68*2=13.69\)</span>. Nearly all the
-observations are between <span
-class="math inline">\(4.33-4.68*3=-9.71\)</span> and <span
-class="math inline">\(4.33+4.68*3=18.37\)</span>. This suggests the
-observations with the minimum and maximum values (<span
-class="math inline">\(-69.39\)</span> and <span
-class="math inline">\(62.56\)</span>) are outliers, which we should
-investigate further. They may be data errors or they simply be atypical
-counties.</p>
+<p>If the distribution of wage growth were approximately normal, we
+could use the Empirical Rule to understand how most counties compare to
+the average. With a mean of 4.33 and a standard deviation of 4.68, we
+calculate the ranges by adding and subtracting one, two, and three
+standard deviations from the mean:</p>
+<ul>
+<li><strong>One standard deviation from the mean (about 68% of
+counties):</strong>
+<ul>
+<li>Mean − SD: 4.33 − 4.68 = <strong>−0.35</strong></li>
+<li>Mean + SD: 4.33 + 4.68 = <strong>9.01</strong></li>
+<li>So roughly two-thirds of counties have wage growth between
+<strong>−0.35% and 9.01%</strong>.</li>
+</ul></li>
+<li><strong>Two standard deviations from the mean (about 95% of
+counties):</strong>
+<ul>
+<li>Mean − 2×SD: 4.33 − 9.36 = <strong>−5.03</strong></li>
+<li>Mean + 2×SD: 4.33 + 9.36 = <strong>13.69</strong></li>
+<li>So almost all counties fall between <strong>−5.03% and
+13.69%</strong>.</li>
+</ul></li>
+<li><strong>Three standard deviations from the mean (over 99% of
+counties):</strong>
+<ul>
+<li>Mean − 3×SD: 4.33 − 14.04 = <strong>−9.71</strong></li>
+<li>Mean + 3×SD: 4.33 + 14.04 = <strong>18.37</strong></li>
+<li>Under a roughly normal distribution, nearly every county would lie
+between <strong>−9.71% and 18.37%</strong>.</li>
+</ul></li>
+</ul>
+<p>However, the actual minimum and maximum values in the data are
+−69.39% and 62.56%, which are far outside these ranges. That suggests
+there may be outliers — counties with very unusual wage-growth patterns
+or possible data errors that deserve closer attention.</p>
 </div>
 </div>
 <div id="section-the-shape-of-the-distribution" class="section level2">
@@ -1239,19 +1371,25 @@ data-lines="0" data-pipe="|&gt;">
               x = NULL, 
               y = &quot;Frequency&quot;, 
               caption = &quot;Linn, Nagler, and Zilinsky&quot;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders. Two hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="generate_histogram_wage_growth_custom_bin-hint-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>To set a custom bin width, we use bins = (numbers you want). </code></pre>
+<pre class="text"><code># Hint 1 of 2
+Inside geom_histogram(), you need to specify the number of bins you want 
+ggplot() to use. Add the bins argument and set it equal to 50, exactly as 
+the prompt requests for this customized histogram.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="generate_histogram_wage_growth_custom_bin-hint-2"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Did you enter bins = 50 inside geom_histogram()?</code></pre>
+<pre class="text"><code># Hint 2 of 2
+Remember that the bins argument must appear inside geom_histogram() along 
+with the color setting. Keep color = &quot;white&quot; as it is, and then include a 
+comma followed by bins = 50 so both options are applied to the histogram.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="generate_histogram_wage_growth_custom_bin-solution"
@@ -1264,6 +1402,14 @@ data-lines="0" data-pipe="|&gt;">
               y = &quot;Frequency&quot;, 
               caption = &quot;Linn, Nagler, and Zilinsky&quot;)</code></pre>
 </div>
+<p>Changing the number of bins changes how the data are grouped, which
+can noticeably alter the appearance of the histogram. With too few bins,
+the histogram can hide important features of the distribution because
+each bar covers a wide range of values. With too many bins, the plot can
+look noisy, making it difficult to see the overall pattern. Adjusting
+the number of bins helps you balance detail and readability so the
+histogram shows the meaningful structure in the data without
+overwhelming the viewer.</p>
 <p>Alternatively, you can control the width of the bin. This sets the
 range of values covered by a bin. If a variable takes values that range
 from, for example, 0 to 100, we might want each bin to cover 10 units.
@@ -1348,10 +1494,17 @@ is a little more complicated.</p>
 <ol style="list-style-type: decimal">
 <li>The first argument is the name of the geom to use for annotation and
 is set to <code>"text".</code></li>
-<li>The <code>x</code> and <code>y</code> arguments give the positions
-in terms of the x-axis and y-axis scale to place the middle of the
-annotation. You often have to play with this to find just the right
-place.</li>
+<li>The <code>x</code> and <code>y</code> arguments give the exact
+positions—along the x-axis and y-axis—where the center of your text
+label will appear. To choose reasonable values, first look at the plot
+and find the approximate location of the vertical line you are labeling;
+your <code>x</code> value should be close to that location so the text
+sits near the line. The <code>y</code> value should be high enough that
+the label sits above the tallest bars in the histogram, but not so high
+that it appears outside the visible plotting area. In practice, you
+often need to try out several combinations of <code>x</code> and
+<code>y</code> values until the label is clearly visible and does not
+overlap with the bars.</li>
 <li>The <code>label</code> argument provides the label for the
 annotation. Here we paste together the word <code>"Median="</code> with
 the R expression to calculate the median. Note that you have to give the
@@ -1384,7 +1537,25 @@ data-lines="0" data-pipe="|&gt;">
               x = NULL, 
               y = &quot;Frequency&quot;, 
               caption = &quot;Linn, Nagler, and Zilinsky&quot;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Add a dotted red median line and text on the histogram."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Add a dotted red median line and text on the histogram. Two hints are available."}</script>
+</div>
+<div class="tutorial-exercise-support"
+data-label="plot_vertical_and_text-hint-1" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 1 of 2
+Inside geom_vline(), use the mean() function with na.rm = TRUE so the dotted 
+vertical line is positioned at the correct average wage_growth value based on 
+all non-missing observations in the dataset.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="plot_vertical_and_text-hint-2" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 2
+For the annotate() layer, choose x and y coordinates that place the text close 
+to the dotted line at a readable height above the bars; you may need to try 
+several values to find a clear location that avoids overlapping the histogram.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="plot_vertical_and_text-solution" data-completion="1"
@@ -1417,7 +1588,7 @@ use <code>geom_boxplot()</code> rather than
 <code>geom_histogram()</code>.</p>
 <p>Let’s plot the percent of working-age adults. Recall this variable is
 named <strong>employ_pop_ratio_25_64</strong>.</p>
-<strong>Try it: plot tge distribution of the employment to population
+<strong>Try it: plot the distribution of the employment to population
 ratio using boxplot</strong>
 <div class="tutorial-exercise" data-label="boxplot_employment_ratio"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -1448,9 +1619,11 @@ employed. Longer boxes would indicate more variability.</li>
 and tops of the boxes and represent points less than the 25th percentile
 and greater than the 75th percentiles, respectively. They’re set to
 extend out no more than 1.5 × IQR units away from either end of the
-boxes. Longer whiskers indicate more variability.</li>
+boxes. If there are no observations that far out, the whiskers end at
+the nearest extreme data point. Longer whiskers indicate more
+variability.</li>
 <li>Observations outside that range – beyond 1.5 × IQR from the box –
-are indicated by circles. The circlies represent outliers or unusual
+are indicated by circles. The circles represent outliers or unusual
 values. Here we see that several counties have more than <span
 class="math inline">\(100\%\)</span> of adults age 25-54 who are
 employed. (These counties must be “importing” workers from other
@@ -1463,58 +1636,55 @@ counties.)</li>
 <strong>counties</strong> and describe the distribution. Recall this
 variable is the percent of the-two party vote cast for the Democrat in a
 given county.</p>
-<p>Try to produce a histogram without looking at the hints! Outline the
-bars in blue If you are feeling like a challenge, add a red dashed line
-for the median and red dotted line for the mean value to the plot and
-label them.</p>
+<p>Start by producing a histogram with blue outlines. Then add a
+vertical line for the median value and label it in red. Use a dotted red
+line to distinguish it clearly from the bars, and adjust the x and y
+coordinates in your annotation so the label appears close to the line
+and above the bars.</p>
 <strong>Practice: Histogram Plot for dem2p_percent (blue outlines,
 optional mean/median lines)</strong>
 <div class="tutorial-exercise" data-label="histogram_dem2p_percent"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels. Four hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="histogram_dem2p_percent-hint-1" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Begin by calling ggplot, identifying the data, and mapping dem2p_percent
-to the x axis using the aes function.</code></pre>
+<pre class="text"><code># Hint 1 of 4
+Begin by calling ggplot(), identify the counties data frame, and map 
+dem2p_percent to the x-axis inside aes() so the histogram displays the 
+distribution of the Democratic vote share. Be sure to end the line with a +
+to add the geom layer on the following line.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="histogram_dem2p_percent-hint-2" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Add a geom layer using the plus sign</code></pre>
+<pre class="text"><code># Hint 2 of 4
+Add geom_histogram() with color = &quot;blue&quot; to outline the bars, and end the 
+line with a + so you can add the vertical median line and annotation in the 
+layers that follow.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="histogram_dem2p_percent-hint-3" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Did you add labels?</code></pre>
+<pre class="text"><code># Hint 3 of 4
+Add a vertical reference line using geom_vline() and set xintercept equal 
+to median(dem2p_percent, na.rm = TRUE); keep color = &quot;red&quot; outside aes() 
+and set linetype = &quot;dotted&quot; so the line stands out clearly.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="histogram_dem2p_percent-hint-4" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>Add geom_vline and use the aes() function to specify xintercept.
-Specify the mean and don&#39;t forget na.rm = TRUE. If you want to make
-the line red, set color = &quot;red&quot; outside the aes() function. If you want
-to make the line dashed, set linetype = &quot;dashed&quot;.</code></pre>
-</div>
-<div class="tutorial-exercise-support"
-data-label="histogram_dem2p_percent-hint-5" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
-<pre class="text"><code>To annote the line, add the annotate() function, specify &quot;text&quot;, x = some x-axis value
-and y = some y-axis value. End with label = paste0(&quot;Mean=&quot; the mean function.)
-I&#39;ve rounded in the solution using the round() function.</code></pre>
-</div>
-<div class="tutorial-exercise-support"
-data-label="histogram_dem2p_percent-hint-6" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
-<pre class="text"><code>Repeat for the median.</code></pre>
+<pre class="text"><code># Hint 4 of 4
+Use annotate(&quot;text&quot;, ...) to label the median line; choose x and y values 
+that place the text near the dotted line and above the bars, and use 
+paste0() with round(median(...), digits) to display a clean rounded value 
+in the label.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="histogram_dem2p_percent-solution" data-completion="1"
@@ -1522,11 +1692,7 @@ data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code>ggplot(data = counties,  mapping = aes(x = dem2p_percent)) +
          geom_histogram(color = &quot;blue&quot;) +
-         geom_vline(aes(xintercept = mean(dem2p_percent, na.rm = TRUE)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-         annotate(&quot;text&quot;, x = 43, y = 275, 
-                  label = paste0(&quot;Mean = &quot;, 
-                                 round(mean(counties$dem2p_percent, na.rm = TRUE), 1))) +
-          geom_vline(aes(xintercept = median(dem2p_percent, na.rm = TRUE)), color = &quot;red&quot;, linetype = &quot;dotted&quot;) +
+         geom_vline(aes(xintercept = median(dem2p_percent, na.rm = TRUE)), color = &quot;red&quot;, linetype = &quot;dotted&quot;) +
          annotate(&quot;text&quot;, x = 20, y = 350, 
                   label = paste0(&quot;Median = &quot;, 
                                  round(median(counties$dem2p_percent, na.rm=TRUE), 1))) +
@@ -1537,8 +1703,11 @@ data-pipe="|&gt;">
               y = &quot;Frequency&quot;, 
               caption = &quot;Linn, Nagler, and Zilinsky&quot;)</code></pre>
 </div>
-<p>The shape of this distribution is right-skewed. Fewer counties cast
-large percentages of their vote for Clinton than did for Trump.</p>
+<p>The distribution is clearly <strong>right-skewed</strong>. A large
+concentration of counties have Democratic vote shares well below the
+median, while fewer counties gave high vote shares to the Democratic
+candidate. The long right tail shows that only a small subset of
+counties cast very large percentages of their votes for Clinton.</p>
 </div>
 </div>
 <div id="section-the-takeaways" class="section level2">
@@ -1560,7 +1729,8 @@ measurement of the variable you wish to describe. The information here
 describes what is appropriate for interval variables.</p>
 <ol style="list-style-type: lower-alpha">
 <li>The <span class="important-text"><strong>mode</strong></span> is not
-typically a useful measure of <strong>central tendency</strong> for an
+typically a useful measure of <span
+class="important-text"><strong>central tendency</strong></span> for an
 interval variable. Instead, we use the <span
 class="important-text"><strong>median</strong></span> and <span
 class="important-text"><strong>mean</strong></span>. The median value
@@ -1596,14 +1766,30 @@ choice depends on the main feature or features of the data and what you
 wish to emphasize. If the variable plays a central role in your research
 question, more information is better. Often a plot, perhaps including
 the median/mean, accompanied by some text is all that is required.</p>
-<p><img src="images/UnivariateInterval.png" style="width:70.0%"
-fig.alt="Infographic titled ‘Interval Level Variable’ with a left sidebar listing Central Tendency, Dispersion, Distribution Shape, and Visualization. The main panel shows four stacked blue boxes: Central Tendency—Mode, Median*, Mean**; Dispersion—Range, Percentiles (IQR), Standard Deviation, Variance; Distribution Shape—Unimodal, Bimodal, Multimodal, Uniform, Symmetric, Skewed, Normal; Visualization—Histogram, Box Plot." /></p>
 </div>
-<div id="section-pulling-what-weve-learned-together-we-have"
+<div id="section-pulling-what-weve-learned-together."
 class="section level2">
-<h2>Pulling what we’ve learned together, we have…</h2>
-<p><img src="images/UnivariateDescription.jpg" style="width:70.0%"
-fig.alt="Infographic titled ‘Univariate Description’ with a left sidebar listing Central Tendency, Dispersion, Distribution Shape, and Visualization. Three main panels show stacked blue boxes: Interval Level Variable—Central Tendency (Mode, Median*, Mean**), Dispersion (Range, Percentiles/IQR, Standard Deviation, Variance), Distribution Shape (Unimodal, Bimodal, Multimodal, Uniform, Symmetric, Skewed, Normal), Visualization (Histogram, Box Plot); Nominal Level Variable—Central Tendency (Mode), Dispersion (Frequency or Proportion Distribution), Distribution Shape (Unimodal, Bimodal, Multimodal, Uniform), Visualization (Bar Plot of Frequencies or Proportions); Ordinal Level Variable—Central Tendency (Mode, Median), Dispersion (Frequency or Proportion Distribution), Distribution Shape (Unimodal, Bimodal, Multimodal, Uniform), Visualization (Bar Plot of Frequencies or Proportions)." /></p>
+<h2>Pulling what we’ve learned together.</h2>
+<p>The figure below brings together the tools you’ve learned for
+describing <span class="important-text"><strong>nominal</strong></span>,
+<span class="important-text"><strong>ordinal</strong></span>, and <span
+class="important-text"><strong>interval variables</strong></span>.
+Although all three levels of measurement rely on the same broad ideas —
+<span class="important-text"><strong>central tendency</strong></span>,
+<span class="important-text"><strong>dispersion</strong></span>, and the
+<span class="important-text"><strong>shape of the
+distribution</strong></span> — the specific statistics and
+visualizations that are appropriate differ across levels. Nominal
+variables are summarized primarily with modes and frequency
+distributions; ordinal variables add the median as a meaningful summary;
+and interval variables allow the richest set of tools, including the
+mean, median, standard deviation, percentiles, histograms, and box
+plots. The choices you make in practice should depend on the role a
+variable plays in your research question and what aspects of the
+distribution you wish to emphasize. The chart provides a compact
+reference that summarizes these options and can help guide you as you
+decide how best to describe your data in applied work.</p>
+<p><img src="images/univariate_description-4.png" alt="Infographic titled 'Univariate Description'. Left sidebar lists Central Tendency, Dispersion, Distribution Shape, and Visualization. Three main panels show stacked blue boxes for interval, nominal, and ordinal level variables with their recommended measures of central tendency, dispersion, distribution shape, and visualization." width="95%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="section-test-your-knowledge" class="section level2">
 <h2>Test your Knowledge</h2>
@@ -1677,28 +1863,28 @@ session$onSessionEnded(function() {
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "concepts-quiz-interval-level", 
     question = structure("Which of the following variables are interval level measures?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_4179874", 
+    "character")), answers = list(structure(list(id = "lnr_ans_c131d16", 
         option = "The number of terrorist acts in the Middle East in a given year", 
         value = "The number of terrorist acts in the Middle East in a given year", 
         label = structure("The number of terrorist acts in the Middle East in a given year", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_117f19", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_99d592e", 
         option = "The poverty rate in a country", value = "The poverty rate in a country", 
         label = structure("The poverty rate in a country", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1468d35", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_dffcd17", 
         option = "The number of COVID-19 cases daily worldwide", 
         value = "The number of COVID-19 cases daily worldwide", 
         label = structure("The number of COVID-19 cases daily worldwide", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Number of terrorist acts, poverty rate, and the number of COVID-19 cases are interval level because values are ranked and difference between them always mean the same thing.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d76ee9f", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_97a24f6", 
         option = "Individual ideology measured on a scale of 1 to 7 from very liberal to very conservative", 
         value = "Individual ideology measured on a scale of 1 to 7 from very liberal to very conservative", 
         label = structure("Individual ideology measured on a scale of 1 to 7 from very liberal to very conservative", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Ideology is an ordinal variable with ranked differences that are not necessarily equal across the scale", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2d8e4a3", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_a67bbbb", 
         option = "The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", 
         value = "The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", 
         label = structure("The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", html = TRUE, class = c("html", 
@@ -1712,7 +1898,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "concepts-quiz-interval-level-answer", question = "concepts-quiz-interval-level"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1051813386.51021, options = list()), class = c("learnr_checkbox", 
+    seed = 803779579.625711, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -1734,7 +1920,7 @@ learnr:::store_exercise_cache(structure(list(label = "Freq_Prop_table_for_wage_g
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "Freq_Prop_table_for_wage_growth", 
         code = "", opts = list(label = "\"Freq_Prop_table_for_wage_growth\"", 
-            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results.\""), 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results. Five hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "Freq_Prop_table_for_wage_growth-check")), 
     solution = structure(c("library(dplyr)", "counties %>%", 
@@ -1759,8 +1945,8 @@ learnr:::store_exercise_cache(structure(list(label = "Freq_Prop_table_for_wage_g
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "Freq_Prop_table_for_wage_growth", exercise = TRUE, 
-        exercise.cap = "Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "Freq_Prop_table_for_wage_growth, exercise = TRUE, exercise.cap=\"Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results.\"", 
+        exercise.cap = "Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results. Five hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "Freq_Prop_table_for_wage_growth, exercise = TRUE, exercise.cap=\"Interactive exercise: Build a frequency and proportion table for wage_growth (freq and prop). Use the Run Code button to execute and see results. Five hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1783,7 +1969,7 @@ learnr:::store_exercise_cache(structure(list(label = "compute_median_wage_growth
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "compute_median_wage_growth", 
         code = "", opts = list(label = "\"compute_median_wage_growth\"", 
-            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE.\""), 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "compute_median_wage_growth-check")), 
     solution = structure("median(counties$wage_growth, na.rm = TRUE)", chunk_opts = list(
@@ -1807,8 +1993,8 @@ learnr:::store_exercise_cache(structure(list(label = "compute_median_wage_growth
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "compute_median_wage_growth", exercise = TRUE, 
-        exercise.cap = "Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_median_wage_growth, exercise = TRUE,exercise.cap=\"Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE.\"", 
+        exercise.cap = "Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE. Three hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_median_wage_growth, exercise = TRUE,exercise.cap=\"Interactive exercise: Compute the median of wage_growth. Use na.rm = TRUE. Three hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1831,7 +2017,7 @@ learnr:::store_exercise_cache(structure(list(label = "compute_mean_wage_growth",
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "compute_mean_wage_growth", code = "", 
         opts = list(label = "\"compute_mean_wage_growth\"", exercise = "TRUE", 
-            exercise.cap = "\"Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE.\""), 
+            exercise.cap = "\"Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "compute_mean_wage_growth-check")), 
     solution = structure("mean(counties$wage_growth, na.rm = TRUE)", chunk_opts = list(
@@ -1855,8 +2041,8 @@ learnr:::store_exercise_cache(structure(list(label = "compute_mean_wage_growth",
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "compute_mean_wage_growth", exercise = TRUE, 
-        exercise.cap = "Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_mean_wage_growth, exercise = TRUE,exercise.cap=\"Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE.\"", 
+        exercise.cap = "Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE. Three hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_mean_wage_growth, exercise = TRUE,exercise.cap=\"Interactive exercise: Compute the mean of wage_growth Use na.rm = TRUE. Three hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1879,7 +2065,7 @@ learnr:::store_exercise_cache(structure(list(label = "compute_mean_median_dem2p_
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "compute_mean_median_dem2p_percent", 
         code = "", opts = list(label = "\"compute_mean_median_dem2p_percent\"", 
-            exercise = "TRUE", exercise.lines = "4", exercise.cap = "\"Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE.\""), 
+            exercise = "TRUE", exercise.lines = "4", exercise.cap = "\"Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "compute_mean_median_dem2p_percent-check")), 
     solution = structure(c("median(counties$dem2p_percent, na.rm = TRUE)", 
@@ -1904,8 +2090,8 @@ learnr:::store_exercise_cache(structure(list(label = "compute_mean_median_dem2p_
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "compute_mean_median_dem2p_percent", exercise = TRUE, 
-        exercise.lines = 4, exercise.cap = "Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_mean_median_dem2p_percent, exercise = TRUE, exercise.lines=4,exercise.cap=\"Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE.\"", 
+        exercise.lines = 4, exercise.cap = "Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE. Three hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_mean_median_dem2p_percent, exercise = TRUE, exercise.lines=4,exercise.cap=\"Interactive exercise: Compute the median and mean of dem2p_percent. Use na.rm = TRUE. Three hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1928,7 +2114,7 @@ learnr:::store_exercise_cache(structure(list(label = "compute_range_min_max_wage
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "compute_range_min_max_wage_growth", 
         code = "", opts = list(label = "\"compute_range_min_max_wage_growth\"", 
-            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE.\""), 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "compute_range_min_max_wage_growth-check")), 
     solution = structure(c("range(counties$wage_growth, na.rm = TRUE)", 
@@ -1953,8 +2139,8 @@ learnr:::store_exercise_cache(structure(list(label = "compute_range_min_max_wage
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "compute_range_min_max_wage_growth", exercise = TRUE, 
-        exercise.cap = "Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_range_min_max_wage_growth, exercise = TRUE,exercise.cap=\"Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE.\"", 
+        exercise.cap = "Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE. Three hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "compute_range_min_max_wage_growth, exercise = TRUE,exercise.cap=\"Interactive exercise: Compute range(), min(), and max() for wage_growth. Use na.rm = TRUE. Three hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -2076,7 +2262,7 @@ learnr:::store_exercise_cache(structure(list(label = "calculate_percentile_emplo
         label = "setup", include = FALSE)), setup = NULL, chunks = list(
         list(label = "calculate_percentile_employ_pop_ratio_25_64", 
             code = "", opts = list(label = "\"calculate_percentile_employ_pop_ratio_25_64\"", 
-                exercise = "TRUE", exercise.cap = "\"Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results.\""), 
+                exercise = "TRUE", exercise.cap = "\"Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results. Three hints are available.\""), 
             engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "calculate_percentile_employ_pop_ratio_25_64-check")), 
     solution = structure("quantile(counties$employ_pop_ratio_25_64, na.rm = TRUE)", chunk_opts = list(
@@ -2100,8 +2286,8 @@ learnr:::store_exercise_cache(structure(list(label = "calculate_percentile_emplo
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "calculate_percentile_employ_pop_ratio_25_64", 
-        exercise = TRUE, exercise.cap = "Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "calculate_percentile_employ_pop_ratio_25_64, exercise=TRUE,exercise.cap=\"Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results.\"", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results. Three hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "calculate_percentile_employ_pop_ratio_25_64, exercise=TRUE,exercise.cap=\"Interactive exercise: List the default quantiles for employ_pop_ratio_25_64. Use the Run Code button to execute and see results. Three hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -2274,7 +2460,7 @@ learnr:::store_exercise_cache(structure(list(label = "generate_histogram_wage_gr
         list(label = "generate_histogram_wage_growth_custom_bin", 
             code = "ggplot(data = counties,  mapping = aes(x = wage_growth)) +\n         geom_histogram(color = \"white\", XXXX = XXXX) +\n         labs(title = \"Wage Growth in US Counties in 2016\", \n              x = NULL, \n              y = \"Frequency\", \n              caption = \"Linn, Nagler, and Zilinsky\")", 
             opts = list(label = "\"generate_histogram_wage_growth_custom_bin\"", 
-                exercise = "TRUE", exercise.cap = "\"Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders.\""), 
+                exercise = "TRUE", exercise.cap = "\"Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders. Two hints are available.\""), 
             engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "generate_histogram_wage_growth_custom_bin-check")), 
     solution = structure(c("ggplot(data = counties,  mapping = aes(x = wage_growth)) +", 
@@ -2302,13 +2488,13 @@ learnr:::store_exercise_cache(structure(list(label = "generate_histogram_wage_gr
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "generate_histogram_wage_growth_custom_bin", 
-        exercise = TRUE, exercise.cap = "Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders.", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders. Two hints are available.", 
         code = c("ggplot(data = counties,  mapping = aes(x = wage_growth)) +", 
         "         geom_histogram(color = \"white\", XXXX = XXXX) +", 
         "         labs(title = \"Wage Growth in US Counties in 2016\", ", 
         "              x = NULL, ", "              y = \"Frequency\", ", 
         "              caption = \"Linn, Nagler, and Zilinsky\")"
-        ), out.width.px = 624, out.height.px = 384, params.src = "generate_histogram_wage_growth_custom_bin, exercise=TRUE,exercise.cap=\"Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders.\"", 
+        ), out.width.px = 624, out.height.px = 384, params.src = "generate_histogram_wage_growth_custom_bin, exercise=TRUE,exercise.cap=\"Interactive exercise: Generate a histogram of wage_growth with 50 bins and white borders. Two hints are available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -2435,7 +2621,7 @@ learnr:::store_exercise_cache(structure(list(label = "plot_vertical_and_text", g
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "plot_vertical_and_text", code = "ggplot(data = counties,  mapping = aes(x = wage_growth)) +\n         geom_histogram(color = \"white\", bins = 60) +\n         geom_vline(aes(xintercept = XXXX(XXXX)), color = \"red\", linetype = \"dotted\") +\n         annotate(\"text\", x = XXXX, y = XXXX, \n                  label = paste0(\"Mean = \", \n                                 round(mean(counties$wage_growth, na.rm = TRUE), 3))) +\n         labs(title = \"Wage Growth in US Counties in 2016\", \n              x = NULL, \n              y = \"Frequency\", \n              caption = \"Linn, Nagler, and Zilinsky\")", 
         opts = list(label = "\"plot_vertical_and_text\"", exercise = "TRUE", 
-            exercise.cap = "\"Interactive exercise: Add a dotted red median line and text on the histogram.\""), 
+            exercise.cap = "\"Interactive exercise: Add a dotted red median line and text on the histogram. Two hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = structure(c("ggplot(data = counties,  mapping = aes(x = wage_growth)) +", 
     "         geom_histogram(color = \"white\", bins = 60) +", 
@@ -2464,7 +2650,7 @@ learnr:::store_exercise_cache(structure(list(label = "plot_vertical_and_text", g
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "plot_vertical_and_text", exercise = TRUE, exercise.cap = "Interactive exercise: Add a dotted red median line and text on the histogram.", 
+        label = "plot_vertical_and_text", exercise = TRUE, exercise.cap = "Interactive exercise: Add a dotted red median line and text on the histogram. Two hints are available.", 
         code = c("ggplot(data = counties,  mapping = aes(x = wage_growth)) +", 
         "         geom_histogram(color = \"white\", bins = 60) +", 
         "         geom_vline(aes(xintercept = XXXX(XXXX)), color = \"red\", linetype = \"dotted\") +", 
@@ -2473,7 +2659,7 @@ learnr:::store_exercise_cache(structure(list(label = "plot_vertical_and_text", g
         "         labs(title = \"Wage Growth in US Counties in 2016\", ", 
         "              x = NULL, ", "              y = \"Frequency\", ", 
         "              caption = \"Linn, Nagler, and Zilinsky\")"
-        ), out.width.px = 624, out.height.px = 384, params.src = "plot_vertical_and_text, exercise=TRUE,exercise.cap=\"Interactive exercise: Add a dotted red median line and text on the histogram.\"", 
+        ), out.width.px = 624, out.height.px = 384, params.src = "plot_vertical_and_text, exercise=TRUE,exercise.cap=\"Interactive exercise: Add a dotted red median line and text on the histogram. Two hints are available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -2545,13 +2731,10 @@ learnr:::store_exercise_cache(structure(list(label = "histogram_dem2p_percent", 
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
     chunks = list(list(label = "histogram_dem2p_percent", code = "", 
         opts = list(label = "\"histogram_dem2p_percent\"", exercise = "TRUE", 
-            exercise.cap = "\"Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels.\""), 
+            exercise.cap = "\"Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels. Four hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = structure(c("ggplot(data = counties,  mapping = aes(x = dem2p_percent)) +", 
-    "         geom_histogram(color = \"blue\") +", "         geom_vline(aes(xintercept = mean(dem2p_percent, na.rm = TRUE)), color = \"red\", linetype = \"dashed\") +", 
-    "         annotate(\"text\", x = 43, y = 275, ", "                  label = paste0(\"Mean = \", ", 
-    "                                 round(mean(counties$dem2p_percent, na.rm = TRUE), 1))) +", 
-    "          geom_vline(aes(xintercept = median(dem2p_percent, na.rm = TRUE)), color = \"red\", linetype = \"dotted\") +", 
+    "         geom_histogram(color = \"blue\") +", "         geom_vline(aes(xintercept = median(dem2p_percent, na.rm = TRUE)), color = \"red\", linetype = \"dotted\") +", 
     "         annotate(\"text\", x = 20, y = 350, ", "                  label = paste0(\"Median = \", ", 
     "                                 round(median(counties$dem2p_percent, na.rm=TRUE), 1))) +", 
     "", "         labs(title = \"Democratic Vote Share\",", "              subtitle = \"US Counties in 2016\", ", 
@@ -2576,8 +2759,8 @@ learnr:::store_exercise_cache(structure(list(label = "histogram_dem2p_percent", 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "histogram_dem2p_percent", exercise = TRUE, exercise.cap = "Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels.", 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "histogram_dem2p_percent, exercise=TRUE,exercise.cap=\"Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels.\"", 
+        label = "histogram_dem2p_percent", exercise = TRUE, exercise.cap = "Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels. Four hints are available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "histogram_dem2p_percent, exercise=TRUE,exercise.cap=\"Interactive exercise: Plot a histogram of dem2p_percent with blue outlines; optionally add red mean/median lines and labels. Four hints are available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -2586,19 +2769,19 @@ learnr:::store_exercise_cache(structure(list(label = "histogram_dem2p_percent", 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "identify_measurment_levels", 
     question = structure("Which of the following statements are <strong>NOT<\u002fstrong> true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_8c87842", 
+    "character")), answers = list(structure(list(id = "lnr_ans_c02ff32", 
         option = "We can describe the central tendency of a nominal variable using the median", 
         value = "We can describe the central tendency of a nominal variable using the median", 
         label = structure("We can describe the central tendency of a nominal variable using the median", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Only the mode can be used to describe the central tendency of a nominal variable.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2898b05", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_63dc3ea", 
         option = "The mean and median can be used to describe an ordinal variable", 
         value = "The mean and median can be used to describe an ordinal variable", 
         label = structure("The mean and median can be used to describe an ordinal variable", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The mean is a misleading measure of central tendency for an ordinal variable because the differences between values are not equal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_3c046cc", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_90c33b6", 
         option = "A bar plot illustrates the dispersion in an ordinal variable", 
         value = "A bar plot illustrates the dispersion in an ordinal variable", 
         label = structure("A bar plot illustrates the dispersion in an ordinal variable", html = TRUE, class = c("html", 
@@ -2612,31 +2795,31 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "identify_measurment_levels-answer", question = "identify_measurment_levels"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1104099795.48586, options = list()), class = c("learnr_checkbox", 
+    seed = 2098853192.52265, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "identify_distribution_concepts", 
     question = structure("Which of the following statements are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_6f82abb", 
+    "character")), answers = list(structure(list(id = "lnr_ans_6948db4", 
         option = "The mean is a robust summary statistic", value = "The mean is a robust summary statistic", 
         label = structure("The mean is a robust summary statistic", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The mean is sensitive to outliers and is thus not robust", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f682899", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_979f369", 
         option = "A distribution whose shape is skewed right has a long tail on the right", 
         value = "A distribution whose shape is skewed right has a long tail on the right", 
         label = structure("A distribution whose shape is skewed right has a long tail on the right", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The direction in which the tail of the distribution extends out is the direction a variable is skewed.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8acd8d2", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8bba558", 
         option = "The standard deviation can be interpreted as the average difference of observations from the mean", 
         value = "The standard deviation can be interpreted as the average difference of observations from the mean", 
         label = structure("The standard deviation can be interpreted as the average difference of observations from the mean", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The Emprirical Rule tells us that 68% of the data fall within plus or minus one standard deviation of the mean, which is more than half.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d9b2fc2", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c01bcd7", 
         option = "The mode should be reported as a measure of central tendency regardless of a variable's level of measurement", 
         value = "The mode should be reported as a measure of central tendency regardless of a variable's level of measurement", 
         label = structure("The mode should be reported as a measure of central tendency regardless of a variable’s level of measurement", html = TRUE, class = c("html", 
@@ -2650,7 +2833,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "identify_distribution_concepts-answer", question = "identify_distribution_concepts"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1489777196.80627, options = list()), class = c("learnr_checkbox", 
+    seed = 7840986.99634876, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -2658,18 +2841,18 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "plot_interpretation", 
     question = structure("Which of the following statements are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_24db093", 
+    "character")), answers = list(structure(list(id = "lnr_ans_120a293", 
         option = "The distribution is unimodal", value = "The distribution is unimodal", 
         label = structure("The distribution is unimodal", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The distribution is unimodal because there is a single peak in the distribution of the data.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_9ed597a", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b390ecd", 
         option = "The mean is likely a better measure of central tendency than the median", 
         value = "The mean is likely a better measure of central tendency than the median", 
         label = structure("The mean is likely a better measure of central tendency than the median", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The outliers are likely to pull the mean up but the median is a robust measure of central tendency", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d6d3ca2", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_dd0a66f", 
         option = "About half of the observations are within 1.92 percentage points of the mean", 
         value = "About half of the observations are within 1.92 percentage points of the mean", 
         label = structure("About half of the observations are within 1.92 percentage points of the mean", html = TRUE, class = c("html", 
@@ -2683,7 +2866,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "plot_interpretation-answer", question = "plot_interpretation"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1482391340.80971, options = list()), class = c("learnr_checkbox", 
+    seed = 1824530833.15039, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 </p>
@@ -2694,7 +2877,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","farver","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mice","mime","minqa","mitml","mitools","nlme","nloptr","nnet","pan","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","RColorBrewer","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.1","0.1-3","1.0-9","1.3-31","1.0.9","0.9.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.3","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.1","1.17.8","4.5.1","1.2.3","1.1.8","0.6.37","1.1.4","1.0.4","2.1.2","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","3.0.1","0.1.4","3.5.2","4.1-9","1.8.0","3.2.0","0.2.14","4.5.1","4.5.1","4.5.1","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.8.1","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.50","0.4.3","1.4.3","0.22-7","0.11.5.9000","1.0.4","0.7","1.1-37","1.9.4","2.0.3","2.0","7.3-65","1.7-3","4.5.1","3.18.0","0.13","1.2.8","0.4-5","2.4","3.1-168","2.2.1","7.3-20","1.9","1.11.0","2.0.3","3.8-4","1.8.9","2.3.0","1.3.3","1.1.0","0.1.0","2.6.1","2.3","1.1-3","1.1.0","2.6.4","2.1.5","0.4.1","1.1.6","2.29","4.1.24","2.1.1","0.17.1","0.4.10","1.4.0","1.4.6.1","1.11.1","4.5.1","4.5.1","1.8.7","1.5.1","4.4-2","3.8-3","3.3.0","1.3.1","1.2.1","2.0.0","0.3.0","4.5.1","0.5.0","4.5.1","0.6.5","1.1.2","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","farver","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mice","mime","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","pan","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-3","1.0-9","1.3-32","1.0.8","0.9.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.3","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","1.17.0","4.5.2","1.2.3","1.1.8","0.6.37","1.1.4","1.0.5","2.1.2","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.8.1","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.50","0.4.3","1.4.4","0.22-7","0.11.5.9000","1.0.4","0.7","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","4.5.2","3.18.0","0.13","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","1.9","1.10.2","2.0.3","3.8-4","1.8.9","2.3.0","1.3.3","1.1.0","0.1.0","2.6.1","2.3","1.1.0","2.6.4","2.1.5","0.4.0","1.1.6","2.29","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.4.6.1","1.11.1","4.5.2","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","4.5.2","0.6.5","1.1.2","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

@@ -341,15 +341,38 @@ setInterval(function() {
 
 ## Learning Objectives
 
-In this tutorial, you will learn how to describe a nominal level variable using summary statistics and plots. Specifically, we will cover:
+In this tutorial, you will learn how to describe a [**nominal level variable**]{.important-text} variable using summary statistics and plots. Specifically, we will cover:
 
-* How to determine and describe the central tendency of a nominal variable
-* How to summarize the dispersion of a nominal variable
-* How to combine multiple [dplyr]{.package-name} operations with the pipe, `%>%`
+* How to determine and describe the [**central tendency**]{.important-text} of a nominal variable
+* How to summarize the [**dispersion**]{.important-text} of a nominal variable
+* How to combine multiple operations fom the [dplyr]{.package-name} package with the pipe operator, `%>%`
   * How to compute counts of observations with `n()`
   * How to summarise groups of observations with `group_by()` and `summarise()` 
   * How to compute proportions using `mutate()`
-* How to generate a bar plot of counts and proportions using `ggplot()` and `geom_bar()` from the [ggplot2]{.package-name} package
+* How to generate a [**bar plot**]{.important-text} of counts and proportions using `ggplot()` and `geom_bar()` from the [ggplot2]{.package-name} package
+
+```{r global-setup, include=FALSE}
+needed <- c(
+  "learnr",
+  "dplyr",
+  "ggplot2",
+  "forcats",
+  "tidyr",
+  "readr",
+  "tibble",
+  "purrr",
+  "simstudy"
+)
+
+missing <- needed[!needed %in% installed.packages()[, "Package"]]
+
+if (length(missing) > 0) {
+  install.packages(missing, repos = "https://cloud.r-project.org")
+}
+
+lapply(needed, library, character.only = TRUE)
+```
+
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -388,9 +411,9 @@ Univariate description involves the examination of a single variable at a time. 
 
 1. [**Central tendency**]{.important-text}. Central tendency refers to the "typical value" a variable takes.
 2. [**Dispersion**]{.important-text}. Dispersion refers to the spread or variation in the values a variable takes. When assessing dispersion, we want to know how similar or different the values taken by the variable are.
-3. [**The shape of the distribution**]{.important-text}. The distribution of a variable is a summary of the frequency of individual values or ranges of values for a variable. When plotted, we can desribe the shape of the distribution.
+3. [**The shape of the distribution**]{.important-text}. The distribution of a variable is a summary of the frequency of individual values or ranges of values for a variable. When plotted, we can describe the shape of the distribution.
 
-In most situations, we use statistical summaries as well as visualizations -- plots or figures -- to describe all three of these characteristics for each of the variables in our study.
+In most situations, we use statistical summaries as well as visualizations -- plots -- to describe all three of these characteristics for each of the variables in our study.
 
 
 
@@ -418,11 +441,11 @@ question("Which of the following variables are nominal level measures?",
 ## Central Tendency
 
 
-Central tendency refers to the "typical value" a variable takes. It is the center of the distribution of values a variable can take or the middle. A "distribution" shows all the possible values of a variable and how often each value occurs. The appropriate summary statistic to use to describe the central tendency of a variable depends on its level of measurement. Only one statistic is available to summarize the central tendency of a nominal variable. It is the mode.
+[**Central tendency**]{.important-text}. refers to the "typical value" a variable takes. It is the center of the distribution of values a variable can take or the middle. A [**distribution**]{.important-text} shows all the possible values of a variable and how often each value occurs. The appropriate summary statistic to use to describe the central tendency of a variable depends on its level of measurement. Only one statistic is available to summarize the central tendency of a nominal variable. It is the mode.
 
 ### The mode
 
- [**The mode is the most frequently occurring category in the data.**]{.important-text}  Specifically, the mode is the *name* of the category that occurs most often. We can determine the mode from a frequency table. A [**frequency table lists each value a variable can take and the number of cases in the data that have each value.**]{.important-text} Sometimes it is useful to present the proportion of cases in each category, as well as the frequencies. 
+ [**The mode**]{.important-text} is the most frequently occurring category in the data.  Specifically, the mode is the *name* of the category that occurs most often. We can determine the mode from a frequency table. A [**frequency table**]{.important-text}lists each value a variable can take and the number of cases in the data that have each value. Sometimes it is useful to present the proportion of cases in each category, as well as the frequencies. 
 
 ### Central tendency and vote for Donald Trump in US counties in the 2016 presidential election
 
@@ -434,7 +457,7 @@ We will introduce the functions `group_by()`, `summarize()` and `mutate()` from 
 
 The `group_by()` function assigns observations in the data frame to separate groups, and it instructs [dplyr]{.package-name} to apply functions separately to each group. `group_by()` assigns groups by grouping together observations that have the same combinations of values for the variables that you pass to `group_by()`.
 
-To group by the values of **TrumpMajority** we first tell [dplyr]{.package-name} the name of the data frame that contains the variable "and then" using the pipe operator we pass the variable to the `group_by()` function as shown below. Note that we need to load the [dplyr]{.package-name} package with the `library()` function.
+To group by the values of **TrumpMajority** we first provide the name of the data frame that contains the variable "and then" using the pipe operator we pass the variable to the `group_by()` function as shown below. Note that we need to load the [dplyr]{.package-name} package with the `library()` function.
 
 We will not run this piece of code (it takes a while to produce the result from inside the tutorial).
 
@@ -457,6 +480,7 @@ Run the code. (Note: A warning message may appear.)
 
 **Try it: Use 'group_by()' and 'summarise()' to count observations**
 ```{r analysis-summarise-majority, exercise=TRUE, warning=FALSE, exercise.cap="Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results."}
+library(dplyr)
 counties %>%
   group_by(TrumpMajority) %>%
   summarise(freq = n())
@@ -474,7 +498,8 @@ While it is easy to see that many more counties cast a majority of their votes f
 
 The function we wish to calculate is the proportion. To calculate the proportion, we take our new variable **freq** and divide by the total number of counts and assign it to a new variable we will name **prop**: `prop = freq/sum(freq)`.
 
-Let's pipe the result above to the `mutate()` function and create this variable:
+Let's add the `mutate()` function to the code in the previous exercise and create the proportion variable. Assume the [dplyr]{.package-name} package is already loaded for this exercise and going forward.
+
 
 **Try it: Calculate proportions using 'mutate()'**
 ```{r analysis-calculate-proportions, exercise=TRUE, warning=FALSE, exercise.cap="Interactive exercise: Calculate proportions using mutate(). Use the Run Code button to execute and see results."}
@@ -484,19 +509,19 @@ counties %>%
   mutate(prop = freq / sum(freq))
 ```
 
-The addition of the proportions to our table confirms the modal category is "Trump-Majority" and now we can see that nearly 85% of the counties cast a majority of their votes for Donald Trump!  This summary table provides a lot of information about support for Donald Trump across counties in the 2016 presidential election.
+The addition of the proportions to our table confirms the modal category is "Trump-Majority" and now we can see that about 84% of the counties cast a majority of their votes for Donald Trump!  This summary table provides a lot of information about support for Donald Trump across counties in the 2016 presidential election.
 
 ### Central tendency and racial majorities in US counties
 
-Let's ook at another nominal variable, **racial_majority**, in the **counties** data frame. The variable takes the (character) values "Black Majority", "Hispanic Majority", "Other Majority", and "White Majority" depending on which racial/ethnic group comprised 50% or more of the county population.  There are two counties where data is not available and are therefore assigned the missing value NA. What can we say about the central tendency of this variable?
+Let's look at another nominal variable, **racial_majority**, in the **counties** data frame. The variable takes the (character) values "Black Majority", "Hispanic Majority", "Other Majority", and "White Majority" depending on which racial/ethnic group comprised 50% or more of the county population.  There are two counties where data is not available and are therefore assigned the missing value NA. What can we say about the central tendency of this variable?
 
-We will use the [dplyr]{.package-name} functions again to generate a frequency and proportion table. First, we need to group_by **racial_majority**, then we will use `summarise()` to generate the counts, and finally, we will use `mutate()` to create proportions. 
+We will use the [dplyr]{.package-name} functions again to generate a frequency and proportion table.  First, we need to `group_by()` **racial_majority**, then we will use `summarise()` to generate the counts, and finally, we will use `mutate()` to create proportions. 
 
 Try it!  Fill in the missing code marked with XXXX. You can look at the hints if you need to.
 
 
 **Practice: Create a proportion table**
-```{r analysis-practice-proportions, exercise = TRUE, exercise.cap="Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
+```{r analysis-practice-proportions, exercise = TRUE, exercise.cap="Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available."}
 counties %>%
   group_by(XXXX) %>%
   XXXX(freq = n()) %>%
@@ -504,17 +529,23 @@ counties %>%
 ```
 
 
+
 ```{r analysis-practice-proportions-hint-1}
-1. We want to group by racial_majority, so we pass this variable 
-name to the group_by function.
-2. The n() function is a summary function, calculating the number 
-of cases in each category of the grouping variable, so we need 
-to use the summarise() function in the third line of the code.
-3. The mutate() function generates a new variable in the data frame 
-passed to it.  Here we calculate the proportion using the freq 
-variable created in the summarise() function and the sum() 
-function in the denominator and name the new variable prop.
+# Hint 1 of 2
+In group_by(XXXX), replace XXXX with the variable you want to group on — here,
+racial_majority. On the next line, the blank before (freq = n()) must be the summary
+function that creates a new variable called freq and counts the rows in each group.
+
 ```
+
+```{r analysis-practice-proportions-hint-2}
+# Hint 2 of 2
+Inside mutate(prop = XXXX), replace XXXX with the expression that calculates the proportion
+in each group. Use the freq value you just created as the numerator, and divide it by the
+total of freq across all groups (sum(freq)).
+
+```
+
 
 ```{r analysis-practice-proportions-solution}
 counties %>%
@@ -537,15 +568,32 @@ Complete the code below to generate the frequency and proportion distribution of
 
 
 **Practice: Summarize the data by region**
-```{r analysis-practice-freq-by-region, exercise=TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness."}
+```{r analysis-practice-freq-by-region, exercise=TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available."}
 df %>%
   group_by(region) %>%
 ```
 
-```{r analysis-practice-freq-by-region-hint}
-You need to generate frequency counts using the summarise() 
-function and proportions using the mutate() function.
-Don't forget the pipe operator!
+
+```{r analysis-practice-freq-by-region-hint-1}
+# Hint 1 of 3
+After you group by region, the next line should summarize the grouped data. This step 
+should create one count per region and store it in a variable named freq. Remember: 
+each major step goes on its own line, and each line (except the last one) should
+end with the pipe so the result is passed forward.
+```
+
+```{r analysis-practice-freq-by-region-hint-2}
+# Hint 2 of 3
+The summarizing step needs a function that collapses the data within each region. 
+Use the function that creates one row per group and define freq = n() inside it so 
+that freq counts the number of observations in each region.
+```
+
+```{r analysis-practice-freq-by-region-hint-3}
+# Hint 3 of 3
+To compute proportions, add a mutate() step on its own line. Inside mutate, set 
+prop = freq divided by the total of freq across all regions. Use sum(freq) for the 
+denominator so that the proportion for each region is based on the full data set.
 ```
 
 ```{r analysis-practice-freq-by-region-solution}
@@ -565,7 +613,7 @@ It is important to ask how representative the mode is as a measure of the typica
 
 ## Dispersion
 
-A frequency or proportion table also describes the dispersion of values the variable takes. In other words, it tells us whether there are similar numbers (proportions) of cases for each value of the variable or different numbers (proportions) across the values. 
+A frequency or proportion table also describes the [**dispersion**]{.important-text} of values the variable takes. In other words, it tells us whether there are similar numbers (proportions) of cases for each value of the variable or different numbers (proportions) across the values. 
 
 **TrumpMajority** contains only two values so we can fully describe the dispersion by stating that 2622 or 84% of the counties cast a majority of their votes for Donald Trump while 490 or 16% cast their votes for Hillary Clinton. 
 
@@ -575,15 +623,15 @@ Finally, we found that, according to the US Census Bureau, 16 US States are in t
 
 ## The shape of the distribution
 
-The last piece of summary information concerns the shape of the distribution. 
+The last piece of summary information concerns the [**shape**]{.important-text} of the distribution. 
 Because the frequency and proportion tables completely characterize the distribution of a nominal variable, we simply need a way to describe its shape.   The relevant question is whether the cases are equally dispersed or whether one or more categories dominates the distribution. We refer to the shape of the distribution of a categorical variable as either:
 
 1. [Unimodal]{.important-text}: It has only one peak, one category has many more cases than the others
-2. [Bimodal]{.important-text}: It has two peaks, two categories are much more prevalent in the data
-3. [Uniform]{.important-text}: All are distributed uniformly, there is an even spread of observations in each category
+2. [Bimodal]{.important-text}: It has two distinct peaks, two categories are much more prevalent in the data
+3. [Uniform]{.important-text}: There is an approximately even spread of observations in each category
 4. [Multimodal]{.important-text}: It has many peaks, several categories have more cases than the others
 
-It is often easier to describe the shape of a distribution from a plot. The figure below presents examples of each of these shapes of distributions.
+It is often easier to describe the shape of a distribution from a plot. The figure below presents examples of each of these shapes of distributions. 
 
 ```{r distribution-plots, echo=FALSE, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
 library(simstudy)
@@ -650,7 +698,7 @@ We will learn how to produce plots of the distribution or our nominal variables 
 
 ## Visualizing a nominal variable
 
-The distribution of a nominal variable is best represented in a bar plot. A bar plot presents the same information in a frequency/proportion table in graphical form. 
+The distribution of a nominal variable is best represented in a bar plot. A [**bar plot**]{.important-text} presents the same information in a frequency/proportion table in graphical form. 
 
 We will use the `ggplot()` function in the [ggplot2]{.package-name} package. The  [ggplot2]{.package-name} package develops plots using the "Grammar of Graphics." We will build a plot in 4 steps, with each step identifying a *layer* of our plot.
 
@@ -671,7 +719,7 @@ We have an empty plot! At this stage, ggplot knows the data to use but not what 
 
 Next, we tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. The `aes()` function stands for aesthetics, so it tells how the data are mapped to visual features of the plot. The arguments we pass this function depend on what type of plot we want to produce. We are going to create a bar plot, which requires us to tell `ggplot()` which variable to place on the x-axis (only). We want to plot the values of **TrumpMajority** on the x-axis. Thus we specify `x = TrumpMajority`. However, since the variable is coded as a numeric variable, we need to tell R that it is categorical (that it cannot take values other than 0 and 1). We will do this by passing the variable name to the `factor()` function before assigning it to `x`.
 
-Run the code below.
+Run the code below. Note that I have not inlcuded `library(ggplot2)` again. This is because it is has already been loaded in our working environment in the last exercise. You can assume the [ggplot2]{.package-name} package is already loaded for this exercise and going forward.)
 
 **Try it: Add the aesthetic mapping**
 ```{r visual-add-aes, exercise=TRUE, exercise.cap="Interactive exercise: Add the aesthetic mapping. Use the Run Code button to see the x-axis added."}
@@ -681,7 +729,7 @@ Now we have an x-axis, but still no data because we haven't yet told `ggplot()` 
 
 ### ggplot step three
 
-We tell `ggplot()` how to plot the data by adding a *geom* layer. There are many geometric representations that can be plotted. What is appropriate  will depend on the level of measurement and our goals for the visualization.  We want to generate a bar plot, so we will specify `geom_bar()` as the geometric representation. We do this by adding a plus sign at the end of the previous line of code. Then on the next line we write `geom_bar()`. We don't need to put anything inside the parentheses. See what happens now when you run the code.
+We tell `ggplot()` how to plot the data by adding a [*geom*]{.important-text}layer. There are many geometric representations that can be plotted. What is appropriate  will depend on the level of measurement and our goals for the visualization.  We want to generate a bar plot, so we will specify `geom_bar()` as the geometric representation. We do this by adding a plus sign at the end of the previous line of code. Then on the next line we write `geom_bar()`. We don't need to put anything inside the parentheses. See what happens now when you run the code.
 
 
 **Try it: Add the geometry layer**
@@ -756,7 +804,7 @@ Can you generate a bar plot of the frequencies of the **racial_majority** distri
 
 
 **Practice: Create a bar chart for racial majority**
-```{r visual-practice-bar-race, exercise = TRUE, exercise.cap="Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
+```{r visual-practice-bar-race, exercise = TRUE, exercise.cap="Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available."}
 ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +
   XXXX() +
   labs(title = "Number of US Counties by Racial Majority",
@@ -767,10 +815,29 @@ ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +
   scale_x_discrete(na.translate = FALSE, labels = c(XXXX))
 ```
 
+
+
 ```{r visual-practice-bar-race-hint-1}
-1. The mapping argument requires specifying the aesthetics and that you specify the axis to map the variable to.
-2. Have you specified the geom? Have you provided a meaningful y label?
-3. Have you set each value label alphabetically (in quotes, separated by commas)?
+# Hint 1 of 3
+Inside the mapping argument, you need to wrap the aesthetic specification in aes(). 
+Since the bars should display how many counties fall into each racial majority category, 
+map the racial_majority factor to the x-axis inside aes().
+```
+
+
+```{r visual-practice-bar-race-hint-2}
+# Hint 2 of 3
+Next, fill in the geom layer. Think about which geom creates a bar chart when you 
+supply only an x-aesthetic. Also replace "XXXX" in y = with a label that clearly
+describes what the bars are counting.
+```
+
+
+```{r visual-practice-bar-race-hint-3}
+# Hint 3 of 3
+For the scale_x_discrete() labels, list each racial_majority category in alphabetical 
+order, in quotes, and separated by commas. These labels replace the default factor 
+labels on the x-axis.
 ```
 
 ```{r visual-practice-bar-race-solution}
@@ -797,7 +864,7 @@ The last thing we will do is plot proportions rather than the frequency distribu
 
 To plot proportions, we give the `geom_bar()` function its own aesthetic, which formats the y-axis. Specifically, we include ``aes(y = after_stat(prop), group = 1)` inside the `geom_bar()` function. This transforms the y-axis to a proportion calculated out of all cases (`group = 1`): `geom_bar(aes(y = after_stat(prop), group = 1))`.
 
-Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill="blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
+Let's plot the proportion in each category of the **region** variable in the data frame **df**. In the code below, I'm also going to fill the bars in blue to add a little color. We do this by specifying `fill = "blue"` inside `geom_bar()`, but *after* the `aes()` function. The `fill` argument corresponds to the color used to fill the bars. If we wanted to outline the bars in some color, we use the `color` argument. 
 
 **Try it: Create a bar chart of proportions**
 ```{r visual-bar-proportion-region, exercise=TRUE, exercise.cap="Interactive exercise: Create a bar chart of proportions. Use the Run Code button to see the result."}
@@ -811,7 +878,7 @@ ggplot(data = df, mapping = aes(x = factor(region))) +
 
 What does the plot illustrates about the [**mode(s)**]{.important-text}, [**dispersion**]{.important-text}, and [**shape of the distribution**]{.important-text} of this variable?
 
-While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states) in each region is similar. Thus we might describe the shape of the distribution as fairly uniform.
+While the most frequently occurring category of **region** is "South," it is misleading to emphasize this fact. The number of observations (states) in each region is similar. Thus we might describe the shape of the distribution as fairly uniform. Often, as here, you will have to use your judgement when describing the shape.
 
 
 ### Dispersion and the distribution of regime type around the world
@@ -822,7 +889,7 @@ Replace the XXXX in the code below. Fill in the bars with the color "red". Be ca
 
 
 **Practice: Create a proportion bar chart for regime type**
-```{r visual-practice-bar-proportion-regime, exercise = TRUE, exercise.eval = FALSE, exercise.cap="Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
+```{r visual-practice-bar-proportion-regime, exercise = TRUE, exercise.eval = FALSE, exercise.cap="Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available."}
 ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
   geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +
   labs(title = "Regime Type",
@@ -834,14 +901,36 @@ ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +
 
 
 ```{r visual-practice-bar-proportion-regime-hint-1}
-1. Have you named the data set world?
-2. Remember you need to specify the aes() function inside geom_bar().
-3. Have you specified y= after_stat(prop) inside the geom_bar aes() function?
-4. Have you specified group = 1 inside the aes() function?
-5. Have you specified fill="red" outside aes() in geom_bar?
-6. Did you set the y label to "Proportion"?
-7. Did you specify the scale_x_discrete function to edit the x axis?
+# Hint 1 of 4
+Start by replacing the first XXXX with the data frame that contains the dem_level4 
+variable. Inside aes(), the x value is already specified, so you do not need to add 
+any aesthetics there. Focus on supplying the correct data name.
 ```
+
+```{r visual-practice-bar-proportion-regime-hint-2}
+# Hint 2 of 4
+Inside geom_bar(), the first XXXX should be aes(), because this layer needs its own 
+mapping. Within that aes() call, set y equal to a computed proportion for each 
+dem_level4 category using after_stat(), and also include group = 1 so that the 
+proportions are calculated over the entire data set rather than within smaller groups.
+
+```
+
+```{r visual-practice-bar-proportion-regime-hint-3}
+# Hint 3 of 4
+Outside the aes() mapping, the remaining XXXX in geom_bar() is for a visual argument. 
+Here you should specify a single fill color for all bars so that the bars display the
+proportions clearly. Choose a simple color name and supply it as a character string.
+```
+
+
+```{r visual-practice-bar-proportion-regime-hint-4}
+# Hint 4 of 4
+In labs(), replace the XXXX with a y-axis label that tells the reader the bars show
+proportions. In the final XXXX, use the scale function designed for discrete x-axis 
+values. 
+```
+
 
 ```{r visual-practice-bar-proportion-regime-solution}
 ggplot(data = world, mapping = aes(x = factor(dem_level4))) +
@@ -882,18 +971,24 @@ ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racia
 
 ## The Takeaways
 
-Descriptive statistics provide simple summaries about the sample and the measures. Together with simple graphical analysis, they form the basis of virtually every quantitative analysis of data. We've learned:
+[**Descriptive statistics**]{.important-text} provide simple summaries about the sample and the measures. Together with simple graphical analysis, they form the basis of virtually every quantitative analysis of data. We've learned:
 
 1. There are 3 types of descriptive information to help you convey the main features of a single variable: [**central tendency**]{.important-text}, [**dispersion**]{.important-text}, and the [**shape of the distribution**]{.important-text}. Each piece of information complements the others.
 2. The appropriate tools for describing these features of our sample data depend on the level of measurement of the variable you wish to describe. The information here describes what is appropriate for nominal variables.
 
-   a. The [**mode**] is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It may be more or less useful depending on the dispersion in the data, so often, we present the entire frequency distribution or visualize the distribution in a bar plot.
-    b. The frequency distribution, or the distribution of proportions, reveals the [**dispersion**]{.important-text} in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the [**dispersion**]{.important-text}.
-   c. Bar plots are often used to visualize the central tendency, dispersion, and shape of the distribution of a nominal variable, particularly if the specific counts or proportions are not of central interest.
+   a. The [**mode**]{.important-text} is the most commonly occurring category across cases and is the only statistic appropriate for describing the central tendency of a nominal variable. It may be more or less useful depending on the dispersion in the data, so often, we present the entire frequency distribution or visualize the distribution in a bar plot.
+    b. The [**frequency distribution**]{.important-text}, or the [**distribution of proportions**]{.important-text}, reveals the [**dispersion**]{.important-text} in the data, i.e., it tells us how many or what proportion of cases take each value of the variable.  It also makes clear which category is the modal value and is a numeric representation of the dispersion.
+   c. [**Bar plots**]{.important-text} are often used to visualize the central tendency, dispersion, and shape of the distribution of a nominal variable, particularly if the specific counts or proportions are not of central interest.
 
 Should you present a table, should you report summary statistics in the text without a table or visualization, or should you present a figure when you describe a nominal variable?  The choice depends on the main feature or features of the data and what you wish to emphasize. You may report the modal category or categories and the number or proportion of cases in the category, or you may choose to present the entire distribution, either in a table or a plot. (Both would be redundant.)  The key is to describe the central tendency, dispersion, and distribution of the data so that your audience has a complete picture of the central features of the variable. And of course, if you present a table or figure, you need to describe its contents in the text.
 
 
 ![](images/UnivariateNominal.png){width="70%" fig.alt="Infographic titled ‘Nominal Level Variable’ with four stacked blue boxes: Mode; Frequency or Proportion Distribution; Unimodal, Bimodal, Multimodal, Uniform; Bar Plot of Frequencies or Proportions. A left sidebar lists Central Tendency, Dispersion, Distribution, and Visualization.
 "}
+
+<p role="status"
+   aria-label="Great work! You've completed this tutorial and strengthened your skills with nominal variables."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🌟 Well done! 🌟</span>
+</p>
 

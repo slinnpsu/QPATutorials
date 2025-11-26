@@ -433,22 +433,28 @@ setInterval(function() {
 </script>
 <div id="section-learning-objectives" class="section level2">
 <h2>Learning Objectives</h2>
-<p>In this tutorial, you will learn how to describe a nominal level
+<p>In this tutorial, you will learn how to describe a <span
+class="important-text"><strong>nominal level variable</strong></span>
 variable using summary statistics and plots. Specifically, we will
 cover:</p>
 <ul>
-<li>How to determine and describe the central tendency of a nominal
+<li>How to determine and describe the <span
+class="important-text"><strong>central tendency</strong></span> of a
+nominal variable</li>
+<li>How to summarize the <span
+class="important-text"><strong>dispersion</strong></span> of a nominal
 variable</li>
-<li>How to summarize the dispersion of a nominal variable</li>
-<li>How to combine multiple <span class="package-name">dplyr</span>
-operations with the pipe, <code>%&gt;%</code>
+<li>How to combine multiple operations fom the <span
+class="package-name">dplyr</span> package with the pipe operator,
+<code>%&gt;%</code>
 <ul>
 <li>How to compute counts of observations with <code>n()</code></li>
 <li>How to summarise groups of observations with <code>group_by()</code>
 and <code>summarise()</code></li>
 <li>How to compute proportions using <code>mutate()</code></li>
 </ul></li>
-<li>How to generate a bar plot of counts and proportions using
+<li>How to generate a <span class="important-text"><strong>bar
+plot</strong></span> of counts and proportions using
 <code>ggplot()</code> and <code>geom_bar()</code> from the <span
 class="package-name">ggplot2</span> package</li>
 </ul>
@@ -510,12 +516,12 @@ different the values taken by the variable are.</li>
 <li><span class="important-text"><strong>The shape of the
 distribution</strong></span>. The distribution of a variable is a
 summary of the frequency of individual values or ranges of values for a
-variable. When plotted, we can desribe the shape of the
+variable. When plotted, we can describe the shape of the
 distribution.</li>
 </ol>
 <p>In most situations, we use statistical summaries as well as
-visualizations – plots or figures – to describe all three of these
-characteristics for each of the variables in our study.</p>
+visualizations – plots – to describe all three of these characteristics
+for each of the variables in our study.</p>
 <p><strong>How we describe a single variable depends on its level of
 measurement.</strong> In this and the next two tutorials, we will
 introduce descriptive statistics to describe the basic features of
@@ -535,23 +541,26 @@ measures below.</p>
 </div>
 <div id="section-central-tendency" class="section level2">
 <h2>Central Tendency</h2>
-<p>Central tendency refers to the “typical value” a variable takes. It
-is the center of the distribution of values a variable can take or the
-middle. A “distribution” shows all the possible values of a variable and
-how often each value occurs. The appropriate summary statistic to use to
-describe the central tendency of a variable depends on its level of
-measurement. Only one statistic is available to summarize the central
-tendency of a nominal variable. It is the mode.</p>
+<p><span class="important-text"><strong>Central
+tendency</strong></span>. refers to the “typical value” a variable
+takes. It is the center of the distribution of values a variable can
+take or the middle. A <span
+class="important-text"><strong>distribution</strong></span> shows all
+the possible values of a variable and how often each value occurs. The
+appropriate summary statistic to use to describe the central tendency of
+a variable depends on its level of measurement. Only one statistic is
+available to summarize the central tendency of a nominal variable. It is
+the mode.</p>
 <div id="section-the-mode" class="section level3">
 <h3>The mode</h3>
-<p><span class="important-text"><strong>The mode is the most frequently
-occurring category in the data.</strong></span> Specifically, the mode
+<p><span class="important-text"><strong>The mode</strong></span> is the
+most frequently occurring category in the data. Specifically, the mode
 is the <em>name</em> of the category that occurs most often. We can
 determine the mode from a frequency table. A <span
-class="important-text"><strong>frequency table lists each value a
-variable can take and the number of cases in the data that have each
-value.</strong></span> Sometimes it is useful to present the proportion
-of cases in each category, as well as the frequencies.</p>
+class="important-text"><strong>frequency table</strong></span>lists each
+value a variable can take and the number of cases in the data that have
+each value. Sometimes it is useful to present the proportion of cases in
+each category, as well as the frequencies.</p>
 </div>
 <div
 id="section-central-tendency-and-vote-for-donald-trump-in-us-counties-in-the-2016-presidential-election"
@@ -583,11 +592,11 @@ group. <code>group_by()</code> assigns groups by grouping together
 observations that have the same combinations of values for the variables
 that you pass to <code>group_by()</code>.</p>
 <p>To group by the values of <strong>TrumpMajority</strong> we first
-tell <span class="package-name">dplyr</span> the name of the data frame
-that contains the variable “and then” using the pipe operator we pass
-the variable to the <code>group_by()</code> function as shown below.
-Note that we need to load the <span class="package-name">dplyr</span>
-package with the <code>library()</code> function.</p>
+provide the name of the data frame that contains the variable “and then”
+using the pipe operator we pass the variable to the
+<code>group_by()</code> function as shown below. Note that we need to
+load the <span class="package-name">dplyr</span> package with the
+<code>library()</code> function.</p>
 <p>We will not run this piece of code (it takes a while to produce the
 result from inside the tutorial).</p>
 <p><strong>Try it: Group the data by a variable</strong></p>
@@ -623,7 +632,8 @@ observations</strong>
 <div class="tutorial-exercise" data-label="analysis-summarise-majority"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>counties %&gt;%
+<pre class="text"><code>library(dplyr)
+counties %&gt;%
   group_by(TrumpMajority) %&gt;%
   summarise(freq = n())</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results."}</script>
@@ -658,8 +668,10 @@ rather than a summary statistic.</p>
 proportion, we take our new variable <strong>freq</strong> and divide by
 the total number of counts and assign it to a new variable we will name
 <strong>prop</strong>: <code>prop = freq/sum(freq)</code>.</p>
-<p>Let’s pipe the result above to the <code>mutate()</code> function and
-create this variable:</p>
+<p>Let’s add the <code>mutate()</code> function to the code in the
+previous exercise and create the proportion variable. Assume the <span
+class="package-name">dplyr</span> package is already loaded for this
+exercise and going forward.</p>
 <strong>Try it: Calculate proportions using ‘mutate()’</strong>
 <div class="tutorial-exercise"
 data-label="analysis-calculate-proportions" data-completion="1"
@@ -672,7 +684,7 @@ data-pipe="|&gt;">
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Calculate proportions using mutate(). Use the Run Code button to execute and see results."}</script>
 </div>
 <p>The addition of the proportions to our table confirms the modal
-category is “Trump-Majority” and now we can see that nearly 85% of the
+category is “Trump-Majority” and now we can see that about 84% of the
 counties cast a majority of their votes for Donald Trump! This summary
 table provides a lot of information about support for Donald Trump
 across counties in the 2016 presidential election.</p>
@@ -680,7 +692,7 @@ across counties in the 2016 presidential election.</p>
 <div id="section-central-tendency-and-racial-majorities-in-us-counties"
 class="section level3">
 <h3>Central tendency and racial majorities in US counties</h3>
-<p>Let’s ook at another nominal variable,
+<p>Let’s look at another nominal variable,
 <strong>racial_majority</strong>, in the <strong>counties</strong> data
 frame. The variable takes the (character) values “Black Majority”,
 “Hispanic Majority”, “Other Majority”, and “White Majority” depending on
@@ -690,9 +702,9 @@ therefore assigned the missing value NA. What can we say about the
 central tendency of this variable?</p>
 <p>We will use the <span class="package-name">dplyr</span> functions
 again to generate a frequency and proportion table. First, we need to
-group_by <strong>racial_majority</strong>, then we will use
-<code>summarise()</code> to generate the counts, and finally, we will
-use <code>mutate()</code> to create proportions.</p>
+<code>group_by()</code> <strong>racial_majority</strong>, then we will
+use <code>summarise()</code> to generate the counts, and finally, we
+will use <code>mutate()</code> to create proportions.</p>
 <p>Try it! Fill in the missing code marked with XXXX. You can look at
 the hints if you need to.</p>
 <strong>Practice: Create a proportion table</strong>
@@ -704,21 +716,25 @@ data-pipe="|&gt;">
   group_by(XXXX) %&gt;%
   XXXX(freq = n()) %&gt;%
   mutate(prop = XXXX)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="analysis-practice-proportions-hint-1" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>1. We want to group by racial_majority, so we pass this variable 
-name to the group_by function.
-2. The n() function is a summary function, calculating the number 
-of cases in each category of the grouping variable, so we need 
-to use the summarise() function in the third line of the code.
-3. The mutate() function generates a new variable in the data frame 
-passed to it.  Here we calculate the proportion using the freq 
-variable created in the summarise() function and the sum() 
-function in the denominator and name the new variable prop.</code></pre>
+<pre class="text"><code># Hint 1 of 2
+In group_by(XXXX), replace XXXX with the variable you want to group on — here,
+racial_majority. On the next line, the blank before (freq = n()) must be the summary
+function that creates a new variable called freq and counts the rows in each group.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="analysis-practice-proportions-hint-2" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 2
+Inside mutate(prop = XXXX), replace XXXX with the expression that calculates the proportion
+in each group. Use the freq value you just created as the numerator, and divide it by the
+total of freq across all groups (sum(freq)).</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="analysis-practice-proportions-solution" data-completion="1"
@@ -752,15 +768,35 @@ data-diagnostics="1" data-startover="1" data-lines="4"
 data-pipe="|&gt;">
 <pre class="text"><code>df %&gt;%
   group_by(region) %&gt;%</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
-data-label="analysis-practice-freq-by-region-hint" data-completion="1"
+data-label="analysis-practice-freq-by-region-hint-1" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>You need to generate frequency counts using the summarise() 
-function and proportions using the mutate() function.
-Don&#39;t forget the pipe operator!</code></pre>
+<pre class="text"><code># Hint 1 of 3
+After you group by region, the next line should summarize the grouped data. This step 
+should create one count per region and store it in a variable named freq. Remember: 
+each major step goes on its own line, and each line (except the last one) should
+end with the pipe so the result is passed forward.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="analysis-practice-freq-by-region-hint-2" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+The summarizing step needs a function that collapses the data within each region. 
+Use the function that creates one row per group and define freq = n() inside it so 
+that freq counts the number of observations in each region.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="analysis-practice-freq-by-region-hint-3" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+To compute proportions, add a mutate() step on its own line. Inside mutate, set 
+prop = freq divided by the total of freq across all regions. Use sum(freq) for the 
+denominator so that the proportion for each region is based on the full data set.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="analysis-practice-freq-by-region-solution"
@@ -782,9 +818,10 @@ dispersion in the data.</p>
 </div>
 <div id="section-dispersion" class="section level2">
 <h2>Dispersion</h2>
-<p>A frequency or proportion table also describes the dispersion of
-values the variable takes. In other words, it tells us whether there are
-similar numbers (proportions) of cases for each value of the variable or
+<p>A frequency or proportion table also describes the <span
+class="important-text"><strong>dispersion</strong></span> of values the
+variable takes. In other words, it tells us whether there are similar
+numbers (proportions) of cases for each value of the variable or
 different numbers (proportions) across the values.</p>
 <p><strong>TrumpMajority</strong> contains only two values so we can
 fully describe the dispersion by stating that 2622 or 84% of the
@@ -801,7 +838,8 @@ Northeast region.</p>
 </div>
 <div id="section-the-shape-of-the-distribution" class="section level2">
 <h2>The shape of the distribution</h2>
-<p>The last piece of summary information concerns the shape of the
+<p>The last piece of summary information concerns the <span
+class="important-text"><strong>shape</strong></span> of the
 distribution. Because the frequency and proportion tables completely
 characterize the distribution of a nominal variable, we simply need a
 way to describe its shape. The relevant question is whether the cases
@@ -811,10 +849,10 @@ variable as either:</p>
 <ol style="list-style-type: decimal">
 <li><span class="important-text">Unimodal</span>: It has only one peak,
 one category has many more cases than the others</li>
-<li><span class="important-text">Bimodal</span>: It has two peaks, two
-categories are much more prevalent in the data</li>
-<li><span class="important-text">Uniform</span>: All are distributed
-uniformly, there is an even spread of observations in each category</li>
+<li><span class="important-text">Bimodal</span>: It has two distinct
+peaks, two categories are much more prevalent in the data</li>
+<li><span class="important-text">Uniform</span>: There is an
+approximately even spread of observations in each category</li>
 <li><span class="important-text">Multimodal</span>: It has many peaks,
 several categories have more cases than the others</li>
 </ol>
@@ -828,8 +866,9 @@ variables in the next section.</p>
 <div id="section-visualizing-a-nominal-variable" class="section level2">
 <h2>Visualizing a nominal variable</h2>
 <p>The distribution of a nominal variable is best represented in a bar
-plot. A bar plot presents the same information in a frequency/proportion
-table in graphical form.</p>
+plot. A <span class="important-text"><strong>bar plot</strong></span>
+presents the same information in a frequency/proportion table in
+graphical form.</p>
 <p>We will use the <code>ggplot()</code> function in the <span
 class="package-name">ggplot2</span> package. The <span
 class="package-name">ggplot2</span> package develops plots using the
@@ -871,7 +910,11 @@ variable is coded as a numeric variable, we need to tell R that it is
 categorical (that it cannot take values other than 0 and 1). We will do
 this by passing the variable name to the <code>factor()</code> function
 before assigning it to <code>x</code>.</p>
-<p>Run the code below.</p>
+<p>Run the code below. Note that I have not inlcuded
+<code>library(ggplot2)</code> again. This is because it is has already
+been loaded in our working environment in the last exercise. You can
+assume the <span class="package-name">ggplot2</span> package is already
+loaded for this exercise and going forward.)</p>
 <strong>Try it: Add the aesthetic mapping</strong>
 <div class="tutorial-exercise" data-label="visual-add-aes"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -884,15 +927,16 @@ data-lines="0" data-pipe="|&gt;">
 </div>
 <div id="section-ggplot-step-three" class="section level3">
 <h3>ggplot step three</h3>
-<p>We tell <code>ggplot()</code> how to plot the data by adding a
-<em>geom</em> layer. There are many geometric representations that can
-be plotted. What is appropriate will depend on the level of measurement
-and our goals for the visualization. We want to generate a bar plot, so
-we will specify <code>geom_bar()</code> as the geometric representation.
-We do this by adding a plus sign at the end of the previous line of
-code. Then on the next line we write <code>geom_bar()</code>. We don’t
-need to put anything inside the parentheses. See what happens now when
-you run the code.</p>
+<p>We tell <code>ggplot()</code> how to plot the data by adding a <span
+class="important-text"><em>geom</em></span>layer. There are many
+geometric representations that can be plotted. What is appropriate will
+depend on the level of measurement and our goals for the visualization.
+We want to generate a bar plot, so we will specify
+<code>geom_bar()</code> as the geometric representation. We do this by
+adding a plus sign at the end of the previous line of code. Then on the
+next line we write <code>geom_bar()</code>. We don’t need to put
+anything inside the parentheses. See what happens now when you run the
+code.</p>
 <strong>Try it: Add the geometry layer</strong>
 <div class="tutorial-exercise" data-label="visual-add-geom-bar"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -1024,15 +1068,34 @@ data-lines="0" data-pipe="|&gt;">
        y = &quot;XXXX&quot;,
        caption = &quot;Source: Linn, Nagler, Zilinsky&quot;) +
   scale_x_discrete(na.translate = FALSE, labels = c(XXXX))</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="visual-practice-bar-race-hint-1" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>1. The mapping argument requires specifying the aesthetics and that you specify the axis to map the variable to.
-2. Have you specified the geom? Have you provided a meaningful y label?
-3. Have you set each value label alphabetically (in quotes, separated by commas)?</code></pre>
+<pre class="text"><code># Hint 1 of 3
+Inside the mapping argument, you need to wrap the aesthetic specification in aes(). 
+Since the bars should display how many counties fall into each racial majority category, 
+map the racial_majority factor to the x-axis inside aes().</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="visual-practice-bar-race-hint-2" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+Next, fill in the geom layer. Think about which geom creates a bar chart when you 
+supply only an x-aesthetic. Also replace &quot;XXXX&quot; in y = with a label that clearly
+describes what the bars are counting.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="visual-practice-bar-race-hint-3" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="0"
+data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+For the scale_x_discrete() labels, list each racial_majority category in alphabetical 
+order, in quotes, and separated by commas. These labels replace the default factor 
+labels on the x-axis.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="visual-practice-bar-race-solution" data-completion="1"
@@ -1068,7 +1131,7 @@ proportion calculated out of all cases (<code>group = 1</code>):
 <p>Let’s plot the proportion in each category of the
 <strong>region</strong> variable in the data frame <strong>df</strong>.
 In the code below, I’m also going to fill the bars in blue to add a
-little color. We do this by specifying <code>fill="blue"</code> inside
+little color. We do this by specifying <code>fill = "blue"</code> inside
 <code>geom_bar()</code>, but <em>after</em> the <code>aes()</code>
 function. The <code>fill</code> argument corresponds to the color used
 to fill the bars. If we wanted to outline the bars in some color, we use
@@ -1092,8 +1155,9 @@ of this variable?</p>
 <p>While the most frequently occurring category of
 <strong>region</strong> is “South,” it is misleading to emphasize this
 fact. The number of observations (states) in each region is similar.
-Thus we might describe the shape of the distribution as fairly
-uniform.</p>
+Thus we might describe the shape of the distribution as fairly uniform.
+Often, as here, you will have to use your judgement when describing the
+shape.</p>
 </div>
 <div
 id="section-dispersion-and-the-distribution-of-regime-type-around-the-world"
@@ -1119,19 +1183,44 @@ data-pipe="|&gt;">
        x = NULL,
        y = &quot;XXXX&quot;) +
   XXXX(na.translate = FALSE, labels = c(&quot;Full Democracy&quot;,  &quot;Partial Democracy&quot;, &quot;Hybrid&quot;, &quot;Authoritarian&quot;))</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness."}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available."}</script>
 </div>
 <div class="tutorial-exercise-support"
 data-label="visual-practice-bar-proportion-regime-hint-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>1. Have you named the data set world?
-2. Remember you need to specify the aes() function inside geom_bar().
-3. Have you specified y= after_stat(prop) inside the geom_bar aes() function?
-4. Have you specified group = 1 inside the aes() function?
-5. Have you specified fill=&quot;red&quot; outside aes() in geom_bar?
-6. Did you set the y label to &quot;Proportion&quot;?
-7. Did you specify the scale_x_discrete function to edit the x axis?</code></pre>
+<pre class="text"><code># Hint 1 of 4
+Start by replacing the first XXXX with the data frame that contains the dem_level4 
+variable. Inside aes(), the x value is already specified, so you do not need to add 
+any aesthetics there. Focus on supplying the correct data name.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="visual-practice-bar-proportion-regime-hint-2"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 4
+Inside geom_bar(), the first XXXX should be aes(), because this layer needs its own 
+mapping. Within that aes() call, set y equal to a computed proportion for each 
+dem_level4 category using after_stat(), and also include group = 1 so that the 
+proportions are calculated over the entire data set rather than within smaller groups.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="visual-practice-bar-proportion-regime-hint-3"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 4
+Outside the aes() mapping, the remaining XXXX in geom_bar() is for a visual argument. 
+Here you should specify a single fill color for all bars so that the bars display the
+proportions clearly. Choose a simple color name and supply it as a character string.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="visual-practice-bar-proportion-regime-hint-4"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 4 of 4
+In labs(), replace the XXXX with a y-axis label that tells the reader the bars show
+proportions. In the final XXXX, use the scale function designed for discrete x-axis 
+values. </code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="visual-practice-bar-proportion-regime-solution"
@@ -1184,7 +1273,8 @@ data-lines="0" data-pipe="|&gt;">
 </div>
 <div id="section-the-takeaways" class="section level2">
 <h2>The Takeaways</h2>
-<p>Descriptive statistics provide simple summaries about the sample and
+<p><span class="important-text"><strong>Descriptive
+statistics</strong></span> provide simple summaries about the sample and
 the measures. Together with simple graphical analysis, they form the
 basis of virtually every quantitative analysis of data. We’ve
 learned:</p>
@@ -1201,22 +1291,24 @@ data depend on the level of measurement of the variable you wish to
 describe. The information here describes what is appropriate for nominal
 variables.</p>
 <ol style="list-style-type: lower-alpha">
-<li>The [<strong>mode</strong>] is the most commonly occurring category
-across cases and is the only statistic appropriate for describing the
-central tendency of a nominal variable. It may be more or less useful
-depending on the dispersion in the data, so often, we present the entire
-frequency distribution or visualize the distribution in a bar plot.</li>
-<li>The frequency distribution, or the distribution of proportions,
-reveals the <span
+<li>The <span class="important-text"><strong>mode</strong></span> is the
+most commonly occurring category across cases and is the only statistic
+appropriate for describing the central tendency of a nominal variable.
+It may be more or less useful depending on the dispersion in the data,
+so often, we present the entire frequency distribution or visualize the
+distribution in a bar plot.</li>
+<li>The <span class="important-text"><strong>frequency
+distribution</strong></span>, or the <span
+class="important-text"><strong>distribution of
+proportions</strong></span>, reveals the <span
 class="important-text"><strong>dispersion</strong></span> in the data,
 i.e., it tells us how many or what proportion of cases take each value
 of the variable. It also makes clear which category is the modal value
-and is a numeric representation of the <span
-class="important-text"><strong>dispersion</strong></span>.</li>
-<li>Bar plots are often used to visualize the central tendency,
-dispersion, and shape of the distribution of a nominal variable,
-particularly if the specific counts or proportions are not of central
-interest.</li>
+and is a numeric representation of the dispersion.</li>
+<li><span class="important-text"><strong>Bar plots</strong></span> are
+often used to visualize the central tendency, dispersion, and shape of
+the distribution of a nominal variable, particularly if the specific
+counts or proportions are not of central interest.</li>
 </ol></li>
 </ol>
 <p>Should you present a table, should you report summary statistics in
@@ -1232,7 +1324,30 @@ the central features of the variable. And of course, if you present a
 table or figure, you need to describe its contents in the text.</p>
 <p><img src="images/UnivariateNominal.png" style="width:70.0%"
 fig.alt="Infographic titled ‘Nominal Level Variable’ with four stacked blue boxes: Mode; Frequency or Proportion Distribution; Unimodal, Bimodal, Multimodal, Uniform; Bar Plot of Frequencies or Proportions. A left sidebar lists Central Tendency, Dispersion, Distribution, and Visualization. " /></p>
+<p role="status" aria-label="Great work! You&#39;ve completed this tutorial and strengthened your skills with nominal variables." style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+<span aria-hidden="true">🌟 Well done! 🌟</span>
+</p>
 <p>
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::register_http_handlers(session, metadata = list(id = "04-Nominal-Description"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::prepare_tutorial_state(session)
+</script>
+
+
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::i18n_observe_tutorial_language(input, session)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+session$onSessionEnded(function() {
+        learnr:::event_trigger(session, "session_stop")
+      })
+</script>
+
+
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
 library(tidyverse)
@@ -1248,46 +1363,26 @@ library(poliscidata)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::register_http_handlers(session, metadata = list(id = "04-Nominal-Description"))
-</script>
-
-
-<script type="application/shiny-prerendered" data-context="server">
-learnr:::prepare_tutorial_state(session)
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-learnr:::i18n_observe_tutorial_language(input, session)
-</script>
-
-
-<script type="application/shiny-prerendered" data-context="server">
-session$onSessionEnded(function() {
-        learnr:::event_trigger(session, "session_stop")
-      })
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "concepts-quiz-nominal", 
     question = structure("Which of the following variables are nominal level measures?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_3a23df5", 
+    "character")), answers = list(structure(list(id = "lnr_ans_8d3e2e6", 
         option = "The race of a respondent in a survey", value = "The race of a respondent in a survey", 
         label = structure("The race of a respondent in a survey", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Race is nominal because the possible values of the variable are unranked categories.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_7f2ec37", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b3480b8", 
         option = "The status of the death penalty (permitted or not) in a state", 
         value = "The status of the death penalty (permitted or not) in a state", 
         label = structure("The status of the death penalty (permitted or not) in a state", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The status of the death penalty is nominal because permitted or not permitted are categories of responses.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_fc02d10", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e5dc7c4", 
         option = "The restrictiveness of a state's gun laws measured with a letter grade", 
         value = "The restrictiveness of a state's gun laws measured with a letter grade", 
         label = structure("The restrictiveness of a state’s gun laws measured with a letter grade", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Restrictiveness of gun laws is an ordinal variable. The categories are ordered but the distances between them are not equal", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6ea0bc2", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_ab47cb3", 
         option = "The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", 
         value = "The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", 
         label = structure("The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", html = TRUE, class = c("html", 
@@ -1301,7 +1396,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "concepts-quiz-nominal-answer", question = "concepts-quiz-nominal"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1169262728.95552, options = list()), class = c("learnr_checkbox", 
+    seed = 794876029.129857, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -1322,7 +1417,7 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-summarise-majorit
 "df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
 "library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
     setup = NULL, chunks = list(list(label = "analysis-summarise-majority", 
-        code = "counties %>%\n  group_by(TrumpMajority) %>%\n  summarise(freq = n())", 
+        code = "library(dplyr)\ncounties %>%\n  group_by(TrumpMajority) %>%\n  summarise(freq = n())", 
         opts = list(label = "\"analysis-summarise-majority\"", 
             exercise = "TRUE", warning = "FALSE", exercise.cap = "\"Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1346,7 +1441,7 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-summarise-majorit
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-summarise-majority", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results.", 
-        code = c("counties %>%", "  group_by(TrumpMajority) %>%", 
+        code = c("library(dplyr)", "counties %>%", "  group_by(TrumpMajority) %>%", 
         "  summarise(freq = n())"), out.width.px = 624, out.height.px = 384, 
         params.src = "analysis-summarise-majority, exercise=TRUE, warning=FALSE, exercise.cap=\"Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
@@ -1420,7 +1515,7 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-practice-proporti
     setup = NULL, chunks = list(list(label = "analysis-practice-proportions", 
         code = "counties %>%\n  group_by(XXXX) %>%\n  XXXX(freq = n()) %>%\n  mutate(prop = XXXX)", 
         opts = list(label = "\"analysis-practice-proportions\"", 
-            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness.\""), 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code(\"This is a lot to remember but is something we will do a lot, so make sure you understand each line of code.\")", chunk_opts = list(
         label = "analysis-practice-proportions-check")), solution = structure(c("counties %>%", 
@@ -1445,10 +1540,10 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-practice-proporti
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-practice-proportions", exercise = TRUE, 
-        exercise.cap = "Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness.", 
+        exercise.cap = "Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available.", 
         code = c("counties %>%", "  group_by(XXXX) %>%", "  XXXX(freq = n()) %>%", 
         "  mutate(prop = XXXX)"), out.width.px = 624, out.height.px = 384, 
-        params.src = "analysis-practice-proportions, exercise = TRUE, exercise.cap=\"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness.\"", 
+        params.src = "analysis-practice-proportions, exercise = TRUE, exercise.cap=\"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1472,7 +1567,7 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-practice-freq-by-
     setup = NULL, chunks = list(list(label = "analysis-practice-freq-by-region", 
         code = "df %>%\n  group_by(region) %>%", opts = list(
             label = "\"analysis-practice-freq-by-region\"", exercise = "TRUE", 
-            exercise.lines = "4", exercise.cap = "\"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness.\""), 
+            exercise.lines = "4", exercise.cap = "\"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "analysis-practice-freq-by-region-check")), 
     solution = structure(c("df %>%", "  group_by(region) %>%", 
@@ -1497,9 +1592,9 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-practice-freq-by-
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-practice-freq-by-region", exercise = TRUE, 
-        exercise.lines = 4, exercise.cap = "Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness.", 
+        exercise.lines = 4, exercise.cap = "Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available.", 
         code = c("df %>%", "  group_by(region) %>%"), out.width.px = 624, 
-        out.height.px = 384, params.src = "analysis-practice-freq-by-region, exercise=TRUE, exercise.lines=4, exercise.cap=\"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness.\"", 
+        out.height.px = 384, params.src = "analysis-practice-freq-by-region, exercise=TRUE, exercise.lines=4, exercise.cap=\"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1762,7 +1857,7 @@ learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-race",
     setup = NULL, chunks = list(list(label = "visual-practice-bar-race", 
         code = "ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +\n  XXXX() +\n  labs(title = \"Number of US Counties by Racial Majority\",\n       subtitle = \"2016\",\n       x = NULL,\n       y = \"XXXX\",\n       caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(na.translate = FALSE, labels = c(XXXX))", 
         opts = list(label = "\"visual-practice-bar-race\"", exercise = "TRUE", 
-            exercise.cap = "\"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness.\""), 
+            exercise.cap = "\"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "visual-practice-bar-race-check")), 
     solution = structure(c("ggplot(data = counties, mapping = aes(x = factor(racial_majority))) +", 
@@ -1790,13 +1885,13 @@ learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-race",
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-practice-bar-race", exercise = TRUE, 
-        exercise.cap = "Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness.", 
+        exercise.cap = "Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available.", 
         code = c("ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +", 
         "  XXXX() +", "  labs(title = \"Number of US Counties by Racial Majority\",", 
         "       subtitle = \"2016\",", "       x = NULL,", "       y = \"XXXX\",", 
         "       caption = \"Source: Linn, Nagler, Zilinsky\") +", 
         "  scale_x_discrete(na.translate = FALSE, labels = c(XXXX))"
-        ), out.width.px = 624, out.height.px = 384, params.src = "visual-practice-bar-race, exercise = TRUE, exercise.cap=\"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness.\"", 
+        ), out.width.px = 624, out.height.px = 384, params.src = "visual-practice-bar-race, exercise = TRUE, exercise.cap=\"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1870,7 +1965,7 @@ learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-propor
         include = FALSE)), setup = NULL, chunks = list(list(label = "visual-practice-bar-proportion-regime", 
         code = "ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +\n  geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +\n  labs(title = \"Regime Type\",\n       subtitle = \"The Economist\",\n       x = NULL,\n       y = \"XXXX\") +\n  XXXX(na.translate = FALSE, labels = c(\"Full Democracy\",  \"Partial Democracy\", \"Hybrid\", \"Authoritarian\"))", 
         opts = list(label = "\"visual-practice-bar-proportion-regime\"", 
-            exercise = "TRUE", exercise.eval = "FALSE", exercise.cap = "\"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness.\""), 
+            exercise = "TRUE", exercise.eval = "FALSE", exercise.cap = "\"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "visual-practice-bar-proportion-regime-check")), 
     solution = structure(c("ggplot(data = world, mapping = aes(x = factor(dem_level4))) +", 
@@ -1897,12 +1992,12 @@ learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-propor
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-practice-bar-proportion-regime", exercise = TRUE, 
-        exercise.eval = FALSE, exercise.cap = "Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness.", 
+        exercise.eval = FALSE, exercise.cap = "Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available.", 
         code = c("ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +", 
         "  geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +", 
         "  labs(title = \"Regime Type\",", "       subtitle = \"The Economist\",", 
         "       x = NULL,", "       y = \"XXXX\") +", "  XXXX(na.translate = FALSE, labels = c(\"Full Democracy\",  \"Partial Democracy\", \"Hybrid\", \"Authoritarian\"))"
-        ), out.width.px = 624, out.height.px = 384, params.src = "visual-practice-bar-proportion-regime, exercise = TRUE, exercise.eval = FALSE, exercise.cap=\"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness.\"", 
+        ), out.width.px = 624, out.height.px = 384, params.src = "visual-practice-bar-proportion-regime, exercise = TRUE, exercise.eval = FALSE, exercise.cap=\"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1965,7 +2060,7 @@ learnr:::store_exercise_cache(structure(list(label = "visual-reorder-and-flip", 
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mice","mime","minqa","mitml","mitools","nlme","nloptr","nnet","pan","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","RColorBrewer","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","simstudy","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.1","0.1-3","4.6.4","0.1.8","1.0-9","1.3-31","1.0.9","0.9.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.3","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.1","1.17.8","4.5.1","1.2.3","1.1.8","0.6.37","1.1.4","1.0.4","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","3.0.1","0.1.4","3.5.2","4.1-9","1.8.0","3.2.0","0.2.14","4.5.1","4.5.1","4.5.1","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.8.1","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.50","0.4.3","1.4.3","0.22-7","0.11.5.9000","1.0.4","0.7","1.1-37","1.9.4","2.0.3","2.0","7.3-65","1.7-3","4.5.1","3.18.0","0.13","1.2.8","0.4-5","2.4","3.1-168","2.2.1","7.3-20","1.9","1.11.0","2.0.3","3.8-4","1.8.9","2.3.0","1.3.3","1.1.0","0.1.0","2.6.1","2.3","1.1-3","1.1.0","2.6.4","2.1.5","0.4.1","1.1.6","2.29","4.1.24","2.1.1","0.17.1","0.4.10","1.4.0","1.4.6.1","1.11.1","0.8.1","4.5.1","4.5.1","1.8.7","1.5.1","4.4-2","3.8-3","3.3.0","1.3.1","1.2.1","2.0.0","0.3.0","4.5.1","0.5.0","4.5.1","1.2-1","0.6.5","1.1.2","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mice","mime","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","pan","pbv","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","simstudy","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-3","4.6.4","0.1.8","1.0-9","1.3-32","1.0.8","0.9.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.3","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","1.17.0","4.5.2","1.2.3","1.1.8","0.6.37","1.1.4","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.8.1","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.50","0.4.3","1.4.4","0.22-7","0.11.5.9000","1.0.4","0.7","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","4.5.2","3.18.0","0.13","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","1.9","0.5-47","1.10.2","2.0.3","3.8-4","1.8.9","2.3.0","1.3.3","1.1.0","0.1.0","2.6.1","2.3","1.1.0","2.6.4","2.1.5","0.4.0","1.1.6","2.29","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.4.6.1","1.11.1","0.9.0","4.5.2","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

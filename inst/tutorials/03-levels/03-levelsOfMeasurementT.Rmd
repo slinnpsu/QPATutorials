@@ -379,7 +379,7 @@ A variable that measures individual partisan status as "Democrat," "Independent,
 Two-category nominal variables, such as whether a respondent in a survey voted for president in the most recent election (coded "yes" or "no"), are often referred to as binary or dichotomous variables.
 
 **Try it: Identify the nominal-level variables**
-```{r nominal-variable-question, echo=FALSE, exercise.cap="Interactive quiz: Identify which options are nominal (unordered categories). Choose two and use Run Code to check; retries allowed."}
+```{r nominal-variable-question, echo=FALSE}
 question("Which of the following variables are nominal level measures?",
   answer("Whether a state's electoral votes were assigned to Donald Trump or Hillary Clinton", correct = TRUE),
   answer("Whether a country has a parliamentary, presidential, or mixed democratic system or is not democratic", correct = TRUE, message = "Whether a state's electoral votes were assigned to Trump or Clinton is nominal, each value corresponds to a label and there is no rank order to the values. The same is true for the type of democratic government variable."),
@@ -403,7 +403,7 @@ As another example, consider income categories on a survey where the variable ta
 Most of the time, an ordinal variable will be coded with numeric rather than character values. R does have an ordered factor class, but we will not use it in this class.
 
 **Try it: Identify the ordinal-level variables**
-```{r ordinal-variable-question, echo=FALSE, exercise.cap="Interactive quiz: Identify which options are ordinal (rank-ordered categories). Choose two and use Run Code to check; retries allowed."}
+```{r ordinal-variable-question, echo=FALSE}
 question("Which of the following variables are ordinal level measures?",
   answer("Whether Freedom House labels a country as free, partly free, or not free", correct = TRUE),
   answer("Whether a county's population is majority of white, Black, Hispanic or some other race", message = "Racial majority is a nominal variable, the categories cannot be rank-ordered."),
@@ -427,7 +427,7 @@ A special type of interval variable, often given its own level of measurement, i
 Interval variables may be [**discrete**]{.important-text} or [**continuous**]{.important-text}. A variable measured in whole numbers is discrete. One measured in decimals is continuous. R refers to the variable type as `int` (for integer) if a variable is discrete and `num` (for numeric) if it is continuous.
 
 **Try it: Identify the interval-level variables**
-```{r interval-variable-question, echo=FALSE, exercise.cap="Interactive quiz: Identify which options are interval or ratio (ordered with meaningful differences). Choose two and use Run Code to check; retries allowed."}
+```{r interval-variable-question, echo=FALSE}
 question("Which of the following variables are interval (or ratio) level measures?",
   answer("Whether a state's governor is a Republican or Democrat or something else", message = "Gubernatorial partisanship is a nominal variable with values denoting categories that cannot be rank-ordered. "),
   answer("The level of foreign direct investment in a country measured in dollars", correct=TRUE),
@@ -453,7 +453,7 @@ Thus, a concept does not have a level of measurement. Instead, how a concept is 
 Consider support for Donald Trump in US counties in 2016:
 
 **Try it: Identify the measurement level for a binary majority indicator**
-```{r majority-measurment-question, echo=FALSE, exercise.cap="Interactive quiz: Determine the measurement level for a binary majority indicator (yes/no). Use Run Code to submit; retries allowed."}
+```{r majority-measurment-question, echo=FALSE}
 question("What level of measurement would a variable be that was coded as whether or not a majority of the county vote was cast for Donald Trump?",
   answer("Nominal", correct=TRUE, message="The values of the variable consitute unordered categories (yes or no)."),
   answer("Ordinal", message="The values of the variable are not rank-ordered so this is not an ordinal variable."),
@@ -463,7 +463,7 @@ question("What level of measurement would a variable be that was coded as whethe
 ```
 
 **Try it: Identify the measurement level for a percentage**
-```{r percentage-measurment-question-1, echo=FALSE, exercise.cap="Interactive quiz: Determine the measurement level for a percentage variable. Use Run Code to submit; retries allowed."}
+```{r percentage-measurment-question-1, echo=FALSE}
 question("What level of measurement would a variable be that was coded as percentage of the vote cast for Donald Trump?",
   answer("Nominal", message="The values this variable takes are ordered and distances between them are meaningful so it is not nominal."),
   answer("Ordinal", message="The values this variable takes are ordered but distances between them are meaningful so it is not ordinal."),
@@ -475,7 +475,7 @@ question("What level of measurement would a variable be that was coded as percen
 Consider the political ideology of members of Congress:
 
 **Try it: Classify the 1–7 ideology scale**
-```{r scale-measurment-question, echo=FALSE, exercise.cap="Interactive quiz: Classify a 1 to 7 ideology scale by measurement level. Use Run Code to submit; retries allowed."}
+```{r scale-measurment-question, echo=FALSE}
 question("What level of measurement would a variable be that was coded based on responses to the question: On a scale of 1 to 7, where 1 is very liberal and 7 is very conservative, where would you place yourself?",
   answer("Nominal", message="The values this variable takes are ordered so it is not nominal."),
   answer("Ordinal", correct=TRUE, message="The values are rank-ordered, but differences between respondent scores are not necessarily equal."),
@@ -485,7 +485,7 @@ question("What level of measurement would a variable be that was coded based on 
 ```
 
 **Try it: Identify the measurement level for a voting-with-leadership percentage**
-```{r percentage-measurment-question-2, echo=FALSE, exercise.cap="Interactive quiz: Determine the measurement level for a voting-with-leadership percentage. Use Run Code to submit; retries allowed."}
+```{r percentage-measurment-question-2, echo=FALSE}
 question("What level of measurement would ideology be if the variable was coded as the percent of times a member of Congress voted with the Republican leadership?",
   answer("Nominal", message="The values this variable takes are ordered and distances between them are meaningful so it is not nominal."),
   answer("Ordinal", message="The values this variable takes are ordered and distances between them are meaningful so it is not ordinal."),
@@ -507,7 +507,9 @@ The level of measurement of a variable determines how we describe its central fe
 "}
 
 
-<p role="status" aria-label="Congratulations! You successfully completed this section."
+<p role="status"
+   aria-label="Congratulations! You successfully completed this section."
    style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
-  🎉 <span aria-hidden="true">Good Work!</span> 🎉
+  <span aria-hidden="true">🎉 Good Work! 🎉</span>
 </p>
+

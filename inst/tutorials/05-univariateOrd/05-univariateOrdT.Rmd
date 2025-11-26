@@ -341,11 +341,11 @@ setInterval(function() {
 
 ## Learning Objectives
 
-In this tutorial, you will learn how to describe an ordinal level variable, using summary statistics and plots. Specifically, we will cover:
+In this tutorial, you will learn how to describe an [**ordinal level variable**]{.important-text}, using summary statistics and plots. Specifically, we will cover:
 
-* How to determine and describe the central tendency of an ordinal variable
+* How to determine and describe the [**central tendency**]{.important-text} of an ordinal variable
 * How to use the `median()` function
-* How to summarize the dispersion of an ordinal variable
+* How to summarize the [**dispersion**]{.important-text} of an ordinal variable
 
 We will also practice the tools we used to generate frequency distributions and proportions for nominal variables using the functions in the package [dplyr]{.package-name}, and bar plots with the `ggplot()` function in the package [ggplot2]{.package-name}.
 
@@ -390,7 +390,7 @@ The methods we use for the descriptive analysis of ordinal variables are almost 
 
 ## Central Tendency
 
-We can calculate the central tendency of an ordinal variable using the mode, but, in addition, we can calculate the median.
+We can calculate the central tendency of an ordinal variable using the mode, but, in addition, we can calculate the [**median**]{.important-text}.
 
 ### The mode
 
@@ -406,36 +406,44 @@ The data set, **counties**, contains the ordinal variable **rural_urban**. It is
 + 8:	Completely rural or less than 2,500 urban population, adjacent to a metro area
 + 9:	Completely rural or less than 2,500 urban population, not adjacent to a metro area.
 
+Each category is more populous than the last, but the differences between categories are not identical.
 
 We compute the mode of an ordinal variable in exactly the same fashion as for a nominal variable: we identify the most commonly occurring value from a frequency table or the table of proportions.  
 
 See if you can create a frequency and proportion table for the variable **rural_urban** in the data frame **counties** using the [dplyr]{.package-name} functions. Name your frequency variable `freq` and your proportion variable `prop`.  Don't forget to load the package with the `library()` function!
 
 **Practice: Create a frequency table for the rural variable**
-```{r analysis-practice-rural-table, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency table for the rural variable. Click Submit Answer to check correctness."}
+```{r analysis-practice-rural-table, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency table for the rural variable. Click Submit Answer to check correctness. Four hints are available."}
 
 ```
 
 ```{r analysis-practice-rural-table-hint-1}
-Remember we start with then dataframe name 'and then' use 
-group_by, summarise, and mutate in conjunction with the 
-pipe operator.
+# Hint 1 of 4
+Start by loading the dplyr package needed to use these functions.
 ```
 
 ```{r analysis-practice-rural-table-hint-2}
-Have you passed the variable rural_urban to group_by?
+# Hint 2 of 4
+Proceed by writing a four-step pipeline: begin with the data frame that contains
+rural_urban, then use group_by(), summarise(), and mutate(), each on its own line and
+connected with the pipe operator.
 ```
 
 ```{r analysis-practice-rural-table-hint-3}
-Have you calculated the frequencies using the summarise 
-function and n()?
+# Hint 3 of 4
+In the grouping step, pass rural_urban to group_by() so that the rows are grouped by rural
+versus urban. In the next step, use summarise() to create a new variable called freq that
+counts the number of rows in each rural_urban group using n().
+
 ```
 
 ```{r analysis-practice-rural-table-hint-4}
-Have you calculated the proportions using the mutate function to 
-generate a new variable equal to the frequency variable divided 
-by the sum of that variable?
+# Hint 4 of 4
+After you have freq, add a mutate() step to create a proportion  variable called prop.
+Inside mutate(), define prop as freq divided by the total of freq across both groups, 
+using sum(freq) in the denominator.
 ```
+
 
 ```{r analysis-practice-rural-table-solution}
 library(dplyr)
@@ -449,7 +457,7 @@ counties %>%
 grade_code()
 ```
 
-**Practice: Interpret the modal category**
+**Practice: Select a statement that correctly interprets the modal category**
 ```{r concepts-quiz-mode-interpretation, echo=FALSE}
 question("Which of the following statements *best* describes the mode of the variable rural_urban?",
   answer("There is no meaningful modal category", message = "While many of the rural-urban categories are similarly represented in the data, one category has one third more observations than any other."),
@@ -484,10 +492,11 @@ The median category for **rural_urban** is the same as the mode: 6. Half the cou
 
 Like nominal level variables, we use the frequency distribution or the distribution of proportions in tabular or graphical form to describe the dispersion, or spread, of the variable and to describe the shape of the distribution.
 
-Let's plot the frequency distribution and examine the dispersion from a bar plot.  Replace the XXXX in the following code to generate a bar plot with `ggplot()`.  Specify the title as "Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates". Remember that the \\n tells `ggplot()` to add a line break to split the title into two lines. You will need to include it in the code below. Set the title for the x-axis label to `NuLL`. This will omit the x-axis title. It's not needed here as having a title is redundant for this axis.
+Let's plot the frequency distribution and examine the dispersion from a bar plot.  Replace the XXXX in the following code to generate a bar plot with `ggplot()`.  Specify the title as "Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates". Remember that the \\n tells `ggplot()` to add a line break to split the title into two lines. You will need to include it in the code below. Set the title for the x-axis label to `NULL`. This will omit the x-axis title. It's not needed here as having a title is redundant for this axis. 
 
 **Practice: Create a bar chart for the rural_urban variable**
-```{r visual-practice-bar-rural, exercise=TRUE, exercise.cap="Interactive exercise: Create a bar chart for the rural_urban variable. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
+```{r visual-practice-bar-rural, exercise=TRUE, exercise.cap="Interactive exercise: Create a bar chart for the rural_urban variable. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available."}
+library(gpplot2)
 ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +
          XXXX +
          labs(title = "XXXX", 
@@ -497,25 +506,29 @@ ggplot(data = counties, XXXX = XXXX(x = factor(rural_urban))) +
               XXXX = "Source: Linn, Nagler, Zilinsky")
 ```
 
-
 ```{r visual-practice-bar-rural-hint-1}
-The first code that needs replacing tells ggplot() how to map 
-the variables to the x axis. Specify the mapping 
-argument and the aes() function
+# Hint 1 of 3
+The first XXXX inside ggplot() should be the argument named `mapping`. That argument will
+hold the aesthetic instructions for the plot.
 ```
 
 ```{r visual-practice-bar-rural-hint-2}
-Specify the geom type in the second line of code.
+# Hint 2 of 3
+The second XXXX is the function that wraps x = factor(rural_urban) to tell ggplot how to 
+use that variable in the plot. Use the standard aesthetic-mapping function there.
 ```
 
 ```{r visual-practice-bar-rural-hint-3}
-The remaining XXXX refer to labels. Think about what
-information you want to appear for which labels and 
-supply the correct argument.
+# Hint 3 of 3
+Add the bar-chart layer before the labels. Then look at the remaining XXXX inside labs():
+these are the argument names you must supply. One XXXX is the title argument (using the 
+full text with the \n), one is the x-axis label (set this to NULL), and the last two XXXX
+are the argument names for the y-axis label and the caption.
 ```
 
 
 ```{r visual-practice-bar-rural-solution}
+library(ggplot2)
 ggplot(data = counties, mapping = aes(x = factor(rural_urban))) +
          geom_bar() +
          labs(title = "Number of US Counties that Cast a Majority of \nVotes for the Major Party Presidential Candidates", 
@@ -531,7 +544,7 @@ grade_code()
 
 Before we interpret the plot, let's make it more informative.
 
-We'd like to replace the variable values 1-9 on the x-axis with informative phrases, but each category label is quite long and would not fit below the bars. We can solve this problem by flipping the coordinates. This is easy to do by adding another layer to the `ggplot()`.  The code below illustrates the `coord_flip()` function and replaces 1-9 with labels from the codebook entry.  I've also filled the bars in the color `"green"` using the `fill` argument inside `geom_bar()`.
+We'd like to replace the variable values 1-9 on the x-axis with informative phrases, but each category label is quite long and would not fit below the bars. We can solve this problem by flipping the coordinates. This is easy to do by adding another layer to the `ggplot()`.  The code below illustrates the `coord_flip()` function and replaces 1-9 with labels from the codebook entry.  Look carefully at the `scale_x_discrete()` function and how the labels are added. I've also filled the bars in the color `"green"` using the `fill` argument inside `geom_bar()`.
 
 **Explore: Flip coordinates and add custom labels**
 ```{r visual-explore-flip-and-label, exercise=TRUE, exercise.cap="Interactive exercise: Flip coordinates and add custom labels. Run the code, then try removing coord_flip() or scale_x_discrete() to see what happens."}
@@ -561,38 +574,41 @@ Let’s look at another ordinal variable. We will examine the variable **FHStatu
 First, we will generate a frequency and proportion table using the <span style="color:DarkGreen">dplyr</span> functions.  You do not need to load the package again because we've done so in an earlier exercise.  See if you can produce the table without looking at the hints. Name the counts variable **freq** and the proportion variable **prop**.
 
 **Practice: Create a frequency and proportion table for FHStatus**
-```{r analysis-practice-fhstatus-freq, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency and proportion table for the FHStatus variable. Name the new columns 'freq' and 'prop'. Click Submit Answer to check correctness."}
+```{r analysis-practice-fhstatus-freq, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency and proportion table for the FHStatus variable. Name the new columns 'freq' and 'prop'. Click Submit Answer to check correctness. Five hints are available."}
 
 ```
 
 
 
 ```{r analysis-practice-fhstatus-freq-hint-1}
-Remember to use group_by, summarise, and mutate in conjunction 
-with the pipe operator.
+# Hint 1 of 5
+Begin by starting your pipeline with the fHouse dataset so that every subsequent step 
+in your code operates on the correct source of data.
 ```
 
 ```{r analysis-practice-fhstatus-freq-hint-2}
-Did you start with the dataframe fHouse?
+# Hint 2 of 5
+Next, apply group_by() to FHStatus so the observations are organized by each category 
+before you create any summaries or new variables.
 ```
 
 ```{r analysis-practice-fhstatus-freq-hint-3}
-Have you passed the variable FHStatus to group_by?
-Have you calculated the frequencies using the summarise 
-function and n()?
+# Hint 3 of 5
+Use summarise() to produce a column named freq, making sure to count the number of cases 
+in each FHStatus group by calling n() inside it.
 ```
 
 
 ```{r analysis-practice-fhstatus-freq-hint-4}
-Have you calculated the proportions using the mutate function 
-to generate a new variable equal to the frequency variable 
-divided by the sum of that variable?
+# Hint 4 of 5
+After computing frequencies, use mutate() to add a prop column defined as freq divided by
+the total sum of freq across all grouped categories.
 ```
 
 ```{r analysis-practice-fhstatus-freq-hint-5}
-Don't forget the pipe, %>%, needs to be used at the end
-of each line telling the code "and then" execute the function
-on the next line.
+# Hint 5 of 5
+Keep each step connected with the %>% operator at the end of the line so the output from 
+one function is passed directly into the next step.
 ```
 
 ```{r analysis-practice-fhstatus-freq-solution}
@@ -620,7 +636,7 @@ question("Which of the following statements *best* describes the mode of the var
 Calculate the median.
 
 **Practice: Calculate the median for FHStatus**
-```{r analysis-practice-fhstatus-median, exercise=TRUE, exercise.cap="Interactive exercise: Write the code to calculate the median for the FHStatus variable. Remember to handle missing values. Click Submit Answer to check correctness."}
+```{r analysis-practice-fhstatus-median, exercise=TRUE, exercise.cap="Interactive exercise: Write the code to calculate the median for the FHStatus variable. Remember to handle missing values. Click Submit Answer to check correctness. Three hints are available."}
 
 ```
 
@@ -628,43 +644,79 @@ Calculate the median.
 median(fHouse$FHStatus, na.rm=TRUE)
 ```
 
+```{r analysis-practice-fhstatus-median-hint-1}
+# Hint 1 of 3
+Start by using the median() function, which computes the middle value of a numeric or
+ordinal variable. You will need to supply both the dataset and the specific variable 
+inside its parentheses.
+```
+
+```{r analysis-practice-fhstatus-median-hint-2}
+# Hint 2 of 3
+When passing the variable to median(), use the $ notation to access FHStatus from the 
+fHouse dataframe. Make sure the variable reference appears directly inside the median() call.
+```
+
+```{r analysis-practice-fhstatus-median-hint-3}
+# Hint 3 of 3
+Because the prompt mentions handling missing values, include the na.rm = TRUE argument
+inside median() so that any NA entries are ignored when computing the median. This 
+ensures the result is calculated correctly for this variable.
+```
+
 ```{r analysis-practice-fhstatus-median-check}
 grade_code()
 ```
 
 
-
-Most nations are "Free" (coded 2) according to Freedom House, and a half or less are "Partly Free" (coded 1) and another half or more are "Partly Free".  Note that if the variable had been recoded so that "Free" was coded 0 and "Not Free" was coded 2, the median category would have been "Free." The moral of the story is that you need to clearly state the order of the ranking (from more to less free or from less free to more free) when you provide a median.
-
+A median of 1 means that the middle country in the distribution falls into the category coded as 1, which is “Partly Free.” In other words, if you lined up all countries from least free (0) to most free (2) and looked at the one in the exact center, that country’s status would be Partly Free. Note that the median of an ordinal variable depends on the order of the categories. If the coding were flipped—for example, If the ordering itself was reversed the median would change. This is why it is essential to state clearly how the categories are ordered whenever you report a median for an ordinal variable.
 
 Let's plot the frequency distribution as a bar plot for practice. Try to generate the plot from scratch without looking at the hints. To produce an informative plot, use the `title` "Freedom House Ranking of Countries", label the `y` axis "Frequency", relabel the x-axis tick marks by setting "0" to "Not Free", "1" to "Partly Free", and "2" to "Free" in the `labels()` function so that the axis tick mark labels. Omit the missing values from your plot using `na.translate = FALSE` inside the `scale_x_discrete()` function. Do not include the `subtitle` or `caption` label. Since there is no default value for either, this will simply omit the subtitle and caption from the plot.
 
 **Practice: Create a frequency bar plot for FHStatus**
-```{r visual-practice-fhstatus-freq-bar, exercise=TRUE, exercise.cap="Interactive exercise: Write ggplot code from scratch to plot FHStatus. See the text prompt for specific instructions on titles, labels, and axis scales. Click Submit Answer to check correctness."}
+```{r visual-practice-fhstatus-freq-bar, exercise=TRUE, exercise.cap="Interactive exercise: Write ggplot code from scratch to plot FHStatus. See the text prompt for specific instructions on titles, labels, and axis scales. Click Submit Answer to check correctness. Six hints are available."}
 
 ```
 
 ```{r visual-practice-fhstatus-freq-bar-hint-1}
-Did you call the ggplot() function and provide the data?
+# Hint 1 of 6
+Begin by calling ggplot() and supplying data = fHouse. 
 ```
 
 ```{r visual-practice-fhstatus-freq-bar-hint-2}
-Did you use the mapping argument to specify the aesthetics?
+# Hint 2 of 6
+Inside ggplot(), include a mapping argument that uses aes() to specify the x-variable you
+want to display as the categories in your bar chart. Be sure to wrap in the factor()
+function to tell ggplot the variable is nominal. Finish the line with a + so you can add
+the geometry on the following new line.
 ```
 
 ```{r visual-practice-fhstatus-freq-bar-hint-3}
-Did you use a plus sign and add the geom_bar() layer?
+# Hint 3 of 6
+Add geom_bar() on its own new line to create the bars. Since you will be adding more 
+layers after this, end the geom_bar() line with a plus sign (+).
 ```
 
 ```{r visual-practice-fhstatus-freq-bar-hint-4}
-Did you remember that to replace the labels you need to 
-put the new names in quotations and to separate
-them with commas and place them inside c()?
+# Hint 4 of 6
+Use labs() on the next line to include the required main title and y-axis label. Leave out
+the subtitle and caption entirely. End this labs() line with a + because the scale
+adjustment still needs to be added afterward.
 ```
 
 ```{r visual-practice-fhstatus-freq-bar-hint-5}
-Are all your parentheses matched?
-Did you include a plus sign for each layer at the end of the line?
+# Hint 5 of 6
+Add scale_x_discrete() on a new line to control the x-axis. Inside it, set na.translate =
+FALSE and provide a c() vector of descriptive labels to replace the numeric tick marks.
+Watch your commas and parentheses carefully. Make sure to list the labels in order, from
+the one coded zero to the one coded 2.
+```
+
+```{r visual-practice-fhstatus-freq-bar-hint-6}
+# Hint 6 of 6
+Confirm that every plot layer except the final one ends with a +, and that each major
+component—mapping, geometry, labels, and scale—appears on its own separate line to keep 
+the structure readable and correctly formatted.
 ```
 
 ```{r visual-practice-fhstatus-freq-bar-solution}
@@ -684,7 +736,7 @@ grade_code()
 Let's recreate this plot to display the y-axis in proportions. You only have to change two lines: the `geom_bar()` line needs a y aesthetic and the y axis title needs to change to "Proportion".
 
 **Practice: Convert the plot to show proportions**
-```{r visual-practice-fhstatus-prop-bar, exercise=TRUE, exercise.cap="Interactive exercise: Modify the plot to show proportions instead of frequencies. Fill in the XXXX placeholders and click Submit Answer to check correctness."}
+```{r visual-practice-fhstatus-prop-bar, exercise=TRUE, exercise.cap="Interactive exercise: Modify the plot to show proportions instead of frequencies. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available."}
 ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
          geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX)) +
          labs(title = "Freedom House Ranking of Countries", 
@@ -694,11 +746,26 @@ ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
 ```
 
 ```{r visual-practice-fhstatus-prop-bar-hint-1}
-To obtain proportions specify aes(y = after_stat(prop), group = 1)) inside geom_bar().
-Be careful to match parentheses.
+# Hint 1 of 3
+To turn counts into proportions within geom_bar(), you need a y aesthetic that uses
+after_stat(prop). This goes inside an aes() call in the XXXX so that ggplot knows 
+to compute proportions instead of raw frequencies.
 ```
 
+```{r visual-practice-fhstatus-prop-bar-hint-2}
+# Hint 2 of 3
+Inside that aes(), one XXXX should map y to the after_stat(prop) expression, and another
+XXXX should set a grouping so the proportions are computed over all bars together (use one 
+for the group value). Watch the commas and match all parentheses carefully in the
+geom_bar() line.
+```
 
+```{r visual-practice-fhstatus-prop-bar-hint-3}
+# Hint 3 of 3
+The remaining XXXX is in labs(), where the y-axis title still refers to frequencies. 
+Update that quoted text so the y label correctly describes what is now being shown on the
+axis: proportions rather than counts.
+```
 
 ```{r visual-practice-fhstatus-prop-bar-solution}
 ggplot(data = fHouse,  mapping = aes(x = factor(FHStatus))) +
@@ -733,6 +800,11 @@ Which of these pieces of information should you present when conducting descript
 ![](images/UnivariateOrdinal.png){width="70%" fig.alt="Infographic titled ‘Ordinal Level Variable’ with four stacked blue boxes: Median (or Mode); Percentiles/IQR (dispersion of ranks); Ordered distribution (e.g., unimodal/bimodal and skew on ranks); Bar plot of ordered categories or cumulative proportions. A left sidebar lists Central Tendency, Dispersion, Distribution, and Visualization."}
 
 
+<p role="status"
+   aria-label="Great work! You have completed this tutorial and strengthened your understanding of ordinal variables."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🌟 Excellent work! 🌟</span>
+</p>
 
 
 
