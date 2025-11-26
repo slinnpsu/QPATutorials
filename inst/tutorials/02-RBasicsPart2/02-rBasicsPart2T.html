@@ -571,7 +571,8 @@ it. You’ll need to replace the name in both places.</p>
 <div class="tutorial-exercise" data-label="data2-import-csv"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>df &lt;- import(&quot;example_data.xlsx&quot;)
+<pre class="text"><code>library(rio)
+df &lt;- import(&quot;example_data.xlsx&quot;)
 df</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results."}</script>
 </div>
@@ -580,7 +581,8 @@ df</code></pre>
 <h3>Stata data files</h3>
 <p>A Stata data file can be imported in the same manner. Stata data
 files will have a .dta extension. See if you can write the code to
-import “oilwomen.dta” without looking. Name your new object
+import “oilwomen.dta” without looking. (Don’t forget to load the <span
+class="package-name">rio</span>.) Name your new object
 <strong>oil</strong> and then print it.</p>
 <strong>Practice: Load the data</strong>
 <div class="tutorial-exercise" data-label="data3-import-csv"
@@ -594,7 +596,7 @@ data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code># Hint 1 of 3: Similar to previous examples
 This follows the same pattern as importing the CSV and Excel files. Use the import() function 
-from the rio package with the filename.</code></pre>
+from the rio package with the filename. Don not forget to load rio wih the library() function!</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="data3-import-csv-hint-2" data-completion="1"
@@ -615,7 +617,8 @@ After importing and assigning to oil, type the object name on a second line to p
 data-label="data3-import-csv-solution" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
-<pre class="text"><code>oil &lt;- import(&quot;oilwomen.dta&quot;)
+<pre class="text"><code>library(rio)
+oil &lt;- import(&quot;oilwomen.dta&quot;)
 oil</code></pre>
 </div>
 </div>
@@ -623,7 +626,8 @@ oil</code></pre>
 <h3>Tab-delimited files</h3>
 <p>Surprise, if we have a tab-delimited data file, we do the same thing!
 Read in “turnout2.txt,” assign it to the object <strong>TO</strong> and
-print it.</p>
+print it. You may assume the <span class="package-name">rio</span>
+package is already loaded.</p>
 <strong>Practice: Load the data</strong>
 <div class="tutorial-exercise" data-label="data4-import-csv"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -706,7 +710,8 @@ with a capital letter.) This will open the data in a new window, which
 can make it easier to examine in full. No matter how you do so, it’s a
 good idea to view your data frame to make sure you have loaded the data
 you intended. Note, however, that you cannot execute this function from
-within the tutorial. <strong>We will not run this function.</strong></p>
+within the tutorial. <strong>We will not run this function inside the
+tutorial.</strong></p>
 <pre class="r"><code>View(unFBposts)</code></pre>
 </div>
 <div id="section-determining-the-number-of-rows-and-columns"
@@ -807,7 +812,8 @@ data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code>names(unFBposts)</code></pre>
 </div>
-<p>Here is a short description of each variable in the data set.</p>
+<p>Here is a short description of each variable in the data set. Read it
+carefully to help you with the next exercises!</p>
 <table id="post-fields-table" aria-labelledby="post-fields-caption">
 <caption id="post-fields-caption">
 Dataset fields for social media posts: names and accessible
@@ -915,8 +921,8 @@ data-lines="0" data-pipe="|&gt;">
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Observe the structure of the data. Use the Run Code button to execute and see results."}</script>
 </div>
 <p>The letter abbreviations that appear to the right of the column names
-describe the type of data that is stored in each column of
-<strong>unFBposts</strong>. Possible types include:</p>
+(after the colon) describe the type of data that is stored in each
+column of <strong>unFBposts</strong>. Possible types include:</p>
 <ul>
 <li>int: integers.</li>
 <li>dbl: doubles, or real numbers.</li>
@@ -1074,13 +1080,13 @@ often, we will encounter variables that are missing a value for at least
 one entry.</p>
 <p>If there are missing values in a vector, we include
 <code>na.rm = TRUE</code> (TRUE must be all caps) as an argument to many
-functions to tell R to drop the cases with missing values before
+functions to tell R to ignore the cases with missing values when
 executing the function.</p>
 <p>Let’s calculate the mean number of shares for UN Facebook posts,
 allowing for missing values (there are not any so we would get the same
 value if we did not use this option but we would get an error if we omit
 the option when there are missing values).</p>
-<strong>Try it: Calculate the mean dropping NA values</strong>
+<strong>Try it: Calculate the mean ignoring NA values</strong>
 <div class="tutorial-exercise" data-label="data-handle-NAvalue"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
@@ -1095,8 +1101,8 @@ data-lines="0" data-pipe="|&gt;">
 unlike with a vector, we have two dimensions, so we specify the row and
 column index of interest.</p>
 <p>For example, to see the 3rd row in the 2nd colum of
-<strong>unFBposts</strong> we use square brackets and list the row,
-followed by a comma, and the column:</p>
+<strong>unFBposts</strong> we use square brackets and list the row
+number, followed by a comma, and the column number:</p>
 <strong>Try it: Observe specific observation and column</strong>
 <div class="tutorial-exercise" data-label="data-explore-index1"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -1159,11 +1165,11 @@ any message has received.</li>
 <li><code>unFBposts$likes_count == max_value</code>: Here
 <strong>max_value</strong> refers to the results of previous bullet
 point. After determining the maximum value, the code checks every entry
-in the <strong>likes_count</strong> column to see which ones match this
-highest value. When you compare the entire column against this maximum
-value, you get a logical vector (i.e., a series of TRUE and FALSE
-values). Each TRUE indicates an entry where the number of likes matches
-the maximum value.</li>
+in the <strong>likes_count</strong> column to see which one(s) match
+this highest value. When you compare the entire column against this
+maximum value, you get a logical vector (i.e., a series of TRUE and
+FALSE values). Each TRUE indicates an entry where the number of likes
+matches the maximum value.</li>
 <li><code>which(...)</code>: Finally, the <code>which()</code> function
 is applied to this logical vector. Its role is to extract the indices
 where the condition <code>(unFBposts$likes_count == max_value)</code> is
@@ -1196,7 +1202,7 @@ data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code># Hint 2 of 4: Finding the maximum
 Use max(unFBposts$shares_count, na.rm = TRUE) to find the highest value of shares. 
-The na.rm = TRUE ensures missing values don&#39;t cause problems.</code></pre>
+The na.rm = TRUE ensures missing values do not cause problems.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="data-explore-index4_1-hint-3" data-completion="1"
@@ -1204,7 +1210,7 @@ data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code># Hint 3 of 4: Creating the condition
 Compare unFBposts$shares_count to its maximum value using two equal signs (==). 
-This creates a logical condition that&#39;s TRUE where shares equals the maximum.</code></pre>
+This creates a logical condition that is TRUE where shares equals the maximum.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
 data-label="data-explore-index4_1-hint-4" data-completion="1"
@@ -1262,7 +1268,7 @@ data-label="data-explore-index4_3-hint-3" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code># Hint 3 of 3: The condition
-The condition inside which() should still compare shares_count to its maximum value. You&#39;re using that 
+The condition inside which() should still compare shares_count to its maximum value. You are using that 
 to find the right row, then getting the likes_count value from that row.</code></pre>
 </div>
 <div class="tutorial-exercise-support"
@@ -1685,8 +1691,11 @@ new variables—will be essential in every data analysis project
 throughout the course. Master these fundamentals, as they form the
 building blocks for more sophisticated analytical techniques in upcoming
 tutorials.</p>
-<p style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
-🎉 You’ve mastered the basics! 🎉
+<p role="status" style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
+<span aria-hidden="true">🎉</span> <span
+style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+           clip:rect(0,0,0,0);white-space:nowrap;border:0;"> Success:
+</span> You’ve mastered the basics!
 </p>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
@@ -1886,7 +1895,7 @@ learnr:::store_exercise_cache(structure(list(label = "data2-import-csv", global_
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = "library(writexl)\n# Create sample data\ntmp.df2 <- data.frame(\n  name = c(\"John\", \"Jane\", \"Bob\"),\n  age = c(25, 30, 35),\n  score = c(85, 92, 78)\n)\nwrite_xlsx(tmp.df2, \"example_data.xlsx\")", 
     chunks = list(list(label = "data2-import-csv-setup", code = "library(writexl)\n# Create sample data\ntmp.df2 <- data.frame(\n  name = c(\"John\", \"Jane\", \"Bob\"),\n  age = c(25, 30, 35),\n  score = c(85, 92, 78)\n)\nwrite_xlsx(tmp.df2, \"example_data.xlsx\")", 
         opts = list(label = "\"data2-import-csv-setup\""), engine = "r"), 
-        list(label = "data2-import-csv", code = "df <- import(\"example_data.xlsx\")\ndf", 
+        list(label = "data2-import-csv", code = "library(rio)\ndf <- import(\"example_data.xlsx\")\ndf", 
             opts = list(label = "\"data2-import-csv\"", exercise = "TRUE", 
                 exercise.setup = "\"data2-import-csv-setup\"", 
                 exercise.cap = "\"Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results.\""), 
@@ -1911,8 +1920,8 @@ learnr:::store_exercise_cache(structure(list(label = "data2-import-csv", global_
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "data2-import-csv", exercise = TRUE, exercise.setup = "data2-import-csv-setup", 
         exercise.cap = "Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results.", 
-        code = c("df <- import(\"example_data.xlsx\")", "df"), 
-        out.width.px = 624, out.height.px = 384, params.src = "data2-import-csv, exercise=TRUE, exercise.setup=\"data2-import-csv-setup\", exercise.cap=\"Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results.\"", 
+        code = c("library(rio)", "df <- import(\"example_data.xlsx\")", 
+        "df"), out.width.px = 624, out.height.px = 384, params.src = "data2-import-csv, exercise=TRUE, exercise.setup=\"data2-import-csv-setup\", exercise.cap=\"Interactive exercise: Load the data and view the contents. Use the Run Code button to execute and see results.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1940,7 +1949,7 @@ learnr:::store_exercise_cache(structure(list(label = "data3-import-csv", global_
             exercise.setup = "\"data3-import-csv-setup\"", exercise.cap = "\"Interactive exercise: Load the data. Enter your code and click Submit Answer to check correctness. Three hints available.\""), 
             engine = "r")), code_check = NULL, error_check = NULL, 
     check = structure("grade_code()", chunk_opts = list(label = "data3-import-csv-check")), 
-    solution = structure(c("oil <- import(\"oilwomen.dta\")", 
+    solution = structure(c("library(rio)", "oil <- import(\"oilwomen.dta\")", 
     "oil"), chunk_opts = list(label = "data3-import-csv-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
@@ -3440,7 +3449,7 @@ learnr:::store_exercise_cache(structure(list(label = "range", global_setup = str
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72]}},"value":[{"type":"character","attributes":{},"value":["backports","base","bitops","bslib","cachem","checkmate","cli","compiler","datasets","digest","dplyr","evaluate","farver","fastmap","fontawesome","forcats","generics","ggplot2","glue","gradethis","graphics","grDevices","grid","gtable","hms","htmltools","htmlwidgets","httpuv","jquerylib","jsonlite","knitr","later","learnr","lifecycle","lubridate","magrittr","methods","mime","pillar","pkgconfig","promises","purrr","qpaTutorials","R6","RColorBrewer","Rcpp","RCurl","readr","rio","rlang","rmarkdown","rprojroot","rstudioapi","sass","scales","shiny","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","vctrs","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.5.0","4.5.1","1.0-9","0.9.0","1.1.0","2.3.3","3.6.5","4.5.1","4.5.1","0.6.37","1.1.4","1.0.4","2.1.2","1.2.0","0.5.3","1.0.0","0.1.4","3.5.2","1.8.0","0.2.14","4.5.1","4.5.1","4.5.1","0.3.6","1.1.3","0.5.8.1","1.6.4","1.6.16","0.1.4","2.0.0","1.50","1.4.3","0.11.5.9000","1.0.4","1.9.4","2.0.3","4.5.1","0.13","1.11.0","2.0.3","1.3.3","1.1.0","0.1.0","2.6.1","1.1-3","1.1.0","1.98-1.17","2.1.5","1.2.3","1.1.6","2.29","2.1.1","0.17.1","0.4.10","1.4.0","1.11.1","4.5.1","1.8.7","1.5.1","3.3.0","1.3.1","1.2.1","2.0.0","0.3.0","4.5.1","0.5.0","4.5.1","0.6.5","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72]}},"value":[{"type":"character","attributes":{},"value":["backports","base","bitops","bslib","cachem","checkmate","cli","colorspace","compiler","datasets","digest","dplyr","evaluate","fastmap","fontawesome","forcats","generics","ggplot2","glue","gradethis","graphics","grDevices","grid","gtable","hms","htmltools","htmlwidgets","httpuv","jquerylib","jsonlite","knitr","later","learnr","lifecycle","lubridate","magrittr","methods","mime","munsell","pillar","pkgconfig","promises","purrr","qpaTutorials","R6","Rcpp","RCurl","readr","rio","rlang","rmarkdown","rprojroot","rstudioapi","sass","scales","shiny","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","vctrs","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.5.0","4.5.2","1.0-9","0.9.0","1.1.0","2.3.3","3.6.5","2.1-1","4.5.2","4.5.2","0.6.37","1.1.4","1.0.5","1.2.0","0.5.3","1.0.0","0.1.3","3.5.2","1.8.0","0.2.14","4.5.2","4.5.2","4.5.2","0.3.6","1.1.3","0.5.8.1","1.6.4","1.6.16","0.1.4","2.0.0","1.50","1.4.4","0.11.5.9000","1.0.4","1.9.4","2.0.4","4.5.2","0.13","0.5.1","1.10.2","2.0.3","1.3.3","1.1.0","0.1.0","2.6.1","1.1.0","1.98-1.17","2.1.5","1.2.3","1.1.6","2.29","2.1.1","0.17.1","0.4.10","1.3.0","1.11.1","4.5.2","1.8.7","1.5.1","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","4.5.2","0.6.5","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

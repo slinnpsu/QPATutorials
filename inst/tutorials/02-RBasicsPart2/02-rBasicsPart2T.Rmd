@@ -551,12 +551,12 @@ write_dta(tmp.df3, "oilwomen.dta")
 ```{r data3-import-csv-hint-1}
 # Hint 1 of 3: Similar to previous examples
 This follows the same pattern as importing the CSV and Excel files. Use the import() function 
-from the rio package with the filename. Don not forget to load rio wih the library() function!
+from the rio package with the filename. Do not forget to load rio wih the library() function!
 ```
 
 ```{r data3-import-csv-hint-2}
 # Hint 2 of 3: Assignment and filename
-Assign the result to a new object called oil using the assignment operator. The filename is 
+Assign the result to a new object called oil using the assignment operator. The filename is
 "oilwomen.dta" and should be in quotes.
 ```
 
@@ -703,9 +703,8 @@ Can you determine how many posts were published, on average, per day in
 
 ```{r data-howmanyposts-hint}
 # Hint 1 of 1: Average number of posts
-There are 365 days in this year and the number of
-rows in the data is given by nrows(unFBposts),
-so divide the latter by the former.
+There are 365 days in this year and the number of rows in the data is given by
+nrows(unFBposts), so divide the latter by the former.
 ```
 
 ```{r data-howmanyposts-check}
@@ -728,17 +727,14 @@ variables are in **unFBposts**?
 
 ```{r data-structure-columns-hint-1}
 # Hint 1 of 2: Number of columns
-Recall each row of the data set contains data for one observation and 
-each column of the data set contains values of a single variable. 
-
-nrow function was used for determining the number of rows, what function would 
-serve to determine the number of columns? 
-
+Recall each row of the data set contains data for one observation and each column of the
+data set contains values of a single variable. The nrow() function was used for determining
+the number of rows, what function would serve to determine the number of columns? 
 ```
 
 ```{r data-structure-columns-hint-2}
 # Hint 2 of 2: Number of columns
-Place the data object inside the ncol function.
+Place the data object inside the ncol() function.
 ```
 
 ```{r data-structure-columns-solution}
@@ -921,15 +917,15 @@ See if you can write the code without looking at the hints.
 
 ```{r data-handle-summation-hint-1}
 # Hint 1 of 2: Understanding the approach
-You need to combine two functions: one to identify missing values
-and another to count how many TRUE values result from that check.
-Think about which function identifies missing data.
+You need to combine two functions: one to identify missing values and another to count how
+many TRUE values result from that check. Think about which function identifies missing
+values
 ```
 
 ```{r data-handle-summation-hint-2}
 # Hint 2 of 2: Building the inner function
-Place is.na(unFBposts$message) inside the sum() function. Make sure
-you have matching parentheses - two opening and two closing.
+Place is.na(unFBposts$message) inside the sum() function. Make sure you have matching
+parentheses - two opening and two closing.
 ```
 
 ```{r data-handle-summation-solution}
@@ -949,9 +945,8 @@ How many missing values are there for the variable **likes_count**?
 
 ```{r data-handle-summation2-hint}
 # Hint 1 of 1: Count NA values
-Wrap the sum function around the is.na function
-applied to likes_count. Don't forget to name the
-data object$ before listing the variable name.
+Wrap the sum function around the is.na function applied to likes_count. Don't forget to
+name the data object$ before listing the variable name.
 ```
 
 ```{r data-handle-summation2-solution}
@@ -1094,8 +1089,8 @@ finding the message with the maximum number of shares using
 
 ```{r data-explore-index4_1-hint-1}
 # Hint 1 of 4: Overall structure
-You need to index the message variable using square brackets. Inside those brackets, use which() 
-to find the row(s) where shares_count is at its maximum.
+You need to index the message variable using square brackets. Inside those brackets, use
+which() to find the row(s) where shares_count is at its maximum.
 ```
 
 ```{r data-explore-index4_1-hint-2}
@@ -1138,20 +1133,21 @@ Try finding the number of likes (**likes_count**) for that message:
 
 ```{r data-explore-index4_3-hint-1}
 # Hint 1 of 3: Same row, different variable
-You want the likes_count for the same message that had the most shares. Use the same which() condition 
-you saw in the example above, but apply it to likes_count instead of shares_count.
+You want the likes_count for the same message that had the most shares. Use the same
+which() condition you saw in the example above, but apply it to likes_count instead of
+shares_count.
 ```
 
 ```{r data-explore-index4_3-hint-2}
 # Hint 2 of 3: Structure
-Use unFBposts$likes_count followed by square brackets. Inside the brackets, place the which() condition 
-that identifies the row with maximum shares.
+Use unFBposts$likes_count followed by square brackets. Inside the brackets, place the
+which() condition that identifies the row with maximum shares.
 ```
 
 ```{r data-explore-index4_3-hint-3}
 # Hint 3 of 3: The condition
-The condition inside which() should still compare shares_count to its maximum value. You are using that 
-to find the right row, then getting the likes_count value from that row.
+The condition inside which() should still compare shares_count to its maximum value. You
+are using that to find the right row, then getting the likes_count value from that row.
 ```
 
 ```{r data-explore-index4_3-solution}
@@ -1203,14 +1199,15 @@ the data frame **unFBposts** and list the first few values.
 
 ```{r data-create-variable-hint-1}
 # Hint 1 of 3: Creating the new variable
-Create a new variable called attention in the unFBposts data frame using the assignment operator. 
-The structure is: unFBposts$attention <- expression
+Create a new variable called attention in the unFBposts data frame using the assignment
+operator.  The structure is: unFBposts$attention <- expression
 ```
 
 ```{r data-create-variable-hint-2}
 # Hint 2 of 3: Calculating the sum
-Add together three variables using the plus sign: likes_count, shares_count, and comments_count. 
-Each variable needs to be preceded by unFBposts$ so R knows where to find them.
+Add together three variables using the plus sign: likes_count, shares_count, and
+comments_count. Each variable needs to be preceded by unFBposts$ so R knows where 
+to find them.
 ```
 
 ```{r data-create-variable-hint-3}
@@ -1269,8 +1266,8 @@ post.
 
 ```{r data-howmanyposts2-hint-1}
 # Hint 1 of 2: Counting rows
-Each row represents one post, so counting the total number of rows tells you how many posts were published. 
-Think about which function returns the number of rows in a data frame.
+Each row represents one post, so counting the total number of rows tells you how many posts
+were published. Think about which function returns the number of rows in a data frame.
 ```
 
 ```{r data-howmanyposts2-hint-2}
@@ -1297,13 +1294,14 @@ the first post ("message") in the data frame **unFBposts**?
 
 ```{r text-hint-1}
 # Hint 1 of 2: Accessing a specific row
-You need to access the message variable and use indexing with square brackets to select the first observation. 
-The structure is: variable[row_number]
+You need to access the message variable and use indexing with square brackets to select the
+first observation. The structure is: variable[row_number]
 ```
 
 ```{r text-hint-2}
 # Hint 2 of 2: Specifying the first row
-Use unFBposts$message followed by square brackets. Inside the brackets, put the number 1 to get the first row.
+Use unFBposts$message followed by square brackets. Inside the brackets, put the number 1 
+to get the first row.
 ```
 
 ```{r text-solution}
@@ -1325,14 +1323,14 @@ grade_code()
 
 ```{r likes-hint-1}
 # Hint 1 of 2: Calculating averages
-Use the mean() function with the likes_count variable from the unFBposts data frame. Remember
-to specify the variable using the dollar sign notation.
+Use the mean() function with the likes_count variable from the unFBposts data frame.
+Remember to specify the variable using the dollar sign notation.
 ```
 
 ```{r likes-hint-2}
 # Hint 2 of 2: Handling missing values
-Include the argument na.rm = TRUE inside the mean() function to ensure any missing values are
-excluded from the calculation.
+Include the argument na.rm = TRUE inside the mean() function to ensure any missing values
+are excluded from the calculation.
 ```
 
 ```{r likes-solution}
@@ -1354,13 +1352,14 @@ grade_code()
 
 ```{r mean-hint-1}
 # Hint 1 of 2: Calculating averages
-Use the mean() function with the comments_count variable from the unFBposts data frame. 
+Use the mean() function with the comments_count variable from the unFBposts data frame.
 Access the variable using the dollar sign notation.
 ```
 
 ```{r mean-hint-2}
 # Hint 2 of 2: Handling missing values
-Add na.rm = TRUE as an argument inside the mean() function to exclude any missing values from the calculation.
+Add na.rm = TRUE as an argument inside the mean() function to exclude any missing values
+from the calculation.
 ```
 
 
@@ -1386,13 +1385,14 @@ grade_code()
 
 ```{r shares-hint-1}
 # Hint 1 of 2: Finding the average
-Apply the mean() function to the shares_count variable in the unFBposts data frame using dollar
-sign notation to access the variable.
+Apply the mean() function to the shares_count variable in the unFBposts data frame using
+dollar sign notation to access the variable.
 ```
 
 ```{r shares-hint-2}
 # Hint 2 of 2: Missing value argument
-Include na.rm = TRUE inside the mean() function to properly handle any missing values in the data.
+Include na.rm = TRUE inside the mean() function to properly handle any missing values in
+the data.
 ```
 
 
@@ -1415,13 +1415,14 @@ number of shares ("shares_count") a post in the data frame **unFBposts** receive
 
 ```{r max-hint-1}
 # Hint 1 of 2: Finding maximum values
-Use the max() function to find the largest value in the shares_count variable from the unFBposts data frame.
+Use the max() function to find the largest value in the shares_count variable from the
+unFBposts data frame.
 ```
 
 ```{r max-hint-2}
 # Hint 2 of 2: Handling missing values
-Add na.rm = TRUE as an argument inside the max() function to ensure missing values don't interfere 
-with finding the maximum.
+Add na.rm = TRUE as an argument inside the max() function to ensure missing values do not
+interfere with finding the maximum.
 ```
 
 
@@ -1444,12 +1445,14 @@ of likes ("likes_count") a post in the data frame **unFBposts** received?
 
 ```{r min-hint-1}
 # Hint 1 of 2: Finding minimum values
-Use the min() function to find the smallest value in the likes_count variable from the unFBposts data frame.
+Use the min() function to find the smallest value in the likes_count variable from the
+unFBposts data frame.
 ```
 
 ```{r min-hint-2}
 # Hint 2 of 2: Missing value handling
-Include na.rm = TRUE as an argument inside the min() function to properly exclude any missing values.
+Include na.rm = TRUE as an argument inside the min() function to properly exclude any
+missing values.
 ```
 
 
@@ -1479,7 +1482,8 @@ unFBposts data frame.
 
 ```{r range-hint-2}
 # Hint 2 of 2: Handling missing values
-Add na.rm = TRUE inside the range() function to ensure missing values are excluded when calculating the range.
+Add na.rm = TRUE inside the range() function to ensure missing values are excluded when
+calculating the range.
 ```
 
 

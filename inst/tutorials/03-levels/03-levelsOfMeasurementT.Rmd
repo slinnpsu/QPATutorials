@@ -507,7 +507,9 @@ The level of measurement of a variable determines how we describe its central fe
 "}
 
 
-<p role="status" aria-label="Congratulations! You successfully completed this section."
+<p role="status"
+   aria-label="Congratulations! You successfully completed this section."
    style="font-size: 32px; font-weight: bold; color: #4caf50; text-align: center; margin-top: 40px;">
-  🎉 <span aria-hidden="true">Good Work!</span> 🎉
+  <span aria-hidden="true">🎉 Good Work! 🎉</span>
 </p>
+
