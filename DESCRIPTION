@@ -15,4 +15,4 @@ Imports:
 Remotes:
     rstudio-education/gradethis,
     datacamp/testwhat
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.3

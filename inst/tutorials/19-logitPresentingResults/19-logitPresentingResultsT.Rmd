@@ -3,7 +3,7 @@ title: "Presenting Logistic Regression Results"
 tutorial:
   id: "19-Results-Logit"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -11,12 +11,13 @@ description: >
   Learn how to present results from logistic regression.
 ---
 
+
 ## Learning Objectives
 
 In this tutorial, you will learn how to present results from logistic regression analysis in R. Specifically we will cover:
 
-* How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables
-* How to use the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a logistic regression analysis. Specifically, we will cover how to plot the effects of one or more variables and how to set the values of independent variables not being plotted.
+* How to use the `stargazer()` function in the  [stargazer]{.package-name} package to produce professional looking tables
+* How to use the `plot_model()` function in the  [sjPlot]{.package-name} package to produce predicted values from a logistic regression analysis. Specifically, we will cover how to plot the effects of one or more variables and how to set the values of independent variables not being plotted.
 
 
 ```{r setup, include=FALSE}
@@ -31,7 +32,7 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
 counties$black_percent <- counties$prop_black*100
@@ -42,9 +43,9 @@ counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog <- qpaTutorials::qog
+data("qog", package = "qpaTutorials")
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban, 9 is most rural, so -1 is rural
 counties$UrbanCat[counties$rural_urban>=7] <- -1
 #Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
@@ -54,11 +55,11 @@ counties$UrbanCat[counties$rural_urban>3 & counties$rural_urban<7] <- 0
 qog$democ[qog$fh_ipolity2<4] <-0
 qog$democ[qog$fh_ipolity2>6] <-2
 qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
-states <- qpaTutorials::states
+data("states", package = "qpaTutorials")
 states$p.liberal <- states$liberal/100
 states$region_censusf <- factor(states$region_census, 
                             labels =  c("South", "Northeast", "Midwest", "West"))
-aNES <- qpaTutorials::aNES
+data("aNES", package = "qpaTutorials")
 
 #First assign a "Democrat" to all cases where Dem is equal to 1
 aNES$party[aNES$Dem==1] <- 1
@@ -83,7 +84,7 @@ aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
 model1 <- glm(Trump2016 ~  Police.FT + Illegals.FT + partyf + femalef + educ, family = "binomial", data = aNES)
 aNES$thermdiff <- abs(aNES$GOP.Pres.cand.FT-aNES$Dem.Pres.cand.FT)
 model2 <- glm(turnout~strongf + income+educ + thermdiff, family="binomial", data=aNES)
-states2020 <- qpaTutorials::states2020
+data("states2020", package = "qpaTutorials")
 NotScientific <- function(l) {
  l <- format(l, scientific = FALSE)
  parse(text=l)
@@ -106,7 +107,7 @@ Once you have estimated a logistic regression, the challenge is to present and t
 
 ## Presenting logistic regression results in a stargazer table
 
-The `summary()` function presents results from a regression analysis, but the output format is not informative to readers. There is no title and variable names are typically only meaningful to the analyst who created them. We want to create tables that look like those you see in articles and books. To do so we will use the `stargazer()` function from the <span style="color:DarkGreen">stargazer</span> package. 
+The `summary()` function presents results from a regression analysis, but the output format is not informative to readers. There is no title and variable names are typically only meaningful to the analyst who created them. We want to create tables that look like those you see in articles and books. To do so we will use the `stargazer()` function from the [stargazer]{.package-name} package. 
 If you completed the tutorial "Presenting Regression Results" you already know how to create a table with the `stargazer()` function. We will do a quick review here in the context of logistic regression.
 
 ### Estimate the Logistic Regresion
@@ -126,7 +127,7 @@ summary(model1)
 
 Now that we have a model object, **model1**, which contains the logistic regression results from the `glm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type = text` so that the output is readable. That's all we need to do to create a basic table.
 
-Note that we need to load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
+Note that we need to load the [stargazer]{.package-name} package using the `library()` function before we can use the `stargazer()` function.
 
 ```{r star, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -140,7 +141,9 @@ Look at the table and confirm that the results match the summary output from the
 
 This looks pretty good, but we can make it better. Let's make this more informative by adding a title with the `title` argument; a label for the dependent variable with the `dep.var.labels` argument, and labels for the rows of the table with the `covariate.labels` argument. Afterall, we can't expect our reader to know what the names of our variables stand for. Each of the values for these arguments must be set in quotes, and anytime we have more than a single label to pass the argument, we must put them inside the `c()` function and separate them by commas.  Don't forget to separate each argument in the `stargazer()` function with a comma!
 
-<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order, starting with the first explanatory variable listed in the `glm()` function. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
+::: {.caution}
+You will need to be careful to make sure you list the variable labels in the correct order, starting with the first explanatory variable listed in the `glm()` function. Always look at the summary first and compare your stargazer table to that output after you produce it!
+:::
 
 ```{r star2, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -308,7 +311,9 @@ We must tell the function the name of the independent variable whose effects we 
 The `show.data` argument controls whether the raw data points (the bivariate scatter plot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
 
 
-The remaining options replace the default labels in the plot. <span style="color:Red">Note: The label arguments are different in `plot_model()` than when using `ggplot()`.</span>
+The remaining options replace the default labels in the plot. ::: {.caution}
+Note: The label arguments are different in `plot_model()` than when using `ggplot()`.
+:::
 
 + `title`, the main title for the plot
 + `axis.title` allows you to change the x and y axis labels. List these using the `c()` function, giving the labels in quotations, separated by commas. **The x-axis label is listed first, followed by the y-axis label.**
@@ -683,9 +688,9 @@ We began this tutorial with an illustration of the use of the `factor()` functio
 
 Our focus in this tutorial, however, is on the presentation of results from logistic regression. The process is identical to that from linear regression. 
 
-* We can use the `stargazer()` function in the <span style="color:DarkGreen">stargazer</span> package to present tables of results from a logistic regression that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model.  See ?stargazer for additional details.
-* We can  use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present coefficient plots of the results from a logistic regression. We specify the `type` of plot as `"est"`. A number of additional arguments can be specified to control the look and feel of the plot. See ?plot_model for additional details.
-* We can also use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to present predicted value plots. We specify the `type` of plot as `"pred"`. We can plot predictions from a model as a function of one, two, or three variables.
+* We can use the `stargazer()` function in the [stargazer]{.package-name} package to present tables of results from a logistic regression that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model.  See ?stargazer for additional details.
+* We can  use the `plot_model()` function in the [sjPlot]{.package-name} package to present coefficient plots of the results from a logistic regression. We specify the `type` of plot as `"est"`. A number of additional arguments can be specified to control the look and feel of the plot. See ?plot_model for additional details.
+* We can also use the `plot_model()` function in the [sjPlot]{.package-name} package to present predicted value plots. We specify the `type` of plot as `"pred"`. We can plot predictions from a model as a function of one, two, or three variables.
     * We can plot the effect of a single variable holding all other values at their mean or base/reference category by specifying a single variable in the `terms` argument. If we wish to choose values other than the mean or base/reference category, we can specify the `condition` argument, naming the variables and values we wish to set as the basis for our predictions.
     * We can plot the effect of two variables by adding a second variable name to the `terms` argument. The first variable named in the `terms` argument is plotted on the x-axis and the second variable named breaks down the effects of the first variable based on categories of the second. If the second variable is measured at the interval level, by default the mean and one standard deviation above and below the mean are selected for the plot. You can change the values by including [X, Y, Z] after the variable name and replace X, Y, and Z with the desired values of the variable. We can also combine the `terms` argument with the `condition` argument when we plot the effect of two variables on the predictions from the model. Here again, this allows us to set the values taken by the variables not plotted.
     * We can plot the effect of three variables by adding a third variable name to the `terms` argument. A separate panel is plotted to illustrate the effect of values for each category of the third variable or for the mean and one standard deviation above and below the mean if the variable is measured at the interval level. Here again you can select specific values with [X, Y, Z] and you may set the `condition` argument to control the values taken by any remaining variables in the model.
@@ -693,3 +698,13 @@ Our focus in this tutorial, however, is on the presentation of results from logi
 See http://www.strengejacke.de/sjPlot/articles/plot_marginal_effects.html for examples and consult the help menu with ?plot_model for details.
 
 Deciding which variables to include in a predicted value plot requires careful thought, particularly for a logistic regression model. Unlike linear regression, when we illustrate predictions based on the value of some variable, the effects of any variable cannot be interpreted *all else equal*. This is because the relationship between the dependent and explanatory variables is presumed to be nonlinear. You should think about what you want to learn from your predictions before deciding what to plot.
+
+```{r tutorial-success-banner-19, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Outstanding! You have completed this tutorial and can now present logistic regression results professionally using tables and predicted value plots."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🏆 Outstanding work! 🏆</span>
+</p>
+')
+```

@@ -3,13 +3,14 @@ title: "Simple Regression"
 tutorial:
   id: "13-Simple-Regression"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
 description: >
   Learn how to apply the lm function.
 ---
+
 
 ## Learning Objectives
 
@@ -31,13 +32,13 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
 counties$black_percent <- counties$prop_black*100
 counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(poliscidata)
 library(stargazer)
@@ -45,7 +46,7 @@ library(stargazer)
 
 ## Overview
 
-<span style="color:blue">**Regression**</span> is a tool for estimating the linear relationship between one or more independent variables measured at any level and an outcome variable measured at the interval level. We use regression to test hypotheses about the effect of independent variables on the outcome. 
+[**Regression**]{.important-text} is a tool for estimating the linear relationship between one or more independent variables measured at any level and an outcome variable measured at the interval level. We use regression to test hypotheses about the effect of independent variables on the outcome. 
 
 
 The `lm()` function in base R will estimate a linear regression model. We will illustrate how to use the `lm()` function to estimate a model, how to use the `summary()` function to produce a summary of the output, and we will practice interpreting results using several examples.
@@ -55,7 +56,7 @@ The `lm()` function in base R will estimate a linear regression model. We will i
 
 Let's say that we have posed the following question: Did wage growth in a county affect the share of the vote won by Hillary Clinton in the 2016 presidential election? We might make the argument that higher wage growth would lead voters to support the incumbent party candidate, Hillary Clinton, as voters would reward the Democratic president for improvements in their financial situation. By the same token, we might expect that lower wage growth (or declining wages) might lead them to support the challenger, Donald Trump. Thus we hypothesize:
 
- <span style="color:Chocolate">In a comparison of counties, those with higher wage growth will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower wage growth.</span>
+ [In a comparison of counties, those with higher wage growth will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower wage growth.]{.hypothesis}
 
 The **counties** data frame contains the variables **wage_growth**, which is the percent by which wages grew or fell in a county, and **dem2p_percent**, which is the percent of the two-party vote in the county that was cast for Hillary Clinton. To test our hypothesis, we will estimate a linear regression in which **dem2p_percent** is the dependent variable and **wage_growth** is the independent variable.
 
@@ -101,9 +102,9 @@ question("What is estimated slope coefficient for wage_growth?",
 
 Now that you've found the estimated coefficients let's determine what the model tells us about the relationship between **wage_growth** and **dem2p_percent**.
 
-<span style="color:blue">The intercept ($\hat{\alpha})$</span> (conveniently labeled as such) is estimated to be 31.3521.  Recall that the intercept is the expected value of the dependent variable when the explanatory variable has a value of zero. <span style="color:green">*The intercept tells us that if a county's wage growth was flat (zero), we expect the county to cast 31.3521% of their vote for Hillary Clinton.*</span>  Note that because zero is a value of the independent variable that occurs in the data, its substantive interpretation is meaningful in this example.
+[The intercept ($\hat{\alpha})$]{.important-text} (conveniently labeled as such) is estimated to be 31.3521.  Recall that the intercept is the expected value of the dependent variable when the explanatory variable has a value of zero. [*The intercept tells us that if a county's wage growth was flat (zero), we expect the county to cast 31.3521% of their vote for Hillary Clinton.*]{.package-name}  Note that because zero is a value of the independent variable that occurs in the data, its substantive interpretation is meaningful in this example.
   
-<span style="color:blue">The slope ($\hat{\beta}$)</span> associated with the variable **wage_growth** is 0.45582. The positive slope indicates that higher wage growth was associated with a higher percentage of the vote for Hillary Clinton. Specifically the slope tells us the amount that our dependent variable (**dem2p_percent**) changes as our independent variable (**wage_growth**) increases by one unit (one percentage point). We can interpret this as follows: <span style="color:green">*For every additional percentage point growth in wages, on average, we expect counties to cast just under half a percentage point more votes for Hillary Clinton.*</span>
+[The slope ($\hat{\beta}$)]{.important-text} associated with the variable **wage_growth** is 0.45582. The positive slope indicates that higher wage growth was associated with a higher percentage of the vote for Hillary Clinton. Specifically the slope tells us the amount that our dependent variable (**dem2p_percent**) changes as our independent variable (**wage_growth**) increases by one unit (one percentage point). We can interpret this as follows: [*For every additional percentage point growth in wages, on average, we expect counties to cast just under half a percentage point more votes for Hillary Clinton.*]{.package-name}
 
 ### Calculating Predicted Values
   
@@ -179,7 +180,7 @@ Let's walk through the hypothesis testing steps to test whether the slope coeffi
 ### Assess Model Fit
 
 Let's begin by finding the value of 
-<span style="color:blue">$R^2$</span> and <span style="color:blue">the residual standard error</span>.
+[$R^2$]{.important-text} and [the residual standard error]{.important-text}.
 
 ```{r letter-heffalump4, echo=FALSE}
 question("Look at the output above. What is the value of $R^2$?",
@@ -203,18 +204,18 @@ question("Look at the output above. True or False, the value of the residual sta
 ### $R^2$
 
 
-<span style="color:blue">$R^2$</span>. The Multiple R-squared reported in the output tells us the proportion of the variance in the vote for Hillary Clinton that can be explained by all the variables in the model, which here is just **wage_growth**. The proportion of the variance explained by this model is 0.01746. Normally we present this as a percentage so that we say "1.746% of the variation in the percent of the two-party vote won by Hillary Clinton was explained by county wage growth." Not very much! (We'll talk about the Adjusted R-squared next week.)
+[$R^2$]{.important-text}. The Multiple R-squared reported in the output tells us the proportion of the variance in the vote for Hillary Clinton that can be explained by all the variables in the model, which here is just **wage_growth**. The proportion of the variance explained by this model is 0.01746. Normally we present this as a percentage so that we say "1.746% of the variation in the percent of the two-party vote won by Hillary Clinton was explained by county wage growth." Not very much! (We'll talk about the Adjusted R-squared next week.)
 
 ### Residual standard error
 
-<span style="color:blue">Residual standard error.</span> The residual standard error is the standard deviation of the residuals. The residual standard error tells us the typical difference between the observed values of the dependent variable and the values predicted by the model. In this example, the residual standard error is about 15.99 percentage points. Thus are preditions are off, on average, but about 16 points. Not so hot!
+[Residual standard error.]{.important-text} The residual standard error is the standard deviation of the residuals. The residual standard error tells us the typical difference between the observed values of the dependent variable and the values predicted by the model. In this example, the residual standard error is about 15.99 percentage points. Thus are preditions are off, on average, but about 16 points. Not so hot!
 
 
 ## Example 2: Vote for Hillary Clinton and Percent Black
 
 The Democratic Party has consistently garnered more support from black voters than the Republican Party, considerably more. This leads to the following hypothesis:
 
- <span style="color:Chocolate">In a comparison of counties, those with higher percentages of Blacks will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower percentages of Blacks</span>
+ [In a comparison of counties, those with higher percentages of Blacks will cast a higher percentage of the two-party vote share for Hillary Clinton than those counties with lower percentages of Blacks]{.hypothesis}
  
 
 
@@ -318,7 +319,7 @@ question("Which of the following statements are true?",
 
 Still continuing to work with the data frame **counties**, assume we want to know the effect that being white majority has on a county's vote for Hillary Clinton.  We begin the following hypothesis:
 
-<span style="color:Chocolate">In a comparison of counties, those with a majority white population will cast a lower percentage of the two-party vote share for Hillary Clinton than those counties without a majority white population.</span>
+[In a comparison of counties, those with a majority white population will cast a lower percentage of the two-party vote share for Hillary Clinton than those counties without a majority white population.]{.hypothesis}
 
 
 ### Estimate the regression
@@ -417,7 +418,19 @@ Simple linear regression is easy to conduct in R using the `lm()` function. The 
 
 You will become well-practiced in conducting and interpreting the results from regression analysis in future tutorials.  For now, remember:
 
-+ The <span style="color:blue">intercept</span> gives the value of the dependent variable, $Y$, when the independent variable $X=0$. The <span style="color:blue">slope</span> is the change in $Y$ when $X$ changes by 1 unit.
++ The [intercept]{.important-text} gives the value of the dependent variable, $Y$, when the independent variable $X=0$. The [slope]{.important-text} is the change in $Y$ when $X$ changes by 1 unit.
 + Anytime the value of the t-statistic for an estimated coefficient is greater than 1.96 in absolute value, the associated p-value will be less than 0.05, the confidence interval around the coefficient estimate will not include zero and we can reject the null hypothesis that the coefficient is zero with 95% confidence. Conversely, if the t-statistic is smaller than 1.96, the p-value will be greater than 0.05, the confidence interval will include zero, and we cannot reject the null hypothesis. If we cannot reject the null hypothesis on the slope coefficient, we conclude that that independent variable does not have significant explanatory value, i.e., it does not contribute to our explanation of the outcome variable.
-+ <span style="color:blue">$R^2$</span> gives the proportion of the variation in $Y$ explained by the independent variables in the model. Bigger is better.
-+ The <span style="color:blue">residual standard error</span> gives the standard deviation of the residuals. Because the empirical rule tells us 68% of the data will fall within one standard deviation of the mean, the residual standard error can be interpreted as telling us that more than half of the errors in our model are within X -- the value of the residual standard error -- from the regression line (the mean of the residuals is always zero). Smaller is better as it means the data is clustered closer to the regression line.
++ [$R^2$]{.important-text} gives the proportion of the variation in $Y$ explained by the independent variables in the model. Bigger is better.
++ The [residual standard error]{.important-text} gives the standard deviation of the residuals. Because the empirical rule tells us 68% of the data will fall within one standard deviation of the mean, the residual standard error can be interpreted as telling us that more than half of the errors in our model are within X -- the value of the residual standard error -- from the regression line (the mean of the residuals is always zero). Smaller is better as it means the data is clustered closer to the regression line.
+
+```{r tutorial-success-banner-13, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Terrific! You have completed this tutorial and can now estimate and interpret simple regression models."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">📉 Terrific work! 📉</span>
+</p>
+')
+```
+
+

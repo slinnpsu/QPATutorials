@@ -3,7 +3,7 @@ title: "Bivariate Description: Two Interval Variables"
 tutorial:
   id: "09-Bivariate-Description-Interval-Data"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -11,11 +11,12 @@ description: >
   Learn how to describe the relationship between two interval-level variables.
 ---
 
+
 ## Learning Objectives
 
 In this tutorial, you will continue learning how to describe the relationship between two variables. This time we will focus on how to do so when both variables are measured at the interval level. Specifically, we will cover:
 
-* How to conduct a descriptive analysis of the relationship between interval variables with scatter plots using the `ggplot()` function in the R package <span style="color:DarkGreen">ggplot2</span>.
+* How to conduct a descriptive analysis of the relationship between interval variables with scatter plots using the `ggplot()` function in the R package [ggplot2]{.package-name}.
 * How to conduct a descriptive analysis of the relationship between two interval variables using Pearson's correlation coefficient and plots.
 
 
@@ -31,14 +32,14 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$rural <-1
 counties$rural[counties$rural_urban<=3] <- 0
 counties$rural[counties$rural_urban>=8] <-2
 
-fHouse <- qpaTutorials::fHouse
+data("fHouse", package = "qpaTutorials")
 sum(is.na(fHouse$FHStatus))
 #fHouse <-filter(fHouse, FHStatus==)
 fHouse$FHStatus2[fHouse$FHStatus=="NF"] <- 0
@@ -59,7 +60,7 @@ In the previous tutorials on bivariate description, we considered how to describ
 
 In the last tutorial, we considered how to conduct a descriptive analysis of the relationship between an interval variable and a nominal/categorical (or ordinal) variable. Typically we either compare a single summary statistic, the mean, or we compare the distribution of the interval variable for each of the values of the nominal or ordinal variable. 
 
-If our interest lies in the relationship between two interval level variables, we can summarize the relationship between them using Pearson's correlation coefficient. The  <span style="color:blue">**correlation coefficient quantifies the strength and direction of the linear association between two interval level variables**</span>.  The logic of correlation is most easily understood in the context of a scatter plot. So we will introduce them first. A scatter plot provides a visual display of the nature, degree, and strength of the relationship between two interval level variables. It presents pairs of values for each unit of analysis on two variables measured at the interval level. The position of each dot on the horizontal and vertical axis indicates values for an individual data point.
+If our interest lies in the relationship between two interval level variables, we can summarize the relationship between them using Pearson's correlation coefficient. The  [**correlation coefficient quantifies the strength and direction of the linear association between two interval level variables**]{.important-text}.  The logic of correlation is most easily understood in the context of a scatter plot. So we will introduce them first. A scatter plot provides a visual display of the nature, degree, and strength of the relationship between two interval level variables. It presents pairs of values for each unit of analysis on two variables measured at the interval level. The position of each dot on the horizontal and vertical axis indicates values for an individual data point.
 
 
 Let's start with a picture of a scatter plot:
@@ -98,7 +99,7 @@ Below is a picture illustrating the relationship between the pattern in a scatte
 
 ## Scatter plots
 
-We follow the same basic steps to produce a scatter plot using `ggplot()` in the R package <span style="color:DarkGreen">ggplot2</span> as we have previous plots.
+We follow the same basic steps to produce a scatter plot using `ggplot()` in the R package [ggplot2]{.package-name} as we have previous plots.
 
 1.  Tell `ggplot()` the data that contains the variable(s) to plot.  
 2.  Tell `ggplot()` which variable(s) to plot and on which axis. We do this by mapping the variables to the appropriate axis using the `mapping` argument and the `aes()` function. This time we need to specify a variable for each the x and y axis. By convention, the outcome variable is on the y-axis.
@@ -112,9 +113,9 @@ To illustrate how to make a scatter plot we will ask the question how solid is s
 
 **FHTotalAggr** is the Freedom House (2017) measure of a country's composite level of democracy based on civil liberties and political rights, Freedom House, 2017. Higher scores are more democratic. 
 
-We might hypothesize the following: <span style="color:chocolate"> In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have higher support for democratic government] than will those having [a lower level of democracy].</span>
+We might hypothesize the following: [ In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have higher support for democratic government] than will those having [a lower level of democracy].]{.hypothesis}
 
-I've loaded the <span style="color:DarkGreen">ggplot2</span> package for you. Try to make a scatter plot based on the instructions above.
+I've loaded the [ggplot2]{.package-name} package for you. Try to make a scatter plot based on the instructions above.
 
 
 ```{r scatter1, exercise=TRUE}
@@ -147,14 +148,14 @@ ggplot(data = fHouse, mapping = aes(x = Pro.Dem, y = FHTotalAggr)) +
 grade_code()
 ```
 
-Before we interpret our plot, let's clean it up!  The output above provides a warning that it has "Removed 125 rows containing missing values (geom_point)."  We can avoid this by filtering out the missing values using the `filter()` function in the <span style="color:DarkGreen">dplyr</span> package and piping the result to `ggplot()`. 
+Before we interpret our plot, let's clean it up!  The output above provides a warning that it has "Removed 125 rows containing missing values (geom_point)."  We can avoid this by filtering out the missing values using the `filter()` function in the [dplyr]{.package-name} package and piping the result to `ggplot()`. 
 
 
 I'm going to make the points purple by specifying `color = "purple"` inside the `geom_point()` function. Try editing the plot to pick a new color (For a list of the color names available see http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
 
 I'm also going to add a `geom_smooth()` layer to the plot (remember the plus sign). This adds a line through the points and aids in our interpretation. I'm making the line orange using the `color` argument inside `geom_smooth()`, telling ggplot not to add standard errors around the line (`se = FALSE`), and to use the method of least squares to draw the line (`method = "lm"`). We will talk more about least squares lines in the coming classes.
 
-We need to load the <span style="color:DarkGreen">dplyr</span> package with the `library()` function.
+We need to load the [dplyr]{.package-name} package with the `library()` function.
 
 Look carefully at the code to make sure you understand what each line of the code is doing. You will be asked to make your own scatter plots in class.
 
@@ -197,7 +198,7 @@ The data frame **fHouse** also contains the variable **Pro.Strong.Leader**. This
 > “I’m going to describe various types of political systems and ask you about each one as a way of governing the country. For each one, would you say it is a very good, fairly good, fairly bad or very bad way of governing this country?” ... “Having a strong leader who does not have to bother with parliament and elections?”
 
 
-We might hypothesize the following: <span style="color:chocolate"> In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have lower support for a strong leader] than will those having [a lower level of democracy].</span>
+We might hypothesize the following: [ In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have lower support for a strong leader] than will those having [a lower level of democracy].]{.hypothesis}
 
 Edit the code below to produce a scatter plot illustrating the relationship between this variable and level of democracy (**FHTotalAggr**) from our previous example. We will begin by filtering out the missing values.  Try making the points blue and adding a red line.
 
@@ -338,8 +339,8 @@ The correlation is small and positive indicating that there is a weak, positive 
 
 The key things to remember about examining the relationship between variables measured at the interval level are:
 
-1. We  can summarize the relationship between two interval variables using <span style="color:blue">Pearson's correlation coefficient</span>. The correlation coefficient ranges between -1 and +1. Negative values indicate an inverse relationship between two variables: higher values of one variable are associated with lower variables of another. Positive values indicate a direct relationship: higher values of one variable are associated with higher variables of the other variable (and lower values with lower values).  The closer the correlation coefficient is to zero, the weaker the relationship. It is important to remember that the correlation coefficient assesses the strength and direction of a linear relationship. Not all relationships are linear. If a scatter plot reveals a relationship that is not linear, the correlation coefficient is meaningless.
-2. We can visualize the relationship between two interval variables with a scatter plot using `ggplot()` in the <span style="color:DarkGreen">ggplot2</span> package using  `geom_point()`. We can add a line to the plot that goes through the points such that it is as close to all the points as possible using the `geom_smooth()` function.  If the line is downward sloping (goes from upper left to lower right), the correlation will be negative: higher values of one variable are associated with lower values of the other variable. If the line is upward sloping (goes from lower left to upper right),  the correlation will be positive: higher values of one variable are associated with higher values of the other variable. Finally, when the line is flat, there is no correlation between the two variables.  The steepness of the line is positively related to the strength of the correlation.
+1. We  can summarize the relationship between two interval variables using [Pearson's correlation coefficient]{.important-text}. The correlation coefficient ranges between -1 and +1. Negative values indicate an inverse relationship between two variables: higher values of one variable are associated with lower variables of another. Positive values indicate a direct relationship: higher values of one variable are associated with higher variables of the other variable (and lower values with lower values).  The closer the correlation coefficient is to zero, the weaker the relationship. It is important to remember that the correlation coefficient assesses the strength and direction of a linear relationship. Not all relationships are linear. If a scatter plot reveals a relationship that is not linear, the correlation coefficient is meaningless.
+2. We can visualize the relationship between two interval variables with a scatter plot using `ggplot()` in the [ggplot2]{.package-name} package using  `geom_point()`. We can add a line to the plot that goes through the points such that it is as close to all the points as possible using the `geom_smooth()` function.  If the line is downward sloping (goes from upper left to lower right), the correlation will be negative: higher values of one variable are associated with lower values of the other variable. If the line is upward sloping (goes from lower left to upper right),  the correlation will be positive: higher values of one variable are associated with higher values of the other variable. Finally, when the line is flat, there is no correlation between the two variables.  The steepness of the line is positively related to the strength of the correlation.
 
 
 
@@ -410,4 +411,14 @@ question("Which of the following statements are true",
   allow_retry = TRUE,
   try_again = "Hint: More than one statement is true."
 )
+```
+
+```{r tutorial-success-banner-09, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Superb work! You have completed this tutorial and can now describe relationships between two interval variables."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">📈 Superb work! 📈</span>
+</p>
+')
 ```

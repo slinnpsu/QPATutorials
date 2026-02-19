@@ -3,13 +3,14 @@ title: "Hypothesis Tests Involving Means"
 tutorial:
   id: "10-Hypotheses-Means"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
 description: >
   Learn how to apply hypothesis tests involving means
 ---
+
 
 ## Learning Objectives
 
@@ -31,9 +32,9 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(poliscidata)
 ```
@@ -46,12 +47,12 @@ There are a variety of hypothesis tests related to the means of interval level v
 
 The `t.test()` function performs one and two sample t-tests on a vector of data (a variable). The `t.test()` function takes a number of arguments depending on the type of hypothesis test about means you require. (See ?t.test for the different options.) 
 
-We will illustrate how to use the `t.test()` function to conduct (1) <span style="color:blue">one-sample means tests</span>, (2) <span style="color:blue">difference of means tests</span> involving two independent samples and one variable, and (3) <span style="color:blue">paired t-tests</span> involving a single sample and two variables. In each case, we will present examples that pose a research question and walk through the five steps of hypothesis testing to draw a conclusion about our question.
+We will illustrate how to use the `t.test()` function to conduct (1) [one-sample means tests]{.important-text}, (2) [difference of means tests]{.important-text} involving two independent samples and one variable, and (3) [paired t-tests]{.important-text} involving a single sample and two variables. In each case, we will present examples that pose a research question and walk through the five steps of hypothesis testing to draw a conclusion about our question.
 
 
 ## One-sample means tests 
 
-A <span style="color:blue">one-sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. We use a one-sample means test to answer questions like "Is the mean value of presidential approval in our sample equal to a particular value, say 42%?"
+A [one-sample means test]{.important-text} is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. We use a one-sample means test to answer questions like "Is the mean value of presidential approval in our sample equal to a particular value, say 42%?"
 
 ### Example 1: Vote for Hillary Clinton in US Counties
  
@@ -199,7 +200,7 @@ question("Which of the following statements are true?",
 
 ## Difference of means test: Two independent samples, one variable
 
-A <span style="color:blue">difference of means test</span> involves a comparison of the means in two groups. We focus here on the difference of means in two independent samples. This means that there is no overlap in the membership of cases in each sample. We use the difference of means test to test whether the means in two groups are the same in the population based on the sample data.
+A [difference of means test]{.important-text} involves a comparison of the means in two groups. We focus here on the difference of means in two independent samples. This means that there is no overlap in the membership of cases in each sample. We use the difference of means test to test whether the means in two groups are the same in the population based on the sample data.
 
 ### Example 1: Proportion of Black residents in US counties won by Hillary Clinton and Donald Trump
 
@@ -357,7 +358,7 @@ question("Which of the following statements are true?",
 
 ## Paired t-test: one-sample means test, two variables 
  
-A <span style="color:blue">paired t-test</span> matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero. 
+A [paired t-test]{.important-text} matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero. 
 
 To illustrate this test, we will consider whether the Gini coefficient of countries around the world changed from 2008 to 2010. The Gini coefficient is a measure of income equality. It ranges from 0, indicating perfect equality (where everyone receives an equal share of income), to 1, perfect inequality (where only one recipient or group of recipients receives all the income).  Thus this test allows us to determine whether, on average, income inequality around the world increased, decreased, or stayed the same. The data frame **world** contains the variables **gini08** and **gini10**. 
 
@@ -455,12 +456,12 @@ question("What substantive conclusion can we draw from this hypothesis test?",
 
 Often we will be interest in comparing means to a given population value, or comparing means in two groups of cases, or comparing means of a single population on some measure at multiple time points. We do so with means hypothesis tests. We use the R function `t.test()` to conduct hypothesis tests regarding means. 
 
-+ A <span style="color:blue">one sample means test</span> is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. If we are comparing a sample mean to a specific population value we specify the name of the variable and the argument `mu`, where `mu` is set equal to the population value: `t.test(counties$dem2p_percent, mu=48.2)`.
-+ If we want to test whether the mean in two groups is the same we conduct a <span style="color:blue">difference of means test</span>:
++ A [one sample means test]{.important-text} is used to test whether the mean of a single variable $Y$ in a single sample is equal to a hypothesized value. If we are comparing a sample mean to a specific population value we specify the name of the variable and the argument `mu`, where `mu` is set equal to the population value: `t.test(counties$dem2p_percent, mu=48.2)`.
++ If we want to test whether the mean in two groups is the same we conduct a [difference of means test]{.important-text}:
     + If the groups are identified by another variable, the first argument is the variable for which we wish to calculate the means and we specify the tilde followed by the name of the variable that denotes the categories: `t.test(df$IntervalVariable ~ df$CategoricalVariable)`, where **df** is the name of your dataframe.  
     + If the categorical variable contains more than two values use: `t.test(df$IntervalVariable[df$CategoricalVariable == category1],df$IntervalVariable[df$CategoricalVariable == category2]`. category1 and category2 should be the values of the categories you wish to compare. 
     + We can only use the difference of means test to compare means in two groups. If the nominal variable has more than two categories, you may need to create a new, two-caetgory variable to use in the test.
-+ If we want to compare the mean difference between two variables in a single sample, we conduct a <span style="color:blue">paired t-test</span>, which matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero: `t.test(world$gini10, world$gini08)`. But note that we cannot compare the mean difference of just any two variables, the comparison must be logical. We cannot, for example, compare the mean of the difference between the age of a survey respondent and their level of education. That makes no sense! Typically, a paired t-test will involve the comparison of two variables that measure the same concept, measured identically, at two points in time.
++ If we want to compare the mean difference between two variables in a single sample, we conduct a [paired t-test]{.important-text}, which matches two variables in one sample and tests whether the average difference between values on these two variables is zero in the population against the alternative that it is not zero: `t.test(world$gini10, world$gini08)`. But note that we cannot compare the mean difference of just any two variables, the comparison must be logical. We cannot, for example, compare the mean of the difference between the age of a survey respondent and their level of education. That makes no sense! Typically, a paired t-test will involve the comparison of two variables that measure the same concept, measured identically, at two points in time.
 
 By default, all tests are two-tailed, but we can specify `alternative = "greater"` or `alternative = "less"` to identify the form of the alternative hypothesis.
 
@@ -473,3 +474,15 @@ The steps involved in hypothesis testing are always the same:
 5. Draw a conclusion.
 
 Remember that the null and alternative hypotheses are about the population parameter(s). In the case of means tests, the appropriate test statistic is the t-test, but the formula used to calculate the test statistic varies depending on which of the types of means test we use.
+
+```{r tutorial-success-banner-10, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Excellent! You have completed this tutorial and can now conduct hypothesis tests involving means."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🏆 Excellent work! 🏆</span>
+</p>
+')
+```
+
+

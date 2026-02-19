@@ -3,13 +3,14 @@ title: "Hypothesis Tests for Correlation"
 tutorial:
   id: "12-Hypotheses-Correlations"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
 description: >
   Learn how to conduct hypothesis tests on a correlation
 ---
+
 
 ## Learning Objectives
 
@@ -31,17 +32,17 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog<- qpaTutorials::qog
+data("qog", package = "qpaTutorials")
 ```
 
 
 ## Overview
 
-We use  <span style="color:blue">Pearson's correlation coefficient, $\rho$</span>, to estimate the strength and direction of the linear relationship between two interval-level variables. When we estimate $\rho$ in a sample, we want to know whether the correlation coefficient we estimated indicates a relationship in the population. After all, we know that if we obtained a different sample of data, we would produce different estimates of the correlation.  To determine whether there is a relationship between two interval-level variables in the population, we either have to conduct a hypothesis test, or we can compute a confidence interval and examine whether it includes zero. 
+We use  [Pearson's correlation coefficient, $\rho$]{.important-text}, to estimate the strength and direction of the linear relationship between two interval-level variables. When we estimate $\rho$ in a sample, we want to know whether the correlation coefficient we estimated indicates a relationship in the population. After all, we know that if we obtained a different sample of data, we would produce different estimates of the correlation.  To determine whether there is a relationship between two interval-level variables in the population, we either have to conduct a hypothesis test, or we can compute a confidence interval and examine whether it includes zero. 
 
 In this tutorial, we explain how to do both.
 
@@ -180,7 +181,7 @@ question("Which of the following statements are true?",
 
 ## The Takeaways
 
-We use  <span style="color:blue">**Pearson's correlation coefficient, $\rho$**</span>, to estimate the strength and direction of any linear relationship between two interval-level variables. We may wish to test whether this correlation is significantly different from zero. We do so with a correlation test. We use the R function `cor.test()` to conduct this hypothesis test. The function also reports $\rho$.
+We use  [**Pearson's correlation coefficient, $\rho$**]{.important-text}, to estimate the strength and direction of any linear relationship between two interval-level variables. We may wish to test whether this correlation is significantly different from zero. We do so with a correlation test. We use the R function `cor.test()` to conduct this hypothesis test. The function also reports $\rho$.
 
 
 
@@ -193,3 +194,13 @@ Remember that the steps involved in hypothesis testing are always the same:
 3. Compute the appropriate test statistic.
 4. Translate the test statistic into a p-value.
 5. Draw a conclusion.
+
+```{r tutorial-success-banner-12, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Wonderful! You have completed this tutorial and can now conduct hypothesis tests involving correlations."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">✨ Wonderful work! ✨</span>
+</p>
+')
+```

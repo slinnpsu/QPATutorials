@@ -3,7 +3,7 @@ title: "Bivariate Description: One Categorical (Nominal or Ordinal) Variable and
 tutorial:
   id: "08-Bivariate-Description-Categorical-Interval-Data"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -11,13 +11,14 @@ description: >
   Learn how to describe the relationship between a categorical and an interval level variable.
 ---
 
+
 ## Learning Objectives
 
 In this tutorial, you will continue learning how to describe the relationship between two variables. This time we will focus on how to do so when one of the variables is categorical (either nominal or ordinal) and the other variable is interval level. Specifically, we will cover:
 
 * How to conduct a descriptive analysis of the relationship between nominal or ordinal variables and an interval variable by comparing means across categories.
-* How to use the functions in the R package <span style="color:DarkGreen">dplyr</span> to produce means by categories of a nominal/ordinal variable.
-* How to plot means using the `ggplot()` function in the R package <span style="color:DarkGreen">ggplot2</span>.
+* How to use the functions in the R package [dplyr]{.package-name} to produce means by categories of a nominal/ordinal variable.
+* How to plot means using the `ggplot()` function in the R package [ggplot2]{.package-name}.
 
 
 ```{r setup, include=FALSE}
@@ -31,7 +32,7 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$mortality_risk_25_45_change <- counties$mortality_risk_25_45_change*100
 counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100
 counties$wage_growth <- counties$wage_growth*100
@@ -40,7 +41,7 @@ counties$rural <-1
 counties$rural[counties$rural_urban<=3] <- 0
 counties$rural[counties$rural_urban>=8] <-2
 
-fHouse <- qpaTutorials::fHouse
+data("fHouse", package = "qpaTutorials")
 sum(is.na(fHouse$FHStatus))
 #fHouse <-filter(fHouse, FHStatus==)
 fHouse$FHStatus2[fHouse$FHStatus=="NF"] <- 0
@@ -62,12 +63,12 @@ If our hypothesis involves the relationship between an interval variable and a n
 
 ## Comparing Means
 
-To motivate our analysis, consider the following hypothesis: <span style="color:chocolate"> In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].</span> The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
+To motivate our analysis, consider the following hypothesis: [ In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].]{.hypothesis} The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
 
 The data frame **counties** contains the interval level variable **wage_growth**, which gives the rate at which wages in a county have grown over the last four years (as a percent) and the nominal variable **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the county's votes and 1 if Donald Trump won a majority. Our hypothesis leads us to expect that the mean rate of wage growth should be lower in counties Trump won.
 
 
-We return to the functions in the  <span style="color:DarkGreen">dplyr package</span> for this analysis. Recall:
+We return to the functions in the  [dplyr package]{.package-name} for this analysis. Recall:
 
 1. The `group_by()` function breaks the data down based on the values of a variable. 
 2. The `summarise()` function calculates a summary statistic for the data passed to it.
@@ -89,7 +90,7 @@ Here we see that the mean rate of wage for counties won by Clinton is 4.86 while
 
 ### Mean Mortality Risk by Victor
 
-We might also believe that counties with worse health outcomes punish the incumbent party. The data frame **counties** also contains the variable **mortality_risk_25_45_change**, which gives the change in the probability of dying in this particular age range (in percent), given that one is in that age range and has made it thus far, compared to the same probability four years ago. We thus might hypothesize: <span style="color:chocolate"> In a comparison of [counties], those having [higher mortality risk among adults 45-45 than 4 years ago] will be more likely to  [give a majority of their support to Trump] than will those having [lower mortality risk among adults 45-45].</span>
+We might also believe that counties with worse health outcomes punish the incumbent party. The data frame **counties** also contains the variable **mortality_risk_25_45_change**, which gives the change in the probability of dying in this particular age range (in percent), given that one is in that age range and has made it thus far, compared to the same probability four years ago. We thus might hypothesize: [ In a comparison of [counties], those having [higher mortality risk among adults 45-45 than 4 years ago] will be more likely to  [give a majority of their support to Trump] than will those having [lower mortality risk among adults 45-45].]{.hypothesis}
 
 Does the evidence support this hypothesis? If counties with increasing mortality rates are more likely to cast a majority of votes for Donald Trump, what should we see?
 
@@ -123,7 +124,7 @@ What have we learned? Counties that cast a majority of votes for Donald Trump on
 
 ### Mean GPD by Regime Type
 
-As a final example, consider the hypothesis: <span style="color:chocolate"> In a comparison of [countries], those that [are more democratic] will be more likely to  [have better economic outcomes] than will those that are [less democratic].</span> 
+As a final example, consider the hypothesis: [ In a comparison of [countries], those that [are more democratic] will be more likely to  [have better economic outcomes] than will those that are [less democratic].]{.hypothesis} 
 
 Calculate the means of the variable **gdp08**, GDP in billions in 2008 (World Bank) by **dem_level4**, Regime type (Economist 2014), in the data frame **world**. Try not to look at the hints! Name the counts `freq` and the means `mean`.
 
@@ -167,7 +168,7 @@ We can plot the means as well. To do so, we will pipe the results from our table
 
 Let's start with a basic plot of the means of **wage_growth** by **TrumpMajority** in the data frame **counties** without using informative labels or other visual attributes that make it easier to interpret. The first lines of code are identical to those used above to produce the table of means. (Name the counts `freq` and the means `mean`.) See if you can edit them without looking above or at the solution.
 
-Notice that I've loaded the <span style="color:DarkGreen">ggplot2</span> package with the `library()` function.
+Notice that I've loaded the [ggplot2]{.package-name} package with the `library()` function.
 
 
 ```{r meanwageplot, exercise=TRUE}
@@ -374,8 +375,20 @@ Here we can readily see that median life expectancy is highest among full democr
 
 The key things to remember about examining the relationship between a nominal or ordinal variable and an interval level variable are:
 
-1. We can compare means of the interval level variable across categories of a nominal or ordinal variable using `group_by()` and `summarise()` in the R package <span style="color:DarkGreen">dplyr</span>.
-2. We can plot means using `ggplot()` in the <span style="color:DarkGreen">ggplot2</span> package by piping the means to `ggplot()` and using `geom_point()`.
+1. We can compare means of the interval level variable across categories of a nominal or ordinal variable using `group_by()` and `summarise()` in the R package [dplyr]{.package-name}.
+2. We can plot means using `ggplot()` in the [ggplot2]{.package-name} package by piping the means to `ggplot()` and using `geom_point()`.
 3. We can compare the distribution of an interval variable across categories of a nominal or ordinal variable in two ways:
     + Using `geom_histogram()` and specifying the nominal/ordinal variable as the `fill` aesthetic. `facet_wrap()` can be used to place the histograms in separate panels.
     + Using `geom_boxplot()` and specifying the nominal/ordinal variable as the `fill` aesthetic.
+
+
+```{r tutorial-success-banner-08, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Outstanding! You have completed this tutorial and can now describe relationships between categorical and interval variables."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">⭐ Outstanding! ⭐</span>
+</p>
+')
+```
+

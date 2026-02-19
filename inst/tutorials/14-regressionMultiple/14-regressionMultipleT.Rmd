@@ -3,7 +3,7 @@ title: "Multiple Regression"
 tutorial:
   id: "14-Multiple-Regression"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -32,7 +32,7 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
 counties$Black_percent <- counties$prop_black*100
@@ -43,9 +43,9 @@ counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog <- qpaTutorials::qog
+data("qog", package = "qpaTutorials")
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban
 counties$UrbanCat[counties$rural_urban>=7] <- 0
 #Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
@@ -63,11 +63,11 @@ When we conduct a regression analysis, it is seldom appropriate to estimate a si
 
 While we are often interested in the effects of a single explanatory variable on some outcome, we considered three cases in which it is important to control for other factors by including additional variables in our model.
 
- <span style="color:blue">Spurious Relationships</span>. A spurious relationship is one that appears to be true but is not, in fact, true. This occurs when an explanatory variable in our model has no effect on our outcome variable. Instead, some other variable causes both our explanatory variable and the outcome.  If this is the true state of the world, a simple regression will indicate a relationship between our explanatory variable and the outcome when it doesn't exist. To ensure we don't find spurious relationships in our analyses, we need to think carefully about whether some additional variables might explain both our independent and dependent variables. If so, our remedy is to control for those variables by adding them to the model. When we do, the effect of our explanatory variable will disappear if it is spuriously related to the outcome. 
+ [Spurious Relationships]{.important-text}. A spurious relationship is one that appears to be true but is not, in fact, true. This occurs when an explanatory variable in our model has no effect on our outcome variable. Instead, some other variable causes both our explanatory variable and the outcome.  If this is the true state of the world, a simple regression will indicate a relationship between our explanatory variable and the outcome when it doesn't exist. To ensure we don't find spurious relationships in our analyses, we need to think carefully about whether some additional variables might explain both our independent and dependent variables. If so, our remedy is to control for those variables by adding them to the model. When we do, the effect of our explanatory variable will disappear if it is spuriously related to the outcome. 
 
-<span style="color:blue">Multiple, correlated independent variables.</span>  The second case represents the most common situation you will encounter in your analysis: when we have omitted variables that are correlated with the variables in our model and that also cause the outcome. In this situation, if we omit any of these explanatory variables from our regression model, the estimated effects of the included variables will be biased because they capture some of the effects of the omitted variables. Thus, we need to think carefully about the multitude of factors that might influence the outcome and include any in our model that are correlated with our independent variables. 
+[Multiple, correlated independent variables.]{.important-text}  The second case represents the most common situation you will encounter in your analysis: when we have omitted variables that are correlated with the variables in our model and that also cause the outcome. In this situation, if we omit any of these explanatory variables from our regression model, the estimated effects of the included variables will be biased because they capture some of the effects of the omitted variables. Thus, we need to think carefully about the multitude of factors that might influence the outcome and include any in our model that are correlated with our independent variables. 
 
-<span style="color:blue">Conditional or interactive relationships</span>. If the effect of some variable depends on the level of another variable, the relationship is said to be conditional or interactive. In this case, we need to interact the two variables. We'll talk more about this in another tutorial.
+[Conditional or interactive relationships]{.important-text}. If the effect of some variable depends on the level of another variable, the relationship is said to be conditional or interactive. In this case, we need to interact the two variables. We'll talk more about this in another tutorial.
 
 We will first consider multiple regression models involving interval level variables and then consider nominal variables with multiple categories.
 
@@ -98,15 +98,15 @@ Look carefully at the output. Find the estimated coefficients, the $t$-statistic
 
 ### Interpret the Estimated Coefficients 
 
-<span style="color:blue">The intercept</span>. We begin our interpretation with the intercept, which is 73.42484. *This tells us that if a county had a mortality risk of zero, flat wages, and no college graduates, Hispanics, Whites, or Blacks lived in the county, we expect them to cast 73% of their votes for Hillary Clinton.* Clearly there are no counties that fit these criteria, so we will not say any more about the intercept.
+[The intercept]{.important-text}. We begin our interpretation with the intercept, which is 73.42484. *This tells us that if a county had a mortality risk of zero, flat wages, and no college graduates, Hispanics, Whites, or Blacks lived in the county, we expect them to cast 73% of their votes for Hillary Clinton.* Clearly there are no counties that fit these criteria, so we will not say any more about the intercept.
 
-<span style="color:blue">The slope</span>. Before going into the interpretation of specific slope coefficients, it is often good to start interpretation by looking at the signs of the variables in the model. Coefficient signs that are not consistent with our expectations can suggest that we've not controlled for another variable that is correlated with the included variables.
+[The slope]{.important-text}. Before going into the interpretation of specific slope coefficients, it is often good to start interpretation by looking at the signs of the variables in the model. Coefficient signs that are not consistent with our expectations can suggest that we've not controlled for another variable that is correlated with the included variables.
 
 Look carefully at the output. Mortality risk and the percent of white residents are negatively signed. This suggests that as the risk of dying goes up in the county, vote for Hillary Clinton fell. This makes sense if those in counties where more younger adults are dying were dissatisfied with the current Democratic president, Barack Obama, and wanted a change in the party in the White House as a result.  The negative sign on **percent_white** is consistent with the expectation that white voters were less likely to vote Democratic and more likely to vote Republican.
 
 All other variables are positively signed, again, as we would expect. The greater the percentage of college-educated adults, Blacks, and Hispanics in each county, the greater the percentage of votes cast for Hillary Clinton. Voters in counties with higher wage growth, a positive economic outcome, rewarded the incumbent party's candidate in higher percentages.
 
-What can we say about the specific effects of **wage_growth** in this model? Recall that <span style="color:blue">we interpret the slope as the expected change in the outcome variable associated with a one-unit increase in the explanatory variable, *controlling for all other variables in the model*.</span>.
+What can we say about the specific effects of **wage_growth** in this model? Recall that [we interpret the slope as the expected change in the outcome variable associated with a one-unit increase in the explanatory variable, *controlling for all other variables in the model*.]{.important-text}.
 
 The coefficient estimate for the effect of **wage_growth** is 0.31406. Thus we interpret this to mean "For every percentage point increase in wages, the percent of the vote for Hillary Clinton increased by about one-third of a percentage point, controlling for the effect of mortality risk and the percent of the county's residents that were white, Black, Hispanic, and college-educated.
 
@@ -172,7 +172,7 @@ question("Which of the following statements are true?",
 
 ### Assess Model Fit
 
-<span style="color:blue">$R^2$</span>. The only difference with respect to assessing model fit in the multiple regression case compared to the simple regression case is that we want to use the adjusted $R^2$. We interpret it the same way, however, as the multiple $R^2$. 
+[$R^2$]{.important-text}. The only difference with respect to assessing model fit in the multiple regression case compared to the simple regression case is that we want to use the adjusted $R^2$. We interpret it the same way, however, as the multiple $R^2$. 
 
 
 ```{r letter-f, echo=FALSE}
@@ -198,7 +198,7 @@ The data frame **counties** contains a variable called **UrbanCat** that takes a
 
 ### Estimate a Regression
 
-To include a nominal variable in a regression in R, we specify `factor(categorical-variable-name)` rather than simply listing the variable. You do not need to create separate dichotomous variables for each category. R will omit one category by default, as long as it knows the variable is a factor. Which one? <span style="color:DarkGreen">If the variable has numeric codes, it omits the category with the smallest value. If the variable is a character vector, it omits the category that is first alphabetically.</span>  (Note: if a nominal variable has a factor class, you do not need to enclose it inside the `factor()` function.)
+To include a nominal variable in a regression in R, we specify `factor(categorical-variable-name)` rather than simply listing the variable. You do not need to create separate dichotomous variables for each category. R will omit one category by default, as long as it knows the variable is a factor. Which one? [If the variable has numeric codes, it omits the category with the smallest value. If the variable is a character vector, it omits the category that is first alphabetically.]{.package-name}  (Note: if a nominal variable has a factor class, you do not need to enclose it inside the `factor()` function.)
 
 Now we are ready to estimate the regression from above, adding the nominal variable **UrbanCat**. Simply add it to the list of independent variables by enclosing it inside the `factor()` function: `factor(UrbanCat)`.  Because -1 is the smallest value of this variable and this value denotes "neither rural nor urban", this is the baseline category.
 
@@ -217,9 +217,9 @@ We can interpret the interval level variable slopes in this model exactly as abo
 
 First, note that in the output we see two variables named **factor...** and that the category value is given at the end of the variable name. Therefore, we see that the two categories included are 0 and 1, the rural and urban counties, respectively, but there is no **factor(UrbanCat)-1**. This is the omitted, baseline category, neither rural nor urban.
 
-Recall that the <span style="color:blue">intercept</span> describes the expected value of the dependent variable when all the independent variables are zero. Here if **factor(UrbanCat)0**=0 and **factor(UrbanCat)1**=0, the county must be neither rural nor urban, so the intercept gives the expected value of the percent of the vote for Hillary Clinton for counties that are neither rural nor urban, *when all other variables have a value of zero*.  That vote share is 75.97646.  
+Recall that the [intercept]{.important-text} describes the expected value of the dependent variable when all the independent variables are zero. Here if **factor(UrbanCat)0**=0 and **factor(UrbanCat)1**=0, the county must be neither rural nor urban, so the intercept gives the expected value of the percent of the vote for Hillary Clinton for counties that are neither rural nor urban, *when all other variables have a value of zero*.  That vote share is 75.97646.  
 
-The <span style="color:blue">slope</span> on each of the categorical variables gives the difference between that category and the baseline category. 
+The [slope]{.important-text} on each of the categorical variables gives the difference between that category and the baseline category. 
 
 + The slope for rural counties **factor(UrbanCat)0** is -3.49621. This tells us that rural counties, on average, cast a smaller share of their votes for Hillary Clinton, *relative to counties that are neither rural nor urban*, about 3.5 percentage points fewer votes. If we subtract this value from the intercept, we have the average percentage of the vote cast for Hillary Clinton in rural counties, *when all other variables take a value of zero*: 75.97646-3.49621= 72.48025.
 
@@ -438,5 +438,16 @@ question("Which of the following statements is FALSE?",
   allow_retry = TRUE,
   try_again = " "
 )
+```
+
+
+```{r tutorial-success-banner-14, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Outstanding! You have completed this tutorial and can now estimate and interpret multiple regression models."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🚀 Outstanding work! 🚀</span>
+</p>
+')
 ```
 

@@ -12,7 +12,7 @@
 
 <meta name="progressive" content="true" />
 <meta name="allow-skip" content="true" />
-<meta name="learnr-version-prerender" content="0.11.5.9000" />
+<meta name="learnr-version-prerender" content="0.11.6.9000" />
 
 <title>Bivariate Description: Two Categorical (Nominal and/or Ordinal) Variables</title>
 
@@ -97,6 +97,254 @@ if (window.hljs) {
 <!-- end tabsets -->
 
 
+<style id="qpa-a11y-css">
+/* ================================
+   Global Accessibility + Styling
+   QPA Tutorials
+   ================================ */
+
+/* -------- Palette (accessible) -------- */
+:root{
+  --qpa-blue: #1d4ed8;        /* strong blue on white */
+  --qpa-blue-dark: #1e40af;   /* hover/darker */
+  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
+  --qpa-blue-border: #93c5fd; /* light border */
+  --qpa-ink: #0b2a6f;         /* dark blue text */
+  --qpa-focus: #f59e0b;       /* amber focus ring (very visible) */
+  --qpa-gray-border: #e0e0e0;
+  --qpa-gray-bg: #f7f7f7;
+}
+
+/* -------- Focus Visibility -------- */
+
+/* Strong focus rings for keyboard users, scoped to the tutorial content */
+#tutorial-container button:focus-visible,
+#tutorial-container .btn:focus-visible,
+#tutorial-container .tutorial-panel-name:focus-visible,
+#tutorial-container a:focus-visible,
+#tutorial-container input:focus-visible,
+#tutorial-container textarea:focus-visible,
+#tutorial-container select:focus-visible {
+  outline: 3px solid var(--qpa-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Do not remove focus outlines on learnr control buttons (Run Code / Submit Answer) */
+#tutorial-container .tutorial-exercise button:focus,
+#tutorial-container .tutorial-exercise .btn:focus,
+#tutorial-container .tutorial-exercise button:focus-visible,
+#tutorial-container .tutorial-exercise .btn:focus-visible {
+  outline: revert;
+  outline-offset: revert;
+}
+
+/* For everything else, only remove non-visible focus (mouse focus) */
+#tutorial-container button:focus:not(:focus-visible),
+#tutorial-container .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* -------- Links (restore blue accents) -------- */
+a,
+a:visited {
+  color: var(--qpa-blue);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 0.08em;
+}
+
+a:hover,
+a:active {
+  color: var(--qpa-blue-dark);
+}
+
+/* -------- Exercise Containers -------- */
+
+.tutorial-exercise {
+  border: 1px solid var(--qpa-gray-border);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 24px 0;
+}
+
+/* Highlight active exercise for keyboard users */
+.tutorial-exercise:focus-within {
+  outline: 2px solid var(--qpa-blue-border);
+  background-color: var(--qpa-gray-bg);
+}
+
+/* -------- Important Concept Highlight (inline) -------- */
+
+.important-text {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 1.25;
+  border: 1px solid #b9d7ff;
+}
+
+/* -------- Informational Callout Box -------- */
+
+.important-note {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  border-left: 6px solid #2b6cb0;
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.important-note strong,
+.important-note b {
+  color: #0b2a6f;
+  font-weight: 800;
+}
+
+.important-note a {
+  color: #1f5aa6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.important-note a:visited {
+  color: #1b4f93;
+}
+
+.important-note a:hover,
+.important-note a:focus {
+  color: #17437f;
+  text-decoration-thickness: 2px;
+}
+
+/* -------- Hypothesis Statement Block -------- */
+
+.hypothesis {
+  background-color: #fff8f0;        /* warm off-white */
+  color: #7c3a00;                   /* dark brown text */
+  border-left: 6px solid #c05c00;   /* burnt orange left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-style: italic;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.hypothesis strong,
+.hypothesis b {
+  color: #7c3a00;
+  font-weight: 800;
+}
+
+/* -------- Caution / Warning Box -------- */
+
+.caution {
+  background-color: #fff5f5;        /* light red tint */
+  color: #7b1d1d;                   /* dark red text */
+  border-left: 6px solid #c62828;   /* strong red left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.caution strong,
+.caution b {
+  color: #7b1d1d;
+  font-weight: 800;
+}
+
+/* -------- Success & Error Messages -------- */
+
+.alert-success,
+.tutorial-exercise-success {
+  border-left: 4px solid #2e7d32;
+  background-color: #eef7ef;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.alert-danger,
+.tutorial-exercise-error {
+  border-left: 4px solid #c62828;
+  background-color: #fdecea;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* -------- Tables -------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f3f3f3;
+  font-weight: 600;
+}
+
+/* -------- Completion Message -------- */
+
+.tutorial-complete {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e7d32;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* -------- Package Name Styling -------- */
+
+.package-name {
+  color: #0f5132 !important;
+  background-color: #e6f4ea !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  letter-spacing: 0.2px !important;
+  border: 1px solid #b6dfc7 !important;
+  text-decoration: none !important;
+}
+
+/* -------- Exercise Run/Submit Buttons -------- */
+.btn-tutorial-run,
+.btn-tutorial-submit,
+.tutorial-exercise .btn {
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+/* -------- Table Container -------- */
+.table-container {
+  overflow-x: auto;
+  margin: 18px 0;
+}
+/* -------- Screen Reader Only -------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
 </head>
 
 <body>
@@ -110,6 +358,7 @@ if (window.hljs) {
 <article class="topics" id="learnr-tutorial-content">
 
 <div id="section-learning-objectives" class="section level2">
+<div role="region" aria-label="Accessibility Instructions" style="background:#f3f3f3;border:1px solid #ccc;border-radius:6px;margin:20px 0;"><button id="a11y-toggle" style="width:100%;padding:12px;background:none;border:none;text-align:left;cursor:pointer;font-weight:600;" aria-expanded="false" aria-controls="a11y-content" onclick="var c=document.getElementById('a11y-content');var open=c.style.display==='block';c.style.display=open?'none':'block';this.setAttribute('aria-expanded',String(!open));this.innerHTML=open?'&#9654; Accessibility &amp; Navigation Guide':'&#9660; Accessibility &amp; Navigation Guide';">&#9654; Accessibility &amp; Navigation Guide</button><div id="a11y-content" style="display:none;padding:0 16px 16px 16px;"><p><strong>Keyboard navigation:</strong></p><ul><li>Tab moves between interactive elements</li><li>Enter activates buttons</li><li>Ctrl + F searches within tutorial</li></ul><p><strong>Important:</strong></p><ul><li>Exercise buttons may require mouse/trackpad</li><li>Code editors may require clicking before typing</li></ul><p style="font-size:0.9em;color:#555;">We have enhanced accessibility where possible within learnr's platform limits.</p></div></div>
 <h2>Learning Objectives</h2>
 <p>In this tutorial, you will learn how to describe the relationship
 between two variables measured at the nominal and/or ordinal level.
@@ -118,10 +367,10 @@ Specifically, we will cover:</p>
 <li>How to conduct a descriptive analysis of the relationship between
 two nominal or ordinal variables (or one of each) using cross-tabs.</li>
 <li>How to use the <code>CrossTable()</code> function in the R package
-<span style="color:DarkGreen">descr</span> to produce cross-tabs.</li>
+<span class="package-name">descr</span> to produce cross-tabs.</li>
 <li>How to plot the information in cross-tabs using grouped bar plots
 using the <code>ggplot()</code> function in the R package <span
-style="color:DarkGreen">ggplot2</span>.</li>
+class="package-name">ggplot2</span>.</li>
 </ul>
 </div>
 <div id="section-bivariate-description" class="section level2">
@@ -163,7 +412,7 @@ class="section level2">
 <h2>Describing the Relationship Between Two Nominal or Ordinal
 Variables</h2>
 <p>We use a cross-tab to describe the relationship between nominal and
-ordinal variables. <span style="color:blue">A cross-tabulation (or
+ordinal variables. <span class="important-text">A cross-tabulation (or
 cross-tab) is a table that shows the distribution of cases (counts or
 proportions) across values of the dependent variable for cases that have
 different values on the independent variable.</span></p>
@@ -203,8 +452,8 @@ the outcome variable in the rows of the table.</p>
 <div id="section-the-crosstable-function" class="section level3">
 <h3>The <code>CrossTable()</code> Function</h3>
 <p>To produce a cross-tab, we will use the <code>CrossTable()</code>
-function from the R package <span style="color:DarkGreen">descr</span>.
-The function requires two arguments, <code>x</code> and <code>y</code>.
+function from the R package <span class="package-name">descr</span>. The
+function requires two arguments, <code>x</code> and <code>y</code>.
 <code>x</code> defines the variable to appear in the rows of the table
 and should be the outcome or dependent variable. <code>y</code> defines
 the variable to appear in the columns and should be the explanatory or
@@ -226,7 +475,7 @@ takes a value of 0 if Hillary Clinton won a majority of the vote and 1
 if Donald Trump won a majority of the vote. We’ll use this data to
 create our first cross-tab and to see how we use it to assess the
 hypothesis that Trump did better in more rural counties.</p>
-<p>We need to first load the <span style="color:DarkGreen">descr</span>
+<p>We need to first load the <span class="package-name">descr</span>
 package with the <code>library()</code> function so that we can use the
 <code>CrossTable()</code> function.</p>
 <div class="tutorial-exercise" data-label="samplecrosstb"
@@ -260,10 +509,10 @@ CrossTable(x = counties$TrumpMajority, y = counties$rural,
 <div id="section-assessing-our-hypothesis" class="section level2">
 <h2>Assessing our hypothesis</h2>
 <p>Now that we’ve interpreted individual cell entries, let’s see what we
-can learn about our hypothesis: <span style="color:chocolate"> In a
-comparison of [counties], those that are [more rural] will be more
-likely to [give a majority of their support to Trump] than will those
-that are [less rural (more urban)].</span></p>
+can learn about our hypothesis: <span class="hypothesis">In a comparison
+of [counties], those that are [more rural] will be more likely to [give
+a majority of their support to Trump] than will those that are [less
+rural (more urban)].</span></p>
 <p>Does the evidence support this hypothesis? If more rural counties are
 more likely to have cast a majority of their votes for Trump, what
 should we see?</p>
@@ -320,10 +569,10 @@ counties.</p>
 id="section-racial-majority-and-support-for-donald-trump-in-us-counties"
 class="section level3">
 <h3>Racial Majority and Support for Donald Trump in US Counties</h3>
-<p>We might hypothesize that: <span style="color:chocolate">In a
-comparison of [counties], those that are [majority-white] will be more
-likely to [give a majority of their support to Trump] than will those
-that are [not majority-white].</span></p>
+<p>We might hypothesize that: <span class="hypothesis">In a comparison
+of [counties], those that are [majority-white] will be more likely to
+[give a majority of their support to Trump] than will those that are
+[not majority-white].</span></p>
 <p>The data frame <strong>counties</strong> contains a nominal variable
 called <strong>racial_majority</strong> that takes the character values
 “Black Majority,” “Hispanic Majority,” “Other/No Majority,” and “White
@@ -377,7 +626,7 @@ and the ordinal variable <strong>gender_equal3</strong>, which may be
 “Low,” “Medium,” or “High.” The variables are in the data frame
 <strong>world</strong>.</p>
 <p>Write the code to generate the cross-tab and run it. Assume we
-hypothesize that: <span style="color:chocolate"> In a comparison of
+hypothesize that: <span class="hypothesis">In a comparison of
 [countries], those that are [dictatorships] will be less likely to [have
 a high degree of gender equality] than will those that are [not
 dictatorships].</span></p>
@@ -431,7 +680,7 @@ class="section level2">
 <code>ggplot()</code></h2>
 <p>We can plot the information in a cross-tab using a bar plot. We
 created bar plots with <code>ggplot()</code> in the R package <span
-style="color:DarkGreen">ggplot2</span> in the tutorial “Univariate
+class="package-name">ggplot2</span> in the tutorial “Univariate
 Description: Nominal Variables” to visualize a single nominal variable
 and in the tutorial “Univariate Description: Ordinal Variables” to
 visualize a single ordinal variable. When presenting the information in
@@ -473,7 +722,7 @@ We specify both <code>x</code> and <code>fill</code> variables as
 factors so that <code>ggplot()</code> knows the values of these
 variables are discrete (whole numbers only).</p>
 <p>Don’t forget that we need to load <span
-style="color:DarkGreen">ggplot2</span> before we can use the
+class="package-name">ggplot2</span> before we can use the
 <code>ggplot()</code> function.</p>
 <div class="tutorial-exercise" data-label="freqtab" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
@@ -702,7 +951,7 @@ data-lines="0" data-pipe="|&gt;">
 <p>The first thing we see is that there is a lot of missing data. You
 may want to eliminate this information from the plot. The easiest way to
 omit the NAs from the plot is to use the <code>filter()</code> function
-in the <span style="color:DarkGreen">dplyr</span> package. The
+in the <span class="package-name">dplyr</span> package. The
 <code>filter()</code> function keeps rows of the data frame that meet
 some condition. Here we want to keep those rows where
 <strong>gender_equal3</strong> is not missing and
@@ -715,7 +964,7 @@ that we keep only non-missing data “and then” we pipe that result to
 <code>ggplot()</code>, which means we don’t need to specify the
 <code>data</code> argument inside <code>ggplot()</code>. Otherwise,
 nothing has changed.</p>
-<p>Don’t forget to load the <span style="color:DarkGreen">dplyr</span>
+<p>Don’t forget to load the <span class="package-name">dplyr</span>
 package with the <code>library()</code> function!</p>
 <div class="tutorial-exercise" data-label="genderplot2"
 data-completion="1" data-diagnostics="1" data-startover="1"
@@ -755,8 +1004,8 @@ gender equality.</p>
 two categorical variables, whether nominal and/or ordinal level
 variables are:</p>
 <ol style="list-style-type: decimal">
-<li><p>We use <span style="color:blue">cross-tabs</span> to present the
-relationship in tabular form. This has the advantage of providing
+<li><p>We use <span class="important-text">cross-tabs</span> to present
+the relationship in tabular form. This has the advantage of providing
 precise frequencies and proportions. Three rules guide the presentation
 and interpretation of cross-tabs:</p>
 <ul>
@@ -766,7 +1015,7 @@ the outcome variable in the rows of the table.</li>
 <li>Rule 3: interpret the results by comparing proportions in each
 column category <strong>within</strong> rows of the table.</li>
 </ul></li>
-<li><p><span style="color:blue">Grouped bar plots</span> present the
+<li><p><span class="important-text">Grouped bar plots</span> present the
 information in a cross-tab in visual form. This makes it easy to see
 patterns, but does not provide the exact counts or proportions in any
 given cell of the table.</p></li>
@@ -792,6 +1041,9 @@ inside <code>factor()</code> so that <code>ggplot()</code> knows the
 variable’s values must be discrete (whole numbers).</li>
 </ul></li>
 </ol>
+<p role="status" aria-label="Well done! You have completed this tutorial and mastered the description of relationships between categorical variables." style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+<span aria-hidden="true">🎉 Well done! 🎉</span>
+</p>
 <p>
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
@@ -805,14 +1057,14 @@ library(sjPlot)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$rural <-1
 counties$rural[counties$rural_urban<=3] <- 0
 counties$rural[counties$rural_urban>=8] <-2
 
-fHouse <- qpaTutorials::fHouse
+data("fHouse", package = "qpaTutorials")
 sum(is.na(fHouse$FHStatus))
 #fHouse <-filter(fHouse, FHStatus==)
 fHouse$FHStatus2[fHouse$FHStatus=="NF"] <- 0
@@ -859,10 +1111,10 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb", global_set
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -876,10 +1128,10 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb", global_set
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -888,8 +1140,7 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb", global_set
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "samplecrosstb", exercise = TRUE, code = c("library(descr) ", 
         "CrossTable(x = counties$TrumpMajority, y = counties$rural,", 
         "           prop.r = FALSE, prop.c = TRUE, prop.t = FALSE,", 
@@ -901,15 +1152,15 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb", global_set
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-a", question = structure("How many counties in the sample are rural?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_3b77495", 
+"character")), answers = list(structure(list(id = "lnr_ans_6bf520c", 
     option = "2622", value = "2622", label = structure("2622", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("2622 is a row total: 2622 counties have a value of 1 for the variable TrumpMajority, which denotes they cast a majority of votes for Donald Trump", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_eda74d0", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_81a7e9b", 
     option = "1162", value = "1162", label = structure("1162", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("1162 is a column total, but the wrong column: a value of 0 for the column variable rural, denotes a county is urban.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_62096b3", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_dae6469", 
     option = "627", value = "627", label = structure("627", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = structure("627 is a column total giving the number of counties that have a value of 2 for the variable rural, which denotes a county is rural", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -920,7 +1171,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-a-answer", question = "letter-a"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 2068859628.03661, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 2075011819.53375, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -928,24 +1179,24 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-b", question = structure("What does the value 0.261 in the top-left cell of the table tell us?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_2923f27", 
+"character")), answers = list(structure(list(id = "lnr_ans_97ddb5b", 
     option = "The proportion of all counties that cast votes for Hillary Clinton", 
     value = "The proportion of all counties that cast votes for Hillary Clinton", 
     label = structure("The proportion of all counties that cast votes for Hillary Clinton", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("Proportions are calculated out of all voters in a column, not out of all counties.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_f117978", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_e20bc33", 
     option = "The proportion of urban counties that cast a majority of the vote for Donald Trump", 
     value = "The proportion of urban counties that cast a majority of the vote for Donald Trump", 
     label = structure("The proportion of urban counties that cast a majority of the vote for Donald Trump", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("The proportion is for urban counties, but 0 is the value for Clinton Majority.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_7d85083", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_5405108", 
     option = "The proportion of urban counties that cast a majority of the vote for Hillary Clinton", 
     value = "The proportion of urban counties that cast a majority of the vote for Hillary Clinton", 
     label = structure("The proportion of urban counties that cast a majority of the vote for Hillary Clinton", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_e10d7d3", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_de45864", 
     option = "The proportion of counties that cast a majority of votes for Hillary Clinton that were also urban counties", 
     value = "The proportion of counties that cast a majority of votes for Hillary Clinton that were also urban counties", 
     label = structure("The proportion of counties that cast a majority of votes for Hillary Clinton that were also urban counties", html = TRUE, class = c("html", 
@@ -958,7 +1209,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-b-answer", question = "letter-b"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1621859688.24476, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1976608629.07957, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -977,10 +1228,10 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb2", global_se
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -996,10 +1247,10 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb2", global_se
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1008,8 +1259,7 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb2", global_se
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "samplecrosstb2", exercise = TRUE, code = "CrossTable(x = counties$XXXX, y = counties$XXXX, prop.r = XXXX, prop.c = XXXX, prop.t = XXXX, prop.chisq = XXXX)", 
         out.width.px = 624, out.height.px = 384, params.src = "samplecrosstb2, exercise=TRUE", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
@@ -1019,24 +1269,24 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb2", global_se
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-w", 
     question = structure("Which of the following statements about the cross-tab are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_2ac89e7", 
+    "character")), answers = list(structure(list(id = "lnr_ans_974bb9", 
         option = "Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", 
         value = "Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", 
         label = structure("Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The proportion 0.111 is the proportion of counties in the White Majority column (2866 counties) that cast a majority of their votes for Hillary Clinton", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_81adc14", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_126da03", 
         option = "Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", 
         value = "Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", 
         label = structure("Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e1890a", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4520335", 
         option = "Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", 
         value = "Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", 
         label = structure("Of the 3112 counties in the data, 0.039 or 3.9% cast a majority of their votes for Donald Trump", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("While there are 3112 counties in the data, 0.039 is a column proportion signifying that this proportion of black majority counties cast a majority of their votes for Donald Trump", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_38c1983", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8471db6", 
         option = "Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", 
         value = "Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", 
         label = structure("Of the 102 majority Black counties, 0.039 or 3.9% cast a majority of their vote for Donald Trump", html = TRUE, class = c("html", 
@@ -1048,7 +1298,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-w-answer", question = "letter-w"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 677390792.684565, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 622575806.21009, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -1067,10 +1317,10 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb3", global_se
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1085,10 +1335,10 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb3", global_se
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1097,8 +1347,7 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb3", global_se
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "samplecrosstb3", exercise = TRUE, code = "", 
         out.width.px = 624, out.height.px = 384, params.src = "samplecrosstb3, exercise=TRUE", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
@@ -1108,15 +1357,15 @@ learnr:::store_exercise_cache(structure(list(label = "samplecrosstb3", global_se
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-aa", question = structure("How many countries in the sample have medium levels of gender equality?", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_80ed839", 
+"character")), answers = list(structure(list(id = "lnr_ans_16e0c82", 
     option = "21", value = "21", label = structure("21", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("21 is a row total, but the wrong row: 21 countries have high levels of gender equality", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_249523f", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_a995461", 
     option = "29", value = "29", label = structure("29", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("29 is a column total denoting the number of countries that have parliamentary democracies.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_7dc76c7", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_aa4416b", 
     option = "22", value = "22", label = structure("22", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = structure("22 is a row total giving the number of countries that have a value of medium for the gender equality variable", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -1127,7 +1376,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-aa-answer", question = "letter-aa"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1791889588.66559, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 222674171.396309, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -1135,18 +1384,18 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-z", 
     question = structure("Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_be0dffd", 
+    "character")), answers = list(structure(list(id = "lnr_ans_b153a71", 
         option = "Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of cases is `low' (0.625)", 
         value = "Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of cases is `low' (0.625)", 
         label = structure("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of cases is `low’ (0.625)", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_ef3a75b", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_449f8d0", 
         option = "Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", 
         value = "Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", 
         label = structure("Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("While 21 countries have the highest level of gender equality, 0.062 is a column proportion calculated out of the total number of countries that are dictatorships", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_64a45b5", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_18631f", 
         option = "Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", 
         value = "Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality, ", 
         label = structure("Parliamentary democracies have the highest proportion of any regime type that have high levels of gender equality,", html = TRUE, class = c("html", 
@@ -1158,7 +1407,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-z-answer", question = "letter-z"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 2020949230.05892, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1938852988.09715, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -1177,10 +1426,10 @@ learnr:::store_exercise_cache(structure(list(label = "freqtab", global_setup = s
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1193,10 +1442,10 @@ learnr:::store_exercise_cache(structure(list(label = "freqtab", global_setup = s
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1205,8 +1454,7 @@ learnr:::store_exercise_cache(structure(list(label = "freqtab", global_setup = s
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "freqtab", exercise = TRUE, code = c("library(ggplot2)", 
         "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
         "  geom_bar() "), out.width.px = 624, out.height.px = 384, 
@@ -1229,10 +1477,10 @@ learnr:::store_exercise_cache(structure(list(label = "dodge", global_setup = str
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1245,10 +1493,10 @@ learnr:::store_exercise_cache(structure(list(label = "dodge", global_setup = str
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1257,8 +1505,7 @@ learnr:::store_exercise_cache(structure(list(label = "dodge", global_setup = str
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "dodge", exercise = TRUE, code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
         "  geom_bar(position = \"dodge\") "), out.width.px = 624, 
         out.height.px = 384, params.src = "dodge, exercise=TRUE", 
@@ -1280,10 +1527,10 @@ learnr:::store_exercise_cache(structure(list(label = "proptab", global_setup = s
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1296,10 +1543,10 @@ learnr:::store_exercise_cache(structure(list(label = "proptab", global_setup = s
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1308,8 +1555,7 @@ learnr:::store_exercise_cache(structure(list(label = "proptab", global_setup = s
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "proptab", exercise = TRUE, code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
         "  geom_bar(position = \"dodge\", mapping = aes(y = after_stat(prop), group = factor(rural))) "
         ), out.width.px = 624, out.height.px = 384, params.src = "proptab, exercise=TRUE", 
@@ -1331,10 +1577,10 @@ learnr:::store_exercise_cache(structure(list(label = "inform", global_setup = st
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1347,10 +1593,10 @@ learnr:::store_exercise_cache(structure(list(label = "inform", global_setup = st
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1359,8 +1605,7 @@ learnr:::store_exercise_cache(structure(list(label = "inform", global_setup = st
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "inform", exercise = TRUE, code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +", 
         "  geom_bar(position = \"dodge\", aes(y = after_stat(prop), group = factor(rural))) +", 
         "  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", ", 
@@ -1386,10 +1631,10 @@ learnr:::store_exercise_cache(structure(list(label = "raceplot", global_setup = 
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1410,10 +1655,10 @@ learnr:::store_exercise_cache(structure(list(label = "raceplot", global_setup = 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
         background = "#F7F7F7", strip.white = TRUE, cache = 0, 
-        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.path = "07-bivariateCatT_cache/html/", cache.vars = NULL, 
         cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
         cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
-        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1422,8 +1667,7 @@ learnr:::store_exercise_cache(structure(list(label = "raceplot", global_setup = 
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "raceplot", exercise = TRUE, code = c("ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +", 
         "  geom_bar(XXX = XXX, aes(y = after_stat(prop), group = XXX)) +", 
         "  labs(title = \"Proportion of Counties Casting \\na Majority of Votes for Clinton and Trump\", ", 
@@ -1449,10 +1693,10 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot", global_setup 
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1468,10 +1712,10 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot", global_setup 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
         background = "#F7F7F7", strip.white = TRUE, cache = 0, 
-        cache.path = "bivariateCatT_cache/html/", cache.vars = NULL, 
+        cache.path = "07-bivariateCatT_cache/html/", cache.vars = NULL, 
         cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
         cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
-        fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1480,8 +1724,7 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot", global_setup 
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "genderplot", exercise = TRUE, code = "", out.width.px = 624, 
         out.height.px = 384, params.src = "genderplot, exercise=TRUE", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
@@ -1502,10 +1745,10 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot2", global_setup
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1518,10 +1761,10 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot2", global_setup
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1530,8 +1773,7 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot2", global_setup
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "genderplot2", exercise = TRUE, code = c("library(dplyr)", 
         "world %>%", "filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%", 
         "ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +", 
@@ -1555,10 +1797,10 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot3", global_setup
 "library(descr)", "library(ggplot2)", "library(gradethis)", "library(sjPlot)", 
 "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"counties <- qpaTutorials::counties", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
 "counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
 "counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "fHouse <- qpaTutorials::fHouse", "sum(is.na(fHouse$FHStatus))", 
+"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
 "#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
 "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
@@ -1571,10 +1813,10 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot3", global_setup
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
         tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
         highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "bivariateCatT_cache/html/", 
+        strip.white = TRUE, cache = 0, cache.path = "07-bivariateCatT_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "bivariateCatT_files/figure-html/", 
+        fig.show = "asis", fig.align = "default", fig.path = "07-bivariateCatT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1583,8 +1825,7 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot3", global_setup
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.error.check.code = "gradethis_error_checker()", 
+        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         label = "genderplot3", exercise = TRUE, code = c("world %>%", 
         "filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%", 
         "ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +", 
@@ -1599,12 +1840,12 @@ learnr:::store_exercise_cache(structure(list(label = "genderplot3", global_setup
 </p>
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="dependencies">
-{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["header-attrs"]},{"type":"character","attributes":{},"value":["2.29"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pandoc"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["header-attrs.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.29"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["3.6.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/3.6.0"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery-3.6.0.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquerylib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.1.4"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/cerulean.min.css"]},{"type":"character","attributes":{},"value":["<style>h1 {font-size: 34px;}\n       h1.title {font-size: 38px;}\n       h2 {font-size: 30px;}\n       h3 {font-size: 24px;}\n       h4 {font-size: 18px;}\n       h5 {font-size: 16px;}\n       h6 {font-size: 12px;}\n       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}\n       pre:not([class]) { background-color: white }<\/style>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.29"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.29"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["textmate.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.29"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.11.5.9000"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["i18n"]},{"type":"character","attributes":{},"value":["21.6.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/i18n"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["i18next.min.js","tutorial-i18n-init.js"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["<script id=\"i18n-cstm-trns\" type=\"application/json\">{\"language\":\"en\",\"resources\":{\"en\":{\"translation\":{\"button\":{\"runcode\":\"Run Code\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Hint\",\"hint_plural\":\"Hints\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Next Hint\",\"hintprev\":\"Previous Hint\",\"solution\":\"Solution\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copy to Clipboard\",\"startover\":\"Start Over\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continue\",\"submitanswer\":\"Submit Answer\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Previous Topic\",\"nexttopic\":\"Next Topic\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Try Again\"},\"text\":{\"startover\":\"Start Over\",\"areyousure\":\"Are you sure you want to start over? (All exercise progress will be reset)\",\"youmustcomplete\":\"You must complete the\",\"exercise\":\"exercise\",\"exercise_plural\":\"exercises\",\"inthissection\":\"in this section before continuing.\",\"code\":\"Code\",\"enginecap\":\"{{engine}} $t(text.code)\",\"quiz\":\"Quiz\",\"blank\":\"blank\",\"blank_plural\":\"blanks\",\"exercisecontainsblank\":\"This exercise contains {{count}} $t(text.blank).\",\"pleasereplaceblank\":\"Please replace {{blank}} with valid code.\",\"unparsable\":\"It looks like this might not be valid R code. R cannot determine how to turn your text into a complete command. You may have forgotten to fill in a blank, to remove an underscore, to include a comma between arguments, or to close an opening <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> or <code>{<\\/code> with a matching <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> or <code>}<\\/code>.\\n\",\"unparsablequotes\":\"<p>It looks like your R code contains specially formatted quotation marks or &quot;curly&quot; quotes (<code>{{character}}<\\/code>) around character strings, making your code invalid. R requires character values to be contained in straight quotation marks (<code>&quot;<\\/code> or <code>'<\\/code>).<\\/p> {{code}} <p>Don't worry, this is a common source of errors when you copy code from another app that applies its own formatting to text. You can try replacing the code on that line with the following. There may be other places that need to be fixed, too.<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>It looks like your R code contains an unexpected special character (<code>{{character}}<\\/code>) that makes your code invalid.<\\/p> {{code}} <p>Sometimes your code may contain a special character that looks like a regular character, especially if you copy and paste the code from another app. Try deleting the special character from your code and retyping it manually.<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>It looks like your R code contains an unexpected special character (<code>{{character}}<\\/code>) that makes your code invalid.<\\/p> {{code}} <p>Sometimes your code may contain a special character that looks like a regular character, especially if you copy and paste the code from another app. You can try replacing the code on that line with the following. There may be other places that need to be fixed, too.<\\/p> {{suggestion}}\\n\",\"and\":\"and\",\"or\":\"or\",\"listcomma\":\", \",\"oxfordcomma\":\",\"}}},\"fr\":{\"translation\":{\"button\":{\"runcode\":\"Lancer le Code\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Indication\",\"hint_plural\":\"Indications\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Indication Suivante\",\"hintprev\":\"Indication Précédente\",\"solution\":\"Solution\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copier dans le Presse-papier\",\"startover\":\"Recommencer\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continuer\",\"submitanswer\":\"Soumettre\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Chapitre Précédent\",\"nexttopic\":\"Chapitre Suivant\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Réessayer\"},\"text\":{\"startover\":\"Recommencer\",\"areyousure\":\"Êtes-vous certains de vouloir recommencer? (La progression sera remise à zéro)\",\"youmustcomplete\":\"Vous devez d'abord compléter\",\"exercise\":\"l'exercice\",\"exercise_plural\":\"des exercices\",\"inthissection\":\"de cette section avec de continuer.\",\"code\":\"Code\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"and\":\"et\",\"or\":\"ou\",\"oxfordcomma\":\"\"}}},\"es\":{\"translation\":{\"button\":{\"runcode\":\"Ejecutar código\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Pista\",\"hint_plural\":\"Pistas\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Siguiente pista\",\"hintprev\":\"Pista anterior\",\"solution\":\"Solución\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copiar al portapapeles\",\"startover\":\"Reiniciar\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continuar\",\"submitanswer\":\"Enviar respuesta\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Tema anterior\",\"nexttopic\":\"Tema siguiente\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Volver a intentar\"},\"text\":{\"startover\":\"Reiniciar\",\"areyousure\":\"¿De verdad quieres empezar de nuevo? (todo el progreso del ejercicio se perderá)\",\"youmustcomplete\":\"Debes completar\",\"exercise\":\"el ejercicio\",\"exercise_plural\":\"los ejercicios\",\"inthissection\":\"en esta sección antes de continuar.\",\"code\":\"Código\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Cuestionario\",\"and\":\"y\",\"or\":\"o\",\"oxfordcomma\":\"\"}}},\"pt\":{\"translation\":{\"button\":{\"runcode\":\"Executar código\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Dica\",\"hint_plural\":\"Dicas\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Próxima dica\",\"hintprev\":\"Dica anterior\",\"solution\":\"Solução\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copiar para a área de transferência\",\"startover\":\"Reiniciar\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continuar\",\"submitanswer\":\"Enviar resposta\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Tópico anterior\",\"nexttopic\":\"Próximo tópico\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Tentar novamente\"},\"text\":{\"startover\":\"Reiniciar\",\"areyousure\":\"Tem certeza que deseja começar novamente? (todo o progresso feito será perdido)\",\"youmustcomplete\":\"Você deve completar\",\"exercise\":\"o exercício\",\"exercise_plural\":\"os exercícios\",\"inthissection\":\"nesta seção antes de continuar.\",\"code\":\"Código\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"and\":\"e\",\"or\":\"ou\",\"oxfordcomma\":\"\"}}},\"tr\":{\"translation\":{\"button\":{\"runcode\":\"Çalıştırma Kodu\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Ipucu\",\"hint_plural\":\"İpuçları\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Sonraki İpucu\",\"hintprev\":\"Önceki İpucu\",\"solution\":\"Çözüm\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Pano'ya Kopyala\",\"startover\":\"Baştan Başlamak\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Devam et\",\"submitanswer\":\"Cevabı onayla\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Önceki Konu\",\"nexttopic\":\"Sonraki Konu\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Tekrar Deneyin\"},\"text\":{\"startover\":\"Baştan Başlamak\",\"areyousure\":\"Baştan başlamak istediğinizden emin misiniz? (tüm egzersiz ilerlemesi kaybolacak)\",\"youmustcomplete\":\"Tamamlamalısın\",\"exercise\":\"egzersiz\",\"exercise_plural\":\"egzersizler\",\"inthissection\":\"devam etmeden önce bu bölümde\",\"code\":\"Kod\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Sınav\",\"oxfordcomma\":\"\"}}},\"emo\":{\"translation\":{\"button\":{\"runcode\":\"🏃\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"💡\",\"hint_plural\":\"$t(button.hint)\",\"hinttitle\":\"$t(button.hint)\",\"solution\":\"🎯\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"📋\",\"startover\":\"⏮\",\"startovertitle\":\"Start Over\",\"continue\":\"✅\",\"submitanswer\":\"🆗\",\"submitanswertitle\":\"Submit Answer\",\"previoustopic\":\"⬅\",\"nexttopic\":\"➡\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"🔁\"},\"text\":{\"startover\":\"⏮\",\"areyousure\":\"🤔\",\"youmustcomplete\":\"⚠️ 👉 🧑‍💻\",\"exercise\":\"\",\"exercise_plural\":\"\",\"inthissection\":\"\",\"code\":\"💻\",\"enginecap\":\"$t(text.code) {{engine}}\",\"oxfordcomma\":\"\"}}},\"eu\":{\"translation\":{\"button\":{\"runcode\":\"Kodea egikaritu\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Laguntza\",\"hint_plural\":\"Laguntza\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Aurreko laguntza\",\"hintprev\":\"Hurrengo laguntza\",\"solution\":\"Ebazpena\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Arbelean kopiatu\",\"startover\":\"Berrabiarazi\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Jarraitu\",\"submitanswer\":\"Erantzuna bidali\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Aurreko atala\",\"nexttopic\":\"Hurrengo atala\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Berriro saiatu\"},\"text\":{\"startover\":\"Berrabiarazi\",\"areyousure\":\"Berriro hasi nahi duzu? (egindako lana galdu egingo da)\",\"youmustcomplete\":\"Aurrera egin baino lehen atal honetako\",\"exercise\":\"ariketa egin behar duzu.\",\"exercise_plural\":\"ariketak egin behar dituzu.\",\"inthissection\":\"\",\"code\":\"Kodea\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Galdetegia\",\"oxfordcomma\":\"\"}}},\"de\":{\"translation\":{\"button\":{\"runcode\":\"Code ausführen\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Tipp\",\"hint_plural\":\"Tipps\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Nächster Tipp\",\"hintprev\":\"Vorheriger Tipp\",\"solution\":\"Lösung\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"In die Zwischenablage kopieren\",\"startover\":\"Neustart\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Weiter\",\"submitanswer\":\"Antwort einreichen\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Vorheriges Kapitel\",\"nexttopic\":\"Nächstes Kapitel\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Nochmal versuchen\"},\"text\":{\"startover\":\"Neustart\",\"areyousure\":\"Bist du sicher, dass du neustarten willst? (der gesamte Lernfortschritt wird gelöscht)\",\"youmustcomplete\":\"Vervollstädinge\",\"exercise\":\"die Übung\",\"exercise_plural\":\"die Übungen\",\"inthissection\":\"in diesem Kapitel, bevor du fortfährst.\",\"code\":\"Code\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"blank\":\"Lücke\",\"blank_plural\":\"Lücken\",\"pleasereplaceblank\":\"Bitte ersetze {{blank}} mit gültigem Code.\",\"unparsable\":\"Dies scheint kein gültiger R Code zu sein. R kann deinen Text nicht in einen gültigen Befehl übersetzen. Du hast vielleicht vergessen, die Lücke zu füllen, einen Unterstrich zu entfernen, ein Komma zwischen Argumente zu setzen oder ein eröffnendes <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> oder <code>{<\\/code> mit einem zugehörigen <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> oder <code>}<\\/code> zu schließen.\\n\",\"and\":\"und\",\"or\":\"oder\",\"listcomma\":\", \",\"oxfordcomma\":\",\"}}},\"ko\":{\"translation\":{\"button\":{\"runcode\":\"코드 실행\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"힌트\",\"hint_plural\":\"힌트들\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"다음 힌트\",\"hintprev\":\"이전 힌트\",\"solution\":\"솔루션\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"클립보드에 복사\",\"startover\":\"재학습\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"다음 학습으로\",\"submitanswer\":\"정답 제출\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"이전 토픽\",\"nexttopic\":\"다음 토픽\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"재시도\"},\"text\":{\"startover\":\"재학습\",\"areyousure\":\"다시 시작 하시겠습니까? (모든 예제의 진행 정보가 재설정됩니다)\",\"youmustcomplete\":\"당신은 완료해야 합니다\",\"exercise\":\"연습문제\",\"exercise_plural\":\"연습문제들\",\"inthissection\":\"이 섹션을 실행하기 전에\",\"code\":\"코드\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"퀴즈\",\"blank\":\"공백\",\"blank_plural\":\"공백들\",\"exercisecontainsblank\":\"이 연습문제에는 {{count}}개의 $t(text.blank)이 포함되어 있습니다.\",\"pleasereplaceblank\":\"{{blank}}를 유효한 코드로 바꾸십시오.\",\"unparsable\":\"이것은 유효한 R 코드가 아닐 수 있습니다. R은 텍스트를 완전한 명령으로 변환하는 방법을 결정할 수 없습니다. 당신은 공백이나 밑줄을 대체하여 채우기, 인수를 컴마로 구분하기, 또는 <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> , <code>{<\\/code>로 시작하는 구문을 닫는 <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code>, <code>}<\\/code>을 잊었을 수도 있습니다.\\n\",\"and\":\"그리고\",\"or\":\"혹은\",\"listcomma\":\", \",\"oxfordcomma\":\"\"}}},\"zh\":{\"translation\":{\"button\":{\"runcode\":\"运行代码\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"提示\",\"hint_plural\":\"提示\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"下一个提示\",\"hintprev\":\"上一个提示\",\"solution\":\"答案\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"复制到剪切板\",\"startover\":\"重新开始\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"继续\",\"submitanswer\":\"提交答案\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"上一专题\",\"nexttopic\":\"下一专题\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"再试一次\"},\"text\":{\"startover\":\"重置\",\"areyousure\":\"你确定要重新开始吗? (所有当前进度将被重置)\",\"youmustcomplete\":\"你必须完成\",\"exercise\":\"练习\",\"exercise_plural\":\"练习\",\"inthissection\":\"在进行本节之前\",\"code\":\"代码\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"测试\",\"blank\":\"空\",\"blank_plural\":\"空\",\"exercisecontainsblank\":\"本练习包含{{count}}个$t(text.blank)\",\"pleasereplaceblank\":\"请在{{blank}}内填写恰当的代码\",\"unparsable\":\"这似乎不是有效的R代码。 R不知道如何将您的文本转换为完整的命令。 您是否忘了填空，忘了删除下划线，忘了在参数之间包含逗号，或者是忘了用<code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code>,<code>}<\\/code>来封闭<code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code>。 or <code>{<\\/code>。\\n\",\"unparsablequotes\":\"<p>您的R代码中似乎含有特殊格式的引号，或者弯引号(<code>{{character}}<\\/code>) 在字符串前后，在R中字符串应该被直引号(<code>&quot;<\\/code> 或者 <code>'<\\/code>)包裹。<\\/p> {{code}} <p>别担心，该错误经常在复制粘贴包含格式的代码时遇到， 您可以尝试将该行中的代码替换为以下代码，也许还有其他地方需要修改。<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>您的代码中似乎包含有异常字符(<code>{{character}}<\\/code>),导致代码无效。<\\/p> {{code}} <p>有时候你的代码可能含有看似正常字符的特殊字符，特别是当你复制粘贴其他来源代码的时候。 请试着删除这些特殊字符,重新输入<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>您的代码中似乎包含有异常字符(<code>{{character}}<\\/code>),导致代码无效。<\\/p> {{code}} <p>有时候你的代码可能含有看似正常字符的特殊字符，特别是当你复制粘贴其他来源代码的时候。 请试着删除这些特殊字符,重新输入<\\/p>\\n\",\"and\":\"且\",\"or\":\"或\",\"listcomma\":\",\",\"oxfordcomma\":\",\"}}},\"pl\":{\"translation\":{\"button\":{\"runcode\":\"Uruchom kod\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Podpowiedź\",\"hint_plural\":\"Podpowiedzi\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Następna podpowiedź\",\"hintprev\":\"Poprzednia podpowiedź\",\"solution\":\"Rozwiązanie\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Kopiuj do schowka\",\"startover\":\"Zacznij od początku\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Kontynuuj\",\"submitanswer\":\"Wyślij\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Poprzednia sekcja\",\"nexttopic\":\"Następna sekcja\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Spróbuj ponownie\"},\"text\":{\"startover\":\"Zacznij od początku\",\"areyousure\":\"Czy na pewno chcesz zacząć od początku? (cały postęp w zadaniu zostanie utracony)\",\"youmustcomplete\":\"Musisz ukończyć\",\"exercise\":\"ćwiczenie\",\"exercise_plural\":\"ćwiczenia\",\"inthissection\":\"w tej sekcji przed kontynuowaniem\",\"code\":\"Kod\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"blank\":\"luka\",\"blank_plural\":\"luk(i)\",\"exercisecontainsblank\":\"To ćwiczenie zawiera {{count}} $t(text.blank).\",\"pleasereplaceblank\":\"Proszę uzupełnić {{blank}} prawidłowym kodem.\",\"unparsable\":\"Wygląda na to, że może to nie być prawidłowy kod R. R nie jest w stanie przetworzyć Twojego tekstu na polecenie. Mogłeś(-aś) zapomnieć wypełnić luki, usunąć podkreślnik, umieścić przecinka między argumentami, lub zamknąć znak <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> lub <code>{<\\/code> odpowiadającym <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> lub <code>}<\\/code>.\\n\",\"unparsablequotes\":\"<p>Wygląda na to, że Twój kod zawiera szczególnie sformatowane cudzysłowy lub cudzysłowy typograficzne (<code>{{character}}<\\/code>) przy ciągach znaków, co sprawia, że kod jest niepoprawny. R wymaga cudzysłowów prostych (<code>&quot;<\\/code> albo <code>'<\\/code>).<\\/p> {{code}} <p>Nie martw się, to powszechne źródło błędów, gdy kopiuje się kod z innego programu, który sam formatuje teskt. Możesz spróbować zastąpić swój kod następującym kodem. Mogą być też inne miejsca, które wymagają poprawienia.<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>Wygląda na to, że Twój kod zawiera niespodziewany znak specjalny (<code>{{character}}<\\/code>), co sprawia, że kod jest niepoprawny.<\\/p> {{code}} <p>Czasami Twój kod może zawierać znak specjalny, który wygląda jak zwykły znak, zwłaszcza jeśli kopiujesz kod z innego programu. Spróbuj usunąć znak specjalny i wpisać do ponownie ręcznie.<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>Wygląda na to, że Twój kod zawiera niespodziewany znak specjalny (<code>{{character}}<\\/code>), co sprawia, że kod jest niepoprawny.<\\/p> {{code}} <p>Czasami Twój kod może zawierać znak specjalny, który wygląda jak zwykły znak, zwłaszcza jeśli kopiujesz kod z innego programu. Możesz spróbować zastąpić swój kod następującym kodem. Mogą być też inne miejsca, które wymagają poprawienia.<\\/p> {{suggestion}}\\n\",\"and\":\"i\",\"or\":\"lub\",\"listcomma\":\", \",\"oxfordcomma\":\"\"}}},\"no\":{\"translation\":{\"button\":{\"runcode\":\"Kjør kode\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Hint\",\"hint_plural\":\"Hint\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Neste hint\",\"hintprev\":\"Forrige hint\",\"solution\":\"Løsning\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Kopier til utklippstavle\",\"startover\":\"Start på nytt\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Fortsett\",\"submitanswer\":\"Send inn svar\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Forrige tema\",\"nexttopic\":\"Neste tema\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Prøv igjen\"},\"text\":{\"startover\":\"Start på nytt\",\"areyousure\":\"Er du sikker på at du vil starte på nytt? (All fremgang vil bli slettet)\",\"youmustcomplete\":\"Du må fullføre\",\"exercise\":\"oppgave\",\"exercise_plural\":\"oppgaver\",\"inthissection\":\"i denne seksjonen før du fortsetter.\",\"code\":\"kode\",\"enginecap\":\"{{engine}}-$t(text.code)\",\"quiz\":\"Quiz\",\"blank\":\"tomrom\",\"blank_plural\":\"tomrom\",\"exercisecontainsblank\":\"Denne oppgaven inneholder {{count}} $t(text.blank).\",\"pleasereplaceblank\":\"Erstatt {{blank}} med gyldig kode.\",\"unparsable\":\"Dette ser ikke ut til å være gyldig R-kode. Slik R ser det, utgjør ikke teksten en fullstendig kommando. Du kan ha glemt å fylle ut en luke, å fjerne en understrek, å inkludere et komma mellom argumenter, eller å lukke et åpnende <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> eller <code>{<\\/code> med et tilsvarende <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> eller <code>}<\\/code>.\\n\",\"unparsablequotes\":\"<p>Det ser ut som om R-koden din inneholder spesielt formaterte anførselstegn eller &quot;krøllete&quot; anførselstegn (<code>{{character}}<\\/code>) rundt tekststrenger, noe som gjør koden din ugyldig. R krever at tekstverdier skal være inneholdt i rette anførselstegn (<code>&quot;<\\/code> eller <code>'<\\/code>).<\\/p> {{code}} <p>Dette er et vanlig problem når du kopierer kode fra et annet program som bruker sin egen formatering på tekst.  Du kan prøve å erstatte koden i den linjen med følgende. Kanskje er det også andre steder som må fikses.<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>Det ser ut som om R-koden din inneholder et uventet spesialtegn (<code>{{character}}<\\/code>) som gjør koden din ugyldig.<\\/p> {{code}} <p>Noen ganger kan koden din inneholde et spesialtegn som ser ut som et vanlig tegn, spesielt hvis du kopierer og limer inn koden fra et annet program. Prøv å slette spesialtegnet fra koden din og skriv det inn på nytt for hånd.<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>Det ser ut som om R-koden din inneholder et uventet spesialtegn (<code>{{character}}<\\/code>) som gjør koden din ugyldig.<\\/p> {{code}} <p>Noen ganger kan koden din inneholde et spesialtegn som ser ut som et vanlig tegn, spesielt hvis du kopierer og limer inn koden fra et annet program. Du kan prøve å erstatte koden i den linjen med følgende. Kanskje er det også andre steder som må fikses.<\\/p> {{suggestion}}\\n\",\"and\":\"og\",\"or\":\"eller\",\"listcomma\":\", \",\"oxfordcomma\":\"\"}}}}}<\/script>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.11.5.9000"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css","rstudio-theme.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["3.6.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/3.6.0"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery-3.6.0.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquerylib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.1.4"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.29"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.29"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["3.6.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/3.6.0"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery-3.6.0.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquerylib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.1.4"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["6.5.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.min.css","css/v4-shims.min.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["fontawesome"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.5.3"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["5.5.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.11.5.9000"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.5.9000"]}]}]}
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["header-attrs"]},{"type":"character","attributes":{},"value":["2.30"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pandoc"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["header-attrs.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.30"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["3.6.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/3.6.0"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery-3.6.0.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquerylib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.1.4"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/cerulean.min.css"]},{"type":"character","attributes":{},"value":["<style>h1 {font-size: 34px;}\n       h1.title {font-size: 38px;}\n       h2 {font-size: 30px;}\n       h3 {font-size: 24px;}\n       h4 {font-size: 18px;}\n       h5 {font-size: 16px;}\n       h6 {font-size: 12px;}\n       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}\n       pre:not([class]) { background-color: white }<\/style>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.30"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.30"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["textmate.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.30"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.11.6.9000"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["i18n"]},{"type":"character","attributes":{},"value":["21.6.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/i18n"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["i18next.min.js","tutorial-i18n-init.js"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["<script id=\"i18n-cstm-trns\" type=\"application/json\">{\"language\":\"en\",\"resources\":{\"en\":{\"translation\":{\"button\":{\"runcode\":\"Run Code\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Hint\",\"hint_plural\":\"Hints\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Next Hint\",\"hintprev\":\"Previous Hint\",\"solution\":\"Solution\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copy to Clipboard\",\"startover\":\"Start Over\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continue\",\"submitanswer\":\"Submit Answer\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Previous Topic\",\"nexttopic\":\"Next Topic\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Try Again\"},\"text\":{\"startover\":\"Start Over\",\"areyousure\":\"Are you sure you want to start over? (All exercise progress will be reset)\",\"youmustcomplete\":\"You must complete the\",\"exercise\":\"exercise\",\"exercise_plural\":\"exercises\",\"inthissection\":\"in this section before continuing.\",\"code\":\"Code\",\"enginecap\":\"{{engine}} $t(text.code)\",\"quiz\":\"Quiz\",\"blank\":\"blank\",\"blank_plural\":\"blanks\",\"exercisecontainsblank\":\"This exercise contains {{count}} $t(text.blank).\",\"pleasereplaceblank\":\"Please replace {{blank}} with valid code.\",\"unparsable\":\"It looks like this might not be valid R code. R cannot determine how to turn your text into a complete command. You may have forgotten to fill in a blank, to remove an underscore, to include a comma between arguments, or to close an opening <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> or <code>{<\\/code> with a matching <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> or <code>}<\\/code>.\\n\",\"unparsablequotes\":\"<p>It looks like your R code contains specially formatted quotation marks or &quot;curly&quot; quotes (<code>{{character}}<\\/code>) around character strings, making your code invalid. R requires character values to be contained in straight quotation marks (<code>&quot;<\\/code> or <code>'<\\/code>).<\\/p> {{code}} <p>Don't worry, this is a common source of errors when you copy code from another app that applies its own formatting to text. You can try replacing the code on that line with the following. There may be other places that need to be fixed, too.<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>It looks like your R code contains an unexpected special character (<code>{{character}}<\\/code>) that makes your code invalid.<\\/p> {{code}} <p>Sometimes your code may contain a special character that looks like a regular character, especially if you copy and paste the code from another app. Try deleting the special character from your code and retyping it manually.<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>It looks like your R code contains an unexpected special character (<code>{{character}}<\\/code>) that makes your code invalid.<\\/p> {{code}} <p>Sometimes your code may contain a special character that looks like a regular character, especially if you copy and paste the code from another app. You can try replacing the code on that line with the following. There may be other places that need to be fixed, too.<\\/p> {{suggestion}}\\n\",\"and\":\"and\",\"or\":\"or\",\"listcomma\":\", \",\"oxfordcomma\":\",\"}}},\"fr\":{\"translation\":{\"button\":{\"runcode\":\"Lancer le Code\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Indication\",\"hint_plural\":\"Indications\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Indication Suivante\",\"hintprev\":\"Indication Précédente\",\"solution\":\"Solution\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copier dans le Presse-papier\",\"startover\":\"Recommencer\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continuer\",\"submitanswer\":\"Soumettre\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Chapitre Précédent\",\"nexttopic\":\"Chapitre Suivant\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Réessayer\"},\"text\":{\"startover\":\"Recommencer\",\"areyousure\":\"Êtes-vous certains de vouloir recommencer? (La progression sera remise à zéro)\",\"youmustcomplete\":\"Vous devez d'abord compléter\",\"exercise\":\"l'exercice\",\"exercise_plural\":\"des exercices\",\"inthissection\":\"de cette section avec de continuer.\",\"code\":\"Code\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"and\":\"et\",\"or\":\"ou\",\"oxfordcomma\":\"\"}}},\"es\":{\"translation\":{\"button\":{\"runcode\":\"Ejecutar código\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Pista\",\"hint_plural\":\"Pistas\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Siguiente pista\",\"hintprev\":\"Pista anterior\",\"solution\":\"Solución\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copiar al portapapeles\",\"startover\":\"Reiniciar\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continuar\",\"submitanswer\":\"Enviar respuesta\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Tema anterior\",\"nexttopic\":\"Tema siguiente\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Volver a intentar\"},\"text\":{\"startover\":\"Reiniciar\",\"areyousure\":\"¿De verdad quieres empezar de nuevo? (todo el progreso del ejercicio se perderá)\",\"youmustcomplete\":\"Debes completar\",\"exercise\":\"el ejercicio\",\"exercise_plural\":\"los ejercicios\",\"inthissection\":\"en esta sección antes de continuar.\",\"code\":\"Código\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Cuestionario\",\"and\":\"y\",\"or\":\"o\",\"oxfordcomma\":\"\"}}},\"pt\":{\"translation\":{\"button\":{\"runcode\":\"Executar código\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Dica\",\"hint_plural\":\"Dicas\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Próxima dica\",\"hintprev\":\"Dica anterior\",\"solution\":\"Solução\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Copiar para a área de transferência\",\"startover\":\"Reiniciar\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Continuar\",\"submitanswer\":\"Enviar resposta\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Tópico anterior\",\"nexttopic\":\"Próximo tópico\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Tentar novamente\"},\"text\":{\"startover\":\"Reiniciar\",\"areyousure\":\"Tem certeza que deseja começar novamente? (todo o progresso feito será perdido)\",\"youmustcomplete\":\"Você deve completar\",\"exercise\":\"o exercício\",\"exercise_plural\":\"os exercícios\",\"inthissection\":\"nesta seção antes de continuar.\",\"code\":\"Código\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"and\":\"e\",\"or\":\"ou\",\"oxfordcomma\":\"\"}}},\"tr\":{\"translation\":{\"button\":{\"runcode\":\"Çalıştırma Kodu\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Ipucu\",\"hint_plural\":\"İpuçları\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Sonraki İpucu\",\"hintprev\":\"Önceki İpucu\",\"solution\":\"Çözüm\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Pano'ya Kopyala\",\"startover\":\"Baştan Başlamak\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Devam et\",\"submitanswer\":\"Cevabı onayla\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Önceki Konu\",\"nexttopic\":\"Sonraki Konu\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Tekrar Deneyin\"},\"text\":{\"startover\":\"Baştan Başlamak\",\"areyousure\":\"Baştan başlamak istediğinizden emin misiniz? (tüm egzersiz ilerlemesi kaybolacak)\",\"youmustcomplete\":\"Tamamlamalısın\",\"exercise\":\"egzersiz\",\"exercise_plural\":\"egzersizler\",\"inthissection\":\"devam etmeden önce bu bölümde\",\"code\":\"Kod\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Sınav\",\"oxfordcomma\":\"\"}}},\"emo\":{\"translation\":{\"button\":{\"runcode\":\"🏃\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"💡\",\"hint_plural\":\"$t(button.hint)\",\"hinttitle\":\"$t(button.hint)\",\"solution\":\"🎯\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"📋\",\"startover\":\"⏮\",\"startovertitle\":\"Start Over\",\"continue\":\"✅\",\"submitanswer\":\"🆗\",\"submitanswertitle\":\"Submit Answer\",\"previoustopic\":\"⬅\",\"nexttopic\":\"➡\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"🔁\"},\"text\":{\"startover\":\"⏮\",\"areyousure\":\"🤔\",\"youmustcomplete\":\"⚠️ 👉 🧑‍💻\",\"exercise\":\"\",\"exercise_plural\":\"\",\"inthissection\":\"\",\"code\":\"💻\",\"enginecap\":\"$t(text.code) {{engine}}\",\"oxfordcomma\":\"\"}}},\"eu\":{\"translation\":{\"button\":{\"runcode\":\"Kodea egikaritu\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Laguntza\",\"hint_plural\":\"Laguntza\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Aurreko laguntza\",\"hintprev\":\"Hurrengo laguntza\",\"solution\":\"Ebazpena\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Arbelean kopiatu\",\"startover\":\"Berrabiarazi\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Jarraitu\",\"submitanswer\":\"Erantzuna bidali\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Aurreko atala\",\"nexttopic\":\"Hurrengo atala\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Berriro saiatu\"},\"text\":{\"startover\":\"Berrabiarazi\",\"areyousure\":\"Berriro hasi nahi duzu? (egindako lana galdu egingo da)\",\"youmustcomplete\":\"Aurrera egin baino lehen atal honetako\",\"exercise\":\"ariketa egin behar duzu.\",\"exercise_plural\":\"ariketak egin behar dituzu.\",\"inthissection\":\"\",\"code\":\"Kodea\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Galdetegia\",\"oxfordcomma\":\"\"}}},\"de\":{\"translation\":{\"button\":{\"runcode\":\"Code ausführen\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Tipp\",\"hint_plural\":\"Tipps\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Nächster Tipp\",\"hintprev\":\"Vorheriger Tipp\",\"solution\":\"Lösung\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"In die Zwischenablage kopieren\",\"startover\":\"Neustart\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Weiter\",\"submitanswer\":\"Antwort einreichen\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Vorheriges Kapitel\",\"nexttopic\":\"Nächstes Kapitel\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Nochmal versuchen\"},\"text\":{\"startover\":\"Neustart\",\"areyousure\":\"Bist du sicher, dass du neustarten willst? (der gesamte Lernfortschritt wird gelöscht)\",\"youmustcomplete\":\"Vervollstädinge\",\"exercise\":\"die Übung\",\"exercise_plural\":\"die Übungen\",\"inthissection\":\"in diesem Kapitel, bevor du fortfährst.\",\"code\":\"Code\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"blank\":\"Lücke\",\"blank_plural\":\"Lücken\",\"pleasereplaceblank\":\"Bitte ersetze {{blank}} mit gültigem Code.\",\"unparsable\":\"Dies scheint kein gültiger R Code zu sein. R kann deinen Text nicht in einen gültigen Befehl übersetzen. Du hast vielleicht vergessen, die Lücke zu füllen, einen Unterstrich zu entfernen, ein Komma zwischen Argumente zu setzen oder ein eröffnendes <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> oder <code>{<\\/code> mit einem zugehörigen <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> oder <code>}<\\/code> zu schließen.\\n\",\"and\":\"und\",\"or\":\"oder\",\"listcomma\":\", \",\"oxfordcomma\":\",\"}}},\"ko\":{\"translation\":{\"button\":{\"runcode\":\"코드 실행\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"힌트\",\"hint_plural\":\"힌트들\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"다음 힌트\",\"hintprev\":\"이전 힌트\",\"solution\":\"솔루션\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"클립보드에 복사\",\"startover\":\"재학습\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"다음 학습으로\",\"submitanswer\":\"정답 제출\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"이전 토픽\",\"nexttopic\":\"다음 토픽\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"재시도\"},\"text\":{\"startover\":\"재학습\",\"areyousure\":\"다시 시작 하시겠습니까? (모든 예제의 진행 정보가 재설정됩니다)\",\"youmustcomplete\":\"당신은 완료해야 합니다\",\"exercise\":\"연습문제\",\"exercise_plural\":\"연습문제들\",\"inthissection\":\"이 섹션을 실행하기 전에\",\"code\":\"코드\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"퀴즈\",\"blank\":\"공백\",\"blank_plural\":\"공백들\",\"exercisecontainsblank\":\"이 연습문제에는 {{count}}개의 $t(text.blank)이 포함되어 있습니다.\",\"pleasereplaceblank\":\"{{blank}}를 유효한 코드로 바꾸십시오.\",\"unparsable\":\"이것은 유효한 R 코드가 아닐 수 있습니다. R은 텍스트를 완전한 명령으로 변환하는 방법을 결정할 수 없습니다. 당신은 공백이나 밑줄을 대체하여 채우기, 인수를 컴마로 구분하기, 또는 <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> , <code>{<\\/code>로 시작하는 구문을 닫는 <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code>, <code>}<\\/code>을 잊었을 수도 있습니다.\\n\",\"and\":\"그리고\",\"or\":\"혹은\",\"listcomma\":\", \",\"oxfordcomma\":\"\"}}},\"zh\":{\"translation\":{\"button\":{\"runcode\":\"运行代码\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"提示\",\"hint_plural\":\"提示\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"下一个提示\",\"hintprev\":\"上一个提示\",\"solution\":\"答案\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"复制到剪切板\",\"startover\":\"重新开始\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"继续\",\"submitanswer\":\"提交答案\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"上一专题\",\"nexttopic\":\"下一专题\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"再试一次\"},\"text\":{\"startover\":\"重置\",\"areyousure\":\"你确定要重新开始吗? (所有当前进度将被重置)\",\"youmustcomplete\":\"你必须完成\",\"exercise\":\"练习\",\"exercise_plural\":\"练习\",\"inthissection\":\"在进行本节之前\",\"code\":\"代码\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"测试\",\"blank\":\"空\",\"blank_plural\":\"空\",\"exercisecontainsblank\":\"本练习包含{{count}}个$t(text.blank)\",\"pleasereplaceblank\":\"请在{{blank}}内填写恰当的代码\",\"unparsable\":\"这似乎不是有效的R代码。 R不知道如何将您的文本转换为完整的命令。 您是否忘了填空，忘了删除下划线，忘了在参数之间包含逗号，或者是忘了用<code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code>,<code>}<\\/code>来封闭<code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code>。 or <code>{<\\/code>。\\n\",\"unparsablequotes\":\"<p>您的R代码中似乎含有特殊格式的引号，或者弯引号(<code>{{character}}<\\/code>) 在字符串前后，在R中字符串应该被直引号(<code>&quot;<\\/code> 或者 <code>'<\\/code>)包裹。<\\/p> {{code}} <p>别担心，该错误经常在复制粘贴包含格式的代码时遇到， 您可以尝试将该行中的代码替换为以下代码，也许还有其他地方需要修改。<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>您的代码中似乎包含有异常字符(<code>{{character}}<\\/code>),导致代码无效。<\\/p> {{code}} <p>有时候你的代码可能含有看似正常字符的特殊字符，特别是当你复制粘贴其他来源代码的时候。 请试着删除这些特殊字符,重新输入<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>您的代码中似乎包含有异常字符(<code>{{character}}<\\/code>),导致代码无效。<\\/p> {{code}} <p>有时候你的代码可能含有看似正常字符的特殊字符，特别是当你复制粘贴其他来源代码的时候。 请试着删除这些特殊字符,重新输入<\\/p>\\n\",\"and\":\"且\",\"or\":\"或\",\"listcomma\":\",\",\"oxfordcomma\":\",\"}}},\"pl\":{\"translation\":{\"button\":{\"runcode\":\"Uruchom kod\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Podpowiedź\",\"hint_plural\":\"Podpowiedzi\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Następna podpowiedź\",\"hintprev\":\"Poprzednia podpowiedź\",\"solution\":\"Rozwiązanie\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Kopiuj do schowka\",\"startover\":\"Zacznij od początku\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Kontynuuj\",\"submitanswer\":\"Wyślij\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Poprzednia sekcja\",\"nexttopic\":\"Następna sekcja\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Spróbuj ponownie\"},\"text\":{\"startover\":\"Zacznij od początku\",\"areyousure\":\"Czy na pewno chcesz zacząć od początku? (cały postęp w zadaniu zostanie utracony)\",\"youmustcomplete\":\"Musisz ukończyć\",\"exercise\":\"ćwiczenie\",\"exercise_plural\":\"ćwiczenia\",\"inthissection\":\"w tej sekcji przed kontynuowaniem\",\"code\":\"Kod\",\"enginecap\":\"$t(text.code) {{engine}}\",\"quiz\":\"Quiz\",\"blank\":\"luka\",\"blank_plural\":\"luk(i)\",\"exercisecontainsblank\":\"To ćwiczenie zawiera {{count}} $t(text.blank).\",\"pleasereplaceblank\":\"Proszę uzupełnić {{blank}} prawidłowym kodem.\",\"unparsable\":\"Wygląda na to, że może to nie być prawidłowy kod R. R nie jest w stanie przetworzyć Twojego tekstu na polecenie. Mogłeś(-aś) zapomnieć wypełnić luki, usunąć podkreślnik, umieścić przecinka między argumentami, lub zamknąć znak <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> lub <code>{<\\/code> odpowiadającym <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> lub <code>}<\\/code>.\\n\",\"unparsablequotes\":\"<p>Wygląda na to, że Twój kod zawiera szczególnie sformatowane cudzysłowy lub cudzysłowy typograficzne (<code>{{character}}<\\/code>) przy ciągach znaków, co sprawia, że kod jest niepoprawny. R wymaga cudzysłowów prostych (<code>&quot;<\\/code> albo <code>'<\\/code>).<\\/p> {{code}} <p>Nie martw się, to powszechne źródło błędów, gdy kopiuje się kod z innego programu, który sam formatuje teskt. Możesz spróbować zastąpić swój kod następującym kodem. Mogą być też inne miejsca, które wymagają poprawienia.<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>Wygląda na to, że Twój kod zawiera niespodziewany znak specjalny (<code>{{character}}<\\/code>), co sprawia, że kod jest niepoprawny.<\\/p> {{code}} <p>Czasami Twój kod może zawierać znak specjalny, który wygląda jak zwykły znak, zwłaszcza jeśli kopiujesz kod z innego programu. Spróbuj usunąć znak specjalny i wpisać do ponownie ręcznie.<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>Wygląda na to, że Twój kod zawiera niespodziewany znak specjalny (<code>{{character}}<\\/code>), co sprawia, że kod jest niepoprawny.<\\/p> {{code}} <p>Czasami Twój kod może zawierać znak specjalny, który wygląda jak zwykły znak, zwłaszcza jeśli kopiujesz kod z innego programu. Możesz spróbować zastąpić swój kod następującym kodem. Mogą być też inne miejsca, które wymagają poprawienia.<\\/p> {{suggestion}}\\n\",\"and\":\"i\",\"or\":\"lub\",\"listcomma\":\", \",\"oxfordcomma\":\"\"}}},\"no\":{\"translation\":{\"button\":{\"runcode\":\"Kjør kode\",\"runcodetitle\":\"$t(button.runcode) ({{kbd}})\",\"hint\":\"Hint\",\"hint_plural\":\"Hint\",\"hinttitle\":\"$t(button.hint)\",\"hintnext\":\"Neste hint\",\"hintprev\":\"Forrige hint\",\"solution\":\"Løsning\",\"solutiontitle\":\"$t(button.solution)\",\"copyclipboard\":\"Kopier til utklippstavle\",\"startover\":\"Start på nytt\",\"startovertitle\":\"$t(button.startover)\",\"continue\":\"Fortsett\",\"submitanswer\":\"Send inn svar\",\"submitanswertitle\":\"$t(button.submitanswer)\",\"previoustopic\":\"Forrige tema\",\"nexttopic\":\"Neste tema\",\"questionsubmit\":\"$t(button.submitanswer)\",\"questiontryagain\":\"Prøv igjen\"},\"text\":{\"startover\":\"Start på nytt\",\"areyousure\":\"Er du sikker på at du vil starte på nytt? (All fremgang vil bli slettet)\",\"youmustcomplete\":\"Du må fullføre\",\"exercise\":\"oppgave\",\"exercise_plural\":\"oppgaver\",\"inthissection\":\"i denne seksjonen før du fortsetter.\",\"code\":\"kode\",\"enginecap\":\"{{engine}}-$t(text.code)\",\"quiz\":\"Quiz\",\"blank\":\"tomrom\",\"blank_plural\":\"tomrom\",\"exercisecontainsblank\":\"Denne oppgaven inneholder {{count}} $t(text.blank).\",\"pleasereplaceblank\":\"Erstatt {{blank}} med gyldig kode.\",\"unparsable\":\"Dette ser ikke ut til å være gyldig R-kode. Slik R ser det, utgjør ikke teksten en fullstendig kommando. Du kan ha glemt å fylle ut en luke, å fjerne en understrek, å inkludere et komma mellom argumenter, eller å lukke et åpnende <code>&quot;<\\/code>, <code>'<\\/code>, <code>(<\\/code> eller <code>{<\\/code> med et tilsvarende <code>&quot;<\\/code>, <code>'<\\/code>, <code>)<\\/code> eller <code>}<\\/code>.\\n\",\"unparsablequotes\":\"<p>Det ser ut som om R-koden din inneholder spesielt formaterte anførselstegn eller &quot;krøllete&quot; anførselstegn (<code>{{character}}<\\/code>) rundt tekststrenger, noe som gjør koden din ugyldig. R krever at tekstverdier skal være inneholdt i rette anførselstegn (<code>&quot;<\\/code> eller <code>'<\\/code>).<\\/p> {{code}} <p>Dette er et vanlig problem når du kopierer kode fra et annet program som bruker sin egen formatering på tekst.  Du kan prøve å erstatte koden i den linjen med følgende. Kanskje er det også andre steder som må fikses.<\\/p> {{suggestion}}\\n\",\"unparsableunicode\":\"<p>Det ser ut som om R-koden din inneholder et uventet spesialtegn (<code>{{character}}<\\/code>) som gjør koden din ugyldig.<\\/p> {{code}} <p>Noen ganger kan koden din inneholde et spesialtegn som ser ut som et vanlig tegn, spesielt hvis du kopierer og limer inn koden fra et annet program. Prøv å slette spesialtegnet fra koden din og skriv det inn på nytt for hånd.<\\/p>\\n\",\"unparsableunicodesuggestion\":\"<p>Det ser ut som om R-koden din inneholder et uventet spesialtegn (<code>{{character}}<\\/code>) som gjør koden din ugyldig.<\\/p> {{code}} <p>Noen ganger kan koden din inneholde et spesialtegn som ser ut som et vanlig tegn, spesielt hvis du kopierer og limer inn koden fra et annet program. Du kan prøve å erstatte koden i den linjen med følgende. Kanskje er det også andre steder som må fikses.<\\/p> {{suggestion}}\\n\",\"and\":\"og\",\"or\":\"eller\",\"listcomma\":\", \",\"oxfordcomma\":\"\"}}}}}<\/script>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.11.6.9000"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css","rstudio-theme.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["3.6.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/3.6.0"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery-3.6.0.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquerylib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.1.4"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.30"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.30"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["3.6.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/3.6.0"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery-3.6.0.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquerylib"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.1.4"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["6.5.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.min.css","css/v4-shims.min.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["fontawesome"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.5.3"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["5.5.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.11.6.9000"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["2.0.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.11.6.9000"]}]}]}
 </script>
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mice","mime","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","pan","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","sjPlot","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.1","0.1-3","1.0-9","1.3-31","1.0.8","0.9.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.3","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.1","1.17.0","4.5.1","1.2.3","1.1.8","0.6.37","1.1.4","1.0.5","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.1","4.5.1","4.5.1","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.8.1","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.50","1.4.4","0.22-7","0.11.5.9000","1.0.4","0.7","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-3","4.5.1","3.18.0","0.13","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","1.9","1.10.2","2.0.3","3.8-4","1.8.9","2.3.0","1.3.3","1.1.0","0.1.0","2.6.1","2.3","1.1.0","2.6.4","2.1.5","0.4.0","1.1.6","2.29","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.4.6.1","1.11.1","2.9.0","4.5.1","4.5.1","1.8.7","1.5.1","4.4-8","3.8-3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.1","0.5.0","4.5.1","0.6.5","1.1.2","3.0.2","0.53","1.8-4","2.3.10"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjPlot","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.12.1","0.9.0","2.9.0","4.5.2","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>
@@ -1669,6 +1910,169 @@ $(document).ready(function () {
 </script>
 
 
+<script>
+/* qpaTutorials shared accessibility helpers
+   Safe for learnr + shiny_prerendered + static HTML.
+   Key rule: NEVER assume jQuery/Shiny globals exist at script load time.
+*/
+
+(function () {
+
+  console.log("QPA a11y.js loaded");
+
+  /* ------------------------------
+     Helpers
+     ------------------------------ */
+
+  function whenDOMReady(fn) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn);
+    } else {
+      fn();
+    }
+  }
+
+  function safe(fn) {
+    try {
+      fn();
+    } catch (e) {
+      // swallow to avoid breaking the tutorial
+    }
+  }
+
+  /* ------------------------------
+     Accessibility Toggle Block
+     ------------------------------ */
+
+  function insertA11yBlock() {
+    // If already in the visible DOM, nothing to do.
+    if (document.getElementById("a11y-toggle")) return;
+
+    // Try learnr's actual container first, then fallbacks
+    var firstHeading =
+      document.querySelector("#learnr-tutorial-content h2") ||
+      document.querySelector("#tutorial-container h2") ||
+      document.querySelector("h2");
+
+    if (!firstHeading) return; // DOM not ready yet
+
+    var container = document.createElement("div");
+    container.setAttribute("role", "region");
+    container.setAttribute("aria-label", "Accessibility Instructions");
+
+    container.innerHTML =
+      '<div style="background:#f3f3f3;border:1px solid #ccc;border-radius:6px;margin:20px 0;">' +
+        '<button id="a11y-toggle"' +
+          ' style="width:100%;padding:12px;background:none;border:none;text-align:left;cursor:pointer;font-weight:600;"' +
+          ' aria-expanded="false"' +
+          ' aria-controls="a11y-content">' +
+          '&#9654; Accessibility &amp; Navigation Guide' +
+        '</button>' +
+        '<div id="a11y-content" style="display:none;padding:0 16px 16px 16px;">' +
+          '<p><strong>Keyboard navigation:</strong></p>' +
+          '<ul>' +
+            '<li>Tab moves between section headings</li>' +
+            '<li>Enter jumps to selected heading</li>' +
+            '<li>Ctrl + F searches within tutorial</li>' +
+          '</ul>' +
+          '<p><strong>Important:</strong></p>' +
+          '<ul>' +
+            '<li>Exercise buttons may require mouse/trackpad</li>' +
+            '<li>Code editors may require clicking before typing</li>' +
+          '</ul>' +
+          '<p style="font-size:0.9em;color:#555;">' +
+            "We have enhanced accessibility where possible within learnr's platform limits." +
+          '</p>' +
+        '</div>' +
+      '</div>';
+
+    firstHeading.parentNode.insertBefore(container, firstHeading.nextSibling);
+
+    var btn = document.getElementById("a11y-toggle");
+    var content = document.getElementById("a11y-content");
+
+    if (btn && content) {
+      btn.addEventListener("click", function () {
+        var expanded = content.style.display === "block";
+        content.style.display = expanded ? "none" : "block";
+        btn.setAttribute("aria-expanded", (!expanded).toString());
+        btn.innerHTML = expanded
+          ? "&#9654; Accessibility &amp; Navigation Guide"
+          : "&#9660; Accessibility &amp; Navigation Guide";
+      });
+    }
+  }
+
+  function startA11yInsertionPolling() {
+    var tries = 0;
+    var iv = setInterval(function () {
+      safe(insertA11yBlock);
+      tries += 1;
+      if (document.getElementById("a11y-toggle") || tries > 40) {
+        clearInterval(iv);
+      }
+    }, 500);
+  }
+
+  /* ------------------------------
+     Enhance Success / Error Messages
+     ------------------------------ */
+
+  function enhanceMessages() {
+    var successMessages = document.querySelectorAll(
+      ".alert-success:not([data-enhanced])"
+    );
+    successMessages.forEach(function (msg) {
+      msg.setAttribute("data-enhanced", "true");
+      msg.setAttribute("role", "status");
+      msg.setAttribute("aria-live", "polite");
+    });
+
+    var errorMessages = document.querySelectorAll(
+      ".alert-danger:not([data-enhanced]), .tutorial-exercise-error:not([data-enhanced])"
+    );
+    errorMessages.forEach(function (msg) {
+      msg.setAttribute("data-enhanced", "true");
+      msg.setAttribute("role", "alert");
+      msg.setAttribute("aria-live", "assertive");
+    });
+  }
+
+  /* ------------------------------
+     Bootstrapping
+     ------------------------------ */
+
+  whenDOMReady(function () {
+    startA11yInsertionPolling();
+    safe(enhanceMessages);
+    setInterval(function () { safe(enhanceMessages); }, 1500);
+  });
+
+  // Wire up Shiny/learnr events for section navigation.
+  safe(function () {
+    if (typeof window.jQuery === "undefined") return;
+
+    var $ = window.jQuery;
+
+    // Fires when Shiny first connects
+    $(document).on("shiny:connected", function () {
+      startA11yInsertionPolling();
+      safe(enhanceMessages);
+    });
+
+    // Fires when learnr updates tutorial content (section navigation)
+    $(document).on("shiny:value", function (e) {
+      if (e.name && e.name.indexOf("section") !== -1) {
+        setTimeout(function () {
+          safe(insertA11yBlock);
+          safe(enhanceMessages);
+        }, 300);
+      }
+    });
+  });
+
+})();
+</script>
 </body>
 
 </html>

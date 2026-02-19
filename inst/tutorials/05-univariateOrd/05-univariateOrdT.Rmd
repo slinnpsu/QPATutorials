@@ -3,7 +3,7 @@ title: "Univariate Description: Ordinal Variables"
 tutorial:
   id: "05-Ordinal-Description"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -11,333 +11,6 @@ description: >
   Learn how to derscribe an ordinal variable: central tendency, dispersion, bar plot.
 ---
 
-```{=html}
-<style> /* Only show focus indicators when actually focused */
-button:focus-visible, .btn:focus-visible {
-  outline: 2px solid #6c757d;
-  outline-offset: 1px;
-}
-/* Remove default focus styles that might conflict but preserve cursor */
-button:focus, .btn:focus {
-  outline: none;
-}
-/* Ensure proper cursor states for buttons */
-button, .btn {
-  cursor: pointer;
-}
-button:disabled, .btn:disabled {
-  cursor: not-allowed;
-}
-/* Ensure keyboard users can see focus on code editors */
-.ace_editor.ace_focus {
-  border: 2px solid #6c757d !important;
-}
-/* Better contrast for exercise areas */
-.tutorial-exercise {
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
-  padding: 15px;
-  margin: 20px 0;
-}
-/* Improved font and readability */
-body {
-  font-size: 16px;
-  line-height: 1.5;
-}
-/* Accessible replacement for blue text */
-.important-note {
-  background-color: #e3f2fd;
-  border-left: 4px solid #1976d2;
-  padding: 12px;
-  margin: 15px 0;
-  font-weight: bold;
-  border-radius: 4px;
-}
-/* Success/completion messages */
-.success-note {
-  background-color: #e8f5e8;
-  border-left: 4px solid #4caf50;
-  padding: 12px;
-  margin: 15px 0;
-  font-weight: bold;
-  border-radius: 4px;
-}
-/* Package name styling */
-.package-name {
-  background-color: #e8f5e8;
-  color: #2e7d32;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-weight: bold;
-}
-.important-text { background-color: #e8f0ff; /* soft blue background (optional) */ color: #1565c0; /* blue text */ padding: 2px 4px; border-radius: 3px; font-weight: bold; }
-/* Fix for Run Code button hover states - more specific targeting */
-.tutorial-exercise-actions .btn {
-  cursor: pointer !important;
-}
-.tutorial-exercise-actions .btn:hover {
-  cursor: pointer !important;
-}
-.tutorial-exercise-actions .btn:disabled {
-  cursor: not-allowed !important;
-}
-/* Override any conflicting learnr cursor rules */ [data-label] .btn,
-.tutorial-exercise .btn,
-button[data-label] {
-  cursor: pointer !important;
-}
-/* Accessible table styling */
-.table-container {
-  overflow-x: auto;
-  margin: 20px 0;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #ddd;
-}
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-th {
-  background-color: #f5f5f5;
-  font-weight: bold;
-}
-caption {
-  padding: 10px;
-  text-align: left;
-  font-size: 1.1em;
-  margin-bottom: 10px;
-}
-/* Focus styles for table cells */
-th:focus, td:focus {
-  outline: 2px solid #6c757d;
-  outline-offset: 1px;
-}
-/* Skip navigation for keyboard users */
-.skip-nav {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #000;
-  color: #fff;
-  padding: 8px 16px;
-  text-decoration: none;
-  z-index: 1000;
-  border-radius: 4px;
-  font-weight: bold;
-}
-.skip-nav:focus {
-  top: 6px;
-  outline: 2px solid #fff;
-}
-/* Enhanced focus visibility for tutorial navigation */
-.tutorial-panel-name:focus,
-.tutorial-panel-name:focus-visible {
-  outline: 1px solid #6c757d !important;
-  outline-offset: 1px !important;
-  background-color: rgba(108, 117, 125, 0.1) !important;
-}
-/* Better focus for exercise containers */
-.tutorial-exercise:focus-within {
-  outline: 1px solid #6c757d;
-  outline-offset: 1px;
-  background-color: rgba(108, 117, 125, 0.05);
-}
-/*New*/ /* Enhanced error message accessibility */
-.alert-danger, .error, .tutorial-exercise-error {
-  border-left: 4px solid #d32f2f;
-  padding: 12px;
-  margin: 10px 0;
-  background-color: #ffebee;
-  border-radius: 4px;
-}
-.alert-success, .tutorial-exercise-success {
-  border-left: 4px solid #4caf50;
-  padding: 12px;
-  margin: 10px 0;
-  background-color: #e8f5e8;
-  border-radius: 4px;
-}
-/* Ensure error messages are visible and well-contrasted */
-.tutorial-exercise-error {
-  color: #d32f2f;
-  font-weight: bold;
-}
-.tutorial-exercise-success {
-  color: #2e7d32;
-  font-weight: bold;
-}
-/* Focus styles for elements with error associations */
-.ace_editor[aria-describedby]:focus {
-  border-color: #d32f2f !important;
-  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2) !important;
-}
-</style>
-```
-
-```{=html}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  
-  // Simple, reliable keyboard shortcut help
-  document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.shiftKey && e.key === '?') {
-      e.preventDefault();
-      alert(`R Tutorial Navigation Help:
-
-KEYBOARD LIMITATIONS:
-- Tab only moves between headings (not buttons or code boxes)
-- Enter after Tab will jump to that heading
-- Interactive exercises require mouse/trackpad clicks
-- Code editing requires clicking in code boxes first
-
-WHAT WORKS WITH KEYBOARD:
-- Ctrl+F to search within the tutorial
-- Tab to navigate between section headings
-- Screen readers can access all text content
-
-IMPORTANT: This tutorial platform has limited keyboard accessibility.
-Interactive elements like "Run Code" and "Submit Answer" buttons
-require mouse/trackpad interaction.`);
-    }
-  });
-  
-  // Screen Reader Instructions - Collapsible accessibility guidance
-  function addScreenReaderInstructions() {
-    const instructionsDiv = document.createElement('div');
-    instructionsDiv.setAttribute('role', 'region');
-    instructionsDiv.setAttribute('aria-label', 'Accessibility Instructions');
-    instructionsDiv.innerHTML = `
-      <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; margin: 15px 0;">
-        <button id="accessibility-toggle" style="width: 100%; padding: 12px; background: none; border: none; text-align: left; cursor: pointer; font-weight: bold; color: #495057;" 
-                aria-expanded="false" aria-controls="accessibility-content">
-          ▶ Accessibility & Navigation Guide (Click to expand)
-        </button>
-        
-        <div id="accessibility-content" style="display: none; padding: 0 15px 15px 15px;">
-          <div style="margin-bottom: 15px;">
-            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Keyboard Navigation:</h4>
-            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
-              <li><strong>Press Ctrl+Shift+?</strong> for detailed keyboard help dialog</li>
-              <li>Tab moves between section headings only</li>
-              <li>Enter after Tab jumps to that heading</li>
-              <li>Ctrl+F to search within tutorial</li>
-            </ul>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">For Screen Reader Users:</h4>
-            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
-              <li>All text content is accessible to screen readers</li>
-              <li>Interactive code exercises require mouse interaction</li>
-              <li>Success messages will be announced as they appear</li>
-            </ul>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Platform Limitations:</h4>
-            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
-              <li>Exercise buttons require mouse clicks</li>
-              <li>Code editing needs mouse interaction</li>
-              <li>Interactive elements cannot be reached via Tab</li>
-            </ul>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <h4 style="color: #6c757d; font-size: 16px; margin-bottom: 8px;">Recommended Approach:</h4>
-            <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
-              <li>Read content using screen reader navigation</li>
-              <li>Use heading navigation between sections</li>
-              <li>Consider working with assistance for interactive exercises</li>
-            </ul>
-          </div>
-          
-          <p style="margin: 0; font-size: 13px; color: #6c757d; font-style: italic;">
-            This platform has inherent accessibility limitations. We've enhanced what's possible while being transparent about constraints.
-          </p>
-        </div>
-      </div>
-    `;
-    
-    // Add click handler for toggle
-    setTimeout(function() {
-      const toggleBtn = document.getElementById('accessibility-toggle');
-      const content = document.getElementById('accessibility-content');
-      
-      if (toggleBtn && content) {
-        toggleBtn.addEventListener('click', function() {
-          const isExpanded = content.style.display !== 'none';
-          content.style.display = isExpanded ? 'none' : 'block';
-          toggleBtn.setAttribute('aria-expanded', !isExpanded);
-          toggleBtn.innerHTML = (isExpanded ? '▶' : '▼') + ' Accessibility & Navigation Guide (Click to ' + (isExpanded ? 'expand' : 'collapse') + ')';
-        });
-      }
-    }, 500);
-    
-    // Try multiple ways to find the right insertion point
-    let insertLocation = null;
-    
-    // Try 1: Look for the h2 with "Introduction" text 
-    const headings = document.querySelectorAll('h2');
-    for (let i = 0; i < headings.length; i++) {
-      if (headings[i].textContent.includes('Introduction')) {
-        insertLocation = headings[i];
-        break;
-      }
-    }
-    
-    // Try 2: Just use the first h2 if Introduction not found
-    if (!insertLocation) {
-      insertLocation = document.querySelector('h2');
-    }
-    
-    // Insert the accessibility guide immediately after the heading
-    if (insertLocation) {
-      insertLocation.parentNode.insertBefore(instructionsDiv, insertLocation.nextSibling);
-      console.log('Accessibility guide added successfully');
-    } else {
-      console.log('Could not find insertion point for accessibility guide');
-    }
-  }
-  
-  // Enhance success messages with exercise context
-  setInterval(function() {
-    const successMessages = document.querySelectorAll('.alert-success:not([data-enhanced])');
-    successMessages.forEach(function(msg) {
-      msg.setAttribute('data-enhanced', 'true');
-      msg.setAttribute('role', 'status');
-      msg.setAttribute('aria-live', 'polite');
-      
-      // Add exercise context to success messages
-      const exerciseContainer = msg.closest('.tutorial-exercise');
-      if (exerciseContainer) {
-        const originalText = msg.textContent;
-        if (!originalText.includes('Exercise completed')) {
-          msg.textContent = 'Exercise completed successfully: ' + originalText;
-        }
-      }
-    });
-  }, 2000);
-  
-  // Enhance error messages for screen readers
-setInterval(function() {
-  const errorMessages = document.querySelectorAll('.alert-danger:not([data-enhanced]), .tutorial-exercise-error:not([data-enhanced])');
-  errorMessages.forEach(function(msg) {
-    msg.setAttribute('data-enhanced', 'true');
-    msg.setAttribute('role', 'alert');
-    msg.setAttribute('aria-live', 'assertive');
-  });
-}, 2000);
-
-  // Run the accessibility guide function
-  setTimeout(addScreenReaderInstructions, 1000);
-  
-});
-</script>
-```
 
 ## Learning Objectives
 
@@ -357,8 +30,8 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
-fHouse <- qpaTutorials::fHouse
+data("counties", package = "qpaTutorials")
+data("fHouse", package = "qpaTutorials")
 sum(is.na(fHouse$FHStatus))
 #fHouse <-filter(fHouse, FHStatus==)
 fHouse$FHStatus2[fHouse$FHStatus=="NF"] <- 0
@@ -571,7 +244,7 @@ Note that we cannot easily determine the median from the plot.
 
 Let’s look at another ordinal variable. We will examine the variable **FHStatus**, Freedom House's measure of whether a country is "Not Free" (coded 0), "Partly Free" (coded 1), or "Free" (coded 2). The variable is in the data set **fHouse**.  The variable is ordinal rather than categorical because as you go from "Not Free" to "Free," the country becomes *freer*. The variable constitutes a ranking of countries on this dimension.
 
-First, we will generate a frequency and proportion table using the <span style="color:DarkGreen">dplyr</span> functions.  You do not need to load the package again because we've done so in an earlier exercise.  See if you can produce the table without looking at the hints. Name the counts variable **freq** and the proportion variable **prop**.
+First, we will generate a frequency and proportion table using the [dplyr]{.package-name} functions.  You do not need to load the package again because we've done so in an earlier exercise.  See if you can produce the table without looking at the hints. Name the counts variable **freq** and the proportion variable **prop**.
 
 **Practice: Create a frequency and proportion table for FHStatus**
 ```{r analysis-practice-fhstatus-freq, exercise = TRUE, exercise.lines=4, exercise.cap="Interactive exercise: Write code from scratch to create a frequency and proportion table for the FHStatus variable. Name the new columns 'freq' and 'prop'. Click Submit Answer to check correctness. Five hints are available."}
@@ -800,11 +473,14 @@ Which of these pieces of information should you present when conducting descript
 ![](images/UnivariateOrdinal.png){width="70%" fig.alt="Infographic titled ‘Ordinal Level Variable’ with four stacked blue boxes: Median (or Mode); Percentiles/IQR (dispersion of ranks); Ordered distribution (e.g., unimodal/bimodal and skew on ranks); Bar plot of ordered categories or cumulative proportions. A left sidebar lists Central Tendency, Dispersion, Distribution, and Visualization."}
 
 
+```{r tutorial-success-banner-05, results="asis", echo=FALSE}
+cat('
 <p role="status"
    aria-label="Great work! You have completed this tutorial and strengthened your understanding of ordinal variables."
    style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
-  <span aria-hidden="true">🌟 Excellent work! 🌟</span>
+  <span aria-hidden="true">🎯 Excellent work! 🎯</span>
 </p>
-
+')
+```
 
 
