@@ -3,13 +3,14 @@ title: "Working with Factor Class Variables"
 tutorial:
   id: "15-Working-with-Factors"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
 description: >
   Learn how to create factors and change the base category.
 ---
+
 
 ## Learning Objectives
 
@@ -28,7 +29,7 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
 counties$black_percent <- counties$prop_black*100
@@ -39,9 +40,9 @@ counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog <- qpaTutorials::qog
+data("qog", package = "qpaTutorials")
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban, 9 is most rural, so -1 is rural
 counties$UrbanCat[counties$rural_urban>=7] <- -1
 #Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
@@ -51,11 +52,11 @@ counties$UrbanCat[counties$rural_urban>3 & counties$rural_urban<7] <- 0
 qog$democ[qog$fh_ipolity2<4] <-0
 qog$democ[qog$fh_ipolity2>6] <-2
 qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
-states <- qpaTutorials::states
+data("states", package = "qpaTutorials")
 states$p.liberal <- states$liberal/100
 states$region_censusf <- factor(states$region_census, 
                             labels =  c("South", "Northeast", "Midwest", "West"))
-aNES <- qpaTutorials::aNES
+data("aNES", package = "qpaTutorials")
 
 #First assign a "Democrat" to all cases where Dem is equal to 1
 aNES$party[aNES$Dem==1] <- 1
@@ -80,7 +81,7 @@ aNES$strongf <- relevel(aNES$strongf, ref="Not a Strong Partisan")
 model1 <- glm(Trump2016 ~  Police.FT + Illegals.FT + partyf + femalef + educ, family = "binomial", data = aNES)
 aNES$thermdiff <- abs(aNES$GOP.Pres.cand.FT-aNES$Dem.Pres.cand.FT)
 model2 <- glm(turnout~strongf + income+educ + thermdiff, family="binomial", data=aNES)
-states2020 <- qpaTutorials::states2020
+data("states2020", package = "qpaTutorials")
 NotScientific <- function(l) {
  l <- format(l, scientific = FALSE)
  parse(text=l)
@@ -235,3 +236,13 @@ One of the advantages of creating and labeling factor variables is that plots we
 ## The Takeaways
 
 This tutorial illustrated the use of the `factor()` function. We can use the `factor()` function not only to tell the `lm()` or `glm()` functions a variable is categorical but also to generate factor class variables, which R will then know are categorical. We can use the `levels()` function to specify the category we wish to treat as the reference category, also called the base category. This will be the category omitted in our regression/logistic regression. Creating factor class variables with meaningful labels also ensures that figures include meaningful labels rather than numeric values.
+
+```{r tutorial-success-banner-15, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Well done! You have completed this tutorial and can now work with factor variables in R."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🔑 Well done! 🔑</span>
+</p>
+')
+```

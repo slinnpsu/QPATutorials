@@ -3,7 +3,7 @@ title: "Multiple Regression: Conditional (or Interactive) Relationships"
 tutorial:
   id: "17-Interactions-Regression"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -17,7 +17,7 @@ description: >
 In this tutorial, you will learn how to estimate and interpret interactive, also called conditional, relationships using R. Specifically, we will cover:
 
 * How to conduct multiple regression analysis involving conditional relationships in R.
-* How to interpret results from multiple regression analysis with interactions using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce plots of predicted values.
+* How to interpret results from multiple regression analysis with interactions using the `plot_model()` function in the  [sjPlot]{.package-name} package to produce plots of predicted values.
 
 
 
@@ -33,8 +33,8 @@ tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
 library(rio)
-trade <- qpaTutorials::trade
-counties <- qpaTutorials::counties
+data("trade", package = "qpaTutorials")
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$lag_dem2p_vote_share <- counties$Linc2pvs*100
 counties$wage_growth <- counties$wage_growth*100
@@ -46,9 +46,9 @@ counties$Majority_White[counties$prop_white>0.5] <- "Majority White"
 counties$Majority_White[counties$prop_white<=0.5] <- "Not Majority White"
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog <- qpaTutorials::qog
+data("qog", package = "qpaTutorials")
 qog$rights[qog$fh_pr<=2] <- 0
 qog$rights[qog$fh_pr>2] <- 1
 
@@ -64,7 +64,7 @@ qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
 options(digits = 2)
 options(scipen = 0)
 options(width = 80)
-states <- qpaTutorials::states
+data("states", package = "qpaTutorials")
 states$p.liberal <- states$liberal/100
 states$region_censusf <- factor(states$region_census, 
                             labels =  c("South", "Northeast", "Midwest", "West"))
@@ -83,13 +83,13 @@ model2<-lm(confidence~factor(hi_gdp)+polity+factor(hi_gdp)*polity, data=world)
 
 ## Overview
 
-Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  <span style="color:blue">**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).</span> In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables and those involving one interval and one categorical variable using R and we illustrate how to visualize their effects.
+Multiple regression allows us to estimate the effects of multiple independent variables on some interval-level  outcome variable.  This enables us to control for multiple correlated explanatory factors so that our estimates are unbiased and it enables us to avoid finding spurious relationships. It also permits the estimation of  [**conditional** or **interactive relationships** in which the effect of an explanatory variable depends on the values another variable takes (and vice versa).]{.important-text} In this tutorial, we explain how to estimate and interpret interaction models involving two interval-level variables and those involving one interval and one categorical variable using R and we illustrate how to visualize their effects.
 
 
 ## Conditional Relationships in Multiple Regression
 
 
-If the effect of some variable depends on the level of another variable, the relationship is said to be <span style="color:blue">**conditional**</span> or <span style="color:blue">**interactive**</span>. Consider the image below.  The effect of $X_1$ on $Y$ differs based on the value of $X_2$.  Put differently, the value of $X_2$ determines the effect of $X_1$ on the outcome, $Y$.
+If the effect of some variable depends on the level of another variable, the relationship is said to be [**conditional**]{.important-text} or [**interactive**]{.important-text}. Consider the image below.  The effect of $X_1$ on $Y$ differs based on the value of $X_2$.  Put differently, the value of $X_2$ determines the effect of $X_1$ on the outcome, $Y$.
 
  
 
@@ -102,11 +102,11 @@ If we estimate a regression that includes $X_1$ and $X_2$ (or just one of these 
 
 We need to think carefully about our expectations for conditional relationships. When specifying a conditional relationship you should ask yourself these questions:
 
-1. <span style="color:magenta">Do you expect the conditional effect of a variable to be negative or positive for all values of the conditioning variable?</span> 
+1. [Do you expect the conditional effect of a variable to be negative or positive for all values of the conditioning variable?]{.important-text} 
     a. Is the effect of $X_1$ positive or negative for all values of $X_2$?  
     b. Is the effect of $X_2$ positive or negative for all values of $X_1$? 
     
-2. <span style="color:magenta">For what values of the conditioning variable do you expect its effect to be biggest and smallest?</span> 
+2. [For what values of the conditioning variable do you expect its effect to be biggest and smallest?]{.important-text} 
     a. For what values of $X_2$ is the effect of $X_1$ strongest and weakest? 
     b. When is the effect of $X_1$ on $X_2$ likely to be biggest and smallest?
 
@@ -131,7 +131,7 @@ How do we interpret the conditional effects of $X_1$ and $X_2$ in this model?
 
 The effect of $X_1$ on $Y$ is affected by the value of $X_2$; the effect of $X_2$ on $Y$ is affected by the value of $X_1$.
 
-Because the effects are conditional, the nature (and even the direction or sign) of the effects are not necessarily the same for all values of the constituent variable (the individual variables comprising the interaction). Thus, analysts often present these effects by plotting predicted values for different combinations of values of the variables.  Below we will consider  a number of illustrative examples. We will (a) state our expectations for the conditional relationship, (b) estimate the conditional effects using the `lm()` function, and (c) plot predicted values to aid in our interpretation using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
+Because the effects are conditional, the nature (and even the direction or sign) of the effects are not necessarily the same for all values of the constituent variable (the individual variables comprising the interaction). Thus, analysts often present these effects by plotting predicted values for different combinations of values of the variables.  Below we will consider  a number of illustrative examples. We will (a) state our expectations for the conditional relationship, (b) estimate the conditional effects using the `lm()` function, and (c) plot predicted values to aid in our interpretation using the `plot_model()` function in the  [sjPlot]{.package-name} package.
 
 ### Example 1: The conditional effects of mortality risk and wage growth on vote for Hillary Clinton in US counties
 
@@ -139,11 +139,11 @@ We will use the data frame **counties**, which contains data on counties in the 
 
 A number of hypotheses are implicit in the selection of this set of variables, but we will focus our attention on the potentially conditional effects of mortality risk and wage growth. We begin by considering our expectations for the conditional effects:
 
-1. <span style="color:magenta">Do we expect conditional effects of each variable to always be positive or negative? </span>
+1. [Do we expect conditional effects of each variable to always be positive or negative? ]{.important-text}
     a. We expect the conditional effect of mortality risk to be negative for all values of wage growth because higher mortality risk is never a good thing.
     b. We expect the conditional effect of wage growth to be positive for all values of mortality risk because higher wage growth is always a positive thing.
 
-2. <span style="color:magenta">When are the conditional effects of each variable expected to be weakest and strongest?</span>
+2. [When are the conditional effects of each variable expected to be weakest and strongest?]{.important-text}
     a. We expect the conditional effect of mortality risk to be biggest (most negative) when wage growth is lowest because these counties are suffering in two distinct ways and to be smallest (less negative) in counties with higher wage growth.
     b. We expect the conditional effect of wage growth on the percent of the vote won by Hillary Clinton to be smaller in counties that experience higher mortality risk because they are less well off on the health dimension and higher in counties with lower mortality risk because they are better off both in terms of health and economic outcomes.
 
@@ -190,11 +190,11 @@ Our focus in this tutorial is on interpreting the effects of the variables invol
 
 Next consider a different potential interaction effect in our model of Hillary Clinton's vote share.  Let's estimate a model in which the effects of mortality risk and percent white residents in the county are allowed to be conditional. 
 
-1. <span style="color:magenta">Do we expect the conditional effects of each variable to always be positive or negative?</span>
+1. [Do we expect the conditional effects of each variable to always be positive or negative?]{.important-text}
     a. We expect the conditional effect of mortality risk to be negative for all values of wage growth because higher mortality risk is never a good thing.
     b. We expect the conditional effect of the percent of white residents to be negative for all values of mortality risk because we expect whites to be less supportive of the Democratic candidate because the party divisions have historically been such that whites favor the Republican Party candidate.
 
-2. <span style="color:magenta">When are the conditional effects of each variable expected to be weakest and strongest?</span>
+2. [When are the conditional effects of each variable expected to be weakest and strongest?]{.important-text}
     a. We expect the conditional effect of mortality risk to be biggest (most negative) when percent white is highest if counties with more whites are more sensitive to mortality risk and to be less negative in counties with fewer whites if whites are less sensitive.    
     b. We expect the conditional effect of percent white on the percent of the vote won by Hillary Clinton to be greater in counties that experience higher mortality risk if mortality risk makes whites more anti-incumbent.
 
@@ -256,11 +256,11 @@ question("Consider the conditional relationship estimated in the model. Which of
 
 It is difficult to grasp the effect of interactions based only on the coefficient estimates. Plotting predicted values from the model helps us to understand conditional relationships.
 
-We will use the `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package to illustrate the relationship.
+We will use the `plot_model()` function in the [sjPlot]{.package-name} package to illustrate the relationship.
 
 ### Plotting the conditional effect of wage growth
 
-Let's begin by plotting the  effect of mortality risk conditional on wage growth as estimated in our first model, **countiesX**. To do so, first load the <span style="color:DarkGreen">sjPlot</span> package with the `library()` function.  The first argument in the `plot_model()` function is the name of the model fit object, **countiesX**. We must then provide the `type` argument. We set it to `"pred"` to produce predicted values. To present predicted values for the conditional relationship, we supply the `terms` argument. List both variables that are involved in the interaction, in quotes, separated by commas, and inside the `c()` function. *The first argument listed is the variable whose effects we want to plot, the second is the conditioning variable*. 
+Let's begin by plotting the  effect of mortality risk conditional on wage growth as estimated in our first model, **countiesX**. To do so, first load the [sjPlot]{.package-name} package with the `library()` function.  The first argument in the `plot_model()` function is the name of the model fit object, **countiesX**. We must then provide the `type` argument. We set it to `"pred"` to produce predicted values. To present predicted values for the conditional relationship, we supply the `terms` argument. List both variables that are involved in the interaction, in quotes, separated by commas, and inside the `c()` function. *The first argument listed is the variable whose effects we want to plot, the second is the conditioning variable*. 
 
 The remaining arguments are not required but make the plot more informative. Here I've specified the `title` argument for the main plot title; the `axis.title` argument, which allows us to provide labels for the x-axis (the first given) and the y-axis (the second given); and the `legend.title`, which corresponds to the second variable in the `terms` argument. 
 
@@ -717,7 +717,7 @@ question("Examine the plot above. TRUE or FALSE: The effect of democracy score o
 
 
 
- Multiple regression analysis is a straightforward extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome and to estimate conditional or interactive  relationships. A <span style="color:blue">**conditional** or **interactive relationship** implies that the effect of each variable depends on the values taken by another.</span> Including conditional relationships in the model requires us to include each individual explanatory variable and in addition to include a term multiplying the two variables in the interaction.
+ Multiple regression analysis is a straightforward extension of simple regression analysis that allows us to control for competing explanations for some interval-level outcome and to estimate conditional or interactive  relationships. A [**conditional** or **interactive relationship** implies that the effect of each variable depends on the values taken by another.]{.important-text} Including conditional relationships in the model requires us to include each individual explanatory variable and in addition to include a term multiplying the two variables in the interaction.
  
 It is important to think carefully about our expectations for conditional relationships, asking:
 
@@ -726,8 +726,19 @@ It is important to think carefully about our expectations for conditional relati
 
 We may not have clear expectations for both variables and/or for either one of these questions. That's okay!
 
-Interpreting the effects of interactions is often most easily accomplished by using predicted values. The `plot_model()` function in the <span style="color:DarkGreen">sjPlot</span> package. The function will calculate the predicted values of the outcome variable (by setting the type argument to "pred") as a function of one variable (the first in the terms argument) conditional on the second variable (the second in the terms argument) in the interaction.  **Remember:** *Predictions are calculating after setting the values of all other variables at their mean values if interval (or ordinal treated as interval) and at their base value if they are categorical (nominal or ordinal).*  Ninety-five percent confidence intervals are included around the predictions, allowing you to see when predictions are significantly different from each other.
+Interpreting the effects of interactions is often most easily accomplished by using predicted values. The `plot_model()` function in the [sjPlot]{.package-name} package. The function will calculate the predicted values of the outcome variable (by setting the type argument to "pred") as a function of one variable (the first in the terms argument) conditional on the second variable (the second in the terms argument) in the interaction.  **Remember:** *Predictions are calculating after setting the values of all other variables at their mean values if interval (or ordinal treated as interval) and at their base value if they are categorical (nominal or ordinal).*  Ninety-five percent confidence intervals are included around the predictions, allowing you to see when predictions are significantly different from each other.
 
 The results from these plots can be used to assess theoretical expectations about the nature of the conditional relationship. There are additional arguments that can be passed to the `plot_model()` function to generate predictions holding other variables are specific values. We'll cover these arguments in the context of logistic regression models. 
 
 If your research question requires you to estimate conditional relationships you should check out http://www.strengejacke.de/sjPlot/articles/plot_interactions.html for additional examples and options for plotting predicted values with `plot_model()`.
+
+```{r tutorial-success-banner-17, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Impressive! You have completed this tutorial and can now estimate, interpret, and visualize conditional relationships using interaction terms."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🔀 Impressive work! 🔀</span>
+</p>
+')
+```
+

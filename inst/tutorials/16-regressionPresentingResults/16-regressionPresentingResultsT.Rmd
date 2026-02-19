@@ -3,7 +3,7 @@ title: "Presenting Regression Results"
 tutorial:
   id: "16-Results-Regression"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -11,13 +11,14 @@ description: >
   Learn how to present regression results from multiple regression.
 ---
 
+
 ## Learning Objectives
 
 In this tutorial, you will learn how present results from regression analysis in R. Specifically we will cover:
 
-* How to use the `stargazer()` function in the  <span style="color:DarkGreen">stargazer</span> package to produce professional looking tables.
-* How to produce a plot of the coefficient estimates as an alternative to a table using the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package.
-* How to use the `plot_model()` function in the  <span style="color:DarkGreen">sjPlot</span> package to produce predicted values from a regression analysis.
+* How to use the `stargazer()` function in the  [stargazer]{.package-name} package to produce professional looking tables.
+* How to produce a plot of the coefficient estimates as an alternative to a table using the `plot_model()` function in the  [sjPlot]{.package-name} package.
+* How to use the `plot_model()` function in the  [sjPlot]{.package-name} package to produce predicted values from a regression analysis.
 
 
 ```{r setup, include=FALSE}
@@ -31,7 +32,7 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
 counties$wage_growth <- counties$wage_growth*100
 counties$black_percent <- counties$prop_black*100
@@ -42,9 +43,9 @@ counties$White[counties$prop_white>0.5] <- 1
 counties$White[counties$prop_white<=0.5] <- 0
 counties$Obama2p_percent <- counties$Linc2pvs*100
 counties$College_percent <- counties$prop_college_grad*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-qog <- qpaTutorials::qog
+data("qog", package = "qpaTutorials")
 #The first line creates a new variable, UrbanCat which takes the value 0 if the county has a value of 7 or greater for the variable rural_urban, 9 is most rural, so -1 is rural
 counties$UrbanCat[counties$rural_urban>=7] <- -1
 #Next we recode UrbanCat to 1 when the value for the variable rural_urban is less than or equal to 3
@@ -54,7 +55,7 @@ counties$UrbanCat[counties$rural_urban>3 & counties$rural_urban<7] <- 0
 qog$democ[qog$fh_ipolity2<4] <-0
 qog$democ[qog$fh_ipolity2>6] <-2
 qog$democ[qog$fh_ipolity2>=4 & qog$fh_ipolity2<=6] <-1
-states <- qpaTutorials::states
+data("states", package = "qpaTutorials")
 states$p.liberal <- states$liberal/100
 states$region_censusf <- factor(states$region_census, 
                             labels =  c("South", "Northeast", "Midwest", "West"))
@@ -73,7 +74,7 @@ Once you have estimated a regression, the challenge is to present and to interpr
 
 ## Presenting regression results in a stargazer table
 
-The `summary()` function presents results from a regression analysis, but the output format is not informative to readers. There is no title and variable names are typically only meaningful to the analyst who created them. We want to create tables that look like those you see in articles and books. To do so we will use the `stargazer()` function from the <span style="color:DarkGreen">stargazer</span> package.
+The `summary()` function presents results from a regression analysis, but the output format is not informative to readers. There is no title and variable names are typically only meaningful to the analyst who created them. We want to create tables that look like those you see in articles and books. To do so we will use the `stargazer()` function from the [stargazer]{.package-name} package.
 
 ### Estimate the Regresion
 
@@ -91,7 +92,7 @@ summary(model1)
 
 Now that we have a model object, **model1**, which contains the regression results from the `lm()` function, we can produce a table using the `stargazer()` function. The function requires as its first argument the name of the model object (or models, we can include more than one regression result in a single table). The `stargazer()` function produces output by default in latex format. We will specify `type="text"` so that the output is readable. That's all we need to do to create a basic table.
 
-Note that we need to (install and) load the <span style="color:DarkGreen">stargazer</span> package using the `library()` function before we can use the `stargazer()` function.
+Note that we need to (install and) load the [stargazer]{.package-name} package using the `library()` function before we can use the `stargazer()` function.
 
 ```{r star, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -105,7 +106,9 @@ Look at the table and confirm that the results match the summary output from the
 
 This looks pretty good, but we can make it better. Let's make this more informative by adding a title with the `title` argument; a label for the dependent variable with the `dep.var.labels` argument, and labels for the rows of the table with the `covariate.labels` argument. Afterall, we can't expect our reader to know what the names of our variables stand for. In this example, they might be able to guess, but often it is helpful to give more substantive names in our tables. Each of the values for these arguments must be set in quotes, and anytime we have more than a single label to pass the argument, we must put them inside the `c()` function and separate them by commas.  Don't forget to separate each argument in the `stargazer()` function with a comma!
 
-<span style="color:Red">You will need to be careful to make sure you list the variable labels in the correct order, beginning with the first variable listed in the `lm()' function and ending with the intercept. For categorical variables with more than two categories each of the included categories must get a separate label. Always look at the summary first and compare your stargazer table to that output after you produce it!</span>
+::: {.caution}
+You will need to be careful to make sure you list the variable labels in the correct order, beginning with the first variable listed in the `lm()' function and ending with the intercept. For categorical variables with more than two categories each of the included categories must get a separate label. Always look at the summary first and compare your stargazer table to that output after you produce it!
+:::
 
 ```{r star2, warning=FALSE, message=FALSE, exercise=TRUE}
 library(stargazer)
@@ -191,7 +194,7 @@ grade_code()
 
 ## Plotting Coefficient Estimates
 
-A picture is worth a 1000 words, so let's present our results in a coefficient plot. We will be using the `plot_model()` function in the  <span style="color:Green">sjPlot</span> package. Load the package with `library(sjPlot)` before you use it. 
+A picture is worth a 1000 words, so let's present our results in a coefficient plot. We will be using the `plot_model()` function in the  [sjPlot]{.package-name} package. Load the package with `library(sjPlot)` before you use it. 
 
 The `plot_model()` function plots each coefficient estimate and the confidence interval around it. Only two arguments are required. The first argument is the name of the model that was fit. The second argument, `type`, tells `plot_model()` what type of plot to produce. We set it to `"est"` (in quotes). This tells the function to plot the estimated coefficients.
 
@@ -325,7 +328,9 @@ We must tell the function the name of the independent variable whose effects we 
 The `show.data` argument controls whether the raw data points (the bivariate scatter plot) are plotted. If you want to include them, set the argument to `TRUE`. If not, use `FALSE`. This is a matter of personal taste but will look cluttered if the sample is large (as here).
 
 
-The remaining options replace the default labels in the plot. <span style="color:Red">Note: The label arguments are different in `plot_model()` than when using `ggplot()`.</span>
+The remaining options replace the default labels in the plot. ::: {.caution}
+Note: The label arguments are different in `plot_model()` than when using `ggplot()`.
+:::
 
 + `title`, the main title for the plot
 + `axis.title` allows you to change the x and y axis labels. List these using the `c()` function, giving the labels in quotations, separated by commas. The x-axis label is listed first, followed by the y-axis label.
@@ -646,10 +651,21 @@ The plot shows us that the predictions overlap for each of the census regions so
   
 ## The Takeaways
 
-It is important to present findings from your regression analysis professionally. Tables that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model are important. Measures of fit should always be reported as well. The `stargazer()` function in the <span style="color:DarkGreen">stargazer</span> package provides one option for producing tables. 
+It is important to present findings from your regression analysis professionally. Tables that include titles,  assign meaningful names to all variables, and provide the information necessary for your reader to assess the statistical significance of the variables in your model are important. Measures of fit should always be reported as well. The `stargazer()` function in the [stargazer]{.package-name} package provides one option for producing tables. 
 
-Sometimes we prefer a  plot to present coefficient estimates, but the text should then clearly identify measures of model fit.  The `plot_model()` function in the <span style="color:DarkGreen">sjPlots</span> package can be used to produce coefficient plots. We specify the `type` of plot as `"est"` A number of additional arguments can be specified to control the look and feel of the plot.
+Sometimes we prefer a  plot to present coefficient estimates, but the text should then clearly identify measures of model fit.  The `plot_model()` function in the [sjPlots]{.package-name} package can be used to produce coefficient plots. We specify the `type` of plot as `"est"` A number of additional arguments can be specified to control the look and feel of the plot.
 
 Presenting the coefficient estimates is informative, but we can provide richer interpretations with predicted value plots.  The `plot_model()` function will also accomplish this task. We specify the `type` of plot as `"pred"` for predictions. Here again we can supply additional arguments to enhance our visualization.  It is important to remember that predicted values are (by default) calculated assuming all variables, other than for the variable we plot (specified with the `terms` argument) are set to their means if they are measured at the interval level, and at their base value if they are nominal. The base value corresponds to the category that takes the smallest numeric value or that is first alphabetically, depending on how it is coded.  It is possible to control the values these additional variables take using additional arguments. 
 
 See http://www.strengejacke.de/sjPlot/articles/plot_marginal_effects.html for examples and consult the help menu with ?plot_model for details.
+
+```{r tutorial-success-banner-16, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Superb! You have completed this tutorial and can now present regression results professionally using tables and coefficient plots."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">📋 Superb work! 📋</span>
+</p>
+')
+```
+

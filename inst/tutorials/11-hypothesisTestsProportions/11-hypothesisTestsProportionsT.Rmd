@@ -3,7 +3,7 @@ title: "Hypothesis Tests Involving Proportions"
 tutorial:
   id: "11-Hypotheses-Proportions"
 output: 
-  learnr::tutorial:
+  qpaTutorials::qpa_tutorial:
     progressive: true
     allow_skip: true
 runtime: shiny_prerendered
@@ -11,12 +11,13 @@ description: >
   Learn how to apply hypothesis tests involving proportions
 ---
 
+
 ## Learning Objectives
 
 In this tutorial, you will learn how conduct hypothesis tests about proportions. Specifically, we will cover:
 
-* How to use the `prop.test()` function to conduct (1) <span style="color:blue">one-sample proportions tests</span>, and (2) <span style="color:blue">difference of proportions tests involving two independent samples</span>. 
-* How to use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package to test whether two nominal and/or ordinal variables are independent.
+* How to use the `prop.test()` function to conduct (1) [one-sample proportions tests]{.important-text}, and (2) [difference of proportions tests involving two independent samples]{.important-text}. 
+* How to use the `CrossTable()` function in the [descr]{.package-name} package to test whether two nominal and/or ordinal variables are independent.
 * Practice walking through the steps for hypothesis testing.
 
 This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here.  See the tutorial "Bivariate Description: Two Categorical Variables" to review how to generate and interpret cross-tabs and grouped bar plots to illustrate the relationship.
@@ -31,12 +32,12 @@ library(gradethis)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
-counties <- qpaTutorials::counties
+data("counties", package = "qpaTutorials")
 counties$dem2p_percent <- counties$dem2p_vote_share*100
-df <- qpaTutorials::df
+data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
 library(dplyr)
-aNES <- qpaTutorials::aNES
+data("aNES", package = "qpaTutorials")
 aNES <- aNES %>% 
   mutate(TrumpClintonVote = ifelse(Trump2016 == 1 & (Trump2016 == 1 | Clinton2016 == 1), "Trump", ifelse(Clinton2016 == 1 & (Trump2016 == 1 | Clinton2016 == 1), "Clinton", NA )))
 aNES$male[aNES$female == 0]<-"Male"
@@ -56,13 +57,13 @@ Hypothesis tests involving categorical (nominal or ordinal) data involve proport
 
 Each of these tests can be conducted using a $\chi^2$ test. How we formulate the test will depend on which of these types of questions we wish to answer. 
 
-In this tutorial we will cover methods for conducting <span style="color:blue">one-sample proportion tests</span>, <span style="color:blue">two-sample (difference of) proportions tests</span>, and the <span style="color:blue">$\chi^2$ test for independence</span>.
+In this tutorial we will cover methods for conducting [one-sample proportion tests]{.important-text}, [two-sample (difference of) proportions tests]{.important-text}, and the [$\chi^2$ test for independence]{.important-text}.
 
 
 
 ## One-sample proportion tests 
 
-The simplest form of hypothesis test involving proportions is a one-sample proportion test. A <span style="color:blue">**one-sample proportion test** tests whether the proportion of cases taking some value in a sample is equal to a specific value against the alternative that it is not equal to that value.</span> We use the `prop.test()` function in R to test this hypothesis.
+The simplest form of hypothesis test involving proportions is a one-sample proportion test. A [**one-sample proportion test** tests whether the proportion of cases taking some value in a sample is equal to a specific value against the alternative that it is not equal to that value.]{.important-text} We use the `prop.test()` function in R to test this hypothesis.
 
 
 ### Example 1: Vote for Donald Trump
@@ -89,7 +90,7 @@ The data we will use for this test are from the 2016 American National Election 
 
 The first step is to identify the numerator (number of votes for Donald Trump in the sample) and denominator (number of votes for Donald Trump + Hillary Clinton) counts for the proportion of interest so that we can specify the `x` and `n` arguments in the `prop.test()` function. We need to create a frequency table of Vote for Trump (versus Clinton) using our variable **TrumpClintonVote**. The table will tell us the number of voters who voted for Trump  and the sample size to use in the `prop.test()` function. 
 
-We will use the `group_by()` and `summarisz()` functions in the <span style="color:DarkGreen">dplyr</span> package to generate the frequency table. Recall that to use these <span style="color:DarkGreen">dplyr</span> functions we must load the package with the `library()` function first. Complete the code below to produce the frequency table.  Name your new variable **counts**.
+We will use the `group_by()` and `summarisz()` functions in the [dplyr]{.package-name} package to generate the frequency table. Recall that to use these [dplyr]{.package-name} functions we must load the package with the `library()` function first. Complete the code below to produce the frequency table.  Name your new variable **counts**.
 
 ```{r onesample, exercise = TRUE}
 library(dplyr)
@@ -215,7 +216,7 @@ question("Which of the following statements are true?",
 
 ## Difference of Two Proportions Test
 
-A <span style="color:blue">**difference of proportions test** tests whether a proportion is the same in two (independent) groups (or samples).</span> Like the one-sample proportion test, we can use the `prop.test()` function to conduct this test.
+A [**difference of proportions test** tests whether a proportion is the same in two (independent) groups (or samples).]{.important-text} Like the one-sample proportion test, we can use the `prop.test()` function to conduct this test.
 
 
 ### Example 1: Proportion of men and women voting for Donald Trump
@@ -235,7 +236,7 @@ The proportion of men who voted for Trump ($\pi_M$) is NOT equal to the proporti
 
 To test whether the proportions in two groups in the population is the same, we again use the $\chi^2$ test statistic. We have to specify a vector of counts for the `x` argument to list the number of Donald Trump voters in each group (the numerators in the two proportions) and a vector of counts for the `n` argument to list the sample size for each group (the denominator in the two proportions). We omit the `p` argument.  The `prop.test()` function in the difference of proportions test assumes we are testing that the proportions are equal.
     
-To get this information, we will use the functions in the <span style="color:DarkGreen">dplyr</span> package to generate counts of the number of male and female voters who voted for Trump and the total number of males and females who voted. We will use the `filter()` function to keep only the cases for which both variables are not missing. Then we `group_by()` both **TrumpClintonVote** and **male**. When we `summarize()` to create **counts**, the functions will produce separate counts for each combination of values of **TrumpClintonVote** and **male**.
+To get this information, we will use the functions in the [dplyr]{.package-name} package to generate counts of the number of male and female voters who voted for Trump and the total number of males and females who voted. We will use the `filter()` function to keep only the cases for which both variables are not missing. Then we `group_by()` both **TrumpClintonVote** and **male**. When we `summarize()` to create **counts**, the functions will produce separate counts for each combination of values of **TrumpClintonVote** and **male**.
 
 ```{r onesampletest, exercise = TRUE}
 aNES %>%
@@ -421,9 +422,9 @@ question("Look at the prop.test output. Which of the following is true?",
 
 ## The $\chi^2$ Test for Independence
 
-The final hypothesis test we will cover involving proportions is the <span style="color:blue">**$\chi^2$ test for independence**, which tests whether two categorical variables are independent (unrelated) or whether there is some relationship between them.</span>
+The final hypothesis test we will cover involving proportions is the [**$\chi^2$ test for independence**, which tests whether two categorical variables are independent (unrelated) or whether there is some relationship between them.]{.important-text}
 
-The logic of the test is based on whether the number of observed counts in the cells of a cross tab is different than what would be expected if there was not a relationship between the two variables. This test is available as an argument to the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package.  Remember to load this package with the `library()` function and to list the dependent variable first when specifying the `CrossTable()` function. 
+The logic of the test is based on whether the number of observed counts in the cells of a cross tab is different than what would be expected if there was not a relationship between the two variables. This test is available as an argument to the `CrossTable()` function in the [descr]{.package-name} package.  Remember to load this package with the `library()` function and to list the dependent variable first when specifying the `CrossTable()` function. 
 
 
 ### Example 1: Sex and the strength of party identification
@@ -502,7 +503,7 @@ One important thing to note about the $\chi^2$ test for independence is that the
 
 ## The Takeaways
 
-Hypothesis tests involving categorical variables, whether nominal or ordinal, involve proportions. <span style="color:blue">**One-sample proportion tests**</span> allow us to compare a sample proportion to some value. <span style="color:blue">**Two-sample or difference of proportion tests**</span> allow us to compare the same proportion but in two independent groups to determine whether they differ.  Finally, the <span style="color:blue">**$\chi^2$ test of independence**</span> allows us to test whether two categorical variables are independent of one another or whether the values taken by one variable predict those taken by another.
+Hypothesis tests involving categorical variables, whether nominal or ordinal, involve proportions. [**One-sample proportion tests**]{.important-text} allow us to compare a sample proportion to some value. [**Two-sample or difference of proportion tests**]{.important-text} allow us to compare the same proportion but in two independent groups to determine whether they differ.  Finally, the [**$\chi^2$ test of independence**]{.important-text} allows us to test whether two categorical variables are independent of one another or whether the values taken by one variable predict those taken by another.
 
 All three types of hypothesis tests are conducted following the same five-step procedure for testing hypotheses. 
 
@@ -514,5 +515,14 @@ All three types of hypothesis tests are conducted following the same five-step p
 
 For one-sample and two-sample proportion tests, we use the `prop.test()` function, which estimates a $\chi^2$ test statistic. This function requires some additional legwork, as we must provide the function the counts that form the numerator(s) and denominator(s) of the proportion(s) involved in the test.
 
-To implement the $\chi^2$ test for independence in R we use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package. We simply set the argument `chisq = TRUE`. If we have a small sample, Fisher's exact test should be used instead. To implement this test we use the `CrossTable()` function in the <span style="color:DarkGreen">descr</span> package but set the argument `fisher = TRUE`. 
+To implement the $\chi^2$ test for independence in R we use the `CrossTable()` function in the [descr]{.package-name} package. We simply set the argument `chisq = TRUE`. If we have a small sample, Fisher's exact test should be used instead. To implement this test we use the `CrossTable()` function in the [descr]{.package-name} package but set the argument `fisher = TRUE`. 
 
+```{r tutorial-success-banner-11, results="asis", echo=FALSE}
+cat('
+<p role="status"
+   aria-label="Impressive! You have completed this tutorial and can now conduct hypothesis tests involving proportions."
+   style="font-size: 28px; font-weight: 600; color: #2e7d32; text-align: center; margin-top: 50px;">
+  <span aria-hidden="true">🎓 Impressive work! 🎓</span>
+</p>
+')
+```
