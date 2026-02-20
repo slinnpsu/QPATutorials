@@ -63,7 +63,13 @@ If our hypothesis involves the relationship between an interval variable and a n
 
 ## Comparing Means
 
-To motivate our analysis, consider the following hypothesis: [ In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].]{.hypothesis} The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
+To motivate our analysis, consider the following hypothesis: 
+
+::: {.hypothesis}
+In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].
+:::
+
+The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
 
 The data frame **counties** contains the interval level variable **wage_growth**, which gives the rate at which wages in a county have grown over the last four years (as a percent) and the nominal variable **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the county's votes and 1 if Donald Trump won a majority. Our hypothesis leads us to expect that the mean rate of wage growth should be lower in counties Trump won.
 

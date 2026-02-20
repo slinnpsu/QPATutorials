@@ -97,254 +97,6 @@ if (window.hljs) {
 <!-- end tabsets -->
 
 
-<style id="qpa-a11y-css">
-/* ================================
-   Global Accessibility + Styling
-   QPA Tutorials
-   ================================ */
-
-/* -------- Palette (accessible) -------- */
-:root{
-  --qpa-blue: #1d4ed8;        /* strong blue on white */
-  --qpa-blue-dark: #1e40af;   /* hover/darker */
-  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
-  --qpa-blue-border: #93c5fd; /* light border */
-  --qpa-ink: #0b2a6f;         /* dark blue text */
-  --qpa-focus: #f59e0b;       /* amber focus ring (very visible) */
-  --qpa-gray-border: #e0e0e0;
-  --qpa-gray-bg: #f7f7f7;
-}
-
-/* -------- Focus Visibility -------- */
-
-/* Strong focus rings for keyboard users, scoped to the tutorial content */
-#tutorial-container button:focus-visible,
-#tutorial-container .btn:focus-visible,
-#tutorial-container .tutorial-panel-name:focus-visible,
-#tutorial-container a:focus-visible,
-#tutorial-container input:focus-visible,
-#tutorial-container textarea:focus-visible,
-#tutorial-container select:focus-visible {
-  outline: 3px solid var(--qpa-focus);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Do not remove focus outlines on learnr control buttons (Run Code / Submit Answer) */
-#tutorial-container .tutorial-exercise button:focus,
-#tutorial-container .tutorial-exercise .btn:focus,
-#tutorial-container .tutorial-exercise button:focus-visible,
-#tutorial-container .tutorial-exercise .btn:focus-visible {
-  outline: revert;
-  outline-offset: revert;
-}
-
-/* For everything else, only remove non-visible focus (mouse focus) */
-#tutorial-container button:focus:not(:focus-visible),
-#tutorial-container .btn:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* -------- Links (restore blue accents) -------- */
-a,
-a:visited {
-  color: var(--qpa-blue);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  text-decoration-thickness: 0.08em;
-}
-
-a:hover,
-a:active {
-  color: var(--qpa-blue-dark);
-}
-
-/* -------- Exercise Containers -------- */
-
-.tutorial-exercise {
-  border: 1px solid var(--qpa-gray-border);
-  border-radius: 6px;
-  padding: 16px;
-  margin: 24px 0;
-}
-
-/* Highlight active exercise for keyboard users */
-.tutorial-exercise:focus-within {
-  outline: 2px solid var(--qpa-blue-border);
-  background-color: var(--qpa-gray-bg);
-}
-
-/* -------- Important Concept Highlight (inline) -------- */
-
-.important-text {
-  background-color: #e7f1ff;
-  color: #0b2a6f;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 700;
-  line-height: 1.25;
-  border: 1px solid #b9d7ff;
-}
-
-/* -------- Informational Callout Box -------- */
-
-.important-note {
-  background-color: #e7f1ff;
-  color: #0b2a6f;
-  border-left: 6px solid #2b6cb0;
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.important-note strong,
-.important-note b {
-  color: #0b2a6f;
-  font-weight: 800;
-}
-
-.important-note a {
-  color: #1f5aa6;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.important-note a:visited {
-  color: #1b4f93;
-}
-
-.important-note a:hover,
-.important-note a:focus {
-  color: #17437f;
-  text-decoration-thickness: 2px;
-}
-
-/* -------- Hypothesis Statement Block -------- */
-
-.hypothesis {
-  background-color: #fff8f0;        /* warm off-white */
-  color: #7c3a00;                   /* dark brown text */
-  border-left: 6px solid #c05c00;   /* burnt orange left rule */
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  font-style: italic;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.hypothesis strong,
-.hypothesis b {
-  color: #7c3a00;
-  font-weight: 800;
-}
-
-/* -------- Caution / Warning Box -------- */
-
-.caution {
-  background-color: #fff5f5;        /* light red tint */
-  color: #7b1d1d;                   /* dark red text */
-  border-left: 6px solid #c62828;   /* strong red left rule */
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  font-weight: 600;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.caution strong,
-.caution b {
-  color: #7b1d1d;
-  font-weight: 800;
-}
-
-/* -------- Success & Error Messages -------- */
-
-.alert-success,
-.tutorial-exercise-success {
-  border-left: 4px solid #2e7d32;
-  background-color: #eef7ef;
-  padding: 12px;
-  border-radius: 4px;
-}
-
-.alert-danger,
-.tutorial-exercise-error {
-  border-left: 4px solid #c62828;
-  background-color: #fdecea;
-  padding: 12px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-/* -------- Tables -------- */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f3f3f3;
-  font-weight: 600;
-}
-
-/* -------- Completion Message -------- */
-
-.tutorial-complete {
-  font-size: 28px;
-  font-weight: 600;
-  color: #2e7d32;
-  text-align: center;
-  margin-top: 50px;
-}
-
-/* -------- Package Name Styling -------- */
-
-.package-name {
-  color: #0f5132 !important;
-  background-color: #e6f4ea !important;
-  padding: 2px 6px !important;
-  border-radius: 4px !important;
-  font-weight: 600 !important;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-  letter-spacing: 0.2px !important;
-  border: 1px solid #b6dfc7 !important;
-  text-decoration: none !important;
-}
-
-/* -------- Exercise Run/Submit Buttons -------- */
-.btn-tutorial-run,
-.btn-tutorial-submit,
-.tutorial-exercise .btn {
-  cursor: pointer !important;
-  opacity: 1 !important;
-}
-/* -------- Table Container -------- */
-.table-container {
-  overflow-x: auto;
-  margin: 18px 0;
-}
-/* -------- Screen Reader Only -------- */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-</style>
 </head>
 
 <body>
@@ -1631,25 +1383,25 @@ learnr:::store_exercise_cache(structure(list(label = "star2", global_setup = str
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-aa", 
     question = structure("Look at the table above. Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_d902727", 
+    "character")), answers = list(structure(list(id = "lnr_ans_b8d82cb", 
         option = "All coefficients are statistically different from zero at for an alpha level of .05 or .01", 
         value = "All coefficients are statistically different from zero at for an alpha level of .05 or .01", 
         label = structure("All coefficients are statistically different from zero at for an alpha level of .05 or .01", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The coefficient estimates for female and education level are not significantly different from zero, which we can tell because there are no asterisks next to the estimates.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_945a066", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1eb9f9", 
         option = "For every one degree warmer an individual feels toward the police, on average the probability they vote for Donald Trump increases .02 or about 2 percentage points, all else equal", 
         value = "For every one degree warmer an individual feels toward the police, on average the probability they vote for Donald Trump increases .02 or about 2 percentage points, all else equal", 
         label = structure("For every one degree warmer an individual feels toward the police, on average the probability they vote for Donald Trump increases .02 or about 2 percentage points, all else equal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("We cannot interpret the slopes in a logistic regression as the effect of a unit change on the probability of the outcome. In fact, for every one degree warmer an individual feels toward the police, on average the log-odds of voting for Donald Trump increases by .02. We need to transform the estimate before interpreting its effect on the probability.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_357f703", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_ce517f4", 
         option = "Republicans have a significantly higher probability of voting for Donald Trump than do those who are not Democrats or Republicans", 
         value = "Republicans have a significantly higher probability of voting for Donald Trump than do those who are not Democrats or Republicans", 
         label = structure("Republicans have a significantly higher probability of voting for Donald Trump than do those who are not Democrats or Republicans", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Because the sign on the slope for Republicans is positive, we know they have a higher probability of voting for Donald Trump than the omitted category, which is neither Democrat nor Republican. Because the coefficient has three asterisks, we conclude it is significantly different from zero with 99% confidence.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_889f097", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_29023ff", 
         option = "As feelings toward illegal immigrants become warmer the probability of a vote for Donald Trump declines", 
         value = "As feelings toward illegal immigrants become warmer the probability of a vote for Donald Trump declines", 
         label = structure("As feelings toward illegal immigrants become warmer the probability of a vote for Donald Trump declines", html = TRUE, class = c("html", 
@@ -1663,7 +1415,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-aa-answer", question = "letter-aa"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 555670798.741246, options = list()), class = c("learnr_checkbox", 
+    seed = 265121739.376543, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -2154,25 +1906,25 @@ learnr:::store_exercise_cache(structure(list(label = "p2b", global_setup = struc
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-a", 
     question = structure("Look at carefully at the figure above. Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_507efc1", 
+    "character")), answers = list(structure(list(id = "lnr_ans_d673a8e", 
         option = "Someone who rates the police at 0 on the feeling thermometer has a predicted probability of about 5% of voting for Donald Trump", 
         value = "Someone who rates the police at 0 on the feeling thermometer has a predicted probability of about 5% of voting for Donald Trump", 
         label = structure("Someone who rates the police at 0 on the feeling thermometer has a predicted probability of about 5% of voting for Donald Trump", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The figure shows predictions for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education, not <em>someone<\u002fem>.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8d14553", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4db6f67", 
         option = "All predicted effects of ratings of the police presented in the figure are for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education", 
         value = "All predicted effects of ratings of the police presented in the figure are for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education", 
         label = structure("All predicted effects of ratings of the police presented in the figure are for a male who is neither a Democrat nor a Republican and with an average feeling thermometer value for illegal immigrants and average levels of education", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Predicted value plots are generated holding all interval variables at their mean and all categorical variables at their base or reference category.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_82f874e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_248e997", 
         option = "As feelings toward the police become more warm, the probability of voting for Donald Trump increases linearly ", 
         value = "As feelings toward the police become more warm, the probability of voting for Donald Trump increases linearly ", 
         label = structure("As feelings toward the police become more warm, the probability of voting for Donald Trump increases linearly", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The predicted values illustrate the nonlinear relationship between feelings toward the police and the probability of voting for Donald Trump.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f716a96", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_39e0cbd", 
         option = "A male who is nonpartisan and who has average feeling thermometer ratings of illegal immigrants and an average level of education does not have a predicted probability of voting for Donald Trump greater than 50% for any value of their feeling thermometer rating of the police", 
         value = "A male who is nonpartisan and who has average feeling thermometer ratings of illegal immigrants and an average level of education does not have a predicted probability of voting for Donald Trump greater than 50% for any value of their feeling thermometer rating of the police", 
         label = structure("A male who is nonpartisan and who has average feeling thermometer ratings of illegal immigrants and an average level of education does not have a predicted probability of voting for Donald Trump greater than 50% for any value of their feeling thermometer rating of the police", html = TRUE, class = c("html", 
@@ -2185,7 +1937,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-a-answer", question = "letter-a"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 2118917956.5133, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 545779082.245852, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2360,19 +2112,19 @@ learnr:::store_exercise_cache(structure(list(label = "p4", global_setup = struct
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-b", 
     question = structure("Look at carefully at the figure above. Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_92aa8d5", 
+    "character")), answers = list(structure(list(id = "lnr_ans_33a7dfb", 
         option = "Among Republicans, the predicted probability of voting for Donald Trump decreases as feelings toward illegal immigrants become more warm, regardless of how they feel about the police", 
         value = "Among Republicans, the predicted probability of voting for Donald Trump decreases as feelings toward illegal immigrants become more warm, regardless of how they feel about the police", 
         label = structure("Among Republicans, the predicted probability of voting for Donald Trump decreases as feelings toward illegal immigrants become more warm, regardless of how they feel about the police", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("All three curves in the middle panel decrease as we move from cooler to warmer ratings of illegal immigrants.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_633baae", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_3ba6066", 
         option = "Feeling thermometer ratings of illegal immigrants have the biggest impact on the predicted probability of voting for Trump for Democrats", 
         value = "Feeling thermometer ratings of illegal immigrants have the biggest impact on the predicted probability of voting for Trump for Democrats", 
         label = structure("Feeling thermometer ratings of illegal immigrants have the biggest impact on the predicted probability of voting for Trump for Democrats", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The curves are flattest for Democrats such that changes in feeling thermometer ratings have the smallest effect on their probability of voting for Donald Trump.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_324827d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2b4457b", 
         option = "Republicans with feeling thermometer ratings of police one standard deviation below the mean have a higher probability of voting for Donald Trump if they feel very warmly toward illegal immigrants than do Democrats who feel cold toward illegal immigrants", 
         value = "Republicans with feeling thermometer ratings of police one standard deviation below the mean have a higher probability of voting for Donald Trump if they feel very warmly toward illegal immigrants than do Democrats who feel cold toward illegal immigrants", 
         label = structure("Republicans with feeling thermometer ratings of police one standard deviation below the mean have a higher probability of voting for Donald Trump if they feel very warmly toward illegal immigrants than do Democrats who feel cold toward illegal immigrants", html = TRUE, class = c("html", 
@@ -2385,7 +2137,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-b-answer", question = "letter-b"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 162092968.92452, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 593147322.723794, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2475,25 +2227,25 @@ learnr:::store_exercise_cache(structure(list(label = "p4b", global_setup = struc
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-c", 
     question = structure("Look at carefully at the figure above. Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_869f648", 
+    "character")), answers = list(structure(list(id = "lnr_ans_613e094", 
         option = "The green curve represents the predicted probability a female Democrat with the lowest levels of education and a feeling thermometer value of 50 toward illegal immigrants votes for Trump based on their evaluation of the police", 
         value = "The green curve represents the predicted probability a female Democrat with the lowest levels of education and a feeling thermometer value of 50 toward illegal immigrants votes for Trump based on their evaluation of the police", 
         label = structure("The green curve represents the predicted probability a female Democrat with the lowest levels of education and a feeling thermometer value of 50 toward illegal immigrants votes for Trump based on their evaluation of the police", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The green curve represents the predicted probability a female Democrat with the lowest levels of education and a feeling thermometer value of 50 toward illegal immigrants votes for Trump as a function of their evaluation of the police. The red curve presents the same information for those who are neither Democratic nor Republican, and the blue curve does so for Republicans.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8b7a830", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6641491", 
         option = "The effect of feelings toward the police on the probability of voting for Donald Trump among females with low levels of education and a thermometer rating of immigrants at the middle of the scale is biggest for Republicans ", 
         value = "The effect of feelings toward the police on the probability of voting for Donald Trump among females with low levels of education and a thermometer rating of immigrants at the middle of the scale is biggest for Republicans ", 
         label = structure("The effect of feelings toward the police on the probability of voting for Donald Trump among females with low levels of education and a thermometer rating of immigrants at the middle of the scale is biggest for Republicans", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Because the curve is steepest for Republicans, the effect of feelings toward the police for females with low levels of education and a thermometer rating of illegal immigrants at the middle of the scale is biggest for Republicans.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_11e060e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8835bd8", 
         option = "Feelings toward police have a small impact on the probability a female Democrat with a thermometer rating of 50 toward illegal immigrants and low levels education will vote for Donald Trump", 
         value = "Feelings toward police have a small impact on the probability a female Democrat with a thermometer rating of 50 toward illegal immigrants and low levels education will vote for Donald Trump", 
         label = structure("Feelings toward police have a small impact on the probability a female Democrat with a thermometer rating of 50 toward illegal immigrants and low levels education will vote for Donald Trump", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The predicted probability of voting for Donald Trump does not change much based on feelings toward the police for Democrats when they are females with a thermometer rating of 50 toward illegal and low levels education.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b6a8659", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_9d496d0", 
         option = "Female Republicans who are cold (their feeling thermometer value is 0) toward the police, have a low level of education, and feelings toward illegal immigrants at the middle of the scale, have a probability of more than 50% of voting for Donald Trump ", 
         value = "Female Republicans who are cold (their feeling thermometer value is 0) toward the police, have a low level of education, and feelings toward illegal immigrants at the middle of the scale, have a probability of more than 50% of voting for Donald Trump ", 
         label = structure("Female Republicans who are cold (their feeling thermometer value is 0) toward the police, have a low level of education, and feelings toward illegal immigrants at the middle of the scale, have a probability of more than 50% of voting for Donald Trump", html = TRUE, class = c("html", 
@@ -2506,7 +2258,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-c-answer", question = "letter-c"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 2078427575.53216, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 667784040.689039, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2596,25 +2348,25 @@ learnr:::store_exercise_cache(structure(list(label = "m2p1", global_setup = stru
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-e", 
     question = structure("Look at carefully at the figure above. Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_cf71847", 
+    "character")), answers = list(structure(list(id = "lnr_ans_feb420e", 
         option = "Those with a greater difference in feelings toward the two candidates who have average levels of education and income are more likely to vote if they are not strong partisans than if they are", 
         value = "Those with a greater difference in feelings toward the two candidates who have average levels of education and income are more likely to vote if they are not strong partisans than if they are", 
         label = structure("Those with a greater difference in feelings toward the two candidates who have average levels of education and income are more likely to vote if they are not strong partisans than if they are", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Because the curve for those who are strong partisans is always above the curve for those who are not, those who have average levels of education and income are always less likely to vote if they are not strong partisans than if they are.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_558830e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5348e95", 
         option = "Those for whom 50 degrees separates their feelings toward Clinton and Trump and have an average level of education and income are about 60% likely to vote if they are not a strong partisan ", 
         value = "Those for whom 50 degrees separates their feelings toward Clinton and Trump and have an average level of education and income are about 60% likely to vote if they are not a strong partisan ", 
         label = structure("Those for whom 50 degrees separates their feelings toward Clinton and Trump and have an average level of education and income are about 60% likely to vote if they are not a strong partisan", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The red curve for those who are not strong partisans crosses the y-axis at about 60% when the absolute difference in their feelings toward the two candidates is 50 degrees.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c5e568d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b0654d3", 
         option = "Those for whom there is no difference in their feelings between Trump and Clinton and have an average level of education and income are about as equally like to vote as not vote if they are a strong partisan", 
         value = "Those for whom there is no difference in their feelings between Trump and Clinton and have an average level of education and income are about as equally like to vote as not vote if they are a strong partisan", 
         label = structure("Those for whom there is no difference in their feelings between Trump and Clinton and have an average level of education and income are about as equally like to vote as not vote if they are a strong partisan", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The blue curve for strong partisans crosses the y-axis at 50% when their is no difference in their ratings of the two candidates.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_cfb1deb", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f433975", 
         option = "Those who are not strong partisans who have an average level of education and income need to have a difference of at least about 30 points in their evaluations of the two candidates before they are likely to vote", 
         value = "Those who are not strong partisans who have an average level of education and income need to have a difference of at least about 30 points in their evaluations of the two candidates before they are likely to vote", 
         label = structure("Those who are not strong partisans who have an average level of education and income need to have a difference of at least about 30 points in their evaluations of the two candidates before they are likely to vote", html = TRUE, class = c("html", 
@@ -2627,7 +2379,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-e-answer", question = "letter-e"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1641911093.73543, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1757681526.18152, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2717,11 +2469,11 @@ learnr:::store_exercise_cache(structure(list(label = "m2p", global_setup = struc
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-d", question = structure("Looking at the figure above is the following TRUE or FALSE? At all levels of education, an individual who has  an average income, who is not a strong partisan, and who evaluates the candidates 50 degrees differently is more likely to turn out that not turn out", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_94dcfec", 
+"character")), answers = list(structure(list(id = "lnr_ans_1a36989", 
     option = "TRUE", value = "TRUE", label = structure("TRUE", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("Among those with the lowest levels of eduction who have an average income, who are not a strong partisans, and who evaluate the candidates 50 degrees differently the probability they turn out to vote is less than 50%.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_7614b4d", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_6589671", 
     option = "FALSE", value = "FALSE", label = structure("FALSE", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
 "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -2731,7 +2483,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-d-answer", question = "letter-d"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1844830063.64093, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 293048771.863539, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -2820,25 +2572,25 @@ learnr:::store_exercise_cache(structure(list(label = "m2p2", global_setup = stru
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-f", 
     question = structure("Look at carefully at the figure above. Which of the following statements are true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_8eb7838", 
+    "character")), answers = list(structure(list(id = "lnr_ans_a9775", 
         option = "The least educated strong partisans have a predicted probability of turning out to vote that is about the same as those in the middle education group that are not strong partisans among those with average differences in feelings toward the two candidates and with average income levels", 
         value = "The least educated strong partisans have a predicted probability of turning out to vote that is about the same as those in the middle education group that are not strong partisans among those with average differences in feelings toward the two candidates and with average income levels", 
         label = structure("The least educated strong partisans have a predicted probability of turning out to vote that is about the same as those in the middle education group that are not strong partisans among those with average differences in feelings toward the two candidates and with average income levels", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The predicted probability of voting for those in education group 3 (blue) for those who are not a strong partisan is about 64% and among those who are a strong partisan but in education group 1 (red) is about 67%. This is true setting income and the difference in feelings toward the candidates at their means. Further, because the confidence intervals overlap, there is not a statistically significant difference in these predictions.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e9bacc7", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_651f4fb", 
         option = "For respondents with average incomes and average differences in feelings toward the two candidates, there is a statistically significant difference in the predicted probability of casting a ballot across the levels of education both among those who are not strong partisans and those who are ", 
         value = "For respondents with average incomes and average differences in feelings toward the two candidates, there is a statistically significant difference in the predicted probability of casting a ballot across the levels of education both among those who are not strong partisans and those who are ", 
         label = structure("For respondents with average incomes and average differences in feelings toward the two candidates, there is a statistically significant difference in the predicted probability of casting a ballot across the levels of education both among those who are not strong partisans and those who are", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The red (education group 1), blue (education group 3), and green (education group 5) point predictions are significantly different from one another (their confidence intervals do not overlap) within both categories of strength of partisanship.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_784ac0d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_757f9b8", 
         option = "Strong partisans are more likely to turn out to vote than those that are not strong partisans at each level of education given that they have average levels of income and average differences in feelings toward the two candidates", 
         value = "Strong partisans are more likely to turn out to vote than those that are not strong partisans at each level of education given that they have average levels of income and average differences in feelings toward the two candidates", 
         label = structure("Strong partisans are more likely to turn out to vote than those that are not strong partisans at each level of education given that they have average levels of income and average differences in feelings toward the two candidates", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The predictions for those with and without strong partisan identification are significantly different from each other in each education category .", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5bc446e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c40cab6", 
         option = "The most educated respondents who are not strong partisans are more likely to turn out to vote than are the least educated strong partisans, among those with average levels of income and average differences in feelings toward the two candidates ", 
         value = "The most educated respondents who are not strong partisans are more likely to turn out to vote than are the least educated strong partisans, among those with average levels of income and average differences in feelings toward the two candidates ", 
         label = structure("The most educated respondents who are not strong partisans are more likely to turn out to vote than are the least educated strong partisans, among those with average levels of income and average differences in feelings toward the two candidates", html = TRUE, class = c("html", 
@@ -2851,7 +2603,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-f-answer", question = "letter-f"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1430363025.83394, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 157709888.426561, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2863,7 +2615,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","datawizard","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggeffects","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","insight","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mgcv","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","pscl","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","RColorBrewer","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjlabelled","sjmisc","sjPlot","snakecase","splines","stargazer","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.0","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","2.3.1","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","2.5.4","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.4.2","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","1.9-3","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.5.9","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1-3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.12.1","0.9.0","1.2.0","2.8.11","2.9.0","0.11.1","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","brio","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","datawizard","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggeffects","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","insight","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","pscl","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","RColorBrewer","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjlabelled","sjmisc","sjPlot","snakecase","splines","stargazer","stats","stringi","stringr","survey","survival","testthat","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.1.5","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.0","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","2.3.1","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","2.5.4","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.4.2","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.5.9","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1-3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.13.0","0.9.0","1.2.0","2.8.11","2.9.0","0.11.1","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>
@@ -2928,6 +2680,241 @@ $(document).ready(function () {
 </script>
 
 
+<style id="qpa-a11y-css">
+/* ================================
+   Global Accessibility + Styling
+   QPA Tutorials
+   ================================ */
+
+/* -------- Palette (accessible) -------- */
+:root{
+  --qpa-blue: #1d4ed8;        /* strong blue on white */
+  --qpa-blue-dark: #1e40af;   /* hover/darker */
+  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
+  --qpa-blue-border: #93c5fd; /* light border */
+  --qpa-ink: #0b2a6f;         /* dark blue text */
+  --qpa-focus: #b45309;       /* amber focus ring (very visible) */
+  --qpa-gray-border: #e0e0e0;
+  --qpa-gray-bg: #f7f7f7;
+}
+
+/* -------- Focus Visibility -------- */
+
+body #tutorial-container button:focus,
+body #tutorial-container button:focus-visible,
+body #tutorial-container .btn:focus,
+body #tutorial-container .btn:focus-visible,
+body #tutorial-container .tutorial-panel-name:focus-visible,
+body #tutorial-container a:focus,
+body #tutorial-container a:focus-visible,
+body #tutorial-container input:focus,
+body #tutorial-container input:focus-visible,
+body #tutorial-container textarea:focus,
+body #tutorial-container textarea:focus-visible,
+body #tutorial-container select:focus,
+body #tutorial-container select:focus-visible {
+  outline: 3px solid var(--qpa-focus) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px !important;
+}
+
+/* For mouse users only - remove visible focus ring */
+body #tutorial-container button:focus:not(:focus-visible),
+body #tutorial-container .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* -------- Exercise Containers -------- */
+
+.tutorial-exercise {
+  border: 1px solid var(--qpa-gray-border);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 24px 0;
+}
+
+/* Highlight active exercise for keyboard users */
+.tutorial-exercise:focus-within {
+  outline: 2px solid var(--qpa-blue-border);
+  background-color: var(--qpa-gray-bg);
+}
+
+/* -------- Important Concept Highlight (inline) -------- */
+
+.important-text {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 1.25;
+  border: 1px solid #b9d7ff;
+}
+
+/* -------- Informational Callout Box -------- */
+
+.important-note {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  border-left: 6px solid #2b6cb0;
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.important-note strong,
+.important-note b {
+  color: #0b2a6f;
+  font-weight: 800;
+}
+
+.important-note a {
+  color: #1f5aa6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.important-note a:visited {
+  color: #1b4f93;
+}
+
+.important-note a:hover,
+.important-note a:focus {
+  color: #17437f;
+  text-decoration-thickness: 2px;
+}
+
+/* -------- Hypothesis Statement Block -------- */
+
+.hypothesis {
+  background-color: #fff8f0;        /* warm off-white */
+  color: #7c3a00;                   /* dark brown text */
+  border-left: 6px solid #c05c00;   /* burnt orange left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-style: italic;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.hypothesis strong,
+.hypothesis b {
+  color: #7c3a00;
+  font-weight: 800;
+}
+
+/* -------- Caution / Warning Box -------- */
+
+.caution {
+  background-color: #fff5f5;        /* light red tint */
+  color: #7b1d1d;                   /* dark red text */
+  border-left: 6px solid #c62828;   /* strong red left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.caution strong,
+.caution b {
+  color: #7b1d1d;
+  font-weight: 800;
+}
+
+/* -------- Success & Error Messages -------- */
+
+.alert-success,
+.tutorial-exercise-success {
+  border-left: 4px solid #2e7d32;
+  background-color: #eef7ef;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.alert-danger,
+.tutorial-exercise-error {
+  border-left: 4px solid #c62828;
+  background-color: #fdecea;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* -------- Tables -------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f3f3f3;
+  font-weight: 600;
+}
+
+/* -------- Completion Message -------- */
+
+.tutorial-complete {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e7d32;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* -------- Package Name Styling -------- */
+
+.package-name {
+  color: #0f5132 !important;
+  background-color: #e6f4ea !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  letter-spacing: 0.2px !important;
+  border: 1px solid #b6dfc7 !important;
+  text-decoration: none !important;
+}
+
+/* -------- Exercise Run/Submit Buttons -------- */
+.btn-tutorial-run,
+.btn-tutorial-submit,
+.tutorial-exercise .btn {
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+/* -------- Table Container -------- */
+.table-container {
+  overflow-x: auto;
+  margin: 18px 0;
+}
+/* -------- Screen Reader Only -------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* -------- Override cerulean.min.css focus ring -------- */
+a:focus {
+  outline: 3px solid #b45309 !important;
+  outline-offset: 2px !important;
+}
+</style>
 <script>
 /* qpaTutorials shared accessibility helpers
    Safe for learnr + shiny_prerendered + static HTML.
@@ -3064,6 +3051,25 @@ $(document).ready(function () {
     startA11yInsertionPolling();
     safe(enhanceMessages);
     setInterval(function () { safe(enhanceMessages); }, 1500);
+
+    // Override Safari's native blue focus ring with amber
+    document.addEventListener("focusin", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "3px solid #b45309";
+        el.style.outlineOffset = "2px";
+        el.style.borderRadius = "4px";
+      }
+    });
+
+    document.addEventListener("focusout", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "";
+        el.style.outlineOffset = "";
+        el.style.borderRadius = "";
+      }
+    });
   });
 
   // Wire up Shiny/learnr events for section navigation.

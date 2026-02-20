@@ -97,254 +97,6 @@ if (window.hljs) {
 <!-- end tabsets -->
 
 
-<style id="qpa-a11y-css">
-/* ================================
-   Global Accessibility + Styling
-   QPA Tutorials
-   ================================ */
-
-/* -------- Palette (accessible) -------- */
-:root{
-  --qpa-blue: #1d4ed8;        /* strong blue on white */
-  --qpa-blue-dark: #1e40af;   /* hover/darker */
-  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
-  --qpa-blue-border: #93c5fd; /* light border */
-  --qpa-ink: #0b2a6f;         /* dark blue text */
-  --qpa-focus: #f59e0b;       /* amber focus ring (very visible) */
-  --qpa-gray-border: #e0e0e0;
-  --qpa-gray-bg: #f7f7f7;
-}
-
-/* -------- Focus Visibility -------- */
-
-/* Strong focus rings for keyboard users, scoped to the tutorial content */
-#tutorial-container button:focus-visible,
-#tutorial-container .btn:focus-visible,
-#tutorial-container .tutorial-panel-name:focus-visible,
-#tutorial-container a:focus-visible,
-#tutorial-container input:focus-visible,
-#tutorial-container textarea:focus-visible,
-#tutorial-container select:focus-visible {
-  outline: 3px solid var(--qpa-focus);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Do not remove focus outlines on learnr control buttons (Run Code / Submit Answer) */
-#tutorial-container .tutorial-exercise button:focus,
-#tutorial-container .tutorial-exercise .btn:focus,
-#tutorial-container .tutorial-exercise button:focus-visible,
-#tutorial-container .tutorial-exercise .btn:focus-visible {
-  outline: revert;
-  outline-offset: revert;
-}
-
-/* For everything else, only remove non-visible focus (mouse focus) */
-#tutorial-container button:focus:not(:focus-visible),
-#tutorial-container .btn:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* -------- Links (restore blue accents) -------- */
-a,
-a:visited {
-  color: var(--qpa-blue);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  text-decoration-thickness: 0.08em;
-}
-
-a:hover,
-a:active {
-  color: var(--qpa-blue-dark);
-}
-
-/* -------- Exercise Containers -------- */
-
-.tutorial-exercise {
-  border: 1px solid var(--qpa-gray-border);
-  border-radius: 6px;
-  padding: 16px;
-  margin: 24px 0;
-}
-
-/* Highlight active exercise for keyboard users */
-.tutorial-exercise:focus-within {
-  outline: 2px solid var(--qpa-blue-border);
-  background-color: var(--qpa-gray-bg);
-}
-
-/* -------- Important Concept Highlight (inline) -------- */
-
-.important-text {
-  background-color: #e7f1ff;
-  color: #0b2a6f;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 700;
-  line-height: 1.25;
-  border: 1px solid #b9d7ff;
-}
-
-/* -------- Informational Callout Box -------- */
-
-.important-note {
-  background-color: #e7f1ff;
-  color: #0b2a6f;
-  border-left: 6px solid #2b6cb0;
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.important-note strong,
-.important-note b {
-  color: #0b2a6f;
-  font-weight: 800;
-}
-
-.important-note a {
-  color: #1f5aa6;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.important-note a:visited {
-  color: #1b4f93;
-}
-
-.important-note a:hover,
-.important-note a:focus {
-  color: #17437f;
-  text-decoration-thickness: 2px;
-}
-
-/* -------- Hypothesis Statement Block -------- */
-
-.hypothesis {
-  background-color: #fff8f0;        /* warm off-white */
-  color: #7c3a00;                   /* dark brown text */
-  border-left: 6px solid #c05c00;   /* burnt orange left rule */
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  font-style: italic;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.hypothesis strong,
-.hypothesis b {
-  color: #7c3a00;
-  font-weight: 800;
-}
-
-/* -------- Caution / Warning Box -------- */
-
-.caution {
-  background-color: #fff5f5;        /* light red tint */
-  color: #7b1d1d;                   /* dark red text */
-  border-left: 6px solid #c62828;   /* strong red left rule */
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  font-weight: 600;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.caution strong,
-.caution b {
-  color: #7b1d1d;
-  font-weight: 800;
-}
-
-/* -------- Success & Error Messages -------- */
-
-.alert-success,
-.tutorial-exercise-success {
-  border-left: 4px solid #2e7d32;
-  background-color: #eef7ef;
-  padding: 12px;
-  border-radius: 4px;
-}
-
-.alert-danger,
-.tutorial-exercise-error {
-  border-left: 4px solid #c62828;
-  background-color: #fdecea;
-  padding: 12px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-/* -------- Tables -------- */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f3f3f3;
-  font-weight: 600;
-}
-
-/* -------- Completion Message -------- */
-
-.tutorial-complete {
-  font-size: 28px;
-  font-weight: 600;
-  color: #2e7d32;
-  text-align: center;
-  margin-top: 50px;
-}
-
-/* -------- Package Name Styling -------- */
-
-.package-name {
-  color: #0f5132 !important;
-  background-color: #e6f4ea !important;
-  padding: 2px 6px !important;
-  border-radius: 4px !important;
-  font-weight: 600 !important;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-  letter-spacing: 0.2px !important;
-  border: 1px solid #b6dfc7 !important;
-  text-decoration: none !important;
-}
-
-/* -------- Exercise Run/Submit Buttons -------- */
-.btn-tutorial-run,
-.btn-tutorial-submit,
-.tutorial-exercise .btn {
-  cursor: pointer !important;
-  opacity: 1 !important;
-}
-/* -------- Table Container -------- */
-.table-container {
-  overflow-x: auto;
-  margin: 18px 0;
-}
-/* -------- Screen Reader Only -------- */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-</style>
 </head>
 
 <body>
@@ -631,24 +383,24 @@ session$onSessionEnded(function() {
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "nominal-variable-question", 
     question = structure("Which of the following variables are nominal level measures?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_d5b19ea", 
+    "character")), answers = list(structure(list(id = "lnr_ans_3e767a3", 
         option = "Whether a state's electoral votes were assigned to Donald Trump or Hillary Clinton", 
         value = "Whether a state's electoral votes were assigned to Donald Trump or Hillary Clinton", 
         label = structure("Whether a state’s electoral votes were assigned to Donald Trump or Hillary Clinton", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b428e18", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_3fbcf47", 
         option = "Whether a country has a parliamentary, presidential, or mixed democratic system or is not democratic", 
         value = "Whether a country has a parliamentary, presidential, or mixed democratic system or is not democratic", 
         label = structure("Whether a country has a parliamentary, presidential, or mixed democratic system or is not democratic", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Whether a state’s electoral votes were assigned to Trump or Clinton is nominal, each value corresponds to a label and there is no rank order to the values. The same is true for the type of democratic government variable.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_7d5d46d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_9f814e7", 
         option = "Whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond", 
         value = "Whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond", 
         label = structure("Whether an individual has not completed high school, has a high school degree, has attended some college, has a college degree, or has a post-secondary education or beyond", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Level of education is not a nominal variable because the categories are rank-ordered.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_fbf9917", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_464d2f", 
         option = "The number of protest events in the week following George Floyd's death", 
         value = "The number of protest events in the week following George Floyd's death", 
         label = structure("The number of protest events in the week following George Floyd’s death", html = TRUE, class = c("html", 
@@ -662,7 +414,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "nominal-variable-question-answer", question = "nominal-variable-question"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1866719473.63074, options = list()), class = c("learnr_checkbox", 
+    seed = 1833046162.64642, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -670,24 +422,24 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "ordinal-variable-question", 
     question = structure("Which of the following variables are ordinal level measures?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_65b2f07", 
+    "character")), answers = list(structure(list(id = "lnr_ans_4897914", 
         option = "Whether Freedom House labels a country as free, partly free, or not free", 
         value = "Whether Freedom House labels a country as free, partly free, or not free", 
         label = structure("Whether Freedom House labels a country as free, partly free, or not free", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6ca12b0", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_18088af", 
         option = "Whether a county's population is majority of white, Black, Hispanic or some other race", 
         value = "Whether a county's population is majority of white, Black, Hispanic or some other race", 
         label = structure("Whether a county’s population is majority of white, Black, Hispanic or some other race", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Racial majority is a nominal variable, the categories cannot be rank-ordered.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4df201f", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_398101f", 
         option = "Whether an individual is very satisfied, somewhat satisfied, neither satisfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with the direction the country is headed", 
         value = "Whether an individual is very satisfied, somewhat satisfied, neither satisfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with the direction the country is headed", 
         label = structure("Whether an individual is very satisfied, somewhat satisfied, neither satisfied nor dissatisfied, somewhat dissatisfied, or very dissatisfied with the direction the country is headed", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The values free, partly free, and not free constitute rank-ordered categories where the differences between categories are not equal, so this is therefore ordinal-level. The Likert scale assessing satisfaction with the direction the country is headed similarly denotes responses that can be ranked in order (but differences in rank order are not assumed to be equal) and is therefore measured at the ordinal level.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5bc356c", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_974102d", 
         option = "A nation's level of inflation", value = "A nation's level of inflation", 
         label = structure("A nation’s level of inflation", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Inflation is not an ordinal variable because difference between the values of the variable are meaningful.", html = TRUE, class = c("html", 
@@ -700,30 +452,30 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "ordinal-variable-question-answer", question = "ordinal-variable-question"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1242906122.92123, options = list()), class = c("learnr_checkbox", 
+    seed = 1560412054.77338, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "interval-variable-question", 
     question = structure("Which of the following variables are interval (or ratio) level measures?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_102d270", 
+    "character")), answers = list(structure(list(id = "lnr_ans_58530ec", 
         option = "Whether a state's governor is a Republican or Democrat or something else", 
         value = "Whether a state's governor is a Republican or Democrat or something else", 
         label = structure("Whether a state’s governor is a Republican or Democrat or something else", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Gubernatorial partisanship is a nominal variable with values denoting categories that cannot be rank-ordered.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_bc89d1f", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1fe6c5", 
         option = "The level of foreign direct investment in a country measured in dollars", 
         value = "The level of foreign direct investment in a country measured in dollars", 
         label = structure("The level of foreign direct investment in a country measured in dollars", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d928070", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_40f3557", 
         option = "The homicide rate in a country in a year", 
         value = "The homicide rate in a country in a year", label = structure("The homicide rate in a country in a year", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The level of foreign direct investment and homicide rate take values that are both rank-ordered and the differences between values are equivalent. Therefore both variables are measured at the interval level.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c20961c", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_51f4350", 
         option = "Whether an individual approves, neither approves nor disapproves, or disapproves of the president's handling on the economy", 
         value = "Whether an individual approves, neither approves nor disapproves, or disapproves of the president's handling on the economy", 
         label = structure("Whether an individual approves, neither approves nor disapproves, or disapproves of the president’s handling on the economy", html = TRUE, class = c("html", 
@@ -737,7 +489,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "interval-variable-question-answer", question = "interval-variable-question"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 858345471.100302, options = list()), class = c("learnr_checkbox", 
+    seed = 1092613096.99121, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -745,15 +497,15 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "majority-measurement-question", 
     question = structure("What level of measurement would a variable be that was coded as whether or not a majority of the county vote was cast for Donald Trump?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_a1d201c", 
+    "character")), answers = list(structure(list(id = "lnr_ans_59bfeda", 
         option = "Nominal", value = "Nominal", label = structure("Nominal", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The values of the variable constitute unordered categories (yes or no).", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2be811c", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_646f5fc", 
         option = "Ordinal", value = "Ordinal", label = structure("Ordinal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values of the variable are not rank-ordered so this is not an ordinal variable.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2ffc881", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8419a52", 
         option = "Interval", value = "Interval", label = structure("Interval", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values of the variable are not ordered and equally distant so this is not an interval variable.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -765,22 +517,22 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "majority-measurement-question-answer", question = "majority-measurement-question"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 705879329.171299, options = list()), class = c("learnr_radio", 
+    seed = 1973683914.58093, options = list()), class = c("learnr_radio", 
 "tutorial_question")), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "percentage-measurement-question-1", 
     question = structure("What level of measurement would a variable be that was coded as percentage of the vote cast for Donald Trump?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_5bbd0bd", 
+    "character")), answers = list(structure(list(id = "lnr_ans_5f86342", 
         option = "Nominal", value = "Nominal", label = structure("Nominal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values this variable takes are ordered and distances between them are meaningful so it is not nominal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c3420a5", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b765307", 
         option = "Ordinal", value = "Ordinal", label = structure("Ordinal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values this variable takes are ordered but distances between them are meaningful so it is not ordinal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_a83086e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8cd5ba7", 
         option = "Interval", value = "Interval", label = structure("Interval", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The values this variable takes are ordered and distances between them are meaningful.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -792,7 +544,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "percentage-measurement-question-1-answer", 
         question = "percentage-measurement-question-1"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 11048744.994855, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1480145850.81075, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -801,15 +553,15 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "scale-measurement-question", 
     question = structure("What level of measurement would a variable be that was coded based on responses to the question: On a scale of 1 to 7, where 1 is very liberal and 7 is very conservative, where would you place yourself?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_f853a7c", 
+    "character")), answers = list(structure(list(id = "lnr_ans_145702e", 
         option = "Nominal", value = "Nominal", label = structure("Nominal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values this variable takes are ordered so it is not nominal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_19ef6d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b2f89e8", 
         option = "Ordinal", value = "Ordinal", label = structure("Ordinal", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The values are rank-ordered, but differences between respondent scores are not necessarily equal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_cb142b3", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_36f03e1", 
         option = "Interval", value = "Interval", label = structure("Interval", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values of the variable are ordered but differences between them are not meaningful so this is not an interval variable.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -821,22 +573,22 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "scale-measurement-question-answer", question = "scale-measurement-question"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 64535708.4699482, options = list()), class = c("learnr_radio", 
+    seed = 1418916918.33927, options = list()), class = c("learnr_radio", 
 "tutorial_question")), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "percentage-measurement-question-2", 
     question = structure("What level of measurement would ideology be if the variable was coded as the percent of times a member of Congress voted with the Republican leadership?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_24f7697", 
+    "character")), answers = list(structure(list(id = "lnr_ans_e468b77", 
         option = "Nominal", value = "Nominal", label = structure("Nominal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values this variable takes are ordered and distances between them are meaningful so it is not nominal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_9198ef4", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_64dcc8", 
         option = "Ordinal", value = "Ordinal", label = structure("Ordinal", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("The values this variable takes are ordered and distances between them are meaningful so it is not ordinal.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_de4e7e1", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2aa26a7", 
         option = "Interval", value = "Interval", label = structure("Interval", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The values this variable takes are ordered and distances between them are meaningful.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -848,7 +600,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "percentage-measurement-question-2-answer", 
         question = "percentage-measurement-question-2"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1073395370.00016, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1650633321.73136, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -860,7 +612,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96]}},"value":[{"type":"character","attributes":{},"value":["backports","base","bitops","bslib","cachem","callr","checkmate","cli","colorspace","commonmark","compiler","curl","datasets","desc","devtools","digest","dplyr","ellipsis","evaluate","fastmap","fontawesome","forcats","fs","generics","ggplot2","glue","gradethis","graphics","grDevices","grid","gtable","hms","htmltools","htmlwidgets","httpuv","jquerylib","jsonlite","knitr","later","learnr","lifecycle","litedown","lubridate","magrittr","markdown","memoise","methods","mime","miniUI","munsell","otel","pillar","pkgbuild","pkgconfig","pkgload","processx","profvis","promises","ps","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","Rcpp","RCurl","readr","remotes","rio","rlang","rmarkdown","rprojroot","rstudioapi","sass","scales","sessioninfo","shiny","stats","stringi","stringr","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","vctrs","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.5.0","4.5.2","1.0-9","0.10.0","1.1.0","3.7.6","2.3.4","3.6.5","2.1-1","2.0.0","4.5.2","7.0.0","4.5.2","1.4.3","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","1.2.0","0.5.3","1.0.0","1.6.6","0.1.3","3.5.2","1.8.0","0.2.14","4.5.2","4.5.2","4.5.2","0.3.6","1.1.3","0.5.9","1.6.4","1.6.16","0.1.4","2.0.0","1.51","1.4.6","0.11.6.9000","1.0.5","0.9","1.9.4","2.0.4","2.0","2.0.1","4.5.2","0.13","0.1.2","0.5.1","0.2.0","1.10.2","1.4.8","2.0.3","1.4.0","3.8.6","0.4.0","1.5.0","1.9.1","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","1.1.1","1.98-1.17","2.1.5","2.5.0","1.2.3","1.1.7","2.30","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.12.1","4.5.2","1.8.7","1.5.1","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","0.6.5","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","brio","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","datawizard","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggeffects","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","insight","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","pscl","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","RColorBrewer","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjlabelled","sjmisc","sjPlot","snakecase","splines","stargazer","stats","stringi","stringr","survey","survival","testthat","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.1.5","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.0","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","2.3.1","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","2.5.4","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.4.2","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.5.9","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1-3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.13.0","0.9.0","1.2.0","2.8.11","2.9.0","0.11.1","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>
@@ -925,6 +677,241 @@ $(document).ready(function () {
 </script>
 
 
+<style id="qpa-a11y-css">
+/* ================================
+   Global Accessibility + Styling
+   QPA Tutorials
+   ================================ */
+
+/* -------- Palette (accessible) -------- */
+:root{
+  --qpa-blue: #1d4ed8;        /* strong blue on white */
+  --qpa-blue-dark: #1e40af;   /* hover/darker */
+  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
+  --qpa-blue-border: #93c5fd; /* light border */
+  --qpa-ink: #0b2a6f;         /* dark blue text */
+  --qpa-focus: #b45309;       /* amber focus ring (very visible) */
+  --qpa-gray-border: #e0e0e0;
+  --qpa-gray-bg: #f7f7f7;
+}
+
+/* -------- Focus Visibility -------- */
+
+body #tutorial-container button:focus,
+body #tutorial-container button:focus-visible,
+body #tutorial-container .btn:focus,
+body #tutorial-container .btn:focus-visible,
+body #tutorial-container .tutorial-panel-name:focus-visible,
+body #tutorial-container a:focus,
+body #tutorial-container a:focus-visible,
+body #tutorial-container input:focus,
+body #tutorial-container input:focus-visible,
+body #tutorial-container textarea:focus,
+body #tutorial-container textarea:focus-visible,
+body #tutorial-container select:focus,
+body #tutorial-container select:focus-visible {
+  outline: 3px solid var(--qpa-focus) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px !important;
+}
+
+/* For mouse users only - remove visible focus ring */
+body #tutorial-container button:focus:not(:focus-visible),
+body #tutorial-container .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* -------- Exercise Containers -------- */
+
+.tutorial-exercise {
+  border: 1px solid var(--qpa-gray-border);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 24px 0;
+}
+
+/* Highlight active exercise for keyboard users */
+.tutorial-exercise:focus-within {
+  outline: 2px solid var(--qpa-blue-border);
+  background-color: var(--qpa-gray-bg);
+}
+
+/* -------- Important Concept Highlight (inline) -------- */
+
+.important-text {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 1.25;
+  border: 1px solid #b9d7ff;
+}
+
+/* -------- Informational Callout Box -------- */
+
+.important-note {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  border-left: 6px solid #2b6cb0;
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.important-note strong,
+.important-note b {
+  color: #0b2a6f;
+  font-weight: 800;
+}
+
+.important-note a {
+  color: #1f5aa6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.important-note a:visited {
+  color: #1b4f93;
+}
+
+.important-note a:hover,
+.important-note a:focus {
+  color: #17437f;
+  text-decoration-thickness: 2px;
+}
+
+/* -------- Hypothesis Statement Block -------- */
+
+.hypothesis {
+  background-color: #fff8f0;        /* warm off-white */
+  color: #7c3a00;                   /* dark brown text */
+  border-left: 6px solid #c05c00;   /* burnt orange left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-style: italic;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.hypothesis strong,
+.hypothesis b {
+  color: #7c3a00;
+  font-weight: 800;
+}
+
+/* -------- Caution / Warning Box -------- */
+
+.caution {
+  background-color: #fff5f5;        /* light red tint */
+  color: #7b1d1d;                   /* dark red text */
+  border-left: 6px solid #c62828;   /* strong red left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.caution strong,
+.caution b {
+  color: #7b1d1d;
+  font-weight: 800;
+}
+
+/* -------- Success & Error Messages -------- */
+
+.alert-success,
+.tutorial-exercise-success {
+  border-left: 4px solid #2e7d32;
+  background-color: #eef7ef;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.alert-danger,
+.tutorial-exercise-error {
+  border-left: 4px solid #c62828;
+  background-color: #fdecea;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* -------- Tables -------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f3f3f3;
+  font-weight: 600;
+}
+
+/* -------- Completion Message -------- */
+
+.tutorial-complete {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e7d32;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* -------- Package Name Styling -------- */
+
+.package-name {
+  color: #0f5132 !important;
+  background-color: #e6f4ea !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  letter-spacing: 0.2px !important;
+  border: 1px solid #b6dfc7 !important;
+  text-decoration: none !important;
+}
+
+/* -------- Exercise Run/Submit Buttons -------- */
+.btn-tutorial-run,
+.btn-tutorial-submit,
+.tutorial-exercise .btn {
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+/* -------- Table Container -------- */
+.table-container {
+  overflow-x: auto;
+  margin: 18px 0;
+}
+/* -------- Screen Reader Only -------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* -------- Override cerulean.min.css focus ring -------- */
+a:focus {
+  outline: 3px solid #b45309 !important;
+  outline-offset: 2px !important;
+}
+</style>
 <script>
 /* qpaTutorials shared accessibility helpers
    Safe for learnr + shiny_prerendered + static HTML.
@@ -1061,6 +1048,25 @@ $(document).ready(function () {
     startA11yInsertionPolling();
     safe(enhanceMessages);
     setInterval(function () { safe(enhanceMessages); }, 1500);
+
+    // Override Safari's native blue focus ring with amber
+    document.addEventListener("focusin", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "3px solid #b45309";
+        el.style.outlineOffset = "2px";
+        el.style.borderRadius = "4px";
+      }
+    });
+
+    document.addEventListener("focusout", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "";
+        el.style.outlineOffset = "";
+        el.style.borderRadius = "";
+      }
+    });
   });
 
   // Wire up Shiny/learnr events for section navigation.

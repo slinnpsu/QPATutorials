@@ -9,6 +9,7 @@ License: ShareAlike 4.0 International
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    callr,
     learnr (>= 0.9.2.1),
     testwhat,
     knitr

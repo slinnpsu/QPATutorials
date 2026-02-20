@@ -97,254 +97,6 @@ if (window.hljs) {
 <!-- end tabsets -->
 
 
-<style id="qpa-a11y-css">
-/* ================================
-   Global Accessibility + Styling
-   QPA Tutorials
-   ================================ */
-
-/* -------- Palette (accessible) -------- */
-:root{
-  --qpa-blue: #1d4ed8;        /* strong blue on white */
-  --qpa-blue-dark: #1e40af;   /* hover/darker */
-  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
-  --qpa-blue-border: #93c5fd; /* light border */
-  --qpa-ink: #0b2a6f;         /* dark blue text */
-  --qpa-focus: #f59e0b;       /* amber focus ring (very visible) */
-  --qpa-gray-border: #e0e0e0;
-  --qpa-gray-bg: #f7f7f7;
-}
-
-/* -------- Focus Visibility -------- */
-
-/* Strong focus rings for keyboard users, scoped to the tutorial content */
-#tutorial-container button:focus-visible,
-#tutorial-container .btn:focus-visible,
-#tutorial-container .tutorial-panel-name:focus-visible,
-#tutorial-container a:focus-visible,
-#tutorial-container input:focus-visible,
-#tutorial-container textarea:focus-visible,
-#tutorial-container select:focus-visible {
-  outline: 3px solid var(--qpa-focus);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Do not remove focus outlines on learnr control buttons (Run Code / Submit Answer) */
-#tutorial-container .tutorial-exercise button:focus,
-#tutorial-container .tutorial-exercise .btn:focus,
-#tutorial-container .tutorial-exercise button:focus-visible,
-#tutorial-container .tutorial-exercise .btn:focus-visible {
-  outline: revert;
-  outline-offset: revert;
-}
-
-/* For everything else, only remove non-visible focus (mouse focus) */
-#tutorial-container button:focus:not(:focus-visible),
-#tutorial-container .btn:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* -------- Links (restore blue accents) -------- */
-a,
-a:visited {
-  color: var(--qpa-blue);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  text-decoration-thickness: 0.08em;
-}
-
-a:hover,
-a:active {
-  color: var(--qpa-blue-dark);
-}
-
-/* -------- Exercise Containers -------- */
-
-.tutorial-exercise {
-  border: 1px solid var(--qpa-gray-border);
-  border-radius: 6px;
-  padding: 16px;
-  margin: 24px 0;
-}
-
-/* Highlight active exercise for keyboard users */
-.tutorial-exercise:focus-within {
-  outline: 2px solid var(--qpa-blue-border);
-  background-color: var(--qpa-gray-bg);
-}
-
-/* -------- Important Concept Highlight (inline) -------- */
-
-.important-text {
-  background-color: #e7f1ff;
-  color: #0b2a6f;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 700;
-  line-height: 1.25;
-  border: 1px solid #b9d7ff;
-}
-
-/* -------- Informational Callout Box -------- */
-
-.important-note {
-  background-color: #e7f1ff;
-  color: #0b2a6f;
-  border-left: 6px solid #2b6cb0;
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.important-note strong,
-.important-note b {
-  color: #0b2a6f;
-  font-weight: 800;
-}
-
-.important-note a {
-  color: #1f5aa6;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.important-note a:visited {
-  color: #1b4f93;
-}
-
-.important-note a:hover,
-.important-note a:focus {
-  color: #17437f;
-  text-decoration-thickness: 2px;
-}
-
-/* -------- Hypothesis Statement Block -------- */
-
-.hypothesis {
-  background-color: #fff8f0;        /* warm off-white */
-  color: #7c3a00;                   /* dark brown text */
-  border-left: 6px solid #c05c00;   /* burnt orange left rule */
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  font-style: italic;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.hypothesis strong,
-.hypothesis b {
-  color: #7c3a00;
-  font-weight: 800;
-}
-
-/* -------- Caution / Warning Box -------- */
-
-.caution {
-  background-color: #fff5f5;        /* light red tint */
-  color: #7b1d1d;                   /* dark red text */
-  border-left: 6px solid #c62828;   /* strong red left rule */
-  padding: 14px 16px;
-  margin: 18px 0;
-  border-radius: 6px;
-  font-weight: 600;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-}
-
-.caution strong,
-.caution b {
-  color: #7b1d1d;
-  font-weight: 800;
-}
-
-/* -------- Success & Error Messages -------- */
-
-.alert-success,
-.tutorial-exercise-success {
-  border-left: 4px solid #2e7d32;
-  background-color: #eef7ef;
-  padding: 12px;
-  border-radius: 4px;
-}
-
-.alert-danger,
-.tutorial-exercise-error {
-  border-left: 4px solid #c62828;
-  background-color: #fdecea;
-  padding: 12px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-/* -------- Tables -------- */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f3f3f3;
-  font-weight: 600;
-}
-
-/* -------- Completion Message -------- */
-
-.tutorial-complete {
-  font-size: 28px;
-  font-weight: 600;
-  color: #2e7d32;
-  text-align: center;
-  margin-top: 50px;
-}
-
-/* -------- Package Name Styling -------- */
-
-.package-name {
-  color: #0f5132 !important;
-  background-color: #e6f4ea !important;
-  padding: 2px 6px !important;
-  border-radius: 4px !important;
-  font-weight: 600 !important;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-  letter-spacing: 0.2px !important;
-  border: 1px solid #b6dfc7 !important;
-  text-decoration: none !important;
-}
-
-/* -------- Exercise Run/Submit Buttons -------- */
-.btn-tutorial-run,
-.btn-tutorial-submit,
-.tutorial-exercise .btn {
-  cursor: pointer !important;
-  opacity: 1 !important;
-}
-/* -------- Table Container -------- */
-.table-container {
-  overflow-x: auto;
-  margin: 18px 0;
-}
-/* -------- Screen Reader Only -------- */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-</style>
 </head>
 
 <body>
@@ -1494,23 +1246,23 @@ learnr:::store_exercise_cache(structure(list(label = "model1", global_setup = st
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-a", 
     question = structure("Which of the following statements is true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_b184261", 
+    "character")), answers = list(structure(list(id = "lnr_ans_474d925", 
         option = "For every one unit (percentage point) increase in the percent of hispanic residents in a county, we expect Hillary Clinton's vote share to increase by about a quarter of a percentage point", 
         value = "For every one unit (percentage point) increase in the percent of hispanic residents in a county, we expect Hillary Clinton's vote share to increase by about a quarter of a percentage point", 
         label = structure("For every one unit (percentage point) increase in the percent of hispanic residents in a county, we expect Hillary Clinton’s vote share to increase by about a quarter of a percentage point", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_fb4e71d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c5fabbb", 
         option = "For every percentage point increase in the percent of white residents in a county, on average Hillary Clinton received about 0.56 percentage points fewer votes", 
         value = "For every percentage point increase in the percent of white residents in a county, on average Hillary Clinton received about 0.56 percentage points fewer votes", 
         label = structure("For every percentage point increase in the percent of white residents in a county, on average Hillary Clinton received about 0.56 percentage points fewer votes", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_dbd5056", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6752b62", 
         option = "Our prediction error is less than 0.610 percentage points for more than half the cases", 
         value = "Our prediction error is less than 0.610 percentage points for more than half the cases", 
         label = structure("Our prediction error is less than 0.610 percentage points for more than half the cases", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Our prediction error is 10.000 percentage points or less half the time as given by the residual standard error. The adjusted \\(R^2=0.6100\\) telling us that the model accounts for almost 61% of the variation in the percent of the vote for Hillary Clinton", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_41d0037", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4f1f366", 
         option = "We can be 95% confident that each coefficient in the model is not zero", 
         value = "We can be 95% confident that each coefficient in the model is not zero", 
         label = structure("We can be 95% confident that each coefficient in the model is not zero", html = TRUE, class = c("html", 
@@ -1523,7 +1275,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-a-answer", question = "letter-a"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 107873220.449768, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 749025667.151208, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -1601,28 +1353,28 @@ learnr:::store_exercise_cache(structure(list(label = "model2", global_setup = st
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-b", 
     question = structure("Which of the following statements is true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_9833eee", 
+    "character")), answers = list(structure(list(id = "lnr_ans_1e5084", 
         option = "All independent variables are statistically significantly different from zero", 
         value = "All independent variables are statistically significantly different from zero", 
         label = structure("All independent variables are statistically significantly different from zero", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6cf2289", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f23c4e2", 
         option = "For every one percentage point increase in the vote for Hillary Clinton, the percent of black residents in a county increases by about 0.16 percentage points", 
         value = "For every one percentage point increase in the vote for Hillary Clinton, the percent of black residents in a county increases by about 0.16 percentage points", 
         label = structure("For every one percentage point increase in the vote for Hillary Clinton, the percent of black residents in a county increases by about 0.16 percentage points", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("For every one percentage point increase in the percent black residents in a county, on average Hillary Clinton received 0.16 percentage points more votes", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_25863c6", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5b58e05", 
         option = "For every one percentage point increase in the percent hispanic residents in a county, on average Hillary Clinton received 0.28 percentage points more votes", 
         value = "For every one percentage point increase in the percent hispanic residents in a county, on average Hillary Clinton received 0.28 percentage points more votes", 
         label = structure("For every one percentage point increase in the percent hispanic residents in a county, on average Hillary Clinton received 0.28 percentage points more votes", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f8fec0d", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_fd7d490", 
         option = "The model explains about 62% of the variation in vote for Hillary Clinton", 
         value = "The model explains about 62% of the variation in vote for Hillary Clinton", 
         label = structure("The model explains about 62% of the variation in vote for Hillary Clinton", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_774d4fb", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8ec133c", 
         option = "The prediction error in our model for most cases is less than 10 percentage points", 
         value = "The prediction error in our model for most cases is less than 10 percentage points", 
         label = structure("The prediction error in our model for most cases is less than 10 percentage points", html = TRUE, class = c("html", 
@@ -1635,7 +1387,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-b-answer", question = "letter-b"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 257964139.379876, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1070296550.0016, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -1643,18 +1395,18 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-c", 
     question = structure("Consider the conditional relationship estimated in the model. Which of the following statements is true?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_6142394", 
+    "character")), answers = list(structure(list(id = "lnr_ans_f697a12", 
         option = "For every one point increase in mortality risk, vote for Hillary Clinton increases by 4.4 percentage points", 
         value = "For every one point increase in mortality risk, vote for Hillary Clinton increases by 4.4 percentage points", 
         label = structure("For every one point increase in mortality risk, vote for Hillary Clinton increases by 4.4 percentage points", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("It is not true that for every percentage point increase in mortality risk, vote for Hillary Clinton increases by 4.4 percentage points. The coefficient on mortality risk is the expected change in Hillary Clinton’s vote <strong>when there are no whites in a county<\u002fstrong>.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2abeea9", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_541ffdc", 
         option = "For every one point increase in the percent of white residents in a county, the expect vote for Hillary Clinton drops 0.18 percentage points *when mortality risk is zero*", 
         value = "For every one point increase in the percent of white residents in a county, the expect vote for Hillary Clinton drops 0.18 percentage points *when mortality risk is zero*", 
         label = structure("For every one point increase in the percent of white residents in a county, the expect vote for Hillary Clinton drops 0.18 percentage points <em>when mortality risk is zero<\u002fem>", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_327fd30", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e05dd00", 
         option = "The total effect of mortality risk is given by adding 4.4 * **mortality_risk_25_45** and -0.09 * **mortality_risk_25_45** * **white_percent**", 
         value = "The total effect of mortality risk is given by adding 4.4 * **mortality_risk_25_45** and -0.09 * **mortality_risk_25_45** * **white_percent**", 
         label = structure("The total effect of mortality risk is given by adding 4.4 * <strong>mortality_risk_25_45<\u002fstrong> and -0.09 * <strong>mortality_risk_25_45<\u002fstrong> * <strong>white_percent<\u002fstrong>", html = TRUE, class = c("html", 
@@ -1667,7 +1419,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-c-answer", question = "letter-c"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 275731654.871602, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 369722541.827835, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -1821,19 +1573,19 @@ learnr:::store_exercise_cache(structure(list(label = "plotcountiesX1b", global_s
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-d", question = structure("Examine the plot above and select the statement that is true", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_b61d036", 
+"character")), answers = list(structure(list(id = "lnr_ans_9419b78", 
     option = "The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when wages are lower", 
     value = "The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when wages are lower", 
     label = structure("The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when wages are lower", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("The slope is flattest when wages are lower, indicating that the effect of mortality risk changes less when wages are lower.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_48e2859", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_7d579e1", 
     option = "The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when wages are higher", 
     value = "The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when wages are higher", 
     label = structure("The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when wages are higher", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = structure("We can tell that the effect of mortality risk is biggest when wages are higher because the slope of the line is steepest in this case.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_a7d9ac", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_b60389f", 
     option = "The effect of mortality risk is significantly different for all levels of mortality risk for each level of wage growth", 
     value = "The effect of mortality risk is significantly different for all levels of mortality risk for each level of wage growth", 
     label = structure("The effect of mortality risk is significantly different for all levels of mortality risk for each level of wage growth", html = TRUE, class = c("html", 
@@ -1846,7 +1598,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-d-answer", question = "letter-d"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1303270807.39312, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 769434013.141704, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -1930,19 +1682,19 @@ learnr:::store_exercise_cache(structure(list(label = "plotcountiesX2a", global_s
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-e", 
     question = structure("Examine the plot above and select the statements that are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_b2c9e22", 
+    "character")), answers = list(structure(list(id = "lnr_ans_5b43cbf", 
         option = "The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when the percentage of whites is 100%", 
         value = "The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when the percentage of whites is 100%", 
         label = structure("The effect of mortality risk on the predicted vote for Hillary Clinton is biggest when the percentage of whites is 100%", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("We can tell the effect of mortality risk is is biggest in counties with 100% white because the slope is steepest.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_edaf21", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_be927df", 
         option = "The effect of mortality risk on the predicted vote for Hillary Clinton is largest for counties with 50% white", 
         value = "The effect of mortality risk on the predicted vote for Hillary Clinton is largest for counties with 50% white", 
         label = structure("The effect of mortality risk on the predicted vote for Hillary Clinton is largest for counties with 50% white", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Regardless of the value of <strong>mortality_risk_25_45<\u002fstrong>, its effect on the predicted vote for Hillary Clinton is essentially zero when there are 50% whites in a county because the slope of the line is essentially zero.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_ca26dc", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_95317fb", 
         option = "The effect of mortality risk is significantly different for these three levels of **white_percent**", 
         value = "The effect of mortality risk is significantly different for these three levels of **white_percent**", 
         label = structure("The effect of mortality risk is significantly different for these three levels of <strong>white_percent<\u002fstrong>", html = TRUE, class = c("html", 
@@ -1955,7 +1707,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-e-answer", question = "letter-e"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1081364569.49645, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1617598758.24675, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2254,13 +2006,13 @@ learnr:::store_exercise_cache(structure(list(label = "plotepi1b", global_setup =
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-f", question = structure("Examine the plot above and select the statements that are true", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_c606842", 
+"character")), answers = list(structure(list(id = "lnr_ans_1562124", 
     option = "The effect of trade openness on the predicted environmental performance index is larger when a country's citizens have many political rights", 
     value = "The effect of trade openness on the predicted environmental performance index is larger when a country's citizens have many political rights", 
     label = structure("The effect of trade openness on the predicted environmental performance index is larger when a country’s citizens have many political rights", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("We can tell the effect of trade openness is larger when there are few political rights than many because the slope is steeper when they have few political rights.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_3bd0937", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_7c7f09", 
     option = "The effect of trade openness on the predicted environmental performance index is smaller when a country's citizens have more political rights", 
     value = "The effect of trade openness on the predicted environmental performance index is smaller when a country's citizens have more political rights", 
     label = structure("The effect of trade openness on the predicted environmental performance index is smaller when a country’s citizens have more political rights", html = TRUE, class = c("html", 
@@ -2273,7 +2025,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-f-answer", question = "letter-f"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1033553434.51871, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1199566430.44141, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -2350,25 +2102,25 @@ learnr:::store_exercise_cache(structure(list(label = "modelconfidence", global_s
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-g", 
     question = structure("Examine the output above and select the statements that are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_baa5a1f", 
+    "character")), answers = list(structure(list(id = "lnr_ans_b785835", 
         option = "The intercept tells us that the expected level of confidence in government institutions is about 57 points when a country has a zero on the Polity score and a low GDP", 
         value = "The intercept tells us that the expected level of confidence in government institutions is about 57 points when a country has a zero on the Polity score and a low GDP", 
         label = structure("The intercept tells us that the expected level of confidence in government institutions is about 57 points when a country has a zero on the Polity score and a low GDP", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The intercept tells us the expected value of Y when all variables in the model are zero or at their base level. The base level of hi_GDP is Low GDP.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_23e7991", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_64bc76f", 
         option = "Countries with high GDP have an expected level of confidence that is 36.49 points lower on the confidence in government institutions scale than countries with a low GDP when the Polity score is zero", 
         value = "Countries with high GDP have an expected level of confidence that is 36.49 points lower on the confidence in government institutions scale than countries with a low GDP when the Polity score is zero", 
         label = structure("Countries with high GDP have an expected level of confidence that is 36.49 points lower on the confidence in government institutions scale than countries with a low GDP when the Polity score is zero", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The slope coefficient on GDP tells us the difference in the expected value of Y when GDP is High compared to when it is Low when polity=0.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_a9324a4", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_46fc411", 
         option = "Among countries with a low GDP, each unit increase in the Polity democracy score yields a drop of 1.26 points in the confidence in government institutions index.", 
         value = "Among countries with a low GDP, each unit increase in the Polity democracy score yields a drop of 1.26 points in the confidence in government institutions index.", 
         label = structure("Among countries with a low GDP, each unit increase in the Polity democracy score yields a drop of 1.26 points in the confidence in government institutions index.", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The slope on the Polity democracy score tells us the effect of that variable when GDP is in the base category, here Low GDP.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b615b3e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_3a32f1f", 
         option = "The difference in the effect of each unit increase on the Polity democracy score when GDP is High, compared to when it is low, is 3.99.", 
         value = "The difference in the effect of each unit increase on the Polity democracy score when GDP is High, compared to when it is low, is 3.99.", 
         label = structure("The difference in the effect of each unit increase on the Polity democracy score when GDP is High, compared to when it is low, is 3.99.", html = TRUE, class = c("html", 
@@ -2381,7 +2133,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-g-answer", question = "letter-g"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 475271268.778685, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1622646077.2444, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2466,19 +2218,19 @@ learnr:::store_exercise_cache(structure(list(label = "plotmodel2", global_setup 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-h", 
     question = structure("Examine the plot above select the statements that are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_dc37b84", 
+    "character")), answers = list(structure(list(id = "lnr_ans_b487d51", 
         option = "Countries with a Polity score one standard deviation below the mean (1.2) and a low GDP have significantly higher confidence in government then countries with a Polity score of 1.2 and a high GDP", 
         value = "Countries with a Polity score one standard deviation below the mean (1.2) and a low GDP have significantly higher confidence in government then countries with a Polity score of 1.2 and a high GDP", 
         label = structure("Countries with a Polity score one standard deviation below the mean (1.2) and a low GDP have significantly higher confidence in government then countries with a Polity score of 1.2 and a high GDP", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The point estimates in red are different and their confidence intervals do not overlap. Therefore, these differences are statistically significant.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_da2ae6b", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f34ae41", 
         option = "Among countries with a low GDP, the predicted values of confidence in government institutions is significantly different for these values of the Polity score.", 
         value = "Among countries with a low GDP, the predicted values of confidence in government institutions is significantly different for these values of the Polity score.", 
         label = structure("Among countries with a low GDP, the predicted values of confidence in government institutions is significantly different for these values of the Polity score.", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Because the red, blue, and green confidence intervals overlap for countries with low GDP, the effect of the democracy score for these values of Polity is not significantly different.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c68b865", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f2ee61", 
         option = "Among countries with a high GDP, those with a Polity score of 1.2 and 11.7 have a significantly different predicted level of confidence in government institutions.", 
         value = "Among countries with a high GDP, those with a Polity score of 1.2 and 11.7 have a significantly different predicted level of confidence in government institutions.", 
         label = structure("Among countries with a high GDP, those with a Polity score of 1.2 and 11.7 have a significantly different predicted level of confidence in government institutions.", html = TRUE, class = c("html", 
@@ -2491,7 +2243,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "letter-h-answer", question = "letter-h"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1899043454.61569, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 1253112507.41647, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -2569,11 +2321,11 @@ learnr:::store_exercise_cache(structure(list(label = "plotmodel2b", global_setup
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-i", question = structure("Examine the plot above. TRUE or FALSE: The effect of democracy score on predicted confidence in governnment institutions is positive for countries with a high GDP and negative for a country with low GDP.", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_5164753", 
+"character")), answers = list(structure(list(id = "lnr_ans_483104e", 
     option = "TRUE", value = "TRUE", label = structure("TRUE", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = structure("Because the slope of the line is positive for countries with a high GDP, increases in democracy scores lead to higher confidence for these countries and because the slope is negative for countries with a low GDP, increases in democracy scores lead to lower confdience for these countries.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_b002c0a", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_40d6520", 
     option = "FALSE", value = "FALSE", label = structure("FALSE", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("Because the slope of the line is positive for countries with a high GDP, increases in democracy scores lead to higher confidence for these countries and because the slope is negative for countries with a low GDP, increases in democracy scores lead to lower confdience for these countries.", html = TRUE, class = c("html", 
     "character")), type = "literal"), class = c("tutorial_question_answer", 
@@ -2584,7 +2336,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "letter-i-answer", question = "letter-i"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 727565673.161201, 
+    random_answer_order = FALSE, allow_retry = TRUE, seed = 470405159.780951, 
     options = list()), class = c("learnr_radio", "tutorial_question"
 )), session = session)
 </script>
@@ -2596,7 +2348,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mgcv","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjPlot","splines","stargazer","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","1.9-3","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.12.1","0.9.0","2.9.0","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","brio","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","datawizard","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggeffects","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","insight","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","pscl","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","RColorBrewer","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjlabelled","sjmisc","sjPlot","snakecase","splines","stargazer","stats","stringi","stringr","survey","survival","testthat","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.1.5","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.0","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","2.3.1","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","2.5.4","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.4.2","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.5.9","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1-3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.13.0","0.9.0","1.2.0","2.8.11","2.9.0","0.11.1","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>
@@ -2661,6 +2413,241 @@ $(document).ready(function () {
 </script>
 
 
+<style id="qpa-a11y-css">
+/* ================================
+   Global Accessibility + Styling
+   QPA Tutorials
+   ================================ */
+
+/* -------- Palette (accessible) -------- */
+:root{
+  --qpa-blue: #1d4ed8;        /* strong blue on white */
+  --qpa-blue-dark: #1e40af;   /* hover/darker */
+  --qpa-blue-bg: #eaf2ff;     /* soft blue background */
+  --qpa-blue-border: #93c5fd; /* light border */
+  --qpa-ink: #0b2a6f;         /* dark blue text */
+  --qpa-focus: #b45309;       /* amber focus ring (very visible) */
+  --qpa-gray-border: #e0e0e0;
+  --qpa-gray-bg: #f7f7f7;
+}
+
+/* -------- Focus Visibility -------- */
+
+body #tutorial-container button:focus,
+body #tutorial-container button:focus-visible,
+body #tutorial-container .btn:focus,
+body #tutorial-container .btn:focus-visible,
+body #tutorial-container .tutorial-panel-name:focus-visible,
+body #tutorial-container a:focus,
+body #tutorial-container a:focus-visible,
+body #tutorial-container input:focus,
+body #tutorial-container input:focus-visible,
+body #tutorial-container textarea:focus,
+body #tutorial-container textarea:focus-visible,
+body #tutorial-container select:focus,
+body #tutorial-container select:focus-visible {
+  outline: 3px solid var(--qpa-focus) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px !important;
+}
+
+/* For mouse users only - remove visible focus ring */
+body #tutorial-container button:focus:not(:focus-visible),
+body #tutorial-container .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* -------- Exercise Containers -------- */
+
+.tutorial-exercise {
+  border: 1px solid var(--qpa-gray-border);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 24px 0;
+}
+
+/* Highlight active exercise for keyboard users */
+.tutorial-exercise:focus-within {
+  outline: 2px solid var(--qpa-blue-border);
+  background-color: var(--qpa-gray-bg);
+}
+
+/* -------- Important Concept Highlight (inline) -------- */
+
+.important-text {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 1.25;
+  border: 1px solid #b9d7ff;
+}
+
+/* -------- Informational Callout Box -------- */
+
+.important-note {
+  background-color: #e7f1ff;
+  color: #0b2a6f;
+  border-left: 6px solid #2b6cb0;
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.important-note strong,
+.important-note b {
+  color: #0b2a6f;
+  font-weight: 800;
+}
+
+.important-note a {
+  color: #1f5aa6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.important-note a:visited {
+  color: #1b4f93;
+}
+
+.important-note a:hover,
+.important-note a:focus {
+  color: #17437f;
+  text-decoration-thickness: 2px;
+}
+
+/* -------- Hypothesis Statement Block -------- */
+
+.hypothesis {
+  background-color: #fff8f0;        /* warm off-white */
+  color: #7c3a00;                   /* dark brown text */
+  border-left: 6px solid #c05c00;   /* burnt orange left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-style: italic;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.hypothesis strong,
+.hypothesis b {
+  color: #7c3a00;
+  font-weight: 800;
+}
+
+/* -------- Caution / Warning Box -------- */
+
+.caution {
+  background-color: #fff5f5;        /* light red tint */
+  color: #7b1d1d;                   /* dark red text */
+  border-left: 6px solid #c62828;   /* strong red left rule */
+  padding: 14px 16px;
+  margin: 18px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.caution strong,
+.caution b {
+  color: #7b1d1d;
+  font-weight: 800;
+}
+
+/* -------- Success & Error Messages -------- */
+
+.alert-success,
+.tutorial-exercise-success {
+  border-left: 4px solid #2e7d32;
+  background-color: #eef7ef;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.alert-danger,
+.tutorial-exercise-error {
+  border-left: 4px solid #c62828;
+  background-color: #fdecea;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* -------- Tables -------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f3f3f3;
+  font-weight: 600;
+}
+
+/* -------- Completion Message -------- */
+
+.tutorial-complete {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e7d32;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* -------- Package Name Styling -------- */
+
+.package-name {
+  color: #0f5132 !important;
+  background-color: #e6f4ea !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  letter-spacing: 0.2px !important;
+  border: 1px solid #b6dfc7 !important;
+  text-decoration: none !important;
+}
+
+/* -------- Exercise Run/Submit Buttons -------- */
+.btn-tutorial-run,
+.btn-tutorial-submit,
+.tutorial-exercise .btn {
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+/* -------- Table Container -------- */
+.table-container {
+  overflow-x: auto;
+  margin: 18px 0;
+}
+/* -------- Screen Reader Only -------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* -------- Override cerulean.min.css focus ring -------- */
+a:focus {
+  outline: 3px solid #b45309 !important;
+  outline-offset: 2px !important;
+}
+</style>
 <script>
 /* qpaTutorials shared accessibility helpers
    Safe for learnr + shiny_prerendered + static HTML.
@@ -2797,6 +2784,25 @@ $(document).ready(function () {
     startA11yInsertionPolling();
     safe(enhanceMessages);
     setInterval(function () { safe(enhanceMessages); }, 1500);
+
+    // Override Safari's native blue focus ring with amber
+    document.addEventListener("focusin", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "3px solid #b45309";
+        el.style.outlineOffset = "2px";
+        el.style.borderRadius = "4px";
+      }
+    });
+
+    document.addEventListener("focusout", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "";
+        el.style.outlineOffset = "";
+        el.style.borderRadius = "";
+      }
+    });
   });
 
   // Wire up Shiny/learnr events for section navigation.

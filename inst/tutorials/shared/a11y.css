@@ -17,46 +17,28 @@
 
 /* -------- Focus Visibility -------- */
 
-/* Strong focus rings for keyboard users, scoped to the tutorial content */
-#tutorial-container button:focus-visible,
-#tutorial-container .btn:focus-visible,
-#tutorial-container .tutorial-panel-name:focus-visible,
-#tutorial-container a:focus-visible,
-#tutorial-container input:focus-visible,
-#tutorial-container textarea:focus-visible,
-#tutorial-container select:focus-visible {
-  outline: 3px solid var(--qpa-focus);
-  outline-offset: 2px;
-  border-radius: 4px;
+body #tutorial-container button:focus,
+body #tutorial-container button:focus-visible,
+body #tutorial-container .btn:focus,
+body #tutorial-container .btn:focus-visible,
+body #tutorial-container .tutorial-panel-name:focus-visible,
+body #tutorial-container a:focus,
+body #tutorial-container a:focus-visible,
+body #tutorial-container input:focus,
+body #tutorial-container input:focus-visible,
+body #tutorial-container textarea:focus,
+body #tutorial-container textarea:focus-visible,
+body #tutorial-container select:focus,
+body #tutorial-container select:focus-visible {
+  outline: 3px solid var(--qpa-focus) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px !important;
 }
 
-/* Do not remove focus outlines on learnr control buttons (Run Code / Submit Answer) */
-#tutorial-container .tutorial-exercise button:focus,
-#tutorial-container .tutorial-exercise .btn:focus,
-#tutorial-container .tutorial-exercise button:focus-visible,
-#tutorial-container .tutorial-exercise .btn:focus-visible {
-  outline: revert;
-  outline-offset: revert;
-}
-
-/* For everything else, only remove non-visible focus (mouse focus) */
-#tutorial-container button:focus:not(:focus-visible),
-#tutorial-container .btn:focus:not(:focus-visible) {
+/* For mouse users only - remove visible focus ring */
+body #tutorial-container button:focus:not(:focus-visible),
+body #tutorial-container .btn:focus:not(:focus-visible) {
   outline: none;
-}
-
-/* -------- Links (restore blue accents) -------- */
-a,
-a:visited {
-  color: var(--qpa-blue);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  text-decoration-thickness: 0.08em;
-}
-
-a:hover,
-a:active {
-  color: var(--qpa-blue-dark);
 }
 
 /* -------- Exercise Containers -------- */
@@ -243,4 +225,9 @@ th {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+/* -------- Override cerulean.min.css focus ring -------- */
+a:focus {
+  outline: 3px solid #b45309 !important;
+  outline-offset: 2px !important;
 }

@@ -133,6 +133,25 @@
     startA11yInsertionPolling();
     safe(enhanceMessages);
     setInterval(function () { safe(enhanceMessages); }, 1500);
+
+    // Override Safari's native blue focus ring with amber
+    document.addEventListener("focusin", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "3px solid #b45309";
+        el.style.outlineOffset = "2px";
+        el.style.borderRadius = "4px";
+      }
+    });
+
+    document.addEventListener("focusout", function(e) {
+      var el = e.target;
+      if (el && el.style) {
+        el.style.outline = "";
+        el.style.outlineOffset = "";
+        el.style.borderRadius = "";
+      }
+    });
   });
 
   // Wire up Shiny/learnr events for section navigation.

@@ -8,6 +8,4 @@
     "To open a tutorial in your browser, run: qpa_launch(number)\n",
     "Example: qpa_launch(1) opens R Basics Part 1"
   )
-  options(shiny.launch.browser = TRUE)
-  options(tutorial.external.browser = TRUE)
 }

@@ -25,7 +25,7 @@ qpa_tutorial <- function(...) {
       if (nzchar(css_path)) {
         css_content <- paste(readLines(css_path, warn = FALSE), collapse = "\n")
         css_tag <- paste0("<style id=\"qpa-a11y-css\">\n", css_content, "\n</style>")
-        html <- sub("</head>", paste0(css_tag, "\n</head>"), html, fixed = TRUE)
+        html <- sub("</body>", paste0(css_tag, "\n</body>"), html, fixed = TRUE)
       }
     }
     

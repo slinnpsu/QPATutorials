@@ -17,7 +17,7 @@
 #'
 #' @export
 qpa_launch <- function(tutorial) {
-
+  
   # All tutorial directories in order
   tutorials <- c(
     "01-RBasics1",
@@ -40,7 +40,7 @@ qpa_launch <- function(tutorial) {
     "18-logit",
     "19-logitPresentingResults"
   )
-
+  
   # Resolve tutorial argument to a directory name
   if (is.numeric(tutorial)) {
     if (tutorial < 1 || tutorial > length(tutorials)) {
@@ -67,66 +67,46 @@ qpa_launch <- function(tutorial) {
   } else {
     stop("'tutorial' must be a number or a character string.")
   }
-
-  # Launch via learnr with browser = TRUE
-  learnr::run_tutorial(
-    name = dir_name,
-    package = "qpaTutorials",
-    shiny_args = list(launch.browser = TRUE)
+  
+  # Kill any existing process on port 3838
+  suppressWarnings({
+    pid <- system("lsof -ti :3838", intern = TRUE)
+    if (length(pid) > 0) {
+      system(paste("kill -9", paste(pid, collapse = " ")))
+      Sys.sleep(3)
+    }
+  })
+  
+  # Start tutorial in background
+  p <- callr::r_bg(
+    function(dir_name, port) {
+      learnr::run_tutorial(
+        name = dir_name,
+        package = "qpaTutorials",
+        shiny_args = list(port = port, launch.browser = FALSE)
+      )
+    },
+    args = list(dir_name = dir_name, port = 3838),
+    stdout = file.path(tempdir(), "qpa_out.txt"),
+    stderr = file.path(tempdir(), "qpa_err.txt"),
+    package = TRUE
   )
-}
-
-
-#' List Available QPA Tutorials
-#'
-#' Prints a numbered list of all available tutorials with their titles.
-#'
-#' @examples
-#' \dontrun{
-#' qpa_list()
-#' }
-#'
-#' @export
-qpa_list <- function() {
-  tutorials <- data.frame(
-    Number = 1:19,
-    Directory = c(
-      "01-RBasics1", "02-RBasicsPart2", "03-levels",
-      "04-univariateNom", "05-univariateOrd", "06-univariateInt",
-      "07-bivariateCat", "08-bivariateCatInt", "09-bivariateInt",
-      "10-hypothesisMeans", "11-hypothesisTestsProportions",
-      "12-hypothesisCorrelations", "13-regressionSimple",
-      "14-regressionMultiple", "15-factors",
-      "16-regressionPresentingResults", "17-regressionInteractions",
-      "18-logit", "19-logitPresentingResults"
-    ),
-    Title = c(
-      "R Basics: Part 1",
-      "R Basics: Part 2",
-      "Levels of Measurement",
-      "Univariate Description: Nominal Variables",
-      "Univariate Description: Ordinal Variables",
-      "Univariate Description: Interval Variables",
-      "Bivariate Description: Two Categorical Variables",
-      "Bivariate Description: Categorical and Interval Variables",
-      "Bivariate Description: Two Interval Variables",
-      "Hypothesis Tests: Means",
-      "Hypothesis Tests: Proportions",
-      "Hypothesis Tests: Correlations",
-      "Regression: Simple",
-      "Regression: Multiple",
-      "Factors",
-      "Regression: Presenting Results",
-      "Regression: Interactions",
-      "Logistic Regression",
-      "Logistic Regression: Presenting Results"
+  
+  # Save process handle for reference
+  saveRDS(p, file.path(tempdir(), "qpa_tutorial_process.rds"))
+  
+  # Wait for server to be ready (up to 30 seconds)
+  url <- "http://127.0.0.1:3838"
+  for (i in 1:30) {
+    Sys.sleep(1)
+    result <- tryCatch(
+      { readLines(url, n = 1, warn = FALSE); TRUE },
+      error = function(e) FALSE
     )
-  )
-
-  cat("QPA Tutorials\n")
-  cat("Use qpa_launch(number) to open a tutorial in your browser.\n\n")
-  for (i in seq_len(nrow(tutorials))) {
-    cat(sprintf("%2d. %s\n", tutorials$Number[i], tutorials$Title[i]))
+    if (result) break
   }
-  invisible(tutorials)
+  
+  system2("open", url)
+  message("Tutorial running at ", url)
+  message("Run qpa_launch() again to switch tutorials.")
 }
