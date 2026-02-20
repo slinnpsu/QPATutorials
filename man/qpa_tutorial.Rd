@@ -7,6 +7,6 @@
 qpa_tutorial(...)
 }
 \description{
-Ensures shared inst/tutorials/shared/tutorial_includes.html is injected
-during prerender, while also working in development mode.
+Injects shared CSS, JS, and accessibility block into each tutorial
+at render time via post-processor.
 }

@@ -1,1 +1,3 @@
 exportPattern("^[[:alpha:]]+")
+export(qpa_launch)
+export(qpa_list)
