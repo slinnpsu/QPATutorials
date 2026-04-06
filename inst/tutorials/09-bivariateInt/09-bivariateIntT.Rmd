@@ -60,22 +60,28 @@ In the previous tutorials on bivariate description, we considered how to describ
 
 In the last tutorial, we considered how to conduct a descriptive analysis of the relationship between an interval variable and a nominal/categorical (or ordinal) variable. Typically we either compare a single summary statistic, the mean, or we compare the distribution of the interval variable for each of the values of the nominal or ordinal variable. 
 
-If our interest lies in the relationship between two interval level variables, we can summarize the relationship between them using Pearson's correlation coefficient. The  [**correlation coefficient quantifies the strength and direction of the linear association between two interval level variables**]{.important-text}.  The logic of correlation is most easily understood in the context of a scatter plot. So we will introduce them first. A scatter plot provides a visual display of the nature, degree, and strength of the relationship between two interval level variables. It presents pairs of values for each unit of analysis on two variables measured at the interval level. The position of each dot on the horizontal and vertical axis indicates values for an individual data point.
+If our interest lies in the relationship between two interval-level variables, we can summarize the relationship between them using Pearson's correlation coefficient. The  [**correlation coefficient quantifies the strength and direction of the linear association between two interval-level variables**]{.important-text}.  The logic of correlation is most easily understood in the context of a scatter plot. So we will introduce them first. A scatter plot provides a visual display of the nature, degree, and strength of the relationship between two interval-level variables. It presents pairs of values for each unit of analysis on two variables measured at the interval level. The position of each dot on the horizontal and vertical axis indicates values for an individual data point.
 
 
 Let's start with a picture of a scatter plot:
 
-![](images/samplescattervoteed.png){ width=70% }
+```{r scatterplot-clintonvote-by-education, echo=FALSE, out.width='70%', fig.alt="Scatter plot showing the relationship between proportion of college graduates (x-axis) and Clinton vote share (y-axis) across U.S. counties in 2016, with blue points and reference lines marking average values. The points show a positive trend, where counties with higher levels of education tend to have higher Clinton vote shares, though there is substantial variation. The plot illustrates how scatterplots reveal relationships and variability between two continuous variables."}
+knitr::include_graphics("images/samplescattervoteed.png")
+```
 
-This scatter plot shows the relationship between the two interval level measures **dem2p_vote_share**, the share of the presidential vote cast for Hillary Clinton in 2016, and **prop_college_grad**, the proportion of college graduates in US counties. Each dot represents one unit of analysis, i.e., one county. Its placement on the x-axis represents its value on the variable plotted on the x-axis, i.e., proportion college graduates. It's placement on the y-axis represents its value on the variable plotted on the y-axis, i.e., proportion voting for Clinton. The horizontal (vertical) line is located at the mean value of the proportion voting for Clinton (proportion college graduates).
+
+This scatter plot shows the relationship between the two interval-level measures **dem2p_vote_share**, the share of the presidential vote cast for Hillary Clinton in 2016, and **prop_college_grad**, the proportion of college graduates in US counties. Each dot represents one unit of analysis, i.e., one county. Its placement on the x-axis represents its value on the variable plotted on the x-axis, i.e., proportion college graduates. It's placement on the y-axis represents its value on the variable plotted on the y-axis, i.e., proportion voting for Clinton. The horizontal (vertical) line is located at the mean value of the proportion voting for Clinton (proportion college graduates).
 
 Consider the point in the upper right and labeled Arlington, VA. This point corresponds to 0.74, the share of adults who graduated college, (plotted on the x-axis) and a 0.82 share of the votes cast for Clinton (plotted on the y-axis).
 
-![](images/samplescattervoteedArlington.png){ width=70% }
+
+```{r scatterplot-clintonvote-by-education-label-arlington, echo=FALSE, out.width='70%', fig.alt="Scatter plot showing the relationship between proportion of college graduates (x-axis) and Clinton vote share (y-axis) across U.S. counties in 2016, with blue points and horizontal and vertical lines marking the means. Many points cluster in the lower-left and upper-right quadrants, indicating that counties with lower education tend to have lower Clinton vote share and those with higher education tend to have higher Clinton vote share; an example high-education, high-vote-share county (Arlington, VA) is labeled. The plot demonstrates how quadrant patterns around mean lines reveal a positive relationship between two variables."}
+knitr::include_graphics("images/samplescattervoteedArlington.png")
+```
 
 Points -- like Arlington county VA -- in the upper right quadrant have values of **prop_college_grads** above the mean and values of **dem2p_vote_share** above the mean. Points in the lower left quadrant have values of **prop_college_grads** below the mean and values of **dem2p_vote_share** below the mean. When points are clustered in these two quadrants -- as in this example -- there is a positive relationship between the two variables.
 
-Scatter plots are widely used and very informative about the nature of the relationship between two interval level variables. We can use the summary statistic, Pearson's correlation coefficient, to quantify the strength and direction of the relationship. Pearson's correlation coefficient, denoted  $r$, is given by the following formula:
+Scatter plots are widely used and very informative about the nature of the relationship between two interval-level variables. We can use the summary statistic, Pearson's correlation coefficient, to quantify the strength and direction of the relationship. Pearson's correlation coefficient, denoted  $r$, is given by the following formula:
 
 $$r=\frac{1}{n-1} \Sigma \frac{ (x_i-\bar{x}) (y_i-\bar{y}) }{s_x s_y}$$
 where
@@ -95,7 +101,11 @@ The value of $r$ ranges between -1 and +1.
 
 Below is a picture illustrating the relationship between the pattern in a scatter plot and the correlation coefficient, $r$. A line is drawn through the points such that it is as close to all the points as possible. This helps us to gauge the relationship.  If the line is downward sloping (goes from upper left to lower right), as on the left, the correlation will be negative: higher values of one variable are associated with lower values of the other variable. If the line is upward sloping (goes from lower left to upper right), as on the right, the correlation will be positive: higher values of one variable are associated with higher values of the other variable. Finally, when the line is flat, as in the plot in the middle, there is no correlation between the two variables.  The steepness of the line is positively related to the strength of the correlation.
 
-![](images/Samplecorrplots.png){ width=70% }
+
+```{r scatterplot-correlation, echo=FALSE, out.width='70%', fig.alt="Three side-by-side scatter plots illustrating correlation between two variables with fitted lines: the left plot shows a strong negative relationship (r ≈ -0.86) with a downward-sloping line, the middle plot shows no relationship (r ≈ 0) with a flat line and scattered points, and the right plot shows a strong positive relationship (r ≈ 0.87) with an upward-sloping line. The figure demonstrates how the direction and strength of a linear pattern in a scatter plot correspond to the sign and magnitude of the correlation coefficient."}
+knitr::include_graphics("images/Samplecorrplots.png")
+```
+
 
 ## Scatter plots
 
@@ -113,38 +123,47 @@ To illustrate how to make a scatter plot we will ask the question how solid is s
 
 **FHTotalAggr** is the Freedom House (2017) measure of a country's composite level of democracy based on civil liberties and political rights, Freedom House, 2017. Higher scores are more democratic. 
 
-We might hypothesize the following: [ In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have higher support for democratic government] than will those having [a lower level of democracy].]{.hypothesis}
+We might hypothesize the following:
+
+::: {.hypothesis}
+In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have higher support for democratic government] than will those having [a lower level of democracy].
+:::
 
 I've loaded the [ggplot2]{.package-name} package for you. Try to make a scatter plot based on the instructions above.
 
-
-```{r scatter1, exercise=TRUE}
+**Practice: Create scatter plot of democracy and support**
+```{r exercise-scatterplot-prodemocracy-and-democracylevel, exercise=TRUE, exercise.cap="Interactive exercise: Write code to create a scatter plot of ProDem by FHTotalAggr to examine the relationship between level of democracy and support for democratic government. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available.", fig.alt="Scatter plot showing support for democracy (Pro.Dem) on the x-axis and level of democracy (FHTotalAggr) on the y-axis across countries. The points are widely scattered with no clear upward or downward trend, indicating little to no strong linear relationship between public support for democracy and institutional democracy levels. The plot demonstrates how scatter plots can be used to assess the presence or absence of a relationship between two variables."}
 library(ggplot2)
  
 ```
 
-```{r scatter1-hint-1}
-The first argument of ggplot is data, here **fHouse**.
-The second argument is mapping and should be set to
-aes(), where we specify the x-axis variable (Pro.Dem) with the x
-argument and the y-axis variable (FHTotalAggr) with the y argument.
-
-End the line with a +!
+```{r exercise-scatterplot-prodemocracy-and-democracylevel-hint-1}
+# Hint 1 of 2
+A scatterplot is used to examine the relationship between two numeric 
+variables. Here, you are looking at how pro-democracy attitudes relate to 
+the level of democracy. The explanatory variable should go on the x-axis 
+and the outcome variable on the y-axis, so decide which variable plays 
+each role before writing any code.
 ```
 
-```{r scatter1-hint-2}
-We want to plot points, so specify the geom_point
-function. You don't need to give it any arguments.
+```{r exercise-scatterplot-prodemocracy-and-democracylevel-hint-2}
+# Hint 2 of 2
+Start with ggplot() using the fHouse data.
+
+Inside aes(), map your chosen x and y variables.
+
+Then use + to add a layer with geom_point() 
+to display the individual observations.
 ```
 
 
-```{r scatter1-solution}
+```{r exercise-scatterplot-prodemocracy-and-democracylevel-solution}
 library(ggplot2)
 ggplot(data = fHouse, mapping = aes(x = Pro.Dem, y = FHTotalAggr)) +
   geom_point() 
 ```
 
-```{r scatter1-check}
+```{r exercise-scatterplot-prodemocracy-and-democracylevel-check}
 grade_code()
 ```
 
@@ -159,7 +178,9 @@ We need to load the [dplyr]{.package-name} package with the `library()` function
 
 Look carefully at the code to make sure you understand what each line of the code is doing. You will be asked to make your own scatter plots in class.
 
-```{r scatter2, exercise=TRUE}
+**Try it: Customize scatter plot with color and trend line**
+
+```{r scatterplot-prodemocracy-democracy-level-smooth, exercise=TRUE, exercise.cap="Interactive exercise: Run the code to customize a scatter plot by changing point color and adding a fitted trend line to visualize the relationship between Pro.Dem and FHTotalAggr. Use the Run Code button to execute and see results. No hints are available.", fig.alt="Scatter plot showing support for democratic rule (x-axis) and level of democracy (y-axis) across countries, with purple points and an orange fitted regression line. The points are widely dispersed with no strong pattern, and the fitted line is nearly flat with a slight negative slope, indicating little to no linear relationship between public support and institutional democracy. The plot demonstrates how adding a regression line helps assess the direction and strength of a relationship in a scatter plot."}
 library(dplyr)
 fHouse %>%
   filter(!is.na(FHTotalAggr), !is.na(Pro.Dem)) %>%
@@ -183,11 +204,11 @@ For more on scatter plots with `ggplot()` see: http://t-redactyl.io/blog/2016/02
 
 Let's quantify the strength and direction of the linear relationship by calculating Pearson's correlation coefficient.
 
-The `cor()` function in base R will accomplish this task. We will pass the function 4 arguments. The first two arguments are `x` and `y`, the two interval level variables for which we desire the correlation coefficient. In addition, we need to include the `use` argument if there are any missing values. It tells R how to handle them. The default method ("everything") will return NA if there are missing values in any variables. We will set `use = "pairwise.complete.obs"`. This means the function will include a unit (country in our example) if both units have a value on both variables. Finally, we need to tell the function the specific correlation measure to compute. We do so by setting the `method` argument equal to "pearson".
+The `cor()` function in base R will accomplish this task. We will pass the function 4 arguments. The first two arguments are `x` and `y`, the two interval-level variables for which we desire the correlation coefficient. In addition, we need to include the `use` argument if there are any missing values. It tells R how to handle them. The default method ("everything") will return NA if there are missing values in any variables. We will set `use = "pairwise.complete.obs"`. This means the function will include a unit (country in our example) if both units have a value on both variables. Finally, we need to tell the function the specific correlation measure to compute. We do so by setting the `method` argument equal to "pearson".
 
+**Try it: Calculate Pearson correlation between two variables**
 
-
-```{r Pr, exercise=TRUE}
+```{r correlation-prodemocracy-democracylevel, exercise=TRUE, exercise.cap="Interactive exercise: Write code to calculate the Pearson correlation between Pro.Dem and FHTotalAggr, handling missing values appropriately. Use the Run Code button to execute and click Submit Answer to check correctness. No hints are available."}
 cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = "pairwise.complete.obs", method = "pearson")
 ```
 
@@ -198,11 +219,17 @@ The data frame **fHouse** also contains the variable **Pro.Strong.Leader**. This
 > “I’m going to describe various types of political systems and ask you about each one as a way of governing the country. For each one, would you say it is a very good, fairly good, fairly bad or very bad way of governing this country?” ... “Having a strong leader who does not have to bother with parliament and elections?”
 
 
-We might hypothesize the following: [ In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have lower support for a strong leader] than will those having [a lower level of democracy].]{.hypothesis}
+We might hypothesize the following:
+
+::: {.hypothesis}
+In a comparison of [countries], those having [a higher level of democracy] will be more likely to [have lower support for a strong leader] than will those having [a lower level of democracy].
+:::
 
 Edit the code below to produce a scatter plot illustrating the relationship between this variable and level of democracy (**FHTotalAggr**) from our previous example. We will begin by filtering out the missing values.  Try making the points blue and adding a red line.
 
-```{r scatter2b, exercise=TRUE}
+**Explore: Plot democracy vs support for strong leader**
+
+```{r exercise-scatterplot-democracylevel-strongleader, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXXX values to create a scatter plot of Pro.Strong.Leader and FHTotalAggr, including filtering missing values and customizing point and line colors. Click Submit Answer to check correctness. Three hints are available.", fig.alt="Scatter plot showing support for a strong leader (x-axis) and level of democracy (y-axis) across countries, with blue points and a red fitted regression line. The points show a clear downward trend, with higher support for a strong leader associated with lower levels of democracy, as reflected in the negatively sloped line. The plot demonstrates how scatter plots and regression lines can reveal a negative relationship between two variables consistent with the hypothesis."}
 fHouse %>%
   filter(XXXX(FHTotalAggr), XXXX(Pro.Strong.Leader)) %>%
 ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
@@ -214,17 +241,33 @@ ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
        caption = "Source: WVS and EVS, 2005-2008, \nFreedom House 2017")
 ```
 
-```{r scatter2b-hint-1}
-Did you filter by selecting rows of the data frame fHouse 
-that are not missing using !is.na? (Don't forget to 
-pipe the results to ggplot).
-Did you pass geom_point() color = "blue"?
-Did you pass geom_smooth()  color = "red", eliminate 
-the se by setting that argument to FALSE, and set 
-the method argument to "lm"?
+```{r exercise-scatterplot-democracylevel-strongleader-hint-1}
+# Hint 1 of 3
+You are examining the relationship between support for a strong leader 
+and level of democracy. Before plotting, make sure the data you pass 
+through the pipe does not include missing values for either variable, 
+using filter() to keep only cases where both are observed.
 ```
 
-```{r scatter2b-solution}
+```{r exercise-scatterplot-democracylevel-strongleader-hint-2}
+# Hint 2 of 3
+After filtering, pipe the data into ggplot().
+
+Inside aes(), map support for a strong leader to x and 
+level of democracy to y. Then use + to add geom_point() 
+to display the observations.
+```
+
+```{r exercise-scatterplot-democracylevel-strongleader-hint-3}
+# Hint 3 of 3
+Add a fitted line using geom_smooth().
+
+Set se = FALSE and method = "lm", and specify colors inside 
+geom_point() and geom_smooth() to customize the appearance.
+```
+
+
+```{r exercise-scatterplot-democracylevel-strongleader-solution}
 fHouse %>%
   filter(!is.na(FHTotalAggr), !is.na(Pro.Strong.Leader)) %>%
 ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
@@ -236,7 +279,7 @@ ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
        caption = "Source: WVS and EVS, 2005-2008, \nFreedom House 2017")
 ```
 
-```{r scatter2b-check}
+```{r exercise-scatterplot-democracylevel-strongleader-check}
 grade_code()
 ```
 
@@ -244,23 +287,41 @@ We can see the relationship is negative. For countries in which there is more su
 
 Edit the code below to estimate Pearson's correlation coefficient.
 
-```{r Pr2, exercise=TRUE}
+**Explore: Calculate correlation for strong leader and democracy**
+
+```{r exercise-correlation-democracylevel-strongleader, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXXX values to calculate the Pearson correlation between Pro.Strong.Leader and FHTotalAggr, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available."}
 cor(XXX = XXX, y = XXX$XXX, use = XXX, method = "XXX")
 ```
 
-```{r Pr2-solution}
+```{r exercise-correlation-democracylevel-strongleader-hint}
+
+# Hint 1 of 1
+The x and y arguments in cor() are just the two variables whose 
+relationship you want to measure. Unlike a scatter plot, it does 
+not matter which variable goes in x and which goes in y.
+
+Use the two variables named in the question, written as fHouse$variable.
+
+Set method = "pearson" and choose the use option that handles missing values.
+```
+
+```{r exercise-correlation-democracylevel-strongleader-solution}
 cor(x = fHouse$Pro.Strong.Leader, y = fHouse$FHTotalAggr, use = "pairwise.complete.obs", method = "pearson")
 ```
 
-```{r Pr2-check}
+
+
+```{r exercise-correlation-democracylevel-strongleader-check}
 grade_code()
 ```
 
 What can we conclude? There is support for our hypothesies: There is a small magnitude negative correlation, approximately -0.283. Higher levels of support for a strong leader are  associated with lower levels of institutional democracy (and vice versa).
 
-Finally, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the x-axis. Before creating the scatter plot, filter out any missing values. Make the points "blue" and add an "lm" line to the plot without standard errors (ser `se = FALSE`). Make the line "red". In the code below I've added the labels for you.
+Finally, let's examine the relationship between **wage_growth** and **dem2p_vote_share** in the data frame **counties**.  **wage_growth** is an interval-level variable that records the rate at which wages grew (or fell) over the last four years in a county. **dem2p_vote_share** is an interval-level variable measuring the share of the vote for the Democrat, Hillary Clinton, in a county in 2016. This is a case where the outcome variable is clearly identifiable: **dem2p_vote_share**. So we will place it on the y-axis. Before creating the scatter plot, filter out any missing values. Make the points "blue" and add an "lm" line to the plot without standard errors (ser `se = FALSE`). Make the line "red". In the code below I've added the labels for you.
 
-```{r scatter3, exercise=TRUE}
+**Explore: Plot wage growth and Democratic vote share**
+
+```{r exercise-scatterplot-wagegrowth-democracylevel, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXXX values to create a scatter plot of wage_growth and dem2p_vote_share, including filtering missing values and adding a fitted line. Click Submit Answer to check correctness. Three hints are available.", fig.alt="Scatter plot showing wage growth (x-axis) and Democratic vote share (y-axis) across U.S. counties in 2016, with blue points and a red fitted regression line. The points are densely clustered near low wage growth values with wide variation in vote share, while the line slopes slightly upward, indicating a weak positive relationship between wage growth and support for Clinton. The plot demonstrates how scatter plots can reveal modest trends even when data are highly dispersed."}
 counties %>%
   XXXX
   XXXX
@@ -273,28 +334,33 @@ counties %>%
        caption = "Source: Linn, Nagler, and Zilinsky")
 ```
 
-```{r scatter3-hint-1}
-Did you filter by selecting rows of the data frame fHouse 
-that are not missing using !is.na? (Don't forget to 
-pipe the results to ggplot).
+```{r exercise-scatterplot-wagegrowth-democracylevel-hint-1}
+# Hint 1 of 3
+You are examining the relationship between wage growth and vote share. 
+Before plotting, make sure the data you pass through the pipe includes 
+only rows where both variables are observed, using filter() to remove 
+missing values.
 ```
 
-```{r scatter3-hint-2}
-For the second XXXX call gpplot(). You don't need to specify data because
-we've piped the filtered data to ggplot(). You do need to specify the mapping
-argument with the aes() function and specify x=wage_growth and y=dem2p_vote_share
+```{r exercise-scatterplot-wagegrowth-democracylevel-hint-2}
+# Hint 2 of 3
+After filtering, pipe the data into ggplot().
+
+For a scatter plot, put the explanatory variable on the x-axis 
+and the outcome variable on the y-axis. Map those variables 
+inside aes().
 ```
 
-```{r scatter3-hint-3}
-Did you add geom+point() and pass it color = "blue"?
-Did you pass geom_smooth()  a color, eliminate the se 
-by setting that argument to FALSE, and set the method
-argument to "lm"?
-Did you include a plus to add each layer to the plot?
+```{r exercise-scatterplot-wagegrowth-democracylevel-hint-3}
+# Hint 3 of 3
+Use + to add a point layer and a fitted line.
+
+Set the point color inside geom_point(), and in geom_smooth() 
+set the line color, se = FALSE, and method = "lm".
 ```
 
 
-```{r scatter3-solution}
+```{r exercise-scatterplot-wagegrowth-democracylevel-solution}
 counties %>%
   filter(!is.na(wage_growth), !is.na(dem2p_vote_share)) %>%
 ggplot(mapping = aes(x = wage_growth, y = dem2p_vote_share)) +
@@ -307,7 +373,7 @@ ggplot(mapping = aes(x = wage_growth, y = dem2p_vote_share)) +
        caption = "Source: Linn, Nagler, and Zilinsky")
 ```
 
-```{r scatter3-check}
+```{r exercise-scatterplot-wagegrowth-democracylevel-check}
 grade_code()
 ```
 
@@ -316,20 +382,28 @@ This plot shows many counties grouped with low positive growth and that these co
 
 Now let's estimate the correlation coefficient between these two variables.
 
-```{r Pr3, exercise=TRUE}
+**Practice: Calculate correlation for wage growth and vote share**
+
+```{r exercise-correlation-wagegrowth-demvoteshare, exercise=TRUE, exercise.cap="Interactive exercise: Write code to calculate the Pearson correlation between wage_growth and dem2p_vote_share, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available."}
 
 ```
 
-```{r Pr3-hint-1}
-Did you call the cor() function and pass 4 arguments?
-  x, y, method, and use?
+```{r exercise-correlation-wagegrowth-demvoteshare-hint-1}
+# Hint 1 of 1
+Use cor() to measure the relationship between the two variables.
+
+The x and y arguments are just the two variables named in the question, 
+written using counties$variable. Unlike a scatter plot, it does not matter 
+which variable goes in x or y.
+
+Set method = "pearson" and choose the use option that handles missing values appropriately.
 ```
 
-```{r Pr3-solution}
+```{r exercise-correlation-wagegrowth-demvoteshare-solution}
 cor(x = counties$wage_growth, y = counties$dem2p_vote_share, use = "pairwise.complete.obs",  method = "pearson")
 ```
 
-```{r Pr3-check}
+```{r exercise-correlation-wagegrowth-demvoteshare-check}
 grade_code()
 ```
 
@@ -349,7 +423,7 @@ The key things to remember about examining the relationship between variables me
 We've now completed three tutorials on describing relationships between two variables. Test your knowledge by answering the following questions.
 
 
-```{r letter-z, echo=FALSE}
+```{r quiz-variable-relationship, echo=FALSE}
 question("Which of the following statements is true",
   answer("We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", correct=FALSE, message = "We do not summarize a caetgorical variable with a mean, so this is inapproprite. "),
   answer("A cross-tab illustrates the relationship between two categorical variables", correct=TRUE, message="Cross-tabs show the distribution of one categorical variable given values of another categorical variable. "),
@@ -361,7 +435,7 @@ question("Which of the following statements is true",
 
 
 
-```{r letter-y, echo=FALSE}
+```{r quiz-correlation, echo=FALSE}
 question("Which of the following statements are true",
   answer("If Pearson's correlation coefficient, $r$, is near zero, there is evidence that the variables are not related to each other. ", correct=TRUE, message="The closer a correlation is to zero, the less strongly the two variables are related. "),
   answer("If Pearson's correlation coefficient, $r$, =0.6, there is a fairly strong tendency for values of x above the mean to occur with values of y above the mean and values of x below the mean to occur with values of y above the mean. ", correct = FALSE, message="A positive correlation occurs when values of x & y above the mean tend to toccur together AND values of x & y below the mean tend to occur together . "),
@@ -374,12 +448,12 @@ question("Which of the following statements are true",
 
 Consider the following cross-tab between the effective number of parliamentary parties in a country, **enpp3_democ**, and whether or not the country is a member of the European Union, **eu**, and answer the question:
 
-```{r, echo=FALSE}
+```{r crosstable-democracy-eu, echo=FALSE}
 library(descr)
 CrossTable(x = world$eu, y = world$enpp3_democ, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)
 ```
 
-```{r letter-x, echo=FALSE}
+```{r quiz-democracy-eu, echo=FALSE}
 question("Which of the following statements are true",
   answer("Of countries with 1-3 political parties, almost 81% are not members of the European Union", correct = TRUE, message="There are 31 countries with 1-3 parties and 25 or 81% are not members of the EU. "),
   answer("Of EU member states, about 30% have 4-5 parties", correct=FALSE, message = "30.4 is the percent of countries with 4-5 parties who are members of the EU (69.6% are not). "),
@@ -391,7 +465,7 @@ question("Which of the following statements are true",
 
 Consider the following scatter plot between government effectiveness (0 to 100 where 100 is more effective), **effectiveness**, and fertility rate (the number of children born per woman), **fertility**.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r scatterplot-governmenteffectiveness-fertility, echo=FALSE, warning=FALSE, message=FALSE, fig.alt="Scatter plot showing government effectiveness (x-axis) and fertility rate (y-axis) across countries, with black points and a dashed fitted regression line. The points form a clear downward trend, where higher government effectiveness is associated with fewer children per woman, indicating a strong negative relationship. The plot demonstrates how scatter plots and trend lines reveal inverse relationships between two continuous variables."}
 ggplot(data = world, mapping = aes(x = effectiveness, y = fertility)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
@@ -402,7 +476,7 @@ ggplot(data = world, mapping = aes(x = effectiveness, y = fertility)) +
 
 
 
-```{r letter-yyy, echo=FALSE}
+```{r quiz-governmenteffectiveness-fertility, echo=FALSE}
 question("Which of the following statements are true",
   answer("Each point represents a country's effectiveness on the x-axis and fertility on the y axis. ", correct=TRUE),
   answer("There is a positive correlation between effectiveness and fertility ", correct = FALSE, message="Because higher values of government effectiveness are associated with lower values of fertility, the correlation is negative. "),

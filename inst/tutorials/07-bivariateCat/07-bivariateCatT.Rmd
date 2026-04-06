@@ -69,14 +69,17 @@ In this tutorial, we will consider the first of these types of description: how 
 
 ## Describing the Relationship Between Two Nominal or Ordinal Variables
 
-We use a cross-tab to describe the relationship between nominal and ordinal variables. [A cross-tabulation (or cross-tab) is a table that shows the distribution of cases (counts or proportions) across values of the dependent variable for cases that have different values on the independent variable.]{.important-text}
+We use a cross-tab to describe the relationship between nominal and ordinal variables. [A cross-tabulation (or cross-tab) is a table that shows the distribution of cases (counts or proportions) across values of the outcome (dependent) variable for cases that have different values on the explanatory (independent) variable.]{.important-text}
 
 You've seen these tables in textbooks and other places many times. Each row of the table presents the different values one variable can take, and each column represents the values another variable takes. Each cell gives the number of cases in the data for a particular row variable value and column variable value. Below the table are the total number of cases in a column, and to the right of the table are the total number of cases in a row of the data. The bottom right corner gives the total number of cases in the table. The cross-tab may also report proportions or the percentage of cases in each cell of the table out of all cases in a column, a row, or in the table overall. Which of these representations is most useful will depend on our purpose. 
 
 The image below illustrates the contents of a cross-tab that illustrates the relationship between the party identification of a survey respondent and their attitudes toward gay and lesbian relationships. The percentages given are calculated out of all cases in a column.
 
 
-![](images/Crosstab2.jpg){ width=70% }
+```{r crosstab-gay-support-by-party, echo=FALSE, out.width='70%', fig.alt='Annotated table showing a crosstabulation of support for gay marriage by party identification, with colored arrows explaining how to interpret specific cells. Rows list three positions: allowing gay and lesbian couples to legally marry, allowing civil unions but not marriage, and no legal recognition. Columns show respondents who identify as Democrat, Republican, Independent, and the overall total. The annotations highlight examples including the count of Democrats who support legal marriage, the percent of Independents who oppose legal recognition, the total number and percent supporting civil unions only, the total number of Democrats, and the overall sample size of respondents.'}
+knitr::include_graphics("images/Crosstab2.jpg")
+```
+
 
 We can see that 1196 or 51.8% *of Democratic respondents* were supportive of legal marriage; that 385 or 21.8% *of independents* were opposed to any legal recognition; that there were 2309 Democratic respondents; that 1861 respondents or 33.9% chose the middle response; and that there were 5492 respondents in the survey who answered both questions.
 
@@ -92,25 +95,43 @@ We'll see below how this facilitates comparison.
 
 ### The `CrossTable()` Function
 
-To produce a cross-tab, we will use the `CrossTable()` function from the R package [descr]{.package-name}. The function requires two arguments, `x` and `y`. `x` defines the variable to appear in the rows of the table and should be the outcome or dependent variable. `y` defines the variable to appear in the columns and should be the explanatory or independent variable. By default, `CrossTable()` produces a cross-tab with proportions calculated for each row, each column, and the full table. Typically, however, we are interested in just column proportions, so we will set the `prop.r` (which stands for row proportions) and the `prop.t` (which stands for total proportions) arguments to `FALSE`. Finally, we will set the `prop.chisq` (which stands for chi square contribution) argument to `FALSE`. Doing so will  eliminate clutter and make the table easier to read.
+
+
+To produce a cross-tab, we will use the `CrossTable()` function from the R package [descr]{.package-name}. The function requires two arguments, `x` and `y`.
+
+`x` defines the variable to appear in the rows of the table and should be the outcome (dependent) variable.
+
+`y` defines the variable to appear in the columns and should be the explanatory (independent) variable.
+
+By default, `CrossTable()` produces a cross-tab with proportions calculated for each row, each column, and the full table. Setting an argument to `TRUE` displays that set of proportions, while setting it to `FALSE` removes it from the table.
+
+Typically, however, we are interested in just column proportions, so we will set the `prop.r` (which stands for row proportions) and the `prop.t` (which stands for total proportions) arguments to `FALSE`.
+
+Finally, we will set the `prop.chisq` (which stands for chi square contribution) argument to `FALSE`.
+
+Doing so will eliminate clutter and make the table easier to read.
 
 
 The data set **counties** contains a variable called **rural**, a 3-category ordinal variable where the 0 represents more urban counties, 1 represents counties that are neither urban nor rural, and 2 represents counties that are more rural. It also contains a nominal variable called **TrumpMajority**, which takes a value of 0 if Hillary Clinton won a majority of the vote and 1 if Donald Trump won a majority of the vote. We'll use this data to create our first cross-tab and to see how we use it to assess the hypothesis that Trump did better in more rural counties.
 
 We need to first load the [descr]{.package-name} package with the `library()` function so that we can use the `CrossTable()` function.
 
+**Try it: Generate a cross-tab with column proportions**
 
-```{r samplecrosstb, exercise=TRUE}
+```{r crosstab-trump-majority-by-rural-column-proportions, exercise=TRUE, exercise.cap="Interactive exercise: Run the code to generate a cross-tab of TrumpMajority by rural status. Use the Run Code button to execute and see results. No hints are available."}
 library(descr) 
-CrossTable(x = counties$TrumpMajority, y = counties$rural,
-           prop.r = FALSE, prop.c = TRUE, prop.t = FALSE,
+CrossTable(x = counties$TrumpMajority, 
+           y = counties$rural,
+           prop.r = FALSE, 
+           prop.c = TRUE, 
+           prop.t = FALSE,
            prop.chisq = FALSE)
 ```
 
 
 Let's test your interpretation of the cell entries in this table:
 
-```{r letter-a, echo=FALSE}
+```{r quiz-identify-number-of-counties, echo=FALSE}
 question("How many counties in the sample are rural?",
   answer("2622", message = "2622 is a row total: 2622 counties have a value of 1 for the variable TrumpMajority, which denotes they cast a majority of votes for Donald Trump"),
   answer("1162", message = "1162 is a column total, but the wrong column: a value of 0 for the column variable rural, denotes a county is urban."),
@@ -120,7 +141,7 @@ question("How many counties in the sample are rural?",
 )
 ```
 
-```{r letter-b, echo=FALSE}
+```{r quiz-identify-county-trump-majority, echo=FALSE}
 question("What does the value 0.261 in the top-left cell of the table tell us?",
   answer("The proportion of all counties that cast votes for Hillary Clinton", message="Proportions are calculated out of all voters in a column, not out of all counties."),
   answer("The proportion of urban counties that cast a majority of the vote for Donald Trump", message="The proportion is for urban counties, but 0 is the value for Clinton Majority. "),
@@ -134,18 +155,21 @@ question("What does the value 0.261 in the top-left cell of the table tell us?",
 
 ## Assessing our hypothesis
 
-Now that we've interpreted individual cell entries, let's see what we can learn about our hypothesis: [ In a comparison of [counties], those that are [more rural] will be more likely to [give a majority of their support to Trump] than will those that are [less rural (more urban)].]{.hypothesis}
+Now that we've interpreted individual cell entries, let's see what we can learn about our hypothesis:
 
+::: {.hypothesis}
+**Hypothesis:** In a comparison of [counties], those that are [more rural] will be more likely to [give a majority of their support to Trump] than will those that are [less rural (more urban)].
+:::
 
 Does the evidence support this hypothesis? If more rural counties are more likely to have cast a majority of their votes for Trump, what should we see? 
 
-By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column proportions, we can **interpret the cross-tab by comparing proportions across columns at the same value of the dependent variable (in the same row)**. How does the proportion (or, if we multiply them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
+By organizing our cross-tab such that the outcome variable is in the rows and the proportions in the table are column proportions, we can **interpret the cross-tab by comparing proportions across columns at the same value of the outcome (dependent) variable (in the same row)**. How does the proportion (or, if we multiply them by 100, the percentage) of counties who are in the more rural or more urban categories vary based on whether or not a majority of voters supported Trump?
 
 We know that the value 0 for **rural** denotes that a county is urban, 1, that it is neither urban nor rural, and 2 that it is rural. Thus, we expect the proportion of counties among those casting a majority of votes for Trump (**MajorityTrump**=1) in row 2 to increase as we move across the columns from the left to the right. We would also expect the reverse to be true for counties that cast a majority of votes for Clinton (**MajorityTrump**=0) in row 1.
 
 I've reproduced the cross-tab here so that you don't have to look back.
 
-```{r samplecrosstbrepeat, exercise=FALSE, echo=FALSE}
+```{r crosstab-trump-majority-by-rural-column-proportions-repeat, exercise=FALSE, echo=FALSE}
 CrossTable(x = counties$TrumpMajority,
            y = counties$rural, 
            prop.r = FALSE, 
@@ -161,34 +185,63 @@ Similarly, if we consider the proportion of counties that cast a majority of vot
 
 ### Racial Majority and Support for Donald Trump in US Counties
 
-We might hypothesize that: [In a comparison of [counties], those that are [majority-white] will be more likely to [give a majority of their support to Trump] than will those that are [not majority-white].]{.hypothesis}
+We might hypothesize that: 
+
+::: {.hypothesis}
+**Hypothesis:** In a comparison of [counties], those that are [majority-white] will be more likely to [give a majority of their support to Trump] than will those that are [not majority-white].]
+:::
 
 The data frame **counties** contains a nominal variable called **racial_majority** that takes the character values "Black Majority," "Hispanic Majority," "Other/No Majority," and "White Majority." Thus, our hypothesis suggests that when we compare the proportion of counties **within each racial majority category**, the highest proportion of counties casting a majority of votes for Donald Trump will be "White Majority." 
 
-Edit the code below to produce a cross-tab to assess this hypothesis.
+**Practice: Create a cross-tab of Trump majority by racial majority with column proportions**
 
-```{r samplecrosstb2, exercise=TRUE}
-CrossTable(x = counties$XXXX, y = counties$XXXX, prop.r = XXXX, prop.c = XXXX, prop.t = XXXX, prop.chisq = XXXX)
+```{r exercise-create-crosstab-trump-rural, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXXX values to produce a cross-tabulation with column proportions only, comparing groups across the explanatory variable. Click Submit Answer to check correctness. Two hints are available."}
+CrossTable(
+  x = counties$XXXX,
+  y = counties$XXXX,
+  prop.r = XXXX,
+  prop.c = XXXX,
+  prop.t = XXXX,
+  prop.chisq = XXXX
+)
 ```
 
 
-```{r samplecrosstb2-hint}
-Remember x gives the row variable, which should be set equal to the 
-outcome or dependent variable. y gives the column variable and 
-should be set to the explanatory or independent variable.  
-Because we only want column percentages, prop.c should be set to 
-TRUE and all other arguments to FALSE>
+```{r exercise-create-crosstab-trump-rural-hint-1}
+# Hint 1 of 2
+You are creating a cross-tabulation to examine how one categorical
+variable varies across the categories of another.
+
+Start by deciding which variable is the outcome (what you are trying
+to explain) and which is the explanatory variable.
 ```
 
-```{r samplecrosstb2-solution}
-CrossTable(x = counties$TrumpMajority, y = counties$racial_majority, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)
+```{r exercise-create-crosstab-trump-rural-hint-2}
+# Hint 2 of 2
+Here, you want to see how support for Trump varies across racial
+majority groups. That means TrumpMajority is the outcome (rows)
+and racial_majority is the explanatory variable (columns).
+
+To compare within each racial group, you want column percentages.
+In CrossTable(), turn on column proportions and turn off the other
+proportion options so only those are displayed.
 ```
 
-```{r samplecrosstb2-check}
+
+```{r exercise-create-crosstab-trump-rural-solution}
+CrossTable(x = counties$TrumpMajority, 
+           y = counties$racial_majority, 
+           prop.r = FALSE, 
+           prop.c = TRUE, 
+           prop.t = FALSE, 
+           prop.chisq = FALSE)
+```
+
+```{r exercise-create-crosstab-trump-rural-check}
 grade_code()
 ```
  
-```{r letter-w, echo=FALSE}
+```{r quiz-identify-crosstab-cells, echo=FALSE}
 question("Which of the following statements about the cross-tab are true",
   answer("Of the 490 counties that cast a majority of votes for Hillary Clinton, 0.111  were majority white", message = "The proportion 0.111 is the proportion of counties in the White Majority column (2866 counties) that cast a majority of their votes for Hillary Clinton"),
   answer("Of the 2866 counties that were majority white, 0.111 or 11.1% of them cast a majority of their votes for Hillary Clinton", correct = TRUE),
@@ -203,33 +256,59 @@ Does this table support the hypothesis? Yes, because a much larger proportion of
 
 ### Gender Equality and Regime Type
 
-For a final illustration, we will examine the relationship between the nominal variable **regime_type3**, which takes the values "Dictatorship," "Parliamentary democ," or "Presidential democ" and the ordinal variable **gender_equal3**, which may be "Low," "Medium," or "High." The variables are in the data frame **world**.
+For a final illustration, we now turn to a different dataset, **world**, to examine a similar relationship in a new context. We will examine the relationship between the nominal variable **regime_type3**, which takes the values "Dictatorship," "Parliamentary democ," or "Presidential democ" and the ordinal variable **gender_equal3**, which may be "Low," "Medium," or "High." 
 
-Write the code to generate the cross-tab and run it. Assume we hypothesize that: [ In a comparison of [countries], those that are [dictatorships] will be less likely to [have a high degree of gender equality] than will those that are [not dictatorships].]{.hypothesis}
+Assume we hypothesize that: 
 
-```{r samplecrosstb3, exercise=TRUE}
+::: {.hypothesis}
+**Hypothesis:** In a comparison of [countries], those that are [dictatorships] will be less likely to [have a high degree of gender equality] than will those that are [not dictatorships].
+:::
+
+**Explore: Write the code to generate the cross-tab and run it.**
+
+```{r exercise-create-crosstab-gender-regime, exercise=TRUE, exercise.cap="Interactive exercise: Write code to create a cross-tab of regime type by gender equality. Use the Run Code button to execute and the Submit Answer button to check correctness. Three hints are available."}
 
 ```
 
-```{r samplecrosstb3-hint-1}
-Did you use the CrossTable function? Remember that you need to list 
-the outcome variable first (gender equality) by assigning it to the x  
-argument. Then set the y argument to the variable you want in the columns 
-of the table. Finally, specify which information you do and do 
-not want in the table cells using the prop.r, prop.c, prop.t, and 
-prop.chisq arguments.
+```{r exercise-create-crosstab-gender-regime-hint-1}
+# Hint 1 of 3
+You are creating a cross-tabulation, so you will want to use the
+CrossTable() function.
+
+Start by deciding which variables you need to include in the function.
 ```
 
-```{r samplecrosstb3-solution}
-CrossTable(x = world$gender_equal3, y = world$regime_type3, prop.r = FALSE, prop.c = TRUE, prop.t = FALSE, prop.chisq = FALSE)
+```{r exercise-create-crosstab-gender-regime-hint-2}
+# Hint 2 of 3
+Here, you want to see how levels of gender equality vary across regime
+types. That means gender equality is the outcome (rows) and
+regime type is the explanatory variable (columns).
 ```
 
-```{r samplecrosstb3-check}
+```{r exercise-create-crosstab-gender-regime-hint-3}
+# Hint 3 of 3
+To compare within each regime type category, you want column
+percentages.
+
+In CrossTable(), turn on column proportions and turn off the other
+proportion options so only those are displayed.
+```
+
+```{r exercise-create-crosstab-gender-regime-solution}
+CrossTable(x = world$gender_equal3,
+           y = world$regime_type3,
+           prop.r = FALSE, 
+           prop.c = TRUE, 
+           prop.t = FALSE, 
+           prop.chisq = FALSE)
+```
+
+```{r exercise-create-crosstab-gender-regime-check}
 grade_code()
 ```
 
 
-```{r letter-aa, echo=FALSE}
+```{r quiz-identify-medium-gender-equality, echo=FALSE}
 question("How many countries in the sample have medium levels of gender equality?",
   answer("21", message = "21 is a row total, but the wrong row: 21 countries have high levels of gender equality"),
   answer("29", message = "29 is a column total denoting the number of countries that have parliamentary democracies."),
@@ -239,7 +318,7 @@ question("How many countries in the sample have medium levels of gender equality
 )
 ```
 
-```{r letter-z, echo=FALSE}
+```{r quiz-identify-proportions-gender-regime, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Of the countries with a regime type of Dictatorship, the level of gender equality with the highest proportion of cases is `low' (0.625)", correct=TRUE),
   answer("Of the 21 countries with the highest level of gender equality, only 0.062 are dictatorships", message = "While 21 countries have the highest level of gender equality, 0.062 is a column proportion calculated out of the total number of countries that are dictatorships"),
@@ -265,14 +344,15 @@ We follow the same basic steps to build a grouped bar plot as we did for a bar p
 4.  Add layers that make the plot more informative by adding labels and formatting scales.
 
 
-When plotting a single variable, we simply identified  `x` inside the `aes()` function in step 2. In order to visualize two nominal and/or ordinal variables in a bar plot, we add a `fill` argument to the `aes()` function to specify the grouping variable. Which variable do we specify as the `x` and which as `fill`? The dependent variable should be on the x-axis. The `fill` aesthetic breaks down the categories of the x-axis variable based on values of the variable mapped to the `fill` aesthetic.
+When plotting a single variable, we simply identified  `x` inside the `aes()` function in step 2. In order to visualize two nominal and/or ordinal variables in a bar plot, we add a `fill` argument to the `aes()` function to specify the grouping variable. Which variable do we specify as the `x` and which as `fill`? The outcome (dependent) variable should be on the x-axis. The `fill` aesthetic breaks down the categories of the x-axis variable based on values of the variable mapped to the `fill` aesthetic.
 
 Below I've provided the code to create a bar plot of the frequencies from the cross-tab relating the variable **rural** in the **counties** data frame to **TrumpMajority**.  We specify both `x` and `fill` variables as factors so that `ggplot()` knows the values of these variables are discrete (whole numbers only).
 
 Don't forget that we need to load [ggplot2]{.package-name} before we can use the `ggplot()` function.
 
-    
-```{r freqtab, exercise=TRUE}
+**Try it: Create a stacked bar plot to visualize the relationship between two categorical variables.**
+
+```{r barplot-fill-trump-majority-rural, exercise=TRUE, exercise.cap="Interactive exercise: Run the code below to generate a stacked barplot of the relationship between Trump-majority counties and counties' rural status. Use the Run Code button to execute. No hints are available."}
 library(ggplot2)
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
   geom_bar() 
@@ -284,7 +364,9 @@ This bar plot is called a stacked bar plot because there is one column for each 
 
 If we prefer to place the bars side-by-side rather than stacking them, we simply add `position="dodge"` inside the `geom_bar()` function.
 
-```{r dodge, exercise=TRUE}
+**Try it: Create a side-by-side bar plot to visualize the relationship between two categorical variables.**
+
+```{r barplot-dodge-trump-majority-rural, exercise=TRUE, exercise.cap="Interactive exercise: Run the code below to create a dodged/side-by-side bar chart of Trump-majority counties and counties' rural status. Use the Run Code button to execute. No hints are available."}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
   geom_bar(position = "dodge") 
 ```
@@ -297,7 +379,9 @@ Before we make this plot more informative, let's consider how to plot proportion
 
 To plot proportions, we proceed in parallel fashion to the the bar plot for a single categorical variable. We set an aesthetic inside the `geom_bar()` layer. Specifically, we set `y = after_stat(prop)` to represent the y axis as a proportion. What is new here is that we need to add `group = factor(rural)` so that `ggplot()` will calculate the proportions based on the number of cases in each value of the `fill` variable. 
 
-```{r proptab, exercise=TRUE}
+**Try it: Plot with proportions instead of frequencies.**
+
+```{r barplot-proportions-trump-majority-rural, exercise=TRUE, exercise.cap="Interactive exercise: Set the y-axis to proportions and group by the fill variable so ggplot calculates proportions within each category. Use the Run Code button to execute. No hints are available."}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
   geom_bar(position = "dodge", mapping = aes(y = after_stat(prop), group = factor(rural))) 
 ```
@@ -310,7 +394,9 @@ We can make each of these plots more informative by adding a `labs` layer to pro
 
 Before you execute the code below, read through it carefully. You will have to edit code below to produce similar plots.
 
-```{r inform, exercise=TRUE}
+**Try it: Add layers to improve the plot’s readability by labeling the title, axes, x-axis categories, and legend.**
+
+```{r barplot-informative-trump-majority-rural, exercise=TRUE, exercise.cap="Interactive exercise: Add labeling layers to make the plot easier to read, including titles, axis labels, and a clearer legend with more descriptive category names. Use the Run Code button to execute. No hints are available."}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(rural))) +
   geom_bar(position = "dodge", aes(y = after_stat(prop), group = factor(rural))) +
   labs(title = "Proportion of Counties Casting \na Majority of Votes for Clinton and Trump", 
@@ -326,9 +412,9 @@ ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = factor(r
 
 Let's create a bar plot to represent the cross-tab examining the relationship between **TrumpMajority** and **racial_majority**. We want to present the proportion of counties casting a majority of votes for Hillary Clinton and Donald Trump grouped by the categories of **racial_majority**. Note that because **racial_majority** is a character variable, we don't need to specify the `factor()` function when naming this variable. Note, too, that the plot will display the bars in alphabetical order and that we could omit the `labels` argument in `scale_fill_discrete()` because the grouping variable is a character variable. I've included it here, shortening the labels, for practice.
 
-Replace the XXX in the following code to produce the desired plot. Place the bars side-by-side.
+**Practice: Replace the XXX in the following code to produce the desired plot. Place the bars side-by-side.**
 
-```{r raceplot, exercise=TRUE}
+```{r exercise-create-proportions-vote-race-majority, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXX values to create a proportion bar plot showing voting outcomes across racial majority categories. Use the Run Code button to execute and the Submit Answer button to check correctness. Three hints are available."}
 ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +
   geom_bar(XXX = XXX, aes(y = after_stat(prop), group = XXX)) +
   labs(title = "Proportion of Counties Casting \na Majority of Votes for Clinton and Trump", 
@@ -340,30 +426,37 @@ ggplot(data = counties, mapping = XXX(x = factor(XXX), fill = XXX)) +
                       labels = c("Black", "Hispanic", "Other/No", "White")) 
 ```
 
-```{r raceplot-hint-1}
-Did you replace the first XXX aes?
+```{r exercise-create-proportions-vote-race-majority-hint-1}
+# Hint 1 of 3
+You are creating a grouped bar plot, so you will want to use
+aes() inside ggplot() to map variables to the plot.
+
+Start by deciding which variable should go on the x-axis and which
+variable should define the bar groups.
 ```
 
-```{r raceplot-hint-2}
-The x variable is TrumpMajority.
-We want to group by racial_majority so we provide this
-variable name to the fill argument.
+```{r exercise-create-proportions-vote-race-majority-hint-2}
+# Hint 2 of 3
+Here, you want to compare voting outcomes across racial majority
+categories. That means TrumpMajority should go on the x-axis, and
+racial_majority should be used to distinguish the groups.
+
+So inside aes(), use x = factor(TrumpMajority) and
+fill = racial_majority.
 ```
 
-```{r raceplot-hint-3}
-We need to specify position = "dodge" inside geom_bar().
-This places the bars side-by-side.
+```{r exercise-create-proportions-vote-race-majority-hint-3}
+# Hint 3 of 3
+Because you want to compare proportions for each racial majority
+group side-by-side within each voting category, the bars should not
+be stacked.
+
+In geom_bar(), set position = "dodge" and use racial_majority for
+the group argument inside aes().
 ```
 
-```{r raceplot-hint-4}
-To tell ggplot how to calculate proportions for the
-plot we need to set group to the grouping variable
-specified with the fill argument.
-```
 
-
-
-```{r raceplot-solution}
+```{r exercise-create-proportions-vote-race-majority-solution}
 ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = racial_majority)) +
   geom_bar(position = "dodge", aes(y = after_stat(prop), group = racial_majority)) +
   labs(title = "Proportion of Counties Casting \na Majority of Votes for Clinton and Trump", 
@@ -376,7 +469,7 @@ ggplot(data = counties, mapping = aes(x = factor(TrumpMajority), fill = racial_m
 ```
 
 
-```{r raceplot-check}
+```{r exercise-create-proportions-vote-race-majority-check}
 grade_code()
 ```
 
@@ -387,37 +480,48 @@ This is a super informative and professional visualization. It produces the same
 Try to present the relationship between **gender_equal3** and **regime_type3** in the data frame **world** in a proportions bar plot. Start by building a basic side-by-side proportion plot, without worrying about the labels. Remember that you need to call the `ggplot()` function, specify the `data` and `mapping` arguments and that you need to specify both the variable to map to the x-axis (`x`) and to group by (`fill`) inside the `aes()` function.  To plot proportions, remember that you need to specify another `aes()` inside `geom_bar()` by setting `y = after_stat(prop)` and setting `group`  equal to the `fill` variable.
 
 
-```{r genderplot, exercise=TRUE}
+**Explore: Create a proportion bar plot that compares the distribution of gender equality levels across regime types.**
+
+```{r exercise-create-proportions-gender-equality-regime, exercise=TRUE, exercise.cap="Create a proportion bar plot showing how the distribution of gender equality varies across regime types. Use the Run Code button to execute and the Submit Answer button to check correctness. Four hints are available."}
 
 ```
 
 
 
-```{r genderplot-hint-1}
-The first argument of the ggplot function is data. 
-The data for this example is **world**.
+```{r exercise-create-proportions-gender-equality-regime-hint-1}
+# Hint 1 of 4
+You are creating a bar plot using ggplot(), so you will need to
+specify the dataset and map variables using aes().
+
+Start by deciding which variable should go on the x-axis and which
+variable should define the groups (fill).
 ```
 
-```{r genderplot-hint-2}
-The next argument is the mapping (don't forget the comma
-separating arguments). It is set to the aes function where
-you specify the x argument as gender_equal3 and the fill
-argument as regime_type3
+```{r exercise-create-proportions-gender-equality-regime-hint-2}
+# Hint 2 of 4
+Here, you want to examine how gender equality varies across
+regime types. That means gender_equal3 should go on the x-axis,
+and regime_type3 should define the groups (fill).
 ```
 
-```{r genderplot-hint-3}
-Add a plus at the end of the line and then specify the
-geom_bar function. To get a side-by-side plot we need to specify position="dodge" inside geom_bar().
+```{r exercise-create-proportions-gender-equality-regime-hint-3}
+# Hint 3 of 4
+To create the bars, add geom_bar() to your ggplot call.
+
+Because you want to compare groups side-by-side within each
+category, set position = "dodge" inside geom_bar().
 ```
 
-```{r genderplot-hint-4}
-To get proportions we need to specify the aes function 
-inside geom_bar, setting y = after_stat(prop). Also inside the aes function,
-set group equal to the fill variable above, regime_type3.
-(Check your commas)
+```{r exercise-create-proportions-gender-equality-regime-hint-4}
+# Hint 4 of 4
+To display proportions instead of counts, add an aes() inside
+geom_bar() with y = after_stat(prop).
+
+Also set the group equal to the fill variable so proportions are
+calculated within each group.
 ```
 
-```{r genderplot-solution}
+```{r exercise-create-proportions-gender-equality-regime-solution}
 ggplot(data = world, mapping = aes(x = gender_equal3, fill = regime_type3)) +
   geom_bar(position = "dodge", aes(y = after_stat(prop), group = regime_type3)) 
 ```
@@ -429,8 +533,11 @@ The first thing we see is that there is a lot of missing data. You may want to e
 Remember the pipe operator? Here we start with the data frame **world** "and then" (%>%) we `filter()` so that we keep only non-missing data "and then" we pipe that result to `ggplot()`, which means we don't need to specify the `data` argument inside `ggplot()`.  Otherwise, nothing has changed.
 
 Don't forget to load the [dplyr]{.package-name} package with the `library()` function!
- 
-```{r genderplot2, exercise=TRUE}
+
+
+**Try it: Filter the data to remove missing values before creating the plot.**
+
+```{r exercise-filter-missing-pipe-proportions-gender-regime, exercise=TRUE, exercise.cap="Use filter() with the pipe operator to remove missing values and pass the cleaned data directly to ggplot(). Use the Run Code button to execute and see results. No hints are available."}
 library(dplyr)
 world %>%
 filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%
@@ -440,7 +547,9 @@ ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
 
 To complete the plot, let's fix labels.
 
-```{r genderplot3, exercise=TRUE}
+**Try it: Relabel the plot title, axes, and legend.**
+
+```{r exercise-fix-labels-proportions-gender-regime, exercise=TRUE, exercise.cap="Run the code to use the labs() and scale_fill_discrete() functions to relabel the title, axes, and legend. Use the Run Code button to execute and see results. No hints are available."}
 world %>%
 filter(!is.na(gender_equal3), !is.na(regime_type3)) %>%
 ggplot(mapping = aes(x = gender_equal3, fill = regime_type3)) +
@@ -468,8 +577,8 @@ The key things to remember about examining the relationship between two categori
 
 3. It can be difficult to remember all the lines of code to produce exactly the plot you want. I encourage you to keep notes on where you can look -- in which tutorials -- to find code to produce different types of plots. But the basic elements of all grouped bar plots to remember are:
 
-    + The outcome or dependent variable goes on the x-axis
-    + The explanatory or independent variable is specified using the `fill` argument.
+    + The outcome (dependent) variable goes on the x-axis
+    + The explanatory (independent) variable is specified using the `fill` argument.
     + Proportions should be used if you want to draw meaningful comparisons to test hypotheses because the number of cases in each category of the dependent variable will not, in general, be the same. We generate proportions by specifying `aes()` inside the `geom_bar()` function where `y = after_stat(prop)` and we set `group` equal to the `fill` variable.  
     + If the variable's values are numeric, you need to enclose them inside `factor()` so that `ggplot()` knows the variable's values must be discrete (whole numbers).
 

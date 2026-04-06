@@ -927,7 +927,7 @@ the file to give your new data file.
 The following code saves **unFBposts** as an R data set, but it cannot
 be run from the tutorial.
 
-**Try it: Save the new data**
+**Example Code: Save the new data**
 ```{r data-save, exercise=FALSE, eval=FALSE, exercise.cap="Interactive exercise: Save the new data. Use the Run Code button to execute and see results."}
 save(unFBposts, file = "/Users/sld8/Dropbox/PLSC309/MyDataFile.Rdata")
 ```

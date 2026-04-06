@@ -143,24 +143,24 @@ nominal/categorical (or ordinal) variable. Typically we either compare a
 single summary statistic, the mean, or we compare the distribution of
 the interval variable for each of the values of the nominal or ordinal
 variable.</p>
-<p>If our interest lies in the relationship between two interval level
+<p>If our interest lies in the relationship between two interval-level
 variables, we can summarize the relationship between them using
 Pearson’s correlation coefficient. The <span
 class="important-text"><strong>correlation coefficient quantifies the
-strength and direction of the linear association between two interval
-level variables</strong></span>. The logic of correlation is most easily
-understood in the context of a scatter plot. So we will introduce them
-first. A scatter plot provides a visual display of the nature, degree,
-and strength of the relationship between two interval level variables.
-It presents pairs of values for each unit of analysis on two variables
-measured at the interval level. The position of each dot on the
-horizontal and vertical axis indicates values for an individual data
-point.</p>
+strength and direction of the linear association between two
+interval-level variables</strong></span>. The logic of correlation is
+most easily understood in the context of a scatter plot. So we will
+introduce them first. A scatter plot provides a visual display of the
+nature, degree, and strength of the relationship between two
+interval-level variables. It presents pairs of values for each unit of
+analysis on two variables measured at the interval level. The position
+of each dot on the horizontal and vertical axis indicates values for an
+individual data point.</p>
 <p>Let’s start with a picture of a scatter plot:</p>
-<p><img src="images/samplescattervoteed.png" style="width:70.0%" /></p>
-<p>This scatter plot shows the relationship between the two interval
-level measures <strong>dem2p_vote_share</strong>, the share of the
-presidential vote cast for Hillary Clinton in 2016, and
+<p><img src="images/samplescattervoteed.png" alt="Scatter plot showing the relationship between proportion of college graduates (x-axis) and Clinton vote share (y-axis) across U.S. counties in 2016, with blue points and reference lines marking average values. The points show a positive trend, where counties with higher levels of education tend to have higher Clinton vote shares, though there is substantial variation. The plot illustrates how scatterplots reveal relationships and variability between two continuous variables." width="70%" /></p>
+<p>This scatter plot shows the relationship between the two
+interval-level measures <strong>dem2p_vote_share</strong>, the share of
+the presidential vote cast for Hillary Clinton in 2016, and
 <strong>prop_college_grad</strong>, the proportion of college graduates
 in US counties. Each dot represents one unit of analysis, i.e., one
 county. Its placement on the x-axis represents its value on the variable
@@ -173,8 +173,7 @@ for Clinton (proportion college graduates).</p>
 point corresponds to 0.74, the share of adults who graduated college,
 (plotted on the x-axis) and a 0.82 share of the votes cast for Clinton
 (plotted on the y-axis).</p>
-<p><img src="images/samplescattervoteedArlington.png"
-style="width:70.0%" /></p>
+<p><img src="images/samplescattervoteedArlington.png" alt="Scatter plot showing the relationship between proportion of college graduates (x-axis) and Clinton vote share (y-axis) across U.S. counties in 2016, with blue points and horizontal and vertical lines marking the means. Many points cluster in the lower-left and upper-right quadrants, indicating that counties with lower education tend to have lower Clinton vote share and those with higher education tend to have higher Clinton vote share; an example high-education, high-vote-share county (Arlington, VA) is labeled. The plot demonstrates how quadrant patterns around mean lines reveal a positive relationship between two variables." width="70%" /></p>
 <p>Points – like Arlington county VA – in the upper right quadrant have
 values of <strong>prop_college_grads</strong> above the mean and values
 of <strong>dem2p_vote_share</strong> above the mean. Points in the lower
@@ -183,7 +182,7 @@ the mean and values of <strong>dem2p_vote_share</strong> below the mean.
 When points are clustered in these two quadrants – as in this example –
 there is a positive relationship between the two variables.</p>
 <p>Scatter plots are widely used and very informative about the nature
-of the relationship between two interval level variables. We can use the
+of the relationship between two interval-level variables. We can use the
 summary statistic, Pearson’s correlation coefficient, to quantify the
 strength and direction of the relationship. Pearson’s correlation
 coefficient, denoted <span class="math inline">\(r\)</span>, is given by
@@ -245,7 +244,7 @@ values of one variable are associated with higher values of the other
 variable. Finally, when the line is flat, as in the plot in the middle,
 there is no correlation between the two variables. The steepness of the
 line is positively related to the strength of the correlation.</p>
-<p><img src="images/Samplecorrplots.png" style="width:70.0%" /></p>
+<p><img src="images/Samplecorrplots.png" alt="Three side-by-side scatter plots illustrating correlation between two variables with fitted lines: the left plot shows a strong negative relationship (r ≈ -0.86) with a downward-sloping line, the middle plot shows no relationship (r ≈ 0) with a flat line and scattered points, and the right plot shows a strong positive relationship (r ≈ 0.87) with an upward-sloping line. The figure demonstrates how the direction and strength of a linear pattern in a scatter plot correspond to the sign and magnitude of the correlation coefficient." width="70%" /></p>
 </div>
 <div id="section-scatter-plots" class="section level2">
 <h2>Scatter plots</h2>
@@ -284,35 +283,47 @@ bad way of governing this country? …Having a democratic system?</p>
 country’s composite level of democracy based on civil liberties and
 political rights, Freedom House, 2017. Higher scores are more
 democratic.</p>
-<p>We might hypothesize the following: <span class="hypothesis">In a
-comparison of [countries], those having [a higher level of democracy]
-will be more likely to [have higher support for democratic government]
-than will those having [a lower level of democracy].</span></p>
+<p>We might hypothesize the following:</p>
+<div class="hypothesis">
+<p>In a comparison of [countries], those having [a higher level of
+democracy] will be more likely to [have higher support for democratic
+government] than will those having [a lower level of democracy].</p>
+</div>
 <p>I’ve loaded the <span class="package-name">ggplot2</span> package for
 you. Try to make a scatter plot based on the instructions above.</p>
-<div class="tutorial-exercise" data-label="scatter1" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
+<strong>Practice: Create scatter plot of democracy and support</strong>
+<div class="tutorial-exercise"
+data-label="exercise-scatterplot-prodemocracy-and-democracylevel"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>library(ggplot2)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Write code to create a scatter plot of ProDem by FHTotalAggr to examine the relationship between level of democracy and support for democratic government. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available."}</script>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter1-hint-1"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-prodemocracy-and-democracylevel-hint-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>The first argument of ggplot is data, here **fHouse**.
-The second argument is mapping and should be set to
-aes(), where we specify the x-axis variable (Pro.Dem) with the x
-argument and the y-axis variable (FHTotalAggr) with the y argument.
+<pre class="text"><code># Hint 1 of 2
+A scatterplot is used to examine the relationship between two numeric 
+variables. Here, you are looking at how pro-democracy attitudes relate to 
+the level of democracy. The explanatory variable should go on the x-axis 
+and the outcome variable on the y-axis, so decide which variable plays 
+each role before writing any code.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-prodemocracy-and-democracylevel-hint-2"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 2
+Start with ggplot() using the fHouse data.
 
-End the line with a +!</code></pre>
+Inside aes(), map your chosen x and y variables.
+
+Then use + to add a layer with geom_point() 
+to display the individual observations.</code></pre>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter1-hint-2"
-data-completion="1" data-diagnostics="1" data-startover="1"
-data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>We want to plot points, so specify the geom_point
-function. You don&#39;t need to give it any arguments.</code></pre>
-</div>
-<div class="tutorial-exercise-support" data-label="scatter1-solution"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-prodemocracy-and-democracylevel-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>library(ggplot2)
@@ -344,9 +355,12 @@ with the <code>library()</code> function.</p>
 <p>Look carefully at the code to make sure you understand what each line
 of the code is doing. You will be asked to make your own scatter plots
 in class.</p>
-<div class="tutorial-exercise" data-label="scatter2" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
+<p><strong>Try it: Customize scatter plot with color and trend
+line</strong></p>
+<div class="tutorial-exercise"
+data-label="scatterplot-prodemocracy-democracy-level-smooth"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>library(dplyr)
 fHouse %&gt;%
   filter(!is.na(FHTotalAggr), !is.na(Pro.Dem)) %&gt;%
@@ -357,7 +371,7 @@ fHouse %&gt;%
        x = &quot;Support for Democratic Rule&quot;, 
        y = &quot;Level of Democracy&quot;, 
        caption = &quot;Source: WVS and EVS, 2005-2008, \nFreedom House 2017&quot;) </code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Run the code to customize a scatter plot by changing point color and adding a fitted trend line to visualize the relationship between Pro.Dem and FHTotalAggr. Use the Run Code button to execute and see results. No hints are available."}</script>
 </div>
 <p>We can see that the points are quite widely scattered. In other
 words, there does not appear to be a strong relationship between the two
@@ -374,7 +388,7 @@ class="uri">http://t-redactyl.io/blog/2016/02/creating-plots-in-r-using-ggplot2-
 by calculating Pearson’s correlation coefficient.</p>
 <p>The <code>cor()</code> function in base R will accomplish this task.
 We will pass the function 4 arguments. The first two arguments are
-<code>x</code> and <code>y</code>, the two interval level variables for
+<code>x</code> and <code>y</code>, the two interval-level variables for
 which we desire the correlation coefficient. In addition, we need to
 include the <code>use</code> argument if there are any missing values.
 It tells R how to handle them. The default method (“everything”) will
@@ -384,11 +398,14 @@ include a unit (country in our example) if both units have a value on
 both variables. Finally, we need to tell the function the specific
 correlation measure to compute. We do so by setting the
 <code>method</code> argument equal to “pearson”.</p>
-<div class="tutorial-exercise" data-label="Pr" data-completion="1"
+<p><strong>Try it: Calculate Pearson correlation between two
+variables</strong></p>
+<div class="tutorial-exercise"
+data-label="correlation-prodemocracy-democracylevel" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0"
 data-pipe="|&gt;">
 <pre class="text"><code>cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = &quot;pairwise.complete.obs&quot;, method = &quot;pearson&quot;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"Interactive exercise: Write code to calculate the Pearson correlation between Pro.Dem and FHTotalAggr, handling missing values appropriately. Use the Run Code button to execute and click Submit Answer to check correctness. No hints are available."}</script>
 </div>
 <p>The result, <span class="math inline">\(r=-0.04\)</span>, is negative
 and close to zero. Thus we conclude that the relationship between these
@@ -408,16 +425,21 @@ you say it is a very good, fairly good, fairly bad or very bad way of
 governing this country?” … “Having a strong leader who does not have to
 bother with parliament and elections?”</p>
 </blockquote>
-<p>We might hypothesize the following: <span class="hypothesis">In a
-comparison of [countries], those having [a higher level of democracy]
-will be more likely to [have lower support for a strong leader] than
-will those having [a lower level of democracy].</span></p>
+<p>We might hypothesize the following:</p>
+<div class="hypothesis">
+<p>In a comparison of [countries], those having [a higher level of
+democracy] will be more likely to [have lower support for a strong
+leader] than will those having [a lower level of democracy].</p>
+</div>
 <p>Edit the code below to produce a scatter plot illustrating the
 relationship between this variable and level of democracy
 (<strong>FHTotalAggr</strong>) from our previous example. We will begin
 by filtering out the missing values. Try making the points blue and
 adding a red line.</p>
-<div class="tutorial-exercise" data-label="scatter2b"
+<p><strong>Explore: Plot democracy vs support for strong
+leader</strong></p>
+<div class="tutorial-exercise"
+data-label="exercise-scatterplot-democracylevel-strongleader"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>fHouse %&gt;%
@@ -429,20 +451,41 @@ ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +
        x = &quot;Support for a Strong Leader&quot;, 
        y = &quot;Level of Democracy&quot;, 
        caption = &quot;Source: WVS and EVS, 2005-2008, \nFreedom House 2017&quot;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Fill in the XXXX values to create a scatter plot of Pro.Strong.Leader and FHTotalAggr, including filtering missing values and customizing point and line colors. Click Submit Answer to check correctness. Three hints are available."}</script>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter2b-hint-1"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-democracylevel-strongleader-hint-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Did you filter by selecting rows of the data frame fHouse 
-that are not missing using !is.na? (Don&#39;t forget to 
-pipe the results to ggplot).
-Did you pass geom_point() color = &quot;blue&quot;?
-Did you pass geom_smooth()  color = &quot;red&quot;, eliminate 
-the se by setting that argument to FALSE, and set 
-the method argument to &quot;lm&quot;?</code></pre>
+<pre class="text"><code># Hint 1 of 3
+You are examining the relationship between support for a strong leader 
+and level of democracy. Before plotting, make sure the data you pass 
+through the pipe does not include missing values for either variable, 
+using filter() to keep only cases where both are observed.</code></pre>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter2b-solution"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-democracylevel-strongleader-hint-2"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 2 of 3
+After filtering, pipe the data into ggplot().
+
+Inside aes(), map support for a strong leader to x and 
+level of democracy to y. Then use + to add geom_point() 
+to display the observations.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-democracylevel-strongleader-hint-3"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 3 of 3
+Add a fitted line using geom_smooth().
+
+Set se = FALSE and method = &quot;lm&quot;, and specify colors inside 
+geom_point() and geom_smooth() to customize the appearance.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-democracylevel-strongleader-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>fHouse %&gt;%
@@ -460,13 +503,30 @@ is more support of a strong leader there tends to be less support for
 democracy.</p>
 <p>Edit the code below to estimate Pearson’s correlation
 coefficient.</p>
-<div class="tutorial-exercise" data-label="Pr2" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
+<p><strong>Explore: Calculate correlation for strong leader and
+democracy</strong></p>
+<div class="tutorial-exercise"
+data-label="exercise-correlation-democracylevel-strongleader"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>cor(XXX = XXX, y = XXX$XXX, use = XXX, method = &quot;XXX&quot;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Fill in the XXXX values to calculate the Pearson correlation between Pro.Strong.Leader and FHTotalAggr, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available."}</script>
 </div>
-<div class="tutorial-exercise-support" data-label="Pr2-solution"
+<div class="tutorial-exercise-support"
+data-label="exercise-correlation-democracylevel-strongleader-hint"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 1 of 1
+The x and y arguments in cor() are just the two variables whose 
+relationship you want to measure. Unlike a scatter plot, it does 
+not matter which variable goes in x and which goes in y.
+
+Use the two variables named in the question, written as fHouse$variable.
+
+Set method = &quot;pearson&quot; and choose the use option that handles missing values.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="exercise-correlation-democracylevel-strongleader-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>cor(x = fHouse$Pro.Strong.Leader, y = fHouse$FHTotalAggr, use = &quot;pairwise.complete.obs&quot;, method = &quot;pearson&quot;)</code></pre>
@@ -478,19 +538,22 @@ of institutional democracy (and vice versa).</p>
 <p>Finally, let’s examine the relationship between
 <strong>wage_growth</strong> and <strong>dem2p_vote_share</strong> in
 the data frame <strong>counties</strong>. <strong>wage_growth</strong>
-is an interval level variable that records the rate at which wages grew
+is an interval-level variable that records the rate at which wages grew
 (or fell) over the last four years in a county.
-<strong>dem2p_vote_share</strong> is an interval level variable
+<strong>dem2p_vote_share</strong> is an interval-level variable
 measuring the share of the vote for the Democrat, Hillary Clinton, in a
 county in 2016. This is a case where the outcome variable is clearly
 identifiable: <strong>dem2p_vote_share</strong>. So we will place it on
-the x-axis. Before creating the scatter plot, filter out any missing
+the y-axis. Before creating the scatter plot, filter out any missing
 values. Make the points “blue” and add an “lm” line to the plot without
 standard errors (ser <code>se = FALSE</code>). Make the line “red”. In
 the code below I’ve added the labels for you.</p>
-<div class="tutorial-exercise" data-label="scatter3" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
+<p><strong>Explore: Plot wage growth and Democratic vote
+share</strong></p>
+<div class="tutorial-exercise"
+data-label="exercise-scatterplot-wagegrowth-democracylevel"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>counties %&gt;%
   XXXX
   XXXX
@@ -501,32 +564,41 @@ data-pipe="|&gt;">
        x = &quot;Wage Growth&quot;, 
        y = &quot;Democratic Vote Share&quot;, 
        caption = &quot;Source: Linn, Nagler, and Zilinsky&quot;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Fill in the XXXX values to create a scatter plot of wage_growth and dem2p_vote_share, including filtering missing values and adding a fitted line. Click Submit Answer to check correctness. Three hints are available."}</script>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter3-hint-1"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-wagegrowth-democracylevel-hint-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Did you filter by selecting rows of the data frame fHouse 
-that are not missing using !is.na? (Don&#39;t forget to 
-pipe the results to ggplot).</code></pre>
+<pre class="text"><code># Hint 1 of 3
+You are examining the relationship between wage growth and vote share. 
+Before plotting, make sure the data you pass through the pipe includes 
+only rows where both variables are observed, using filter() to remove 
+missing values.</code></pre>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter3-hint-2"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-wagegrowth-democracylevel-hint-2"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>For the second XXXX call gpplot(). You don&#39;t need to specify data because
-we&#39;ve piped the filtered data to ggplot(). You do need to specify the mapping
-argument with the aes() function and specify x=wage_growth and y=dem2p_vote_share</code></pre>
+<pre class="text"><code># Hint 2 of 3
+After filtering, pipe the data into ggplot().
+
+For a scatter plot, put the explanatory variable on the x-axis 
+and the outcome variable on the y-axis. Map those variables 
+inside aes().</code></pre>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter3-hint-3"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-wagegrowth-democracylevel-hint-3"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Did you add geom+point() and pass it color = &quot;blue&quot;?
-Did you pass geom_smooth()  a color, eliminate the se 
-by setting that argument to FALSE, and set the method
-argument to &quot;lm&quot;?
-Did you include a plus to add each layer to the plot?</code></pre>
+<pre class="text"><code># Hint 3 of 3
+Use + to add a point layer and a fitted line.
+
+Set the point color inside geom_point(), and in geom_smooth() 
+set the line color, se = FALSE, and method = &quot;lm&quot;.</code></pre>
 </div>
-<div class="tutorial-exercise-support" data-label="scatter3-solution"
+<div class="tutorial-exercise-support"
+data-label="exercise-scatterplot-wagegrowth-democracylevel-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>counties %&gt;%
@@ -545,18 +617,29 @@ that these counties had a wide range of vote share for Hillary
 Clinton.</p>
 <p>Now let’s estimate the correlation coefficient between these two
 variables.</p>
-<div class="tutorial-exercise" data-label="Pr3" data-completion="1"
-data-diagnostics="1" data-startover="1" data-lines="0"
-data-pipe="|&gt;">
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
-</div>
-<div class="tutorial-exercise-support" data-label="Pr3-hint-1"
+<p><strong>Practice: Calculate correlation for wage growth and vote
+share</strong></p>
+<div class="tutorial-exercise"
+data-label="exercise-correlation-wagegrowth-demvoteshare"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
-<pre class="text"><code>Did you call the cor() function and pass 4 arguments?
-  x, y, method, and use?</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"Interactive exercise: Write code to calculate the Pearson correlation between wage_growth and dem2p_vote_share, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available."}</script>
 </div>
-<div class="tutorial-exercise-support" data-label="Pr3-solution"
+<div class="tutorial-exercise-support"
+data-label="exercise-correlation-wagegrowth-demvoteshare-hint-1"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="0" data-pipe="|&gt;">
+<pre class="text"><code># Hint 1 of 1
+Use cor() to measure the relationship between the two variables.
+
+The x and y arguments are just the two variables named in the question, 
+written using counties$variable. Unlike a scatter plot, it does not matter 
+which variable goes in x or y.
+
+Set method = &quot;pearson&quot; and choose the use option that handles missing values appropriately.</code></pre>
+</div>
+<div class="tutorial-exercise-support"
+data-label="exercise-correlation-wagegrowth-demvoteshare-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0" data-pipe="|&gt;">
 <pre class="text"><code>cor(x = counties$wage_growth, y = counties$dem2p_vote_share, use = &quot;pairwise.complete.obs&quot;,  method = &quot;pearson&quot;)</code></pre>
@@ -605,18 +688,18 @@ related to the strength of the correlation.</li>
 between two variables. Test your knowledge by answering the following
 questions.</p>
 <div class="panel panel-default tutorial-question-container">
-<div data-label="letter-z" class="tutorial-question panel-body">
-<div id="letter-z-answer_container" class="shiny-html-output"></div>
-<div id="letter-z-message_container" class="shiny-html-output"></div>
-<div id="letter-z-action_button_container" class="shiny-html-output"></div>
+<div data-label="quiz-variable-relationship" class="tutorial-question panel-body">
+<div id="quiz-variable-relationship-answer_container" class="shiny-html-output"></div>
+<div id="quiz-variable-relationship-message_container" class="shiny-html-output"></div>
+<div id="quiz-variable-relationship-action_button_container" class="shiny-html-output"></div>
 <script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
 </div>
 </div>
 <div class="panel panel-default tutorial-question-container">
-<div data-label="letter-y" class="tutorial-question panel-body">
-<div id="letter-y-answer_container" class="shiny-html-output"></div>
-<div id="letter-y-message_container" class="shiny-html-output"></div>
-<div id="letter-y-action_button_container" class="shiny-html-output"></div>
+<div data-label="quiz-correlation" class="tutorial-question panel-body">
+<div id="quiz-correlation-answer_container" class="shiny-html-output"></div>
+<div id="quiz-correlation-message_container" class="shiny-html-output"></div>
+<div id="quiz-correlation-action_button_container" class="shiny-html-output"></div>
 <script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
 </div>
 </div>
@@ -635,19 +718,19 @@ whether or not the country is a member of the European Union,
 ## world$eu           1-3 parties   4-5 parties   6-11 parties   Total
 ## -------------------------------------------------------------------
 ## Not member                  25            16             20      61
-##                           0.81          0.70           0.65        
+##                          0.806         0.696          0.645        
 ## -------------------------------------------------------------------
 ## EU Member state              6             7             11      24
-##                           0.19          0.30           0.35        
+##                          0.194         0.304          0.355        
 ## -------------------------------------------------------------------
 ## Total                       31            23             31      85
-##                           0.36          0.27           0.36        
+##                          0.365         0.271          0.365        
 ## ===================================================================</code></pre>
 <div class="panel panel-default tutorial-question-container">
-<div data-label="letter-x" class="tutorial-question panel-body">
-<div id="letter-x-answer_container" class="shiny-html-output"></div>
-<div id="letter-x-message_container" class="shiny-html-output"></div>
-<div id="letter-x-action_button_container" class="shiny-html-output"></div>
+<div data-label="quiz-democracy-eu" class="tutorial-question panel-body">
+<div id="quiz-democracy-eu-answer_container" class="shiny-html-output"></div>
+<div id="quiz-democracy-eu-message_container" class="shiny-html-output"></div>
+<div id="quiz-democracy-eu-action_button_container" class="shiny-html-output"></div>
 <script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
 </div>
 </div>
@@ -655,17 +738,12 @@ whether or not the country is a member of the European Union,
 (0 to 100 where 100 is more effective), <strong>effectiveness</strong>,
 and fertility rate (the number of children born per woman),
 <strong>fertility</strong>.</p>
-<pre><code>## Error in `geom_smooth()`:
-## ! Problem while computing stat.
-## ℹ Error occurred in the 2nd layer.
-## Caused by error:
-## ! (converted from warning) Removed 14 rows containing non-finite outside the scale range
-## (`stat_smooth()`).</code></pre>
+<p><img src="09-bivariateIntT_files/figure-html/scatterplot-governmenteffectiveness-fertility-1.png" alt="Scatter plot showing government effectiveness (x-axis) and fertility rate (y-axis) across countries, with black points and a dashed fitted regression line. The points form a clear downward trend, where higher government effectiveness is associated with fewer children per woman, indicating a strong negative relationship. The plot demonstrates how scatter plots and trend lines reveal inverse relationships between two continuous variables." width="624" /></p>
 <div class="panel panel-default tutorial-question-container">
-<div data-label="letter-yyy" class="tutorial-question panel-body">
-<div id="letter-yyy-answer_container" class="shiny-html-output"></div>
-<div id="letter-yyy-message_container" class="shiny-html-output"></div>
-<div id="letter-yyy-action_button_container" class="shiny-html-output"></div>
+<div data-label="quiz-governmenteffectiveness-fertility" class="tutorial-question panel-body">
+<div id="quiz-governmenteffectiveness-fertility-answer_container" class="shiny-html-output"></div>
+<div id="quiz-governmenteffectiveness-fertility-message_container" class="shiny-html-output"></div>
+<div id="quiz-governmenteffectiveness-fertility-action_button_container" class="shiny-html-output"></div>
 <script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
 </div>
 </div>
@@ -725,33 +803,36 @@ session$onSessionEnded(function() {
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-scatter1-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-scatter1-code-editor`)), session)
-output$`tutorial-exercise-scatter1-output` <- renderUI({
-  `tutorial-exercise-scatter1-result`()
+`tutorial-exercise-exercise-scatterplot-prodemocracy-and-democracylevel-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-exercise-scatterplot-prodemocracy-and-democracylevel-code-editor`)), session)
+output$`tutorial-exercise-exercise-scatterplot-prodemocracy-and-democracylevel-output` <- renderUI({
+  `tutorial-exercise-exercise-scatterplot-prodemocracy-and-democracylevel-result`()
 })
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "scatter1", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "scatter1", code = "library(ggplot2)\n ", 
-        opts = list(label = "\"scatter1\"", exercise = "TRUE"), 
+learnr:::store_exercise_cache(structure(list(label = "exercise-scatterplot-prodemocracy-and-democracylevel", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "exercise-scatterplot-prodemocracy-and-democracylevel", 
+        code = "library(ggplot2)\n ", opts = list(label = "\"exercise-scatterplot-prodemocracy-and-democracylevel\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Write code to create a scatter plot of ProDem by FHTotalAggr to examine the relationship between level of democracy and support for democratic government. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available.\"", 
+            fig.alt = "\"Scatter plot showing support for democracy (Pro.Dem) on the x-axis and level of democracy (FHTotalAggr) on the y-axis across countries. The points are widely scattered with no clear upward or downward trend, indicating little to no strong linear relationship between public support for democracy and institutional democracy levels. The plot demonstrates how scatter plots can be used to assess the presence or absence of a relationship between two variables.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
-    check = structure("grade_code()", chunk_opts = list(label = "scatter1-check")), 
+    check = structure("grade_code()", chunk_opts = list(label = "exercise-scatterplot-prodemocracy-and-democracylevel-check")), 
     solution = structure(c("library(ggplot2)", "ggplot(data = fHouse, mapping = aes(x = Pro.Dem, y = FHTotalAggr)) +", 
-    "  geom_point() "), chunk_opts = list(label = "scatter1-solution")), 
+    "  geom_point() "), chunk_opts = list(label = "exercise-scatterplot-prodemocracy-and-democracylevel-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
@@ -768,38 +849,45 @@ learnr:::store_exercise_cache(structure(list(label = "scatter1", global_setup = 
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "scatter1", exercise = TRUE, 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "exercise-scatterplot-prodemocracy-and-democracylevel", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Write code to create a scatter plot of ProDem by FHTotalAggr to examine the relationship between level of democracy and support for democratic government. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available.", 
+        fig.alt = "Scatter plot showing support for democracy (Pro.Dem) on the x-axis and level of democracy (FHTotalAggr) on the y-axis across countries. The points are widely scattered with no clear upward or downward trend, indicating little to no strong linear relationship between public support for democracy and institutional democracy levels. The plot demonstrates how scatter plots can be used to assess the presence or absence of a relationship between two variables.", 
         code = c("library(ggplot2)", " "), out.width.px = 624, 
-        out.height.px = 384, params.src = "scatter1, exercise=TRUE", 
+        out.height.px = 384, params.src = "exercise-scatterplot-prodemocracy-and-democracylevel, exercise=TRUE, exercise.cap=\"Interactive exercise: Write code to create a scatter plot of ProDem by FHTotalAggr to examine the relationship between level of democracy and support for democratic government. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available.\", fig.alt=\"Scatter plot showing support for democracy (Pro.Dem) on the x-axis and level of democracy (FHTotalAggr) on the y-axis across countries. The points are widely scattered with no clear upward or downward trend, indicating little to no strong linear relationship between public support for democracy and institutional democracy levels. The plot demonstrates how scatter plots can be used to assess the presence or absence of a relationship between two variables.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-scatter2-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-scatter2-code-editor`)), session)
-output$`tutorial-exercise-scatter2-output` <- renderUI({
-  `tutorial-exercise-scatter2-result`()
+`tutorial-exercise-scatterplot-prodemocracy-democracy-level-smooth-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-scatterplot-prodemocracy-democracy-level-smooth-code-editor`)), session)
+output$`tutorial-exercise-scatterplot-prodemocracy-democracy-level-smooth-output` <- renderUI({
+  `tutorial-exercise-scatterplot-prodemocracy-democracy-level-smooth-result`()
 })
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "scatter2", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "scatter2", code = "library(dplyr)\nfHouse %>%\n  filter(!is.na(FHTotalAggr), !is.na(Pro.Dem)) %>%\n  ggplot(mapping = aes(x=Pro.Dem, y = FHTotalAggr)) +\n  geom_point(color = \"purple\") +\n  geom_smooth(color = \"orange\", se = FALSE, method = \"lm\") +\n  labs(title = \"Support for Democratic Values \\nand Level of Democracy\", \n       x = \"Support for Democratic Rule\", \n       y = \"Level of Democracy\", \n       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\") ", 
-        opts = list(label = "\"scatter2\"", exercise = "TRUE"), 
+learnr:::store_exercise_cache(structure(list(label = "scatterplot-prodemocracy-democracy-level-smooth", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "scatterplot-prodemocracy-democracy-level-smooth", 
+        code = "library(dplyr)\nfHouse %>%\n  filter(!is.na(FHTotalAggr), !is.na(Pro.Dem)) %>%\n  ggplot(mapping = aes(x=Pro.Dem, y = FHTotalAggr)) +\n  geom_point(color = \"purple\") +\n  geom_smooth(color = \"orange\", se = FALSE, method = \"lm\") +\n  labs(title = \"Support for Democratic Values \\nand Level of Democracy\", \n       x = \"Support for Democratic Rule\", \n       y = \"Level of Democracy\", \n       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\") ", 
+        opts = list(label = "\"scatterplot-prodemocracy-democracy-level-smooth\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Run the code to customize a scatter plot by changing point color and adding a fitted trend line to visualize the relationship between Pro.Dem and FHTotalAggr. Use the Run Code button to execute and see results. No hints are available.\"", 
+            fig.alt = "\"Scatter plot showing support for democratic rule (x-axis) and level of democracy (y-axis) across countries, with purple points and an orange fitted regression line. The points are widely dispersed with no strong pattern, and the fitted line is nearly flat with a slight negative slope, indicating little to no linear relationship between public support and institutional democracy. The plot demonstrates how adding a regression line helps assess the direction and strength of a relationship in a scatter plot.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = NULL, tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
@@ -817,44 +905,113 @@ learnr:::store_exercise_cache(structure(list(label = "scatter2", global_setup = 
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "scatter2", exercise = TRUE, 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "scatterplot-prodemocracy-democracy-level-smooth", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Run the code to customize a scatter plot by changing point color and adding a fitted trend line to visualize the relationship between Pro.Dem and FHTotalAggr. Use the Run Code button to execute and see results. No hints are available.", 
+        fig.alt = "Scatter plot showing support for democratic rule (x-axis) and level of democracy (y-axis) across countries, with purple points and an orange fitted regression line. The points are widely dispersed with no strong pattern, and the fitted line is nearly flat with a slight negative slope, indicating little to no linear relationship between public support and institutional democracy. The plot demonstrates how adding a regression line helps assess the direction and strength of a relationship in a scatter plot.", 
         code = c("library(dplyr)", "fHouse %>%", "  filter(!is.na(FHTotalAggr), !is.na(Pro.Dem)) %>%", 
         "  ggplot(mapping = aes(x=Pro.Dem, y = FHTotalAggr)) +", 
         "  geom_point(color = \"purple\") +", "  geom_smooth(color = \"orange\", se = FALSE, method = \"lm\") +", 
         "  labs(title = \"Support for Democratic Values \\nand Level of Democracy\", ", 
         "       x = \"Support for Democratic Rule\", ", "       y = \"Level of Democracy\", ", 
         "       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\") "
-        ), out.width.px = 624, out.height.px = 384, params.src = "scatter2, exercise=TRUE", 
+        ), out.width.px = 624, out.height.px = 384, params.src = "scatterplot-prodemocracy-democracy-level-smooth, exercise=TRUE, exercise.cap=\"Interactive exercise: Run the code to customize a scatter plot by changing point color and adding a fitted trend line to visualize the relationship between Pro.Dem and FHTotalAggr. Use the Run Code button to execute and see results. No hints are available.\", fig.alt=\"Scatter plot showing support for democratic rule (x-axis) and level of democracy (y-axis) across countries, with purple points and an orange fitted regression line. The points are widely dispersed with no strong pattern, and the fitted line is nearly flat with a slight negative slope, indicating little to no linear relationship between public support and institutional democracy. The plot demonstrates how adding a regression line helps assess the direction and strength of a relationship in a scatter plot.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-Pr-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-Pr-code-editor`)), session)
-output$`tutorial-exercise-Pr-output` <- renderUI({
-  `tutorial-exercise-Pr-result`()
+`tutorial-exercise-correlation-prodemocracy-democracylevel-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-correlation-prodemocracy-democracylevel-code-editor`)), session)
+output$`tutorial-exercise-correlation-prodemocracy-democracylevel-output` <- renderUI({
+  `tutorial-exercise-correlation-prodemocracy-democracylevel-result`()
 })
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "Pr", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "Pr", code = "cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = \"pairwise.complete.obs\", method = \"pearson\")", 
-        opts = list(label = "\"Pr\"", exercise = "TRUE"), engine = "r")), 
-    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+learnr:::store_exercise_cache(structure(list(label = "correlation-prodemocracy-democracylevel", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "correlation-prodemocracy-democracylevel", 
+        code = "cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = \"pairwise.complete.obs\", method = \"pearson\")", 
+        opts = list(label = "\"correlation-prodemocracy-democracylevel\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Write code to calculate the Pearson correlation between Pro.Dem and FHTotalAggr, handling missing values appropriately. Use the Run Code button to execute and click Submit Answer to check correctness. No hints are available.\""), 
+        engine = "r")), code_check = NULL, error_check = NULL, 
+    check = NULL, solution = NULL, tests = NULL, options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
+        strip.white = TRUE, cache = 0, cache.path = "09-bivariateIntT_cache/html/", 
+        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
+        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
+        fig.show = "asis", fig.align = "default", fig.path = "09-bivariateIntT_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "correlation-prodemocracy-democracylevel", exercise = TRUE, 
+        exercise.cap = "Interactive exercise: Write code to calculate the Pearson correlation between Pro.Dem and FHTotalAggr, handling missing values appropriately. Use the Run Code button to execute and click Submit Answer to check correctness. No hints are available.", 
+        code = "cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = \"pairwise.complete.obs\", method = \"pearson\")", 
+        out.width.px = 624, out.height.px = 384, params.src = "correlation-prodemocracy-democracylevel, exercise=TRUE, exercise.cap=\"Interactive exercise: Write code to calculate the Pearson correlation between Pro.Dem and FHTotalAggr, handling missing values appropriately. Use the Run Code button to execute and click Submit Answer to check correctness. No hints are available.\"", 
+        fig.num = 0, exercise.df_print = "paged"), engine = "r", 
+    version = "4"), class = c("r", "tutorial_exercise")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-exercise-scatterplot-democracylevel-strongleader-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-exercise-scatterplot-democracylevel-strongleader-code-editor`)), session)
+output$`tutorial-exercise-exercise-scatterplot-democracylevel-strongleader-output` <- renderUI({
+  `tutorial-exercise-exercise-scatterplot-democracylevel-strongleader-result`()
+})
+</script>
+
+
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache(structure(list(label = "exercise-scatterplot-democracylevel-strongleader", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "exercise-scatterplot-democracylevel-strongleader", 
+        code = "fHouse %>%\n  filter(XXXX(FHTotalAggr), XXXX(Pro.Strong.Leader)) %>%\nggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +\n geom_point(XXXX) +\n  geom_smooth(XXXX) +\n  labs(title = \"Support for Democratic Values \\nand Level of Democracy\",\n       x = \"Support for a Strong Leader\", \n       y = \"Level of Democracy\", \n       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\")", 
+        opts = list(label = "\"exercise-scatterplot-democracylevel-strongleader\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Fill in the XXXX values to create a scatter plot of Pro.Strong.Leader and FHTotalAggr, including filtering missing values and customizing point and line colors. Click Submit Answer to check correctness. Three hints are available.\"", 
+            fig.alt = "\"Scatter plot showing support for a strong leader (x-axis) and level of democracy (y-axis) across countries, with blue points and a red fitted regression line. The points show a clear downward trend, with higher support for a strong leader associated with lower levels of democracy, as reflected in the negatively sloped line. The plot demonstrates how scatter plots and regression lines can reveal a negative relationship between two variables consistent with the hypothesis.\""), 
+        engine = "r")), code_check = NULL, error_check = NULL, 
+    check = structure("grade_code()", chunk_opts = list(label = "exercise-scatterplot-democracylevel-strongleader-check")), 
+    solution = structure(c("fHouse %>%", "  filter(!is.na(FHTotalAggr), !is.na(Pro.Strong.Leader)) %>%", 
+    "ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +", 
+    " geom_point(color = \"blue\") +", "  geom_smooth(color = \"red\",se = FALSE, method = \"lm\") +", 
+    "  labs(title = \"Support for Democratic Values \\nand Level of Democracy\",", 
+    "       x = \"Support for a Strong Leader\", ", "       y = \"Level of Democracy\", ", 
+    "       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\")"
+    ), chunk_opts = list(label = "exercise-scatterplot-democracylevel-strongleader-solution")), 
     tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
@@ -871,48 +1028,53 @@ learnr:::store_exercise_cache(structure(list(label = "Pr", global_setup = struct
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "Pr", exercise = TRUE, 
-        code = "cor(x = fHouse$Pro.Dem, y = fHouse$FHTotalAggr, use = \"pairwise.complete.obs\", method = \"pearson\")", 
-        out.width.px = 624, out.height.px = 384, params.src = "Pr, exercise=TRUE", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "exercise-scatterplot-democracylevel-strongleader", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Fill in the XXXX values to create a scatter plot of Pro.Strong.Leader and FHTotalAggr, including filtering missing values and customizing point and line colors. Click Submit Answer to check correctness. Three hints are available.", 
+        fig.alt = "Scatter plot showing support for a strong leader (x-axis) and level of democracy (y-axis) across countries, with blue points and a red fitted regression line. The points show a clear downward trend, with higher support for a strong leader associated with lower levels of democracy, as reflected in the negatively sloped line. The plot demonstrates how scatter plots and regression lines can reveal a negative relationship between two variables consistent with the hypothesis.", 
+        code = c("fHouse %>%", "  filter(XXXX(FHTotalAggr), XXXX(Pro.Strong.Leader)) %>%", 
+        "ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +", 
+        " geom_point(XXXX) +", "  geom_smooth(XXXX) +", "  labs(title = \"Support for Democratic Values \\nand Level of Democracy\",", 
+        "       x = \"Support for a Strong Leader\", ", "       y = \"Level of Democracy\", ", 
+        "       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\")"
+        ), out.width.px = 624, out.height.px = 384, params.src = "exercise-scatterplot-democracylevel-strongleader, exercise=TRUE, exercise.cap=\"Interactive exercise: Fill in the XXXX values to create a scatter plot of Pro.Strong.Leader and FHTotalAggr, including filtering missing values and customizing point and line colors. Click Submit Answer to check correctness. Three hints are available.\", fig.alt=\"Scatter plot showing support for a strong leader (x-axis) and level of democracy (y-axis) across countries, with blue points and a red fitted regression line. The points show a clear downward trend, with higher support for a strong leader associated with lower levels of democracy, as reflected in the negatively sloped line. The plot demonstrates how scatter plots and regression lines can reveal a negative relationship between two variables consistent with the hypothesis.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-scatter2b-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-scatter2b-code-editor`)), session)
-output$`tutorial-exercise-scatter2b-output` <- renderUI({
-  `tutorial-exercise-scatter2b-result`()
+`tutorial-exercise-exercise-correlation-democracylevel-strongleader-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-exercise-correlation-democracylevel-strongleader-code-editor`)), session)
+output$`tutorial-exercise-exercise-correlation-democracylevel-strongleader-output` <- renderUI({
+  `tutorial-exercise-exercise-correlation-democracylevel-strongleader-result`()
 })
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "scatter2b", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "scatter2b", code = "fHouse %>%\n  filter(XXXX(FHTotalAggr), XXXX(Pro.Strong.Leader)) %>%\nggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +\n geom_point(XXXX) +\n  geom_smooth(XXXX) +\n  labs(title = \"Support for Democratic Values \\nand Level of Democracy\",\n       x = \"Support for a Strong Leader\", \n       y = \"Level of Democracy\", \n       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\")", 
-        opts = list(label = "\"scatter2b\"", exercise = "TRUE"), 
+learnr:::store_exercise_cache(structure(list(label = "exercise-correlation-democracylevel-strongleader", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "exercise-correlation-democracylevel-strongleader", 
+        code = "cor(XXX = XXX, y = XXX$XXX, use = XXX, method = \"XXX\")", 
+        opts = list(label = "\"exercise-correlation-democracylevel-strongleader\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Fill in the XXXX values to calculate the Pearson correlation between Pro.Strong.Leader and FHTotalAggr, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
-    check = structure("grade_code()", chunk_opts = list(label = "scatter2b-check")), 
-    solution = structure(c("fHouse %>%", "  filter(!is.na(FHTotalAggr), !is.na(Pro.Strong.Leader)) %>%", 
-    "ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +", 
-    " geom_point(color = \"blue\") +", "  geom_smooth(color = \"red\",se = FALSE, method = \"lm\") +", 
-    "  labs(title = \"Support for Democratic Values \\nand Level of Democracy\",", 
-    "       x = \"Support for a Strong Leader\", ", "       y = \"Level of Democracy\", ", 
-    "       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\")"
-    ), chunk_opts = list(label = "scatter2b-solution")), tests = NULL, 
-    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+    check = structure("grade_code()", chunk_opts = list(label = "exercise-correlation-democracylevel-strongleader-check")), 
+    solution = structure("cor(x = fHouse$Pro.Strong.Leader, y = fHouse$FHTotalAggr, use = \"pairwise.complete.obs\", method = \"pearson\")", chunk_opts = list(
+        label = "exercise-correlation-democracylevel-strongleader-solution")), 
+    tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
         background = "#F7F7F7", strip.white = TRUE, cache = 0, 
@@ -928,102 +1090,54 @@ learnr:::store_exercise_cache(structure(list(label = "scatter2b", global_setup =
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "scatter2b", exercise = TRUE, 
-        code = c("fHouse %>%", "  filter(XXXX(FHTotalAggr), XXXX(Pro.Strong.Leader)) %>%", 
-        "ggplot(mapping = aes(x = Pro.Strong.Leader, y = FHTotalAggr)) +", 
-        " geom_point(XXXX) +", "  geom_smooth(XXXX) +", "  labs(title = \"Support for Democratic Values \\nand Level of Democracy\",", 
-        "       x = \"Support for a Strong Leader\", ", "       y = \"Level of Democracy\", ", 
-        "       caption = \"Source: WVS and EVS, 2005-2008, \\nFreedom House 2017\")"
-        ), out.width.px = 624, out.height.px = 384, params.src = "scatter2b, exercise=TRUE", 
-        fig.num = 0, exercise.df_print = "paged"), engine = "r", 
-    version = "4"), class = c("r", "tutorial_exercise")))
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-Pr2-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-Pr2-code-editor`)), session)
-output$`tutorial-exercise-Pr2-output` <- renderUI({
-  `tutorial-exercise-Pr2-result`()
-})
-</script>
-
-
-<script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "Pr2", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "Pr2", code = "cor(XXX = XXX, y = XXX$XXX, use = XXX, method = \"XXX\")", 
-        opts = list(label = "\"Pr2\"", exercise = "TRUE"), engine = "r")), 
-    code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
-        label = "Pr2-check")), solution = structure("cor(x = fHouse$Pro.Strong.Leader, y = fHouse$FHTotalAggr, use = \"pairwise.complete.obs\", method = \"pearson\")", chunk_opts = list(
-        label = "Pr2-solution")), tests = NULL, options = list(
-        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "09-bivariateIntT_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "09-bivariateIntT_files/figure-html/", 
-        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
-        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
-        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
-        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
-        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = TRUE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
-        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "Pr2", exercise = TRUE, 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "exercise-correlation-democracylevel-strongleader", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Fill in the XXXX values to calculate the Pearson correlation between Pro.Strong.Leader and FHTotalAggr, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available.", 
         code = "cor(XXX = XXX, y = XXX$XXX, use = XXX, method = \"XXX\")", 
-        out.width.px = 624, out.height.px = 384, params.src = "Pr2, exercise=TRUE", 
+        out.width.px = 624, out.height.px = 384, params.src = "exercise-correlation-democracylevel-strongleader, exercise=TRUE, exercise.cap=\"Interactive exercise: Fill in the XXXX values to calculate the Pearson correlation between Pro.Strong.Leader and FHTotalAggr, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-scatter3-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-scatter3-code-editor`)), session)
-output$`tutorial-exercise-scatter3-output` <- renderUI({
-  `tutorial-exercise-scatter3-result`()
+`tutorial-exercise-exercise-scatterplot-wagegrowth-democracylevel-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-exercise-scatterplot-wagegrowth-democracylevel-code-editor`)), session)
+output$`tutorial-exercise-exercise-scatterplot-wagegrowth-democracylevel-output` <- renderUI({
+  `tutorial-exercise-exercise-scatterplot-wagegrowth-democracylevel-result`()
 })
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "scatter3", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "scatter3", code = "counties %>%\n  XXXX\n  XXXX\n  XXXX\n  XXXX\n  labs(title = \"Wage Growth and Support for Hillary Clinton\",\n       subtitle = \"US Counties 2016\",\n       x = \"Wage Growth\", \n       y = \"Democratic Vote Share\", \n       caption = \"Source: Linn, Nagler, and Zilinsky\")", 
-        opts = list(label = "\"scatter3\"", exercise = "TRUE"), 
+learnr:::store_exercise_cache(structure(list(label = "exercise-scatterplot-wagegrowth-democracylevel", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "exercise-scatterplot-wagegrowth-democracylevel", 
+        code = "counties %>%\n  XXXX\n  XXXX\n  XXXX\n  XXXX\n  labs(title = \"Wage Growth and Support for Hillary Clinton\",\n       subtitle = \"US Counties 2016\",\n       x = \"Wage Growth\", \n       y = \"Democratic Vote Share\", \n       caption = \"Source: Linn, Nagler, and Zilinsky\")", 
+        opts = list(label = "\"exercise-scatterplot-wagegrowth-democracylevel\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Fill in the XXXX values to create a scatter plot of wage_growth and dem2p_vote_share, including filtering missing values and adding a fitted line. Click Submit Answer to check correctness. Three hints are available.\"", 
+            fig.alt = "\"Scatter plot showing wage growth (x-axis) and Democratic vote share (y-axis) across U.S. counties in 2016, with blue points and a red fitted regression line. The points are densely clustered near low wage growth values with wide variation in vote share, while the line slopes slightly upward, indicating a weak positive relationship between wage growth and support for Clinton. The plot demonstrates how scatter plots can reveal modest trends even when data are highly dispersed.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
-    check = structure("grade_code()", chunk_opts = list(label = "scatter3-check")), 
+    check = structure("grade_code()", chunk_opts = list(label = "exercise-scatterplot-wagegrowth-democracylevel-check")), 
     solution = structure(c("counties %>%", "  filter(!is.na(wage_growth), !is.na(dem2p_vote_share)) %>%", 
     "ggplot(mapping = aes(x = wage_growth, y = dem2p_vote_share)) +", 
     " geom_point(color = \"blue\") +", "  geom_smooth(color = \"red\", se = FALSE, method = \"lm\") +", 
     "  labs(title = \"Wage Growth and Support for Hillary Clinton\",", 
     "       subtitle = \"US Counties 2016\",", "       x = \"Wage Growth\", ", 
     "       y = \"Democratic Vote Share\", ", "       caption = \"Source: Linn, Nagler, and Zilinsky\")"
-    ), chunk_opts = list(label = "scatter3-solution")), tests = NULL, 
-    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+    ), chunk_opts = list(label = "exercise-scatterplot-wagegrowth-democracylevel-solution")), 
+    tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
         tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
         comment = NA, highlight = FALSE, size = "normalsize", 
         background = "#F7F7F7", strip.white = TRUE, cache = 0, 
@@ -1039,51 +1153,58 @@ learnr:::store_exercise_cache(structure(list(label = "scatter3", global_setup = 
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "scatter3", exercise = TRUE, 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "exercise-scatterplot-wagegrowth-democracylevel", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Fill in the XXXX values to create a scatter plot of wage_growth and dem2p_vote_share, including filtering missing values and adding a fitted line. Click Submit Answer to check correctness. Three hints are available.", 
+        fig.alt = "Scatter plot showing wage growth (x-axis) and Democratic vote share (y-axis) across U.S. counties in 2016, with blue points and a red fitted regression line. The points are densely clustered near low wage growth values with wide variation in vote share, while the line slopes slightly upward, indicating a weak positive relationship between wage growth and support for Clinton. The plot demonstrates how scatter plots can reveal modest trends even when data are highly dispersed.", 
         code = c("counties %>%", "  XXXX", "  XXXX", "  XXXX", 
         "  XXXX", "  labs(title = \"Wage Growth and Support for Hillary Clinton\",", 
         "       subtitle = \"US Counties 2016\",", "       x = \"Wage Growth\", ", 
         "       y = \"Democratic Vote Share\", ", "       caption = \"Source: Linn, Nagler, and Zilinsky\")"
-        ), out.width.px = 624, out.height.px = 384, params.src = "scatter3, exercise=TRUE", 
+        ), out.width.px = 624, out.height.px = 384, params.src = "exercise-scatterplot-wagegrowth-democracylevel, exercise=TRUE, exercise.cap=\"Interactive exercise: Fill in the XXXX values to create a scatter plot of wage_growth and dem2p_vote_share, including filtering missing values and adding a fitted line. Click Submit Answer to check correctness. Three hints are available.\", fig.alt=\"Scatter plot showing wage growth (x-axis) and Democratic vote share (y-axis) across U.S. counties in 2016, with blue points and a red fitted regression line. The points are densely clustered near low wage growth values with wide variation in vote share, while the line slopes slightly upward, indicating a weak positive relationship between wage growth and support for Clinton. The plot demonstrates how scatter plots can reveal modest trends even when data are highly dispersed.\"", 
         fig.num = 0, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-Pr3-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-Pr3-code-editor`)), session)
-output$`tutorial-exercise-Pr3-output` <- renderUI({
-  `tutorial-exercise-Pr3-result`()
+`tutorial-exercise-exercise-correlation-wagegrowth-demvoteshare-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-exercise-correlation-wagegrowth-demvoteshare-code-editor`)), session)
+output$`tutorial-exercise-exercise-correlation-wagegrowth-demvoteshare-output` <- renderUI({
+  `tutorial-exercise-exercise-correlation-wagegrowth-demvoteshare-result`()
 })
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "Pr3", global_setup = structure(c("library(learnr)", 
-"library(tidyverse)", "library(knitr)", "library(poliscidata)", 
-"library(descr)", "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
-"tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
-"data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
-"counties$dem2p_percent <- counties$dem2p_vote_share*100", "counties$rural <-1", 
-"counties$rural[counties$rural_urban<=3] <- 0", "counties$rural[counties$rural_urban>=8] <-2", 
-"", "data(\"fHouse\", package = \"qpaTutorials\")", "sum(is.na(fHouse$FHStatus))", 
-"#fHouse <-filter(fHouse, FHStatus==)", "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", 
-"fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", "", "fHouse$FHStatus<-fHouse$FHStatus2", 
-"#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
-"world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "Pr3", code = "", 
-        opts = list(label = "\"Pr3\"", exercise = "TRUE"), engine = "r")), 
-    code_check = NULL, error_check = NULL, check = structure("grade_code()", chunk_opts = list(
-        label = "Pr3-check")), solution = structure("cor(x = counties$wage_growth, y = counties$dem2p_vote_share, use = \"pairwise.complete.obs\",  method = \"pearson\")", chunk_opts = list(
-        label = "Pr3-solution")), tests = NULL, options = list(
-        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "09-bivariateIntT_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "09-bivariateIntT_files/figure-html/", 
+learnr:::store_exercise_cache(structure(list(label = "exercise-correlation-wagegrowth-demvoteshare", 
+    global_setup = structure(c("library(learnr)", "library(tidyverse)", 
+    "library(knitr)", "library(poliscidata)", "library(descr)", 
+    "library(ggplot2)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
+    "data(\"counties\", package = \"qpaTutorials\")", "counties$employ_pop_ratio_25_64 <- counties$employ_pop_ratio_25_64*100", 
+    "counties$dem2p_percent <- counties$dem2p_vote_share*100", 
+    "counties$rural <-1", "counties$rural[counties$rural_urban<=3] <- 0", 
+    "counties$rural[counties$rural_urban>=8] <-2", "", "data(\"fHouse\", package = \"qpaTutorials\")", 
+    "sum(is.na(fHouse$FHStatus))", "#fHouse <-filter(fHouse, FHStatus==)", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"NF\"] <- 0", "fHouse$FHStatus2[fHouse$FHStatus==\"PF\"] <- 1", 
+    "fHouse$FHStatus2[fHouse$FHStatus==\"F\"] <- 2", "fHouse$FHStatus2[fHouse$FHStatus==\"NA\"] <- NA", 
+    "", "fHouse$FHStatus<-fHouse$FHStatus2", "#fHouse$FHStatus <- factor(fHouse$FHStatus, ordered=TRUE, levels = c(\"NF\", \"PF\", \"F\"))", 
+    "world <- world"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "exercise-correlation-wagegrowth-demvoteshare", 
+        code = "", opts = list(label = "\"exercise-correlation-wagegrowth-demvoteshare\"", 
+            exercise = "TRUE", exercise.cap = "\"Interactive exercise: Write code to calculate the Pearson correlation between wage_growth and dem2p_vote_share, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available.\""), 
+        engine = "r")), code_check = NULL, error_check = NULL, 
+    check = structure("grade_code()", chunk_opts = list(label = "exercise-correlation-wagegrowth-demvoteshare-check")), 
+    solution = structure("cor(x = counties$wage_growth, y = counties$dem2p_vote_share, use = \"pairwise.complete.obs\",  method = \"pearson\")", chunk_opts = list(
+        label = "exercise-correlation-wagegrowth-demvoteshare-solution")), 
+    tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, size = "normalsize", 
+        background = "#F7F7F7", strip.white = TRUE, cache = 0, 
+        cache.path = "09-bivariateIntT_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "09-bivariateIntT_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1092,68 +1213,71 @@ learnr:::store_exercise_cache(structure(list(label = "Pr3", global_setup = struc
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-        exercise.timelimit = 60, label = "Pr3", exercise = TRUE, 
-        code = "", out.width.px = 624, out.height.px = 384, params.src = "Pr3, exercise=TRUE", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "exercise-correlation-wagegrowth-demvoteshare", 
+        exercise = TRUE, exercise.cap = "Interactive exercise: Write code to calculate the Pearson correlation between wage_growth and dem2p_vote_share, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available.", 
+        code = "", out.width.px = 624, out.height.px = 384, params.src = "exercise-correlation-wagegrowth-demvoteshare, exercise=TRUE, exercise.cap=\"Interactive exercise: Write code to calculate the Pearson correlation between wage_growth and dem2p_vote_share, handling missing values appropriately. Click Submit Answer to check correctness. One hint is available.\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-z", question = structure("Which of the following statements is true", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_4d72f91", 
-    option = "We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", 
-    value = "We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", 
-    label = structure("We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", html = TRUE, class = c("html", 
-    "character")), correct = FALSE, message = structure("We do not summarize a caetgorical variable with a mean, so this is inapproprite.", html = TRUE, class = c("html", 
-    "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_bacd4e7", 
-    option = "A cross-tab illustrates the relationship between two categorical variables", 
-    value = "A cross-tab illustrates the relationship between two categorical variables", 
-    label = structure("A cross-tab illustrates the relationship between two categorical variables", html = TRUE, class = c("html", 
-    "character")), correct = TRUE, message = structure("Cross-tabs show the distribution of one categorical variable given values of another categorical variable.", html = TRUE, class = c("html", 
-    "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_ad8deca", 
-    option = "The relationship between two interval variables is illustrated by comparing their distributions across categories. ", 
-    value = "The relationship between two interval variables is illustrated by comparing their distributions across categories. ", 
-    label = structure("The relationship between two interval variables is illustrated by comparing their distributions across categories.", html = TRUE, class = c("html", 
-    "character")), correct = FALSE, message = structure("We illustrate the relationship between interval variables using scatter plots.", html = TRUE, class = c("html", 
-    "character")), type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
-"character")), try_again = structure("<span data-i18n=\"button.questiontryagain\">Try Again<\u002fspan>", html = TRUE, class = c("html", 
-"character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
-"character")), try_again = structure("", html = TRUE, class = c("html", 
-"character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
-"character")), message = NULL, post_message = NULL), ids = list(
-    answer = "letter-z-answer", question = "letter-z"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1811665881.65638, 
-    options = list()), class = c("learnr_radio", "tutorial_question"
-)), session = session)
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz-variable-relationship", 
+    question = structure("Which of the following statements is true", html = TRUE, class = c("html", 
+    "character")), answers = list(structure(list(id = "lnr_ans_11060ea", 
+        option = "We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", 
+        value = "We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", 
+        label = structure("We describe the relationship between two categorical variables by comparing the mean of one variable for categories of the other variable", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("We do not summarize a caetgorical variable with a mean, so this is inapproprite.", html = TRUE, class = c("html", 
+        "character")), type = "literal"), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2d5fe34", 
+        option = "A cross-tab illustrates the relationship between two categorical variables", 
+        value = "A cross-tab illustrates the relationship between two categorical variables", 
+        label = structure("A cross-tab illustrates the relationship between two categorical variables", html = TRUE, class = c("html", 
+        "character")), correct = TRUE, message = structure("Cross-tabs show the distribution of one categorical variable given values of another categorical variable.", html = TRUE, class = c("html", 
+        "character")), type = "literal"), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_663bca3", 
+        option = "The relationship between two interval variables is illustrated by comparing their distributions across categories. ", 
+        value = "The relationship between two interval variables is illustrated by comparing their distributions across categories. ", 
+        label = structure("The relationship between two interval variables is illustrated by comparing their distributions across categories.", html = TRUE, class = c("html", 
+        "character")), correct = FALSE, message = structure("We illustrate the relationship between interval variables using scatter plots.", html = TRUE, class = c("html", 
+        "character")), type = "literal"), class = c("tutorial_question_answer", 
+    "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
+    "character")), try_again = structure("<span data-i18n=\"button.questiontryagain\">Try Again<\u002fspan>", html = TRUE, class = c("html", 
+    "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", 
+    "character")), try_again = structure("", html = TRUE, class = c("html", 
+    "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
+    "character")), message = NULL, post_message = NULL), ids = list(
+        answer = "quiz-variable-relationship-answer", question = "quiz-variable-relationship"), 
+    loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 1021178956.52448, options = list()), class = c("learnr_radio", 
+"tutorial_question")), session = session)
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-y", 
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "quiz-correlation", 
     question = structure("Which of the following statements are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_a52c4cb", 
+    "character")), answers = list(structure(list(id = "lnr_ans_1bf4884", 
         option = "If Pearson's correlation coefficient, $r$, is near zero, there is evidence that the variables are not related to each other. ", 
         value = "If Pearson's correlation coefficient, $r$, is near zero, there is evidence that the variables are not related to each other. ", 
         label = structure("If Pearson’s correlation coefficient, \\(r\\), is near zero, there is evidence that the variables are not related to each other.", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The closer a correlation is to zero, the less strongly the two variables are related.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f9c89aa", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_31a3992", 
         option = "If Pearson's correlation coefficient, $r$, =0.6, there is a fairly strong tendency for values of x above the mean to occur with values of y above the mean and values of x below the mean to occur with values of y above the mean. ", 
         value = "If Pearson's correlation coefficient, $r$, =0.6, there is a fairly strong tendency for values of x above the mean to occur with values of y above the mean and values of x below the mean to occur with values of y above the mean. ", 
         label = structure("If Pearson’s correlation coefficient, \\(r\\), =0.6, there is a fairly strong tendency for values of x above the mean to occur with values of y above the mean and values of x below the mean to occur with values of y above the mean.", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("A positive correlation occurs when values of x &amp; y above the mean tend to toccur together AND values of x &amp; y below the mean tend to occur together .", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c8ec8ff", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f8b0de7", 
         option = "If x is hours spent studying and y is correct answers to homework, we expect a negative correlation", 
         value = "If x is hours spent studying and y is correct answers to homework, we expect a negative correlation", 
         label = structure("If x is hours spent studying and y is correct answers to homework, we expect a negative correlation", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Since studying should improve performance higher x should be systematically related to higher y and thus we expect a positive correlation.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_92478d4", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_64dd32a", 
         option = "If x is your skill at golf and y is your golf score, we expect a negative correlation", 
         value = "If x is your skill at golf and y is your golf score, we expect a negative correlation", 
         label = structure("If x is your skill at golf and y is your golf score, we expect a negative correlation", html = TRUE, class = c("html", 
@@ -1165,28 +1289,28 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), try_again = structure("Hint: Select all true statementss.", html = TRUE, class = c("html", 
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
-        answer = "letter-y-answer", question = "letter-y"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 1797923593.66278, 
-    options = list()), class = c("learnr_checkbox", "tutorial_question"
-)), session = session)
+        answer = "quiz-correlation-answer", question = "quiz-correlation"), 
+    loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 1646609140.23324, options = list()), class = c("learnr_checkbox", 
+"tutorial_question")), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-x", 
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "quiz-democracy-eu", 
     question = structure("Which of the following statements are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_1b30bf0", 
+    "character")), answers = list(structure(list(id = "lnr_ans_fdb3301", 
         option = "Of countries with 1-3 political parties, almost 81% are not members of the European Union", 
         value = "Of countries with 1-3 political parties, almost 81% are not members of the European Union", 
         label = structure("Of countries with 1-3 political parties, almost 81% are not members of the European Union", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("There are 31 countries with 1-3 parties and 25 or 81% are not members of the EU.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d6c1efe", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d805d8a", 
         option = "Of EU member states, about 30% have 4-5 parties", 
         value = "Of EU member states, about 30% have 4-5 parties", 
         label = structure("Of EU member states, about 30% have 4-5 parties", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("30.4 is the percent of countries with 4-5 parties who are members of the EU (69.6% are not).", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_9582fe7", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1da9233", 
         option = "The more parties a country has, the more likely they are to be members of the EU", 
         value = "The more parties a country has, the more likely they are to be members of the EU", 
         label = structure("The more parties a country has, the more likely they are to be members of the EU", html = TRUE, class = c("html", 
@@ -1198,34 +1322,34 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), try_again = structure("Hint: More than one statement is true.", html = TRUE, class = c("html", 
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
-        answer = "letter-x-answer", question = "letter-x"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = TRUE, seed = 122377199.443014, 
-    options = list()), class = c("learnr_checkbox", "tutorial_question"
-)), session = session)
+        answer = "quiz-democracy-eu-answer", question = "quiz-democracy-eu"), 
+    loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
+    seed = 1948770913.09253, options = list()), class = c("learnr_checkbox", 
+"tutorial_question")), session = session)
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "letter-yyy", 
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "quiz-governmenteffectiveness-fertility", 
     question = structure("Which of the following statements are true", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_78c954", 
+    "character")), answers = list(structure(list(id = "lnr_ans_5fb5e73", 
         option = "Each point represents a country's effectiveness on the x-axis and fertility on the y axis. ", 
         value = "Each point represents a country's effectiveness on the x-axis and fertility on the y axis. ", 
         label = structure("Each point represents a country’s effectiveness on the x-axis and fertility on the y axis.", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_774e135", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1430498", 
         option = "There is a positive correlation between effectiveness and fertility ", 
         value = "There is a positive correlation between effectiveness and fertility ", 
         label = structure("There is a positive correlation between effectiveness and fertility", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Because higher values of government effectiveness are associated with lower values of fertility, the correlation is negative.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8f23f28", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2b428ba", 
         option = "The plot suggests a Pearson correlation close to zero", 
         value = "The plot suggests a Pearson correlation close to zero", 
         label = structure("The plot suggests a Pearson correlation close to zero", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Randomly scattered points would suggest a correlation close to zero, but these are not randomly distributed.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_13502ea", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4d71f40", 
         option = "There is a negative correlation between effectiveness and fertility. ", 
         value = "There is a negative correlation between effectiveness and fertility. ", 
         label = structure("There is a negative correlation between effectiveness and fertility.", html = TRUE, class = c("html", 
@@ -1237,9 +1361,10 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), try_again = structure("Hint: More than one statement is true.", html = TRUE, class = c("html", 
     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
     "character")), message = NULL, post_message = NULL), ids = list(
-        answer = "letter-yyy-answer", question = "letter-yyy"), 
+        answer = "quiz-governmenteffectiveness-fertility-answer", 
+        question = "quiz-governmenteffectiveness-fertility"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 861653734.098761, options = list()), class = c("learnr_checkbox", 
+    seed = 787310611.63338, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 </p>
@@ -1250,7 +1375,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","brio","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","datawizard","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggeffects","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","insight","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","pscl","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","RColorBrewer","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjlabelled","sjmisc","sjPlot","snakecase","splines","stargazer","stats","stringi","stringr","survey","survival","testthat","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.1.5","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.0","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","2.3.1","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","2.5.4","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.4.2","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.5.9","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1-3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.13.0","0.9.0","1.2.0","2.8.11","2.9.0","0.11.1","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","farver","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mgcv","mice","mime","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.3","0.1-6","1.0-9","1.3-32","1.0.8","0.10.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.2","0.2-20","2.1-1","2.0.0","4.5.3","1.17.0","4.5.3","1.2.3","1.1.8","0.6.39","1.1.4","1.0.5","2.1.2","1.2.0","0.5.3","1.0.0","1.5.2","0.8-91","1.2-5","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.3","4.5.3","4.5.3","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-9","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","4.5.3","1.9-4","3.18.0","0.13","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","1.10.2","2.0.3","3.8-4","1.8.9","2.3.0","1.5.0","1.1.0","0.1.0","2.6.1","2.3","1.1.1","2.6.4","2.1.5","0.4.0","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.4.6.1","1.13.0","4.5.3","4.5.3","1.8.7","1.5.1","4.4-8","3.8-6","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.3","0.5.0","4.5.3","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

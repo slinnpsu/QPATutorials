@@ -66,7 +66,7 @@ If our hypothesis involves the relationship between an interval variable and a n
 To motivate our analysis, consider the following hypothesis: 
 
 ::: {.hypothesis}
-In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [lower wage growth].
+In a comparison of [counties], those having [lower wage growth] will be more likely to  [give a majority of their support to Trump] than will those having [higher wage growth].
 :::
 
 The causal explanation is that lower wage growth leads to dissatisfaction with the incumbent party, here the Democrat, and thus that counties with lower wage growth will vote against the Democrat, Hillary Clinton.
@@ -84,7 +84,10 @@ We return to the functions in the  [dplyr package]{.package-name} for this analy
 
 To calculate the mean of **wage_growth** for counties won by Clinton and Trump, we take the data frame **counties** and pipe it to the `group_by()` function where the grouping variable is **TrumpMajority** and then pipe the result to  the `summarize()` function to calculate the means of **wage_growth** for counties casting a majority of votes for Clinton and for Trump. We will call our new variable **mean** and set it equal to `mean(wage_growth, na.rm=TRUE)`, removing any missing values by setting the `na.rm` argument to `TRUE` to avoid getting NA for the means if any counties have missing values. I've also summarized the frequencies in each category using the `n()` function inside `summarise()`. A warning message will be produced but can be ignored.
 
-```{r meanwage, exercise=TRUE}
+**Try it: Calculate mean wage growth by TrumpMajority**
+
+```{r frequency-wagegrowth-by-trumpmajority, exercise=TRUE, exercise.cap="Interactive exercise: Write code to calculate the mean wage_growth for counties grouped by TrumpMajority. Include counts and handle missing values. Use the Run Code button to execute and see results. No hints are available."}
+
 library(dplyr)
 counties %>%
   group_by(TrumpMajority)%>%
@@ -96,67 +99,92 @@ Here we see that the mean rate of wage for counties won by Clinton is 4.86 while
 
 ### Mean Mortality Risk by Victor
 
-We might also believe that counties with worse health outcomes punish the incumbent party. The data frame **counties** also contains the variable **mortality_risk_25_45_change**, which gives the change in the probability of dying in this particular age range (in percent), given that one is in that age range and has made it thus far, compared to the same probability four years ago. We thus might hypothesize: [ In a comparison of [counties], those having [higher mortality risk among adults 45-45 than 4 years ago] will be more likely to  [give a majority of their support to Trump] than will those having [lower mortality risk among adults 45-45].]{.hypothesis}
+We might also believe that counties with worse health outcomes punish the incumbent party. The data frame **counties** also contains the variable **mortality_risk_25_45_change**, which gives the change in the probability of dying in this particular age range (in percent), given that one is in that age range and has made it thus far, compared to the same probability four years ago. We thus might hypothesize: 
+
+::: {.hypothesis}
+ In a comparison of [counties], those having [higher mortality risk among adults 45-45 than 4 years ago] will be more likely to  [give a majority of their support to Trump] than will those having [lower mortality risk among adults 45-45].]
+:::
 
 Does the evidence support this hypothesis? If counties with increasing mortality rates are more likely to cast a majority of votes for Donald Trump, what should we see?
 
 We would expect the mean change in mortality risk (**mortality_risk_25_45_change**) for counties that cast a majority of votes for Donald Trump would be greater than in those counties that cast a majority of votes for Hillary Clinton.  Edit the XXXX in the code below to produce the mean of the change in mortality risk for counties won by Clinton and Trump.
 
-```{r meanrisk, exercise=TRUE}
+**Explore: Compare mean mortality change by TrumpMajority**
+```{r exercise-mortality-by-trumpmajority, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXXX values to calculate the mean mortality_risk_25_45_change for counties grouped by TrumpMajority and assess the hypothesis. Click Submit Answer to check correctness. Two hints are available."}
+
 counties %>%
   XXXX(XXXX)%>%
   XXXX(freq = XXXX,mean = mean(XXXX))
 ```
 
-```{r meanrisk-hint-1}
-Remember to group_by() TrumpMajority and use summarise()
-to calculate frequencies with the n() function and means.
-Don't forget to include the na.rm argument and set it to
-TRUE.
-Remember to separate arguments with a comma.
+```{r exercise-mortality-by-trumpmajority-hint-1}
+# Hint 1 of 2
+You are comparing the average mortality change across groups
+of counties defined by which candidate won.
+
+Start by grouping the data based on TrumpMajority.
 ```
 
-```{r meanrisk-solution}
+```{r exercise-mortality-by-trumpmajority-hint-2}
+# Hint 2 of 2
+After grouping, use a function that calculates summary statistics.
+
+Compute the number of observations in each group and the mean of
+mortality_risk_25_45_change, making sure to handle missing values.
+```
+
+```{r exercise-mortality-by-trumpmajority-solution}
 counties %>%
   group_by(TrumpMajority)%>%
   summarise(freq = n(), mean = mean(mortality_risk_25_45_change, na.rm = TRUE))
 ```
-```{r meanrisk-check}
+
+```{r exercise-mortality-by-trumpmajority-check}
 grade_code()
 ```
 
 
 What have we learned? Counties that cast a majority of votes for Donald Trump on average experienced an *increase* of 1.87 in their mortality risk (their risk of dying between the ages of 25 and 45, provided they were in that age group 4 years prior) while counties that cast a majority of their votes for Hillary Clinton, on average, saw a decrease in their mortality risk of 2.05. This suggests counties that were worse off in terms of their health outcomes were more likely to cast a majority of votes for Donald Trump, providing support for the hypothesis.
 
-### Mean GPD by Regime Type
+### Mean GDP by Regime Type
 
-As a final example, consider the hypothesis: [ In a comparison of [countries], those that [are more democratic] will be more likely to  [have better economic outcomes] than will those that are [less democratic].]{.hypothesis} 
+As a final example, consider the hypothesis: 
+
+::: {.hypothesis}
+ In a comparison of [countries], those that [are more democratic] will be more likely to  [have better economic outcomes] than will those that are [less democratic].
+:::
 
 Calculate the means of the variable **gdp08**, GDP in billions in 2008 (World Bank) by **dem_level4**, Regime type (Economist 2014), in the data frame **world**. Try not to look at the hints! Name the counts `freq` and the means `mean`.
 
+**Practice: Calculate mean GDP by democracy level**
 
-```{r meangdp, exercise=TRUE}
+```{r exercise-gdp-by-democracy-level, exercise=TRUE, exercise.cap="Interactive exercise: Write code to calculate the mean gdp08 for countries grouped by dem_level4, including counts. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available."}
 
 ```
 
-```{r meangdp-hint-1}
-Pipe the world data frame to group_by() dem_level4 and
-use summarise() to calculate frequencies and the means
-of gdp08.
+```{r exercise-gdp-by-democracy-level-hint-1}
+# Hint 1 of 2
+You are comparing average GDP across groups of countries defined
+by their level of democracy.
+
+Start by grouping the data based on dem_level4.
 ```
 
-```{r meangdp-hint-2}
-Make sure you separate arguments with a comma and
-use the na.rm argument (set to TRUE)
+```{r exercise-gdp-by-democracy-level-hint-2}
+# Hint 2 of 2
+After grouping, use a function that calculates summary statistics.
+
+Compute the number of observations in each group and the mean of
+gdp08, making sure to handle missing values.
 ```
 
-```{r meangdp-solution}
+```{r exercise-gdp-by-democracy-level-solution}
 world %>%
   group_by(dem_level4)%>%
   summarise(freq = n(), mean = mean(gdp08, na.rm = TRUE))
 ```
 
-```{r meangdp-check}
+```{r exercise-gdp-by-democracy-level-check}
 grade_code()
 ```
 
@@ -176,24 +204,36 @@ Let's start with a basic plot of the means of **wage_growth** by **TrumpMajority
 
 Notice that I've loaded the [ggplot2]{.package-name} package with the `library()` function.
 
+**Explore: Plot mean wage growth by TrumpMajority**
 
-```{r meanwageplot, exercise=TRUE}
+```{r exercise-plot-meanwage-by-trumpmajority, exercise=TRUE, exercise.cap="Interactive exercise: Fill in the XXXX values to create a plot of mean wage_growth by TrumpMajority using ggplot(). Click Submit Answer to check correctness. Two hints are available.", fig.alt="Scatter plot showing mean wage growth on the y-axis and TrumpMajority on the x-axis, with one point for counties won by Clinton (0) and one for counties won by Trump (1). The Clinton-won counties have a higher mean wage growth, around 4.9, than Trump-won counties, around 4.2. The plot demonstrates how grouping by a categorical variable can reveal differences in average outcomes between the two groups."}
 library(ggplot2)
 counties %>%
-  group_by(XXXX)%>%
+  group_by(XXXX) %>%
   summarise(XXXX) %>%
   ggplot(mapping = aes(x = factor(TrumpMajority), y = mean) ) +
     geom_point() 
 ```
 
 
-```{r meanwageplot-hint}
-We want to group by TrumpMajority and calculate
-the mean. We need to call the mean *mean* to use it
-in the ggplot function.
+```{r exercise-plot-meanwage-by-trumpmajority-hint-1}
+# Hint 1 of 2
+You are creating a plot of average wage growth across groups
+defined by which candidate won.
+
+Start by grouping the data by TrumpMajority and computing
+the mean wage_growth for each group. 
 ```
 
-```{r meanwageplot-solution}
+```{r exercise-plot-meanwage-by-trumpmajority-hint-2}
+# Hint 2 of 2
+After creating the grouped summary, pass the result to ggplot().
+
+Map TrumpMajority to the x-axis and the mean to the y-axis,
+and use a geom that displays each group’s mean as a point.
+```
+
+```{r exercise-plot-meanwage-by-trumpmajority-solution}
 library(ggplot2)
 counties %>%
   group_by(TrumpMajority)%>%
@@ -202,14 +242,16 @@ counties %>%
     geom_point() 
 ```
 
-```{r meanwageplot-check}
+```{r exercise-plot-meanwage-by-trumpmajority-check}
 grade_code()
 ```
 
 
 Now let's improve on the plot by adding a layer of labels using the `labs()` function and replacing "0" and "1" on the x-axis with "Clinton" and "Trump" using the `scale_x_discrete()` function. 
 
-```{r meanwageplot2, exercise=TRUE}
+**Try it: Improve plot labels and x-axis**
+
+```{r scatterplot-wagegrowth-by-trumpmajority, exercise=TRUE, exercise.cap="Interactive exercise: Run the code to add labels and customize the x-axis of a ggplot by relabeling categories and improving readability. Use the Run Code button to execute and see results. No hints are available.", fig.alt="Scatter plot showing mean wage growth on the y-axis and counties grouped by vote outcome on the x-axis (Clinton vs. Trump). The point for Clinton counties is higher, around 4.9, while the point for Trump counties is lower, around 4.2, indicating higher average wage growth in Clinton counties. The plot demonstrates how labeling and formatting make differences in group means easier to interpret."}
 counties %>%
   group_by(TrumpMajority)%>%
   summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE)) %>%
@@ -227,7 +269,9 @@ Finally, let's change the `size` and `shape` of the points inside `geom_point()`
 
 Look carefully at the code to make sure you understand what each argument is doing!
 
-```{r meanwageplot3, exercise=TRUE}
+**Try it: Adjust point style and y-axis limits**
+
+```{r scatterplot-customize-rescale, exercise=TRUE, exercise.cap="Interactive exercise: Run the code to change the appearance of points in a ggplot and adjust the y-axis limits for easier interpretation. Use the Run Code button to execute and see results. No hints are available.", fig.alt="Scatter plot showing mean change in mortality risk on the y-axis and counties grouped by vote outcome on the x-axis (Clinton vs. Trump), with larger solid points and a y-axis scaled from 0 to 10. The Clinton counties have a higher average increase in mortality risk (around 4.9) than Trump counties (around 4.3), showing a modest difference between the groups. The plot demonstrates how styling and axis limits can clarify comparisons in group means."}
 counties %>%
   group_by(TrumpMajority)%>%
   summarise(freq = n(), mean = mean(wage_growth, na.rm = TRUE)) %>%
@@ -241,52 +285,49 @@ ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
   scale_y_continuous(limits = c(0, 10)) 
 ```
 
-Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties \\nCasting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title. Set the y-axis limits to -10 to 10.
 
-```{r meanrisk2, exercise=TRUE}
+Try to complete the code below to plot the mean **mortality_risk_25_45_change** for counties Trump won and Clinton won. When generating means name the counts `freq` and the means `mean`. Use "Mean Change in Mortality Risk Among Counties 
+
+Casting a Majority of Votes for Clinton and Trump"" for the title of the plot and label the y-axis "Change in Mortality Risk". Specify the caption as "Source: Linn, Nagler, and Zilinsky". Label the x-axis tick marks "Clinton" and "Trump" and omit the x-axis title. Set the y-axis limits to -10 to 10.
+
+**Practice: Plot mean mortality change by TrumpMajority with labels**
+
+```{r exercise-plot-mortality-by-trumpmajority, exercise=TRUE, exercise.cap="Interactive exercise: Write code to plot the mean mortality_risk_25_45_change by TrumpMajority, including labels, caption, and axis limits. Use the Run Code button to execute and click Submit Answer to check correctness. Three hints are available.", fig.alt="Scatter plot showing mean change in mortality risk on the y-axis and counties grouped by vote outcome on the x-axis (Clinton vs. Trump), with values ranging from -10 to 10. Clinton counties show a negative average change (around -2), indicating improving health outcomes, while Trump counties show a positive average change (around +2), indicating worsening outcomes. The plot demonstrates that counties with worsening mortality risk were more likely to vote for Trump, supporting the hypothesis."}
 counties %>%
   group_by()
 ```
 
-```{r meanrisk2-hint-1}
-Remember to group_by() TrumpMajority and use summarise() to calculate
-frequencies and means. Don't forget to pipe the results to ggplot().
+```{r exercise-plot-mortality-by-trumpmajority-hint-1}
+# Hint 1 of 3
+You are creating a plot of average mortality change across
+groups defined by which candidate won.
+
+Start by grouping the data by TrumpMajority and computing
+the mean mortality_risk_25_45_change for each group.
 ```
 
-```{r meanrisk2-hint-2}
-Remember that if you pipe the data to ggplot you do not
-need to specify the data argument.
-The first argument is thus the mapping argument, which 
-should be set to aes. Inside this function set the x
-argument to factor(TrumpMajority) and the y argument 
-to mean.
+```{r exercise-plot-mortality-by-trumpmajority-hint-2}
+# Hint 2 of 3
+After creating the grouped summary, pipe the summarized data into ggplot().
+Remember: because you are piping, 
+you don't need to specify the dataset in ggplot().
 
-Make sure to balance your parentheses!
-End the line with a +
+Use aes() to map TrumpMajority to the x-axis and the mean to the y-axis,
+and use a geom that displays each group’s mean as a point.
 ```
 
-```{r meanrisk2-hint-3}
-The geom we want is point, so specify geom_point
-You can specify a size and shape argument to control the
-look of the points.
-End with a plus.
+```{r exercise-plot-mortality-by-trumpmajority-hint-3}
+# Hint 3 of 3
+Then improve the plot by adding labels for the title, axes,
+and caption, and adjusting the scales.
+
+Label the groups on the x-axis and set limits for the y-axis.
+
+Remember to connect layers with + and handle parentheses 
 ```
 
-```{r meanrisk2-hint-4}
-Add the labs function and specify the title, y, x, and
-caption arguments (separate them with commas).
-```
 
-```{r meanrisk2-hint-5}
-Fix the scales with scale_x_discrete setting the labels 
-argument to c("Clinton", "Trump") and
-set the limits argument c(-10, 10) inside the
-scale_y_discrete function.
-
-Don't forget the +!
-```
-
-```{r meanrisk2-solution}
+```{r exercise-plot-mortality-by-trumpmajority-solution}
 counties %>%
   group_by(TrumpMajority)%>%
   summarise(freq = n(), mean = mean(mortality_risk_25_45_change, na.rm = TRUE)) %>%
@@ -300,28 +341,37 @@ ggplot(mapping = aes(x = factor(TrumpMajority), y = mean)) +
   scale_y_continuous(limits = c(-10, 10)) 
 ```
 
-```{r meanrisk2-check}
+```{r exercise-plot-mortality-by-trumpmajority-check}
 grade_code()
 ```
 
 Finally, try to produce the plot of mean GDP, **gdp08**, by the level of democracy, **dem_level4** from the **world** data frame. Since **dem_level4** is character class, you don't need to wrap it in the `factor()` function. Set the title for the plot to "Mean GDP by Level of Democracy", label the y-axis "Mean GDP", and do not use a label for the x-axis (set it to NULL).  When generating means name the counts `freq` and the means `mean`. You do not need to adjust the y-axis limits. Label the x-axis tick marks (in order) "Full Democracy", "Partial Democracy", "Hybrid", and "Authoritarian". Omit the x-axis title.
 
-```{r meangdp2, exercise=TRUE}
+**Practice: Plot mean GDP by dem_level4 with labels**
+
+```{r exercise-plot-gdp-by-democracylevel, exercise=TRUE, exercise.cap="Interactive exercise: Write code to plot the mean of gdp08 by level of democracy using a scatter plot of group means. Use the Run Code button to execute and click Submit Answer to check correctness. Two hints are available.", fig.alt="Scatter plot showing mean GDP on the y-axis and level of democracy on the x-axis (Full Democracy, Partial Democracy, Hybrid, Authoritarian). Mean GDP is highest for full democracies, much lower for partial democracies, slightly lower for authoritarian regimes, and lowest for hybrid regimes, showing a general but imperfect positive relationship between democracy and economic outcomes. The plot demonstrates how comparing group means can reveal patterns that support or complicate theoretical expectations."}
 
 ```
 
-```{r meangdp2-hint-1}
-Remember to group_by() dem_level4 and use summarise() to calculate frequencies and means.
-Don't forget to pipe your results to gpplot().
+```{r exercise-plot-gdp-by-democracylevel-hint-1}
+# Hint 1 of 2
+You are creating a plot of average GDP across groups defined
+by level of democracy.
+
+Start by grouping the data by dem_level4 and computing
+the mean gdp08 for each group.
 ```
 
-```{r meangdp2-hint-2}
-Did you set x=dem_level and y=mean?
-Did you add geom_point?
-Did you add labs()?
+```{r exercise-plot-gdp-by-democracylevel-hint-2}
+# Hint 2 of 2
+After summarizing the data, pipe the result into ggplot().
+
+Inside aes(), map the democracy variable to the x-axis 
+and the mean GDP variable to the y-axis. Then use + 
+to add a layer that plots the points.
 ```
 
-```{r meangdp2-solution}
+```{r exercise-plot-gdp-by-democracylevel-solution}
 world %>%
   group_by(dem_level4)%>%
   summarise(freq = n(), mean = mean(gdp08, na.rm = TRUE)) %>%
@@ -330,10 +380,10 @@ world %>%
   labs(title = "Mean GDP by Level of Democracy",
        x = NULL,
        y = "Mean GDP") +
-  scale_x_discrete(labels = c("Full \nDemocracy", "Partial \nDemocracy", "Hybrid", "Autoritarian"))
+  scale_x_discrete(labels = c("Full \nDemocracy", "Partial \nDemocracy", "Hybrid", "Authoritarian"))
 ```
 
-```{r meangdp2-check}
+```{r exercise-plot-gdp-by-democracylevel-check}
 grade_code()
 ```
 
@@ -346,7 +396,9 @@ We might want to compare the distribution of some interval variable categories o
 
 You know how to produce a histogram. We place the interval level variable on the x-axis and use `geom_historgram()` to plot the data. If we want a separate histogram for each value of **TrumpMajority** we assign that variable to `fill`. Below I've added a new layer to the plot using `facet_wrap()`. This function will create separate panels in our plot based on the values of another variable. Here we want separate panels for each value of **TrumpMajority** so we pass this variable to `facet_wrap()`. Note that we need to include a tilde (~) before the variable name inside the function.
 
-```{r hist, exercise=TRUE}
+**Try it: Plot histograms of mortality change by TrumpMajority**
+
+```{r histogram-mortality-by-trumpmajority, exercise=TRUE, exercise.cap="Interactive exercise: Run the code to create histograms of mortality_risk_25_45_change with separate panels by TrumpMajority using fill and faceting. Use the Run Code button to execute and see results. No hints are available.", fig.alt="Faceted histograms showing the distribution of change in mortality risk on the x-axis and frequency on the y-axis, with separate panels for counties won by Clinton (left, shown in pink) and Trump (right, shown in teal). The Clinton distribution is centered slightly below zero, indicating improving mortality outcomes, while the Trump distribution is centered slightly above zero, indicating worsening outcomes, with both roughly bell-shaped. The plot demonstrates how color and faceting together help distinguish group differences in both central tendency and spread."}
 ggplot(data = counties, mapping = aes(x = mortality_risk_25_45_change, fill = factor(TrumpMajority))) +
   geom_histogram()  +
   labs(title = "Distribution Change in Mortality Risk by Candidate \nReceiving a Majority of Votes Cast", 
@@ -361,11 +413,13 @@ ggplot(data = counties, mapping = aes(x = mortality_risk_25_45_change, fill = fa
 
 ### Comparing distributions with `geom_boxplot()`
 
+**Try it: Plot boxplots of life expectancy by dem_level4**
+
 Often it is useful to present box plots rather than histograms. This allows a direct comparison of the median value of the interval variable across categories of the nominal or ordinal variable, as well as the dispersion in the data. To illustrate we will generate box plots of **lifeex_total**,  life expectancy at birth, for each category of the nominal variable **dem_level4** in the data frame **world**.
 
 Three things are different from the histogram plot above. First, we replace `geoom_histogram()` with `geom_boxplot()`. Next, we don't need to use `facet_wrap()`. Finally, we don't need the legend, so we add `guides(fill=FALSE)` in another layer. This tells `ggplot()` that the legend (or guide) associated with the `fill` aesthetic is not to be included.
 
-```{r box, exercise=TRUE}
+```{r boxplot-lifeexpectancy-by-democracylevel, exercise=TRUE, exercise.cap="Interactive exercise: Run the code to create box plots of lifeex_total by dem_level4, comparing medians and variation across regime types. Use the Run Code button to execute and see results. No hints are available.", fig.alt="Boxplot showing life expectancy at birth on the y-axis and democracy level on the x-axis (Full Democracy in pink, Partial Democracy in green, Hybrid in teal, Authoritarian in purple). Full democracies have the highest median life expectancy with a tight spread, while authoritarian regimes have a lower median and a much wider spread; partial democracies show several low outliers. The plot demonstrates how boxplots reveal differences in central tendency, variability, and outliers across groups."}
 ggplot(data = world, mapping = aes(x = dem_level4, y = lifeex_total, fill = dem_level4)) +
   geom_boxplot()  +
   labs(title = "Distribution of Life Expectancy at Birth", 

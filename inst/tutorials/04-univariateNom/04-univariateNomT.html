@@ -508,28 +508,7 @@ several categories have more cases than the others</li>
 <p>It is often easier to describe the shape of a distribution from a
 plot. The figure below presents examples of each of these shapes of
 distributions.</p>
-<pre><code>## Error:
-## ! (converted from warning) Sum of probabilities &gt; 1. Probabilities will be normalized.</code></pre>
-<pre><code>## Error in `dt$xCat1`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `dt$xCatB`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `dt$xCatU`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `dt$xCatM`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `data[[x_var]]`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `data[[x_var]]`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `data[[x_var]]`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error in `data[[x_var]]`:
-## ! object of type &#39;closure&#39; is not subsettable</code></pre>
-<pre><code>## Error:
-## ! object &#39;p1&#39; not found</code></pre>
-<pre><code>## Error:
-## ! object &#39;shape&#39; not found</code></pre>
+<p><img src="04-univariateNomT_files/figure-html/distribution-plots-1.png" alt="" width="768" /></p>
 <p>We will learn how to produce plots of the distribution or our nominal
 variables in the next section.</p>
 </div>
@@ -1003,13 +982,20 @@ library(learnr)
 library(tidyverse)
 library(knitr)
 library(gradethis)
+library(poliscidata)
+library(simstudy)
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+library(grid)
+library(tidyr)
+
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 #tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(error = TRUE)
 data("counties", package = "qpaTutorials")
 data("df", package = "qpaTutorials")
 df$region <- factor(df$region, labels =  c("South", "Northeast", "Midwest", "West"))
-library(poliscidata)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -1035,24 +1021,24 @@ session$onSessionEnded(function() {
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "concepts-quiz-nominal", 
     question = structure("Which of the following variables are nominal level measures?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_e210f7b", 
+    "character")), answers = list(structure(list(id = "lnr_ans_bdbf9f7", 
         option = "The race of a respondent in a survey", value = "The race of a respondent in a survey", 
         label = structure("The race of a respondent in a survey", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("Race is nominal because the possible values of the variable are unranked categories.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d9078e8", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_90e4c8c", 
         option = "The status of the death penalty (permitted or not) in a state", 
         value = "The status of the death penalty (permitted or not) in a state", 
         label = structure("The status of the death penalty (permitted or not) in a state", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = structure("The status of the death penalty is nominal because permitted or not permitted are categories of responses.", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2f35ac4", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_16aa51d", 
         option = "The restrictiveness of a state's gun laws measured with a letter grade", 
         value = "The restrictiveness of a state's gun laws measured with a letter grade", 
         label = structure("The restrictiveness of a state’s gun laws measured with a letter grade", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = structure("Restrictiveness of gun laws is an ordinal variable. The categories are ordered but the distances between them are not equal", html = TRUE, class = c("html", 
         "character")), type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_dc5d3d2", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6d61feb", 
         option = "The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", 
         value = "The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", 
         label = structure("The Polity democracy score measured on a scale from -10 (autocracy) to +10 (democracy)", html = TRUE, class = c("html", 
@@ -1066,7 +1052,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "concepts-quiz-nominal-answer", question = "concepts-quiz-nominal"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 199977129.906878, options = list()), class = c("learnr_checkbox", 
+    seed = 1122351988.97736, options = list()), class = c("learnr_checkbox", 
 "tutorial_question")), session = session)
 </script>
 
@@ -1081,12 +1067,14 @@ output$`tutorial-exercise-analysis-summarise-majority-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "analysis-summarise-majority", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "analysis-summarise-majority", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "analysis-summarise-majority", 
         code = "library(dplyr)\ncounties %>%\n  group_by(TrumpMajority) %>%\n  summarise(freq = n())", 
         opts = list(label = "\"analysis-summarise-majority\"", 
             exercise = "TRUE", warning = "FALSE", exercise.cap = "\"Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results.\""), 
@@ -1107,7 +1095,8 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-summarise-majorit
         aniopts = "controls,loop", warning = FALSE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-summarise-majority", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Use group_by() and summarise() to count observations. Use the Run Code button to execute and see results.", 
         code = c("library(dplyr)", "counties %>%", "  group_by(TrumpMajority) %>%", 
@@ -1128,12 +1117,14 @@ output$`tutorial-exercise-analysis-calculate-proportions-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "analysis-calculate-proportions", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "analysis-calculate-proportions", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "analysis-calculate-proportions", 
         code = "counties %>%\n  group_by(TrumpMajority) %>%\n  summarize(freq = n()) %>%\n  mutate(prop = freq / sum(freq))", 
         opts = list(label = "\"analysis-calculate-proportions\"", 
             exercise = "TRUE", warning = "FALSE", exercise.cap = "\"Interactive exercise: Calculate proportions using mutate(). Use the Run Code button to execute and see results.\""), 
@@ -1154,7 +1145,8 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-calculate-proport
         aniopts = "controls,loop", warning = FALSE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-calculate-proportions", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Calculate proportions using mutate(). Use the Run Code button to execute and see results.", 
         code = c("counties %>%", "  group_by(TrumpMajority) %>%", 
@@ -1175,12 +1167,14 @@ output$`tutorial-exercise-analysis-practice-proportions-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "analysis-practice-proportions", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "analysis-practice-proportions", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "analysis-practice-proportions", 
         code = "counties %>%\n  group_by(XXXX) %>%\n  XXXX(freq = n()) %>%\n  mutate(prop = XXXX)", 
         opts = list(label = "\"analysis-practice-proportions\"", 
             exercise = "TRUE", exercise.cap = "\"Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available.\""), 
@@ -1205,7 +1199,8 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-practice-proporti
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-practice-proportions", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Create a proportion table. Fill in the XXXX placeholders and click Submit Answer to check correctness. Two hints available.", 
         code = c("counties %>%", "  group_by(XXXX) %>%", "  XXXX(freq = n()) %>%", 
@@ -1226,12 +1221,14 @@ output$`tutorial-exercise-analysis-practice-freq-by-region-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "analysis-practice-freq-by-region", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "analysis-practice-freq-by-region", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "analysis-practice-freq-by-region", 
         code = "df %>%\n  group_by(region) %>%", opts = list(
             label = "\"analysis-practice-freq-by-region\"", exercise = "TRUE", 
             exercise.lines = "4", exercise.cap = "\"Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available.\""), 
@@ -1256,7 +1253,8 @@ learnr:::store_exercise_cache(structure(list(label = "analysis-practice-freq-by-
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "analysis-practice-freq-by-region", exercise = TRUE, 
         exercise.lines = 4, exercise.cap = "Interactive exercise: Complete the code to summarize the data by region. Enter your code and click Submit Answer to check correctness. Three hints are available.", 
         code = c("df %>%", "  group_by(region) %>%"), out.width.px = 624, 
@@ -1276,14 +1274,15 @@ output$`tutorial-exercise-visual-initialize-plot-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-initialize-plot", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-initialize-plot", 
-        code = "library(ggplot2)\nggplot(data = counties)", opts = list(
-            label = "\"visual-initialize-plot\"", exercise = "TRUE", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-initialize-plot", code = "library(ggplot2)\nggplot(data = counties)", 
+        opts = list(label = "\"visual-initialize-plot\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Initialize a ggplot object. Use the Run Code button to see the base plot canvas.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = NULL, tests = NULL, options = list(
@@ -1302,7 +1301,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-initialize-plot", g
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-initialize-plot", exercise = TRUE, exercise.cap = "Interactive exercise: Initialize a ggplot object. Use the Run Code button to see the base plot canvas.", 
         code = c("library(ggplot2)", "ggplot(data = counties)"
         ), out.width.px = 624, out.height.px = 384, params.src = "visual-initialize-plot, exercise=TRUE, exercise.cap=\"Interactive exercise: Initialize a ggplot object. Use the Run Code button to see the base plot canvas.\"", 
@@ -1321,13 +1321,14 @@ output$`tutorial-exercise-visual-add-aes-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-add-aes", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-add-aes", 
-        code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority)))", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-add-aes", code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority)))", 
         opts = list(label = "\"visual-add-aes\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Add the aesthetic mapping. Use the Run Code button to see the x-axis added.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1347,7 +1348,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-add-aes", global_se
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-add-aes", exercise = TRUE, exercise.cap = "Interactive exercise: Add the aesthetic mapping. Use the Run Code button to see the x-axis added.", 
         code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority)))", 
         out.width.px = 624, out.height.px = 384, params.src = "visual-add-aes, exercise=TRUE, exercise.cap=\"Interactive exercise: Add the aesthetic mapping. Use the Run Code button to see the x-axis added.\"", 
@@ -1366,13 +1368,14 @@ output$`tutorial-exercise-visual-add-geom-bar-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-add-geom-bar", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-add-geom-bar", 
-        code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +\n  geom_bar()", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-add-geom-bar", code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +\n  geom_bar()", 
         opts = list(label = "\"visual-add-geom-bar\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Add the geometry layer. Use the Run Code button to render the bar chart.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1392,7 +1395,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-add-geom-bar", glob
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-add-geom-bar", exercise = TRUE, exercise.cap = "Interactive exercise: Add the geometry layer. Use the Run Code button to render the bar chart.", 
         code = c("ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +", 
         "  geom_bar()"), out.width.px = 624, out.height.px = 384, 
@@ -1412,13 +1416,14 @@ output$`tutorial-exercise-visual-add-labs-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-add-labs", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-add-labs", 
-        code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +\n         geom_bar() +\n         labs(title = \"Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates\", \n              subtitle = \"2016\",\n              x = NULL,  \n              y = \"Frequency\", \n              caption = \"Source: Linn, Nagler, Zilinsky\")", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-add-labs", code = "ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +\n         geom_bar() +\n         labs(title = \"Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates\", \n              subtitle = \"2016\",\n              x = NULL,  \n              y = \"Frequency\", \n              caption = \"Source: Linn, Nagler, Zilinsky\")", 
         opts = list(label = "\"visual-add-labs\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Add labels to the plot. Use the Run Code button to see the titled plot.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1438,7 +1443,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-add-labs", global_s
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-add-labs", exercise = TRUE, exercise.cap = "Interactive exercise: Add labels to the plot. Use the Run Code button to see the titled plot.", 
         code = c("ggplot(data = counties,  mapping = aes(x = factor(TrumpMajority))) +", 
         "         geom_bar() +", "         labs(title = \"Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates\", ", 
@@ -1460,13 +1466,14 @@ output$`tutorial-exercise-visual-customize-scale-x-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-customize-scale-x", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-customize-scale-x", 
-        code = "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +\n         geom_bar() +\n         labs(title = \"Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates\", \n              subtitle = \"2016\",\n              x = NULL,  \n              y = \"Frequency\", \n              caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(labels = c(\"Clinton\",\"Trump\"))", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-customize-scale-x", code = "ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +\n         geom_bar() +\n         labs(title = \"Number of US Counties that Cast a Majority of \\nVotes for the Major Party Presidential Candidates\", \n              subtitle = \"2016\",\n              x = NULL,  \n              y = \"Frequency\", \n              caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(labels = c(\"Clinton\",\"Trump\"))", 
         opts = list(label = "\"visual-customize-scale-x\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Customize the axis labels. Use the Run Code button to see the final plot.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1486,7 +1493,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-customize-scale-x",
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-customize-scale-x", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Customize the axis labels. Use the Run Code button to see the final plot.", 
         code = c("ggplot(data = counties, mapping = aes(x = factor(TrumpMajority))) +", 
@@ -1510,13 +1518,14 @@ output$`tutorial-exercise-visual-practice-bar-race-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-race", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-practice-bar-race", 
-        code = "ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +\n  XXXX() +\n  labs(title = \"Number of US Counties by Racial Majority\",\n       subtitle = \"2016\",\n       x = NULL,\n       y = \"XXXX\",\n       caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(na.translate = FALSE, labels = c(XXXX))", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-practice-bar-race", code = "ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +\n  XXXX() +\n  labs(title = \"Number of US Counties by Racial Majority\",\n       subtitle = \"2016\",\n       x = NULL,\n       y = \"XXXX\",\n       caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(na.translate = FALSE, labels = c(XXXX))", 
         opts = list(label = "\"visual-practice-bar-race\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1543,7 +1552,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-race",
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-practice-bar-race", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Create a bar chart for racial majority. Fill in the XXXX placeholders and click Submit Answer to check correctness. Three hints are available.", 
         code = c("ggplot(data = counties, mapping = XXXX(XXX = factor(racial_majority))) +", 
@@ -1567,12 +1577,14 @@ output$`tutorial-exercise-visual-bar-proportion-region-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-bar-proportion-region", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-bar-proportion-region", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-bar-proportion-region", 
         code = "ggplot(data = df, mapping = aes(x = factor(region))) +\n         geom_bar(aes(y = after_stat(prop), group  = 1), fill = \"blue\") +\n         labs(title = \"Proportion of US States in Each Census Region\", \n              x = NULL,  \n              y = \"Proportion\")", 
         opts = list(label = "\"visual-bar-proportion-region\"", 
             exercise = "TRUE", exercise.cap = "\"Interactive exercise: Create a bar chart of proportions. Use the Run Code button to see the result.\""), 
@@ -1593,7 +1605,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-bar-proportion-regi
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-bar-proportion-region", exercise = TRUE, 
         exercise.cap = "Interactive exercise: Create a bar chart of proportions. Use the Run Code button to see the result.", 
         code = c("ggplot(data = df, mapping = aes(x = factor(region))) +", 
@@ -1616,12 +1629,15 @@ output$`tutorial-exercise-visual-practice-bar-proportion-regime-output` <- rende
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-proportion-regime", 
     global_setup = structure(c("library(learnr)", "library(tidyverse)", 
-    "library(knitr)", "library(gradethis)", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+    "library(knitr)", "library(gradethis)", "library(poliscidata)", 
+    "library(simstudy)", "library(ggplot2)", "library(dplyr)", 
+    "library(gridExtra)", "library(grid)", "library(tidyr)", 
+    "", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
     "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
     "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-    "df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-    "library(poliscidata)"), chunk_opts = list(label = "setup", 
-        include = FALSE)), setup = NULL, chunks = list(list(label = "visual-practice-bar-proportion-regime", 
+    "df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+    ), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "visual-practice-bar-proportion-regime", 
         code = "ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +\n  geom_bar(XXXX(XXXX = XXXX(XXXX), XXXX = XXXX), XXXX = XXXX) +\n  labs(title = \"Regime Type\",\n       subtitle = \"The Economist\",\n       x = NULL,\n       y = \"XXXX\") +\n  XXXX(na.translate = FALSE, labels = c(\"Full Democracy\",  \"Partial Democracy\", \"Hybrid\", \"Authoritarian\"))", 
         opts = list(label = "\"visual-practice-bar-proportion-regime\"", 
             exercise = "TRUE", exercise.eval = "FALSE", exercise.cap = "\"Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available.\""), 
@@ -1648,7 +1664,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-practice-bar-propor
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-practice-bar-proportion-regime", exercise = TRUE, 
         exercise.eval = FALSE, exercise.cap = "Interactive exercise: Create a proportion bar chart for regime type. Fill in the XXXX placeholders and click Submit Answer to check correctness. Four hints are available.", 
         code = c("ggplot(data = XXXX, mapping = aes(x = factor(dem_level4))) +", 
@@ -1671,13 +1688,14 @@ output$`tutorial-exercise-visual-reorder-and-flip-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "visual-reorder-and-flip", global_setup = structure(c("library(learnr)", 
 "library(tidyverse)", "library(knitr)", "library(gradethis)", 
-"tutorial_options(exercise.checker = gradethis::grade_learnr)", 
+"library(poliscidata)", "library(simstudy)", "library(ggplot2)", 
+"library(dplyr)", "library(gridExtra)", "library(grid)", "library(tidyr)", 
+"", "tutorial_options(exercise.checker = gradethis::grade_learnr)", 
 "#tutorial_options(exercise.timelimit = 60)", "knitr::opts_chunk$set(error = TRUE)", 
 "data(\"counties\", package = \"qpaTutorials\")", "data(\"df\", package = \"qpaTutorials\")", 
-"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))", 
-"library(poliscidata)"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "visual-reorder-and-flip", 
-        code = "ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racial_majority, length))) +\n  geom_bar() +\n  labs(title = \"Number of US Counties by Racial Majority\",\n       subtitle = \"2016\",\n       x = NULL,\n       y = \"Frequency\",\n       caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(na.translate = FALSE, labels = c(\"Black\", \"Hispanic\", \"Other\", \"White\")) +\n  coord_flip()", 
+"df$region <- factor(df$region, labels =  c(\"South\", \"Northeast\", \"Midwest\", \"West\"))"
+), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
+    chunks = list(list(label = "visual-reorder-and-flip", code = "ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racial_majority, length))) +\n  geom_bar() +\n  labs(title = \"Number of US Counties by Racial Majority\",\n       subtitle = \"2016\",\n       x = NULL,\n       y = \"Frequency\",\n       caption = \"Source: Linn, Nagler, Zilinsky\") +\n  scale_x_discrete(na.translate = FALSE, labels = c(\"Black\", \"Hispanic\", \"Other\", \"White\")) +\n  coord_flip()", 
         opts = list(label = "\"visual-reorder-and-flip\"", exercise = "TRUE", 
             exercise.cap = "\"Interactive exercise: Reorder categories and flip coordinates. Run the code, then try removing `coord_flip()` or the `reorder()` function to see what they do.\""), 
         engine = "r")), code_check = NULL, error_check = NULL, 
@@ -1697,7 +1715,8 @@ learnr:::store_exercise_cache(structure(list(label = "visual-reorder-and-flip", 
         aniopts = "controls,loop", warning = TRUE, error = TRUE, 
         message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
         label = "visual-reorder-and-flip", exercise = TRUE, exercise.cap = "Interactive exercise: Reorder categories and flip coordinates. Run the code, then try removing `coord_flip()` or the `reorder()` function to see what they do.", 
         code = c("ggplot(data = counties, mapping = aes(x = reorder(factor(racial_majority), racial_majority, length))) +", 
         "  geom_bar() +", "  labs(title = \"Number of US Counties by Racial Majority\",", 
@@ -1717,7 +1736,7 @@ learnr:::store_exercise_cache(structure(list(label = "visual-reorder-and-flip", 
 <!--/html_preserve-->
 <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","brio","broom","bslib","cachem","callr","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","curl","data.table","datasets","datawizard","DBI","desc","descr","devtools","digest","dplyr","ellipsis","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","fs","gdata","generics","ggeffects","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","haven","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","insight","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","memoise","methods","mice","mime","miniUI","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgbuild","pkgconfig","pkgload","plotrix","plyr","poliscidata","processx","profvis","promises","ps","pscl","purrr","qpaTutorials","R.methodsS3","R.oo","R.utils","R6","rbibutils","RColorBrewer","Rcpp","RCurl","Rdpack","readr","reformulas","remotes","rio","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","sessioninfo","shape","shiny","simstudy","sjlabelled","sjmisc","sjPlot","snakecase","splines","stargazer","stats","stringi","stringr","survey","survival","testthat","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","urlchecker","usethis","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.2","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.1.5","1.0.8","0.10.0","1.1.0","3.7.6","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.1","0.2-20","2.1-1","2.0.0","4.5.2","7.0.0","1.17.0","4.5.2","1.2.0","1.2.3","1.4.3","1.1.8","2.4.5","0.6.39","1.1.4","0.3.2","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-90","1.2-5","1.6.6","3.0.1","0.1.3","2.3.1","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.2","4.5.2","4.5.2","2.3","0.3.6","3.9.5","2.5.4","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.4.2","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-7","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","2.0.1","4.5.2","3.18.0","0.13","0.1.2","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","1.4.8","2.0.3","1.4.0","3.8-4","1.8.9","2.3.0","3.8.6","0.4.0","1.5.0","1.9.1","1.5.9","1.1.0","0.1.0","1.8.2","1.27.0","2.13.0","2.6.1","2.3","1.1-3","1.1.1","1.98-1.17","2.6.4","2.1.5","0.4.0","2.5.0","1.2.3","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.2.3","1.4.6.1","1.13.0","0.9.0","1.2.0","2.8.11","2.9.0","0.11.1","4.5.2","5.2.3","4.5.2","1.8.7","1.5.1","4.4-8","3.8-3","3.2.3","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.2","0.5.0","1.0.1","3.2.1","4.5.2","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131]}},"value":[{"type":"character","attributes":{},"value":["abind","backports","base","base64enc","bigmemory","bigmemory.sri","bitops","boot","broom","bslib","cachem","car","carData","caTools","checkmate","cli","cluster","codetools","colorspace","commonmark","compiler","data.table","datasets","DBI","descr","digest","dplyr","evaluate","farver","fastglm","fastmap","fontawesome","forcats","foreach","foreign","Formula","gdata","generics","ggplot2","glmnet","glue","gplots","gradethis","graphics","grDevices","grid","gridExtra","gtable","gtools","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpuv","iterators","jomo","jquerylib","jsonlite","KernSmooth","knitr","labeling","later","lattice","learnr","lifecycle","litedown","lme4","lubridate","magrittr","markdown","MASS","Matrix","methods","mice","mime","minqa","mitml","mitools","munsell","nlme","nloptr","nnet","otel","pan","pbv","pillar","pkgconfig","plotrix","plyr","poliscidata","promises","purrr","qpaTutorials","R6","rbibutils","Rcpp","Rdpack","readr","reformulas","rlang","rmarkdown","rpart","rprojroot","rstudioapi","sass","scales","shape","shiny","simstudy","splines","stats","stringi","stringr","survey","survival","tibble","tidyr","tidyselect","tidyverse","timechange","tools","tzdb","utils","uuid","vctrs","weights","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.4-8","1.5.0","4.5.3","0.1-6","4.6.4","0.1.8","1.0-9","1.3-32","1.0.8","0.10.0","1.1.0","3.1-3","3.0-5","1.18.3","2.3.4","3.6.5","2.1.8.2","0.2-20","2.1-1","2.0.0","4.5.3","1.17.0","4.5.3","1.2.3","1.1.8","0.6.39","1.1.4","1.0.5","2.1.2","0.0.3","1.2.0","0.5.3","1.0.0","1.5.2","0.8-91","1.2-5","3.0.1","0.1.3","3.5.2","4.1-8","1.8.0","3.2.0","0.2.14","4.5.3","4.5.3","4.5.3","2.3","0.3.6","3.9.5","5.2-3","1.1.3","2.4.3","0.5.9","1.6.4","1.6.16","1.0.14","2.7-6","0.1.4","2.0.0","2.23-26","1.51","0.4.3","1.4.6","0.22-9","0.11.6.9000","1.0.5","0.9","1.1-37","1.9.4","2.0.4","2.0","7.3-65","1.7-4","4.5.3","3.18.0","0.13","1.2.8","0.4-5","2.4","0.5.1","3.1-168","2.2.1","7.3-20","0.2.0","1.9","0.5-47","1.10.2","2.0.3","3.8-4","1.8.9","2.3.0","1.5.0","1.1.0","0.1.0","2.6.1","2.3","1.1.1","2.6.4","2.1.5","0.4.0","1.1.7","2.30","4.1.24","2.1.1","0.17.1","0.4.10","1.3.0","1.4.6.1","1.13.0","0.9.0","4.5.3","4.5.3","1.8.7","1.5.1","4.4-8","3.8-6","3.2.1","1.3.1","1.2.1","2.0.0","0.3.0","4.5.3","0.5.0","4.5.3","1.2-1","0.6.5","1.1.2","3.0.2","0.56","1.8-4","2.3.12"]}]}]}
 </script>
 <!--/html_preserve-->
 </div>

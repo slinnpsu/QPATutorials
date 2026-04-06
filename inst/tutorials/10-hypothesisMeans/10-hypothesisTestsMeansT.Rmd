@@ -18,9 +18,8 @@ In this tutorial, you will learn how to conduct hypothesis tests about means. Sp
 
 * How to use the `t.test()` function to conduct (1) one-sample means tests, (2) difference of means tests involving two independent samples and one variable, and (3) paired t-tests involving a single sample and two variables. 
 * Practice walking through the steps for hypothesis testing.
-* Plot means with confidence intervals using `ggplot()`.
 
-This tutorial assumes that you already familiar with the logic of hypothesis testing and the specific tests covered here. See the tutorial "Bivariate Description: One Categorical Variable and One Interval Variable" to review how to generate tables of means of an interval variable by categories of a categorical variable and how to compare the distribution of the interval variable based on the values of the categorical variable.
+This tutorial assumes that you already are familiar with the logic of hypothesis testing and the specific tests covered here. See the tutorial "Bivariate Description: One Categorical Variable and One Interval Variable" to review how to generate tables of means of an interval variable by categories of a categorical variable and how to compare the distribution of the interval variable based on the values of the categorical variable.
 
 
 ```{r setup, include=FALSE}
@@ -61,7 +60,7 @@ To illustrate this test, consider the variable **dem2p_percent**, the percent of
 **Step 1. Formulate a null hypothesis**.
 
 
-```{r letter-a, echo=FALSE}
+```{r quiz-null-hypothesis-clintonvote, echo=FALSE}
 question("Which of the following is the appropriate null hypothesis?",
   answer("$H_0: \\bar{Y}=48.2$", message="The null hypothesis refers to the population parameter, not the sample statistic"),
   answer("$H_0: \\mu_{Y}=48.2$", correct=TRUE, message="The null hypothesis refers to the population statistic and is set equal to the hypothesized value. "),
@@ -71,12 +70,12 @@ question("Which of the following is the appropriate null hypothesis?",
 
 **Step 2. Formulate an alternative hypothesis**.
 
-```{r letter-b, echo=FALSE}
+```{r quiz-alternative-hypothesis-clintonvote, echo=FALSE}
 question("Which of the following statements about the alternative hypothesis are true?",
   answer("$H_A: \\mu_Y=48.2$", message="$H_A: \\mu_Y=48.2$ is the null hypothesis"),
   answer("The alternative hypothesis is two-tailed", correct=TRUE, message="A two-tailed alternative hypothesis specifies that the true population value is $\\ne$ to the hypothesized value given by the null hypothesis."),
   answer("$H_A: \\mu_Y\\ne48.2$", correct=TRUE, message="Because we want to test whether the mean percent of the vote is different from that in the population, the alternative hypothesis is two-tailed and thus $\\ne$ to 48.2."),
-  answer("The alternative hypothesis is one-tailed", message="A one-tailed alternative hypothesis would specify that the true population mean is either > or < 48.2, rathan $\\ne$ as we specified above"),
+  answer("The alternative hypothesis is one-tailed", message="A one-tailed alternative hypothesis would specify that the true population mean is either > or < 48.2, rather $\\ne$ as we specified above"),
   allow_retry = TRUE,
   try_again = "Hint: There are two correct statements."
   )
@@ -100,7 +99,10 @@ By default, R computes the test statistic assuming the alternative hypothesis is
 
 The code below conducts the two-tailed one-sample means test to test our hypothesis.
 
-```{r onesample1, exercise = TRUE}
+
+**Try it: Run one-sample t-test on Clinton vote share**
+
+```{r exercise-ttest-clintonvote, exercise = TRUE, exercise.cap="Interactive exercise: Run the code to conduct a one-sample t-test comparing the mean dem2p_percent to a hypothesized value. Use the Run Code button to execute and interpret the test output. No hints are available."}
 t.test(counties$dem2p_percent, mu = 48.2)
 ```
 A lot of information is included in the output for the test. The output begins by telling us that the test conducted is a one-sample t-test and that the data used for the test is **counties$dem2p_percent**. This confirms we computed the test we desired. The t-statistic is reported to be -51.294. This is the information of central interest to us in step 3. The output also reports the degrees of freedom for the test, or "df." This tells us how many observations were used to calculate the test minus the number of parameters estimated by the test (one, the mean of **dem2p_percent**). The next piece of information is the p-value. We'll skip that for now.  We can see that the alternative hypothesis is two-sided because the output reports the mean is "not equal" to 48.2. The output reports the 95% confidence interval. Recall that the confidence interval gives the lower and upper limit on the range of values around our sample statistic that mark the interval that is likely to contain the unknown population parameter with 95% confidence. Finally, we see the sample "mean of x," the sample statistic, or mean value of **dem2p_percent**, in the sample: about 33.34%. 
@@ -111,7 +113,7 @@ R reports the two-tailed p-value associated with the t-statistic in scientific n
 
 **Step 5. Draw a conclusion.**
 
-```{r letter-c, echo=FALSE}
+```{r quiz-ttest-interpretation, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence and therefore conclude the mean Democratic share of the vote in counties is different from 48.2", correct=TRUE),
   answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence and conclude the mean Democratic share of the vote in counties is not different from 48.2",  message="Remember if p is low the null must go!"),
@@ -132,7 +134,7 @@ We might also be interested to know whether, in the average county in the US in 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
 
-```{r letter-c2, echo=FALSE}
+```{r quiz-ttest-hypothesis-proportion-white, echo=FALSE}
 question("Which of the following is the appropriate null and alternative hypothesis?",
   answer("$H_0: \\bar{Y}=0.763, H_A: \\bar{Y}\\ne0.763$", message="The null and alternative hypothesis refer to the population parameter, not the sample statistic"),
   answer("$H_0: \\mu_{Y}\\ne0.763, H_A: \\mu_{Y}=0.763$", message="The null hypothesis is set equal to the value under the hypothesis to be tested and the alternative is not equal"),
@@ -146,28 +148,39 @@ question("Which of the following is the appropriate null and alternative hypothe
 
 Write the code to test this hypothesis.
 
-```{r onesample2, exercise = TRUE}
+**Practice: Test the mean of proportion of White population against national proportion**
+```{r exercise-ttest-hypothesis-proportion-white, exercise = TRUE, exercise.cap="Interactive exercise: Write code to test whether the mean prop_white in counties differs from the national proportion of 0.763 using a hypothesis test. Use the Run Code button to execute and click Submit Answer to check correctness. 2 hints are available."}
 
 ```
 
-```{r onesample2-hint}
-Did you specify the t.test function and pass it counties$prop_white?
-Make sure to set mu = 0.763.
+```{r exercise-ttest-hypothesis-proportion-white-hint-1}
+# Hint 1 of 2
+You are comparing a sample mean to a specific value.
+
+Think about which function in R is used for a one-sample test of a mean.
+```
+
+```{r exercise-ttest-hypothesis-proportion-white-hint-2}
+# Hint 2 of 2
+Use the variable prop_white from the counties data.
+
+Inside the function, specify the null value of 0.763 
+using the argument for the hypothesized mean.
 ```
      
-```{r onesample2-solution}
+```{r exercise-ttest-hypothesis-proportion-white-solution}
 t.test(counties$prop_white, mu = 0.763)
 ```
 
 
-```{r onesample2-check}
+```{r exercise-ttest-hypothesis-proportion-white-check}
 grade_code("You got it!")
 ```
 
 **Step 4. Translate the test statistic into a p-value.** 
 
 
-```{r text_box, echo = FALSE}
+```{r quiz-pvalue-proportion-white, echo = FALSE}
 question_text(
   "Enter the p-value you would report from the test output. Begin your answer with p (not p-value) and include no spaces in your answer:",
   answer("p<2.2e-16", message = "Do not report scientific notation or more than three decimals."),
@@ -184,7 +197,7 @@ question_text(
 
 
 
-```{r letter-d, echo=FALSE}
+```{r quiz-pvalue-interpretation, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Because the p-value is less than 0.05, we can reject the null hypothesis with 95% confidence and conclude that the mean proportion of whites in counties is different from 0.763", correct=TRUE),
   answer("Because the absolute value of the t-statistic is greater than 1.96, we can reject the null hypothesis with 95% confidence and conclude that the mean proportion of whites in counties is different from 0.763", correct=TRUE),
@@ -210,7 +223,7 @@ We might wish to test whether the proportion of Blacks in a county was **higher*
 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
-```{r letter-e, echo=FALSE}
+```{r quiz-hypothesis-proportion-black-clintonvote, echo=FALSE}
 question("Which of the following correctly states the null and alternative hypothesis?",
   answer("$H_0: \\mu_C=\\mu_T$ and $H_A: \\mu_C\\ne\\mu_T$", message="The alternative hypothesis specified above is a one-tailed test"),
   answer("$H_0: \\bar{Y}_C=\\bar{Y}_T$ and $H_A: \\bar{Y}_C>\\bar{Y}_T$", message="The null and alternative hypothesis do not apply to the sample statistic but to the population parameter."),
@@ -241,17 +254,19 @@ The variable **TrumpMajority** (coded 0 if Hillary Clinton won a majority of the
 
 Note that we specify `alternative = "greater"` to test this hypothesis because we expect the mean in group zero to be higher than the mean in group one. Anytime you use a one-tailed test, take care to ensure you choose the appropriate alternative given the coding of the variables! I've computed this test using both formulations of the test.
 
+**Try it: Compare counties' mean proportion of Black population by TrumpMajority**
 
-```{r twosample1, exercise = TRUE}
+```{r exercise-ttest-proportion-black-trumpmajority, exercise = TRUE, exercise.cap="Interactive exercise: Run the code to conduct a one-tailed t-test comparing mean prop_black between counties by TrumpMajority. Use the Run Code button to execute and interpret the results. No hints are available."}
 t.test(counties$prop_black ~ counties$TrumpMajority, alternative = "greater")
 ```
 
-```{r twosample1a, exercise = TRUE}
+**Try it: Compare counties' mean proportion of Black population by TrumpMajority (two-sample)**
+```{r exercise-ttest-twosample-trumpmajority, exercise = TRUE, exercise.cap="Interactive exercise: Run the code to conduct a one-tailed two-sample t-test comparing prop_black between counties where Clinton and Trump won using indexing. Use the Run Code button to execute and interpret the results. No hints are available."}
 t.test(counties$prop_black[counties$TrumpMajority == 0], counties$prop_black[counties$TrumpMajority == 1], alternative = "greater")
 ```
 
 
-```{r letter-fa, echo=FALSE}
+```{r quiz-proportion-black-trumpmajority, echo=FALSE}
 question("Which of the following statements are true?",
   answer("The mean proportion of Blacks in counties Clinton won was 0.23", correct = TRUE, message="Group 0 refers to the first response option for TrumpMajority, which corresponds to a Clinton majority."),
   answer("The mean proportion of Blacks in counties Trump won was 0.23", correct = FALSE, message="Group 1 refers to the second response option for TrumpMajority, which corresponds to a Trump majority. The average proportion of Blacks in counties Trump won is about 0.075."),
@@ -260,11 +275,12 @@ question("Which of the following statements are true?",
   try_again = "Hint: Make sure to select all true statements."
   )
 ```
+
 **Step 4. Translate the test statistic into a p-value.**
 
 
 
-```{r text_box2, echo = FALSE}
+```{r quiz-pvalue-black-trumpmajority, echo = FALSE}
 question_text(
   "Enter the p-value you would report from the test output. Begin your answer with p (not p-value) and include no spaces in your answer:",
   answer("p<2.2e-16", message = "Do not report scientific notation or more than three decimals."),
@@ -274,12 +290,12 @@ question_text(
   try_again = "Try again."
 )
 ```
+
 **Step 5. Draw a conclusion.**
 
 
 
-
-```{r letter-f, echo=FALSE}
+```{r quiz-interpret-pvalue-black-trumpmajority, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Because the p-value is less than 0.05, we cannot reject the null hypothesis with 95% confidence", message="Remember p is low the null must go"),
   answer("Because the confidence interval does not include the null value, we cannot reject the null hypothesis", message="If a confidence interval does not include the value under the null hypothesis, we can reject the null hypothesis. "),
@@ -289,11 +305,11 @@ answer("There is less than a 1% chance that we would observe a difference in the
   )
 ```
 
-```{r letter-fz, echo=FALSE}
+```{r quiz-conclusion-black-trumpmajority, echo=FALSE}
 question("What substantive conclusion can we draw from this hypothesis test?",
   answer("The proportion of Blacks in counties won by Hillary Clinton is significantly lower than that in counties Donald Trump won", message="Group 0 is comprised of counties Clinton won, therefore the proportion is significantly higher in counties won by Hillary Clinton than in counties won by Donald Trump."),
     answer("The proportion of Blacks in counties won by Hillary Clinton is significantly higher than that in counties Donald Trump won.", correct=TRUE, message=""),
-    answer("The mean proportion Black in counties Clinton won is not greater than the proportion Black in counties won by Donald Trump for an alpha level of .05.", message = "This would be our concludsion if we failed to reject the null hypothesis."),
+    answer("The mean proportion Black in counties Clinton won is not greater than the proportion Black in counties won by Donald Trump for an alpha level of .05.", message = "This would be our conclusion if we failed to reject the null hypothesis."),
   allow_retry = TRUE,
   try_again = " "
   )
@@ -306,7 +322,7 @@ In the data frame **world**, the variable **democ_regime** takes the value "No" 
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
 
-```{r letter-g, echo=FALSE}
+```{r quiz-hypothesis-democracy-gdp, echo=FALSE}
 question("Which of the following correctly states the null and alternative hypothesis?",
   answer("$H_0: \\mu_D=\\mu_{ND}$ and $H_A: \\mu_{D}>\\mu_{ND}$", message = "This is a one-tailed alternative hypothesis. The alternative hypothesis stated above is two-tailed, "),
   answer("$H_0: \\mu_D=\\mu_{ND}$ and $H_A: \\mu_{D}\\ne\\mu_{ND}$", correct=TRUE, message="The alternative hypothesis is that the means are different and thus is two-tailed such that we specify $H_A: \\mu_{D}\\ne\\mu_{ND}$"),
@@ -318,36 +334,41 @@ question("Which of the following correctly states the null and alternative hypot
 
 Try to produce the t-test without looking at the hint. You do not need to use indexing in this example.
 
-```{r twosample2, exercise = TRUE}
+**Practice: Compare mean GDP by democratic regime status**
+
+```{r exercise-ttest-democracy-gdp, exercise = TRUE, exercise.cap="Interactive exercise: Write code to conduct a two-sample t-test comparing mean gdp08 between democratic and non-democratic countries using formula notation. Use the Run Code button to execute and click Submit Answer to check correctness. 2 hints are available."}
 
 ```
 
-```{r twosample2-hint-1}
-You will need to use the tilde in a formula inside 
-the t.test() function.
+```{r exercise-ttest-democracy-gdp-hint-1}
+# Hint 1 of 2
+You are testing whether the mean of one variable differs across two groups.
 
-List the variable for which you want to calculate the 
-mean first in the formula.
+Think about which variable is the outcome and which variable defines the groups.
+```
 
-Inside the t.test function, you should specify 
-world$gdp08 ~ world$democ_regime.
+```{r exercise-ttest-democracy-gdp-hint-2}
+# Hint 2 of 2
+Use gdp08 as the outcome variable and democ_regime as the grouping variable.
+
+Write them inside t.test() using formula notation with a tilde (~).
 ```
 
 
-```{r twosample2-solution}
+```{r exercise-ttest-democracy-gdp-solution}
 t.test(world$gdp08 ~ world$democ_regime)
 ```
 
 
-```{r twosample2-check}
+```{r exercise-ttest-democracy-gdp-check}
 grade_code("You got this!")
 ```
 
 
-```{r letter-ha, echo=FALSE}
+```{r quiz-ttest-democracy-gdp, echo=FALSE}
 question("Which of the following statements are true?",
   answer("The mean value of GDP in 2008 among democracies is 585.5484", correct = TRUE, message="Group Yes refers to democracies, group No to nondemocracies. 585.5484 is the mean for group Yes."),
-  answer("Democracies had a higher mean GDP in 2008 than did non democracies", correct = TRUE, message="The difference in the mean of GDP in 2008 among democracies (group Yes) is greater than the mean among nondecmoracies (group No)."),
+  answer("Democracies had a higher mean GDP in 2008 than did non democracies", correct = TRUE, message="The difference in the mean of GDP in 2008 among democracies (group Yes) is greater than the mean among nondemocracies (group No)."),
   answer("The mean value of GDP in 2008 among democracies is 226.0468",  message="Group Yes refers to democracies, group no to nondemocracies. 226.0468 is the mean for group no."),
   allow_retry = TRUE,
   try_again = " "
@@ -368,7 +389,7 @@ Let's test whether the GINI coefficients increased, on average, from 2008 to 201
 **Step 1. Formulate a null hypothesis** and **Step 2. Formulate the alternative hypothesis**
 
 
-```{r letter-gg, echo=FALSE}
+```{r quiz-hypothesis-gini, echo=FALSE}
 question("Which of the following correctly states the null and alternative hypothesis?",
   answer("$H_0: \\mu_{gini10}=\\mu_{gini08}$ and $H_A: \\mu_{gini10}>\\mu_{gini08}$", message = "This null and alternative hypothesis specifies a difference of means hypothesis not a mean difference hypothesis but we want to test whether, on average, the mean difference, the mean of (**gini10**-**gini08**), is zero or greater than zero."),
   answer("$H_0: \\mu_{gini10-gini08}=0$ and $H_A: \\mu_{gini10-gini08}>0$", correct=TRUE, message="We want to test whether, on average, **gini10**-**gini08** is equal to zero or greater than zero."),
@@ -398,26 +419,40 @@ To conduct a paired t-test in R, use `t.test(X1, X2, paired=TRUE)`. If we wish t
 
 Write the code to compute the test statistic. Be sure to list **gini10** first if you specify `"greater"` for the `alternative` argument, as the first value (**gini10**) is then greater than the second (**gini08**) under the alternative hypothesis. If you list **gini08** first, then you need to specify `"less"` for the `alternative` argument. Both specifications will produce the same result. For the exercise below, list **gini10** first.
 
-```{r paired2, exercise = TRUE}
+
+**Practice: Run paired t-test on Gini coefficients**
+```{r exercise-ttest-gini, exercise = TRUE, exercise.cap="Interactive exercise: Write code to conduct a paired t-test comparing gini10 and gini08, specifying the correct alternative hypothesis. Use the Run Code button to execute and click Submit Answer to check correctness. 2 hints are available."}
 
 ```
 
-```{r paired2-hint}
-Specify world$gini10 and world$gini08 and
-alternative = "greater" inside the t.test function. 
+```{r exercise-ttest-gini-hint-1}
+# Hint 1 of 2
+You are comparing the same countries at two time points,
+so think about which type of t-test 
+accounts for paired observations.
 
-Don't forget to separate the arguments with a comma.
+Also consider what it means for 
+one measure to be greater than the other.
 ```
 
-```{r paired2-solution}
+```{r exercise-ttest-gini-hint-2}
+# Hint 2 of 2
+Use the two Gini variables from the world data inside t.test(),
+set the argument that indicates pairing,
+
+and specify a one-sided alternative where 
+the first variable is expected to be larger.
+```
+
+```{r exercise-ttest-gini-solution}
 t.test(world$gini10, world$gini08, paired = TRUE, alternative = "greater")
 ```
 
-```{r paired2-check}
+```{r exercise-ttest-gini-check}
 grade_code("You are getting the hang of this")
 ```
 
-```{r letter-ia, echo=FALSE}
+```{r quiz-differences-gini, echo=FALSE}
 question("Which of the following statements are true?",
   answer("The average difference in countries' Gini coefficients in 2010 and 2008 of about -0.54 indicates that on average inequality grew from 2008 to 2010 by 0.54.", message="The mean difference is calculated as the mean of gini10 minus gini08, this implies that the 2008 value is higher (there is more inequality in 2008) than the 2010 value."),
   answer("The average difference in countries' Gini coefficients in 2010 and 2008 of about -0.54 indicates that on average inequality fell from 2008 to 2010 by 0.54.", correct=TRUE, message="The mean difference is calculated as the mean of gini10 minus gini08, this implies that the 2008 value is higher (there is more inequality in 2008) than the 2010 value."),
@@ -430,7 +465,7 @@ question("Which of the following statements are true?",
 
 **Step 4. Translate the test statistic into a p-value** and **Step 5. Draw a conclusion.**
 
-```{r letter-i, echo=FALSE}
+```{r quiz-pvalue-gini, echo=FALSE}
 question("Which of the following statements are true?",
   answer("Because the p-value is greater than 0.05, we can reject the null hypothesis with 95% confidence", message="The p-value is not greater than 0.05"),
   answer("Because the confidence interval includes zero, we cannot reject the null hypothesis with 95% confidence", correct=TRUE, message="When the 95% confidence interval includes the value under the null (here 0), we cannot reject the null hypothesis at the 0.05 level."),
@@ -440,7 +475,7 @@ question("Which of the following statements are true?",
   )
 ```
 
-```{r letter-iz, echo=FALSE}
+```{r quiz-interpret-pvalue-gini, echo=FALSE}
 question("What substantive conclusion can we draw from this hypothesis test?",
   answer("There is no statistical evidence that the levels of inequality changed significantly, on average, from 2008 to 2010",  message="We did not test this hypothesis. Instead, we tested whether the average difference in GINI coefficients (gini10 - gini08) was greater than zero"),
   answer("There is statistical evidence that the levels of inequality were significantly higher, on average, in 2010 than 2008",  message="Because we fail to reject the null hypothesis that the mean difference in the GINI coefficient (gini10 - gini08) is greater than zero, this statement is false"),

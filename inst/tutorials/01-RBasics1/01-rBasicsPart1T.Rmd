@@ -872,9 +872,9 @@ grade_code(" ")
 
 
 **Practice: Create Republican candidate names**
-Create a vector of Republican candidate names called **rep.names.** Print it. Just use last names. Enter your code and click "Submit Answer" to check your work.
+Create a vector of Republican candidate names called **rep.names.** Print it. Just use last names (Reagan, Reagan, Bush, Bush, Dole, Bush, Bush, McCain, Romney, Trump, Trump, Trump). Enter your code and click "Submit Answer" to check your work.
 
-```{r practice-republican-names, exercise=TRUE, exercise.cap="Interactive exercise: Create a vector containing Republican presidential candidate last names. Enter your code and click Submit Answer to check correctness. One hint available."}
+```{r practice-republican-names, exercise=TRUE, exercise.cap="Interactive exercise: Create a vector containing Republican presidential candidate last names (Reagan, Reagan, Bush, Bush, Dole, Bush, Bush, McCain, Romney, Trump, Trump, Trump). Enter your code and click Submit Answer to check correctness. One hint available."}
 
 ```
 
