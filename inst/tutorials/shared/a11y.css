@@ -281,3 +281,14 @@ a:focus {
   font-weight: 700;
   font-style: normal;
 }
+
+/* -------- Section Subheader (replaces ### in progressive sections) -------- */
+
+.section-header {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #0b2a6f;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  display: block;
+}
