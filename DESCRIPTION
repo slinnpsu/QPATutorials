@@ -24,9 +24,10 @@ Imports:
     moderndive,
     infer,
     poliscidata,
-    simstudy
+    simstudy,
+    gridExtra,
+    Rio
 Suggests:
-    rio,
     htmltools
 Remotes:
     rstudio/gradethis,
