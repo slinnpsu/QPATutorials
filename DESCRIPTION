@@ -26,7 +26,7 @@ Imports:
     poliscidata,
     simstudy,
     gridExtra,
-    Rio
+    rio
 Suggests:
     htmltools
 Remotes:
