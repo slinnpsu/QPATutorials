@@ -41,6 +41,17 @@ body #tutorial-container .btn:focus:not(:focus-visible) {
   outline: none;
 }
 
+body #tutorial-container {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body #tutorial-container code,
+body #tutorial-container pre,
+body #tutorial-container .ace_editor {
+  font-size: 15px;
+}
+
 /* -------- Exercise Containers -------- */
 
 .tutorial-exercise {
