@@ -41,17 +41,27 @@ body #tutorial-container .btn:focus:not(:focus-visible) {
   outline: none;
 }
 
-body #tutorial-container {
-  font-size: 16px;
-  line-height: 1.5;
+/* -------- Base Text Size -------- */
+
+body,
+#tutorial-container,
+#learnr-tutorial-content,
+#tutorial-container p,
+#learnr-tutorial-content p,
+#tutorial-container li,
+#learnr-tutorial-content li {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
 }
 
-body #tutorial-container code,
-body #tutorial-container pre,
-body #tutorial-container .ace_editor {
-  font-size: 15px;
+#tutorial-container code,
+#learnr-tutorial-content code,
+#tutorial-container pre,
+#learnr-tutorial-content pre,
+#tutorial-container .ace_editor,
+#learnr-tutorial-content .ace_editor {
+  font-size: 15px !important;
 }
-
 /* -------- Exercise Containers -------- */
 
 .tutorial-exercise {
