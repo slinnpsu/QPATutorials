@@ -1,13 +1,13 @@
 Package: qpaTutorials
 Type: Package
 Title: Tutorials for Quantitative Political Analysis at Penn State
-Version: 0.2.0
+Version: 0.3.0
 Author: Suzanna Linn [aut]
 Maintainer: Suzanna Linn <sld8@psu.edu>
 Description: Interactive learnr tutorials supporting PLSC 309H: Quantitative
     Political Analysis at Penn State University. Tutorials cover R basics,
     levels of measurement, univariate and bivariate description, statistical
-    inference, and regression analysis.
+    inference, linear regression, and logistic regression.
 License: CC BY-SA 4.0
 Encoding: UTF-8
 LazyData: true
@@ -20,15 +20,23 @@ Imports:
     knitr,
     tidyverse,
     ggplot2,
+    dplyr,
+    grid,
     gridExtra,
     moderndive,
     infer,
     poliscidata,
     simstudy,
-    gridExtra,
-    rio
-Suggests:
-    htmltools
+    rio,
+    descr,
+    RCurl,
+    htmltools,
+    haven,
+    writexl,
+    shiny,
+    stargazer,
+    sjPlot,
+    pscl
 Remotes:
     rstudio/gradethis,
     rundel/learnrhash
